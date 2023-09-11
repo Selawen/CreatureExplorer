@@ -49,5 +49,14 @@ public class FiniteStateMachine
     public void AddTransition(StateTransition transition)
     {
         allTransitions.Add(transition);
+        activeTransitions = allTransitions.FindAll(transition => transition.FromState == currentState || transition.FromState == null);
+
     }
+    public void AddTransition(Type fromState, Type toState, Func<bool> condition)
+    {
+        StateTransition newTransition = new StateTransition(allStates[fromState], allStates[toState], condition);
+        allTransitions.Add(newTransition);
+        activeTransitions = allTransitions.FindAll(transition => transition.FromState == currentState || transition.FromState == null);
+    }
+
 }
