@@ -7,6 +7,9 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float mouseSensitivity = 0.1f;
+    [SerializeField] private float maximumViewAngle = 70f;
+
+    private float verticalRotation;
 
     private bool isCrouching;
 
@@ -17,12 +20,15 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         firstPersonCamera = Camera.main;
+        verticalRotation = firstPersonCamera.transform.eulerAngles.x;
 
         stateMachine = new FiniteStateMachine(typeof(WalkingState), GetComponents<IState>());
 
         stateMachine.AddTransition(typeof(WalkingState), typeof(CrouchingState), PlayerIsCrouching);
         stateMachine.AddTransition(typeof(CrouchingState), typeof(WalkingState), PlayerIsStanding);
 
+
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
@@ -44,7 +50,7 @@ public class PlayerController : MonoBehaviour
     }
     public void ReceiveRotationInput(InputAction.CallbackContext callbackContext)
     {
-        HandleRotation(callbackContext.ReadValue<Vector2>().x);
+        HandleRotation(callbackContext.ReadValue<Vector2>());
     }
     public bool PlayerIsCrouching()
     {
@@ -54,9 +60,11 @@ public class PlayerController : MonoBehaviour
     {
         return !isCrouching;
     }
-    private void HandleRotation(float horizontalDelta)
+    private void HandleRotation(Vector2 lookInput)
     {
-        transform.Rotate(new Vector3(0, horizontalDelta * mouseSensitivity, 0));
-        firstPersonCamera.transform.rotation = transform.rotation;
+        verticalRotation = Mathf.Clamp(verticalRotation - (lookInput.y * mouseSensitivity), -maximumViewAngle, maximumViewAngle);
+
+        transform.Rotate(new Vector3(0, lookInput.x * mouseSensitivity, 0));
+        firstPersonCamera.transform.rotation = Quaternion.Euler(new Vector3(verticalRotation, transform.eulerAngles.y, 0));
     }
 }

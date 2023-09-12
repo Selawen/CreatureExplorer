@@ -50,13 +50,14 @@ public class WalkingState : State
 
     private void Move()
     {
-        if (moveInput.magnitude >= 0.1f)
+        if (moveInput.sqrMagnitude >= 0.1f)
         {
             float speed = isSprinting ? sprintSpeed : walkSpeed;
             float targetAngle = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg + rigidbody.transform.eulerAngles.y;
+
             Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
 
-            rigidbody.MovePosition(rigidbody.transform.position + (speed * Time.fixedDeltaTime * moveDirection.normalized));
+            rigidbody.velocity = (rigidbody.velocity + moveDirection).normalized * speed;
         }
     }
 
