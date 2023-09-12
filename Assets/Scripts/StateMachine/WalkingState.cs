@@ -37,7 +37,7 @@ public class WalkingState : State
     {
         Move();
 
-        firstPersonCamera.transform.position = new(transform.position.x, standingEyeHeight, transform.position.z);
+        firstPersonCamera.transform.position = new(transform.position.x, transform.position.y + standingEyeHeight, transform.position.z);
     }
     public void GetSprintInput(InputAction.CallbackContext callbackContext)
     {
@@ -52,7 +52,6 @@ public class WalkingState : State
     {
         if (moveInput.magnitude >= 0.1f)
         {
-            Debug.Log("Should move");
             float speed = isSprinting ? sprintSpeed : walkSpeed;
             float targetAngle = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg + rigidbody.transform.eulerAngles.y;
             Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;

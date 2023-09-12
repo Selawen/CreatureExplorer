@@ -30,7 +30,7 @@ public class CrouchingState : State
     }
     public override void OnStateUpdate()
     {
-        firstPersonCamera.transform.position = new(transform.position.x, crouchEyeHeight, transform.position.z);
+        firstPersonCamera.transform.position = new(transform.position.x, transform.position.y + crouchEyeHeight, transform.position.z);
     }
     public override void OnStateFixedUpdate()
     {
