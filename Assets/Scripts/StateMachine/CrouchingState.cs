@@ -34,12 +34,12 @@ public class CrouchingState : State
     }
     public override void OnStateFixedUpdate()
     {
-        if (moveInput.magnitude >= 0.1f)
+        if (moveInput.sqrMagnitude >= 0.1f)
         {
             float targetAngle = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg + rigidbody.transform.eulerAngles.y;
             Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
 
-            rigidbody.MovePosition(rigidbody.transform.position + (sneakSpeed * Time.fixedDeltaTime * moveDirection.normalized));
+            rigidbody.velocity = (rigidbody.velocity + moveDirection).normalized * sneakSpeed;
         }
     }
     public void GetMoveInput(InputAction.CallbackContext callbackContext)
