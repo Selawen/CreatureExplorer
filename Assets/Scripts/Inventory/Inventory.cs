@@ -33,6 +33,7 @@ public class Inventory<T>
         }
         return false;
     }
+
     public bool RemoveItemFromInventory(ushort index)
     {
         if(inventoryItems[index] != null)
@@ -50,6 +51,5 @@ public class Inventory<T>
     public ushort GetItemCount() => (ushort)inventoryItems.Count;
     
     public List<T> GetContents() => inventoryItems;
-
 
 }
