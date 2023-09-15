@@ -7,6 +7,10 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float mouseSensitivity = 0.1f;
     [SerializeField] private float maximumViewAngle = 70f;
+    [SerializeField] private float interactionDistance = 2f;
+    [SerializeField] private float interactionRadius = 1.25f;
+
+    [SerializeField] private LayerMask interactionLayers;
 
     [SerializeField] private UnityEvent onScrapbookOpened;
 
@@ -35,12 +39,25 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         stateMachine.OnUpdate();
+
     }
     private void FixedUpdate()
     {
         stateMachine.OnFixedUpdate();
     }
-
+    public void GetInteractionInput(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.started)
+        {
+            if (Physics.SphereCast(transform.position, interactionRadius, transform.forward, out RaycastHit hit, interactionDistance, interactionLayers))
+            {
+                if (hit.transform.TryGetComponent(out IInteractable interactable))
+                {
+                    interactable.Interact();
+                }
+            }
+        }
+    }
     public void GetRotationInput(InputAction.CallbackContext callbackContext)
     {
         HandleRotation(callbackContext.ReadValue<Vector2>());
@@ -66,5 +83,8 @@ public class PlayerController : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, 0.25f);
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position + (transform.forward * interactionDistance), interactionRadius);
     }
 }
