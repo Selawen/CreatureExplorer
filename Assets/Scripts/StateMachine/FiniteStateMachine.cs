@@ -15,9 +15,9 @@ public class FiniteStateMachine
 
         foreach (IState state in states)
         {
+            state.InitializeState(this);
             allStates.Add(state.GetType(), state);
         }
-
         SwitchState(startState);
     }
     public void OnUpdate()
@@ -37,6 +37,9 @@ public class FiniteStateMachine
     }
     public void SwitchState(Type newState)
     {
+        if (!allStates.ContainsKey(newState))
+            return;
+
         currentState?.OnStateExit();
         currentState = allStates[newState];
         activeTransitions = allTransitions.FindAll(transition => transition.FromState == currentState || transition.FromState == null);

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -7,26 +8,27 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float mouseSensitivity = 0.1f;
     [SerializeField] private float maximumViewAngle = 70f;
 
-    private float verticalRotation;
+    [SerializeField] private UnityEvent onScrapbookOpened;
 
-    private bool isCrouching;
+    private float verticalRotation;
 
     private FiniteStateMachine stateMachine;
 
     private Camera firstPersonCamera;
+
+    private PlayerInput playerInput;
 
     private void Awake()
     {
         firstPersonCamera = Camera.main;
         verticalRotation = firstPersonCamera.transform.eulerAngles.x;
 
-        stateMachine = new FiniteStateMachine(typeof(WalkingState), GetComponents<IState>());
-
-        stateMachine.AddTransition(typeof(WalkingState), typeof(CrouchingState), PlayerIsCrouching);
-        stateMachine.AddTransition(typeof(CrouchingState), typeof(WalkingState), PlayerIsStanding);
-
-
+        playerInput = GetComponent<PlayerInput>();
         Cursor.lockState = CursorLockMode.Locked;
+    }
+    private void Start()
+    {
+        stateMachine = new FiniteStateMachine(typeof(WalkingState), GetComponents<IState>());
     }
 
     // Update is called once per frame
@@ -39,30 +41,30 @@ public class PlayerController : MonoBehaviour
         stateMachine.OnFixedUpdate();
     }
 
-    public void GetCrouchInput(InputAction.CallbackContext callbackContext)
-    {
-        if (callbackContext.started)
-        {
-            isCrouching = !isCrouching;
-        }
-    }
-    public void ReceiveRotationInput(InputAction.CallbackContext callbackContext)
+    public void GetRotationInput(InputAction.CallbackContext callbackContext)
     {
         HandleRotation(callbackContext.ReadValue<Vector2>());
     }
-    public bool PlayerIsCrouching()
+    public void GetOpenScrapbookInput(InputAction.CallbackContext callbackContext)
     {
-        return isCrouching;
+        if (callbackContext.started)
+        {
+            playerInput.SwitchCurrentActionMap("Scrapbook");
+            onScrapbookOpened?.Invoke();
+        }
     }
-    public bool PlayerIsStanding()
-    {
-        return !isCrouching;
-    }
+
     private void HandleRotation(Vector2 lookInput)
     {
         verticalRotation = Mathf.Clamp(verticalRotation - (lookInput.y * mouseSensitivity), -maximumViewAngle, maximumViewAngle);
 
         transform.Rotate(new Vector3(0, lookInput.x * mouseSensitivity, 0));
         firstPersonCamera.transform.rotation = Quaternion.Euler(new Vector3(verticalRotation, transform.eulerAngles.y, 0));
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, 0.25f);
     }
 }
