@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Action
-{
-    public string name { get; private set; }
 
-    public WorldState Effects { get; private set; }
-    public WorldState Prerequisites { get; private set; }
+[CreateAssetMenuAttribute(fileName = "NewAction", menuName = "GOAP/Create Action")]
+public class Action: ScriptableObject
+{
+    [field: SerializeField] public string Name { get; private set; }
+
+    [field: SerializeField] public WorldState Effects { get; private set; }
+    [field: SerializeField] public WorldState Prerequisites { get; private set; }
+    [field: SerializeField] public Behaviour ActionBehaviour { get; private set; }
 
 
 }
