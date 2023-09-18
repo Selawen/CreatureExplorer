@@ -9,28 +9,15 @@ public class WalkingState : State
 
     [SerializeField] private LayerMask groundLayer;
 
-    private float standardColliderHeight;
-
     private bool isSprinting;
 
     private Vector2 moveInput;
 
     private new Rigidbody rigidbody;
 
-    private CapsuleCollider capsuleCollider;
-
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
-        capsuleCollider = gameObject.GetComponent<CapsuleCollider>();
-        standardColliderHeight = capsuleCollider.height;
-    }
-
-    public override void OnStateEnter()
-    {
-        capsuleCollider.height = 2f;
-        capsuleCollider.height = standardColliderHeight;
-        capsuleCollider.center = Vector3.up * (standardColliderHeight * 0.5f);
     }
 
     public override void OnStateFixedUpdate()
@@ -77,7 +64,11 @@ public class WalkingState : State
             newVelocity.y = verticalVelocity;
 
             rigidbody.velocity = newVelocity;
+
+            return;
         }
+        rigidbody.velocity = rigidbody.velocity.y * Vector3.up;
+
     }
 
 }

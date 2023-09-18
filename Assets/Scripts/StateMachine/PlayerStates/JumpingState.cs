@@ -6,6 +6,7 @@ public class JumpingState : State
 {
     [SerializeField] private float jumpForce = 100f;
     [SerializeField] private float aerialSpeed;
+    [SerializeField] private float maxHorizontalVelocity = 5f;
 
     [SerializeField] private LayerMask groundLayer;
 
@@ -21,7 +22,7 @@ public class JumpingState : State
     public override void OnStateEnter()
     {
         rigidbody.velocity = new Vector3(rigidbody.velocity.x, 0, rigidbody.velocity.z);
-        rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
     }
 
     public override void OnStateUpdate()
@@ -55,9 +56,15 @@ public class JumpingState : State
 
             Vector3 newVelocity = moveDirection.normalized * aerialSpeed;
 
-            newVelocity.y = verticalVelocity;
+            rigidbody.AddForce(newVelocity, ForceMode.Acceleration);
 
-            rigidbody.velocity = newVelocity;
+            Vector2 horizontalVelocity = new(rigidbody.velocity.x, rigidbody.velocity.z);
+
+            if (horizontalVelocity.sqrMagnitude >= maxHorizontalVelocity * maxHorizontalVelocity)
+            {
+                horizontalVelocity = horizontalVelocity.normalized * maxHorizontalVelocity;
+                rigidbody.velocity = new(horizontalVelocity.x, rigidbody.velocity.y, horizontalVelocity.y);
+            }
         }
     }
 }

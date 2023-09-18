@@ -47,6 +47,10 @@ public class PlayerController : MonoBehaviour
     {
         stateMachine.OnFixedUpdate();
     }
+    private void LateUpdate()
+    {
+        firstPersonCamera.transform.rotation = Quaternion.Euler(new Vector3(verticalRotation, transform.eulerAngles.y, 0));
+    }
 
     public void GetInteractionInput(InputAction.CallbackContext callbackContext)
     {
@@ -81,7 +85,6 @@ public class PlayerController : MonoBehaviour
         verticalRotation = Mathf.Clamp(verticalRotation - (lookInput.y * mouseSensitivity), -maximumViewAngle, maximumViewAngle);
 
         transform.Rotate(new Vector3(0, lookInput.x * mouseSensitivity, 0));
-        firstPersonCamera.transform.rotation = Quaternion.Euler(new Vector3(verticalRotation, transform.eulerAngles.y, 0));
     }
 
     private void OnDrawGizmos()

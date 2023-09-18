@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody))]
 public class FallingState : State
@@ -8,11 +9,16 @@ public class FallingState : State
     [SerializeField] private float cripplingVelocity = 5f;
     [SerializeField] private float lethalVelocity = 10f;
 
+    [SerializeField] private float aerialSpeed = 4f;
+    [SerializeField] private float maxHorizontalVelocity = 5f;
+
     [SerializeField] private LayerMask groundLayer;
 
     [SerializeField] private UnityEvent onLethalLanding;
 
     private new Rigidbody rigidbody;
+
+    private Vector2 moveInput;
 
     private void Awake()
     {
@@ -42,6 +48,38 @@ public class FallingState : State
                 return;
             }
             Owner.SwitchState(typeof(WalkingState));
+        }
+    }
+    public override void OnStateFixedUpdate()
+    {
+        Move();
+    }
+
+    public void GetMoveInput(InputAction.CallbackContext callbackContext)
+    {
+        moveInput = callbackContext.ReadValue<Vector2>().normalized;
+    }
+
+    private void Move()
+    {
+        if (moveInput.sqrMagnitude >= 0.1f)
+        {
+            float targetAngle = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg + rigidbody.transform.eulerAngles.y;
+
+            Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+
+            Vector3 newVelocity = moveDirection.normalized * aerialSpeed;
+
+            rigidbody.AddForce(newVelocity, ForceMode.Acceleration);
+
+            Vector2 horizontalVelocity = new(rigidbody.velocity.x, rigidbody.velocity.z);
+
+            if(horizontalVelocity.sqrMagnitude >= maxHorizontalVelocity * maxHorizontalVelocity)
+            {
+                horizontalVelocity = horizontalVelocity.normalized * maxHorizontalVelocity;
+                rigidbody.velocity = new(horizontalVelocity.x, rigidbody.velocity.y, horizontalVelocity.y);
+            }
+
         }
     }
 }
