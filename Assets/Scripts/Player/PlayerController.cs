@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         Cursor.lockState = CursorLockMode.Locked;
     }
+
     private void Start()
     {
         stateMachine = new FiniteStateMachine(typeof(WalkingState), GetComponents<IState>());
@@ -41,10 +42,12 @@ public class PlayerController : MonoBehaviour
         stateMachine.OnUpdate();
 
     }
+
     private void FixedUpdate()
     {
         stateMachine.OnFixedUpdate();
     }
+
     public void GetInteractionInput(InputAction.CallbackContext callbackContext)
     {
         if (callbackContext.started)
@@ -58,10 +61,12 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
     public void GetRotationInput(InputAction.CallbackContext callbackContext)
     {
         HandleRotation(callbackContext.ReadValue<Vector2>());
     }
+
     public void GetOpenScrapbookInput(InputAction.CallbackContext callbackContext)
     {
         if (callbackContext.started)

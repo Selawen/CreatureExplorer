@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 5220420252872243190}
   - component: {fileID: 8802313589631307658}
   - component: {fileID: 5926066154527639816}
+  - component: {fileID: 9190787582883160938}
+  - component: {fileID: 4853092522908900813}
   - component: {fileID: 7807978120469739685}
   - component: {fileID: 7807978120469739687}
   m_Layer: 0
@@ -91,6 +93,30 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 9190787582883160938}
+        m_TargetAssemblyTypeName: HurtState, Assembly-CSharp
+        m_MethodName: GetMoveInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4853092522908900813}
+        m_TargetAssemblyTypeName: CrippledState, Assembly-CSharp
+        m_MethodName: GetMoveInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 87c7cb15-60a6-4e23-8647-61f2b5a9d820
     m_ActionName: Overworld/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
@@ -138,22 +164,6 @@ MonoBehaviour:
     m_ActionId: 10c2ac44-a966-4e90-9a5b-33fa879886f4
     m_ActionName: Overworld/Sprint[/Keyboard/shift]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8723811626375387891}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: ReceiveRotationInput
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 5750ee7d-8559-435c-9570-997c5ae2cdf2
-    m_ActionName: Overworld/Look[/Mouse/delta]
-  - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 5f9f94be-ffd7-4f30-8b74-2e69d830c35c
     m_ActionName: Overworld/OpenBook[/Keyboard/space]
@@ -189,6 +199,14 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: b2611243-30b9-4381-9a28-74ad65cfcafc
     m_ActionName: Overworld/Jump[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9f837080-7f11-4cce-bfbe-4fba7c46bb59
+    m_ActionName: Overworld/Look[/Mouse/delta]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 43ded661-b387-47cc-bd57-884071db4db5
+    m_ActionName: Overworld/Interact[/Keyboard/z]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Overworld
@@ -208,6 +226,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mouseSensitivity: 0.1
   maximumViewAngle: 55
+  interactionDistance: 2
+  interactionRadius: 1.25
+  interactionLayers:
+    serializedVersion: 2
+    m_Bits: 0
   onScrapbookOpened:
     m_PersistentCalls:
       m_Calls: []
@@ -282,6 +305,37 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   firstPersonCamera: {fileID: 0}
+  onLethalLanding:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &9190787582883160938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7807978120469739682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58272e08cf23681428cbdf3c2b378f33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hurtTime: 5
+  hurtMoveSpeed: 3.5
+--- !u!114 &4853092522908900813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7807978120469739682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f47763a9c7f92ad4991fbe1cc0de8b06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crippleTime: 10
+  crippleMoveSpeed: 2
 --- !u!54 &7807978120469739685
 Rigidbody:
   m_ObjectHideFlags: 0

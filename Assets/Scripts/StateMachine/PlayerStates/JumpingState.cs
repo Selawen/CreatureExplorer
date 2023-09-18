@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -7,13 +5,8 @@ public class JumpingState : State
 {
     [SerializeField] private float jumpForce = 100f;
     [SerializeField] private float aerialSpeed;
-    //[SerializeField] private float standingEyeHeight = 1.7f;
 
     [SerializeField] private LayerMask groundLayer;
-
-    [SerializeField] private Camera firstPersonCamera;
-
-    private float defaultEyeHeight;
 
     private Vector2 moveInput;
 
@@ -22,24 +15,30 @@ public class JumpingState : State
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
-        defaultEyeHeight = firstPersonCamera.transform.position.y - transform.position.y;
     }
+
     public override void OnStateEnter()
     {
         rigidbody.velocity = new Vector3(rigidbody.velocity.x, 0, rigidbody.velocity.z);
         rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
+
     public override void OnStateUpdate()
     {
         if(!Physics.CheckSphere(transform.position, 0.25f, groundLayer) && rigidbody.velocity.y <= 0)
         {
             Owner.SwitchState(typeof(FallingState));
+            return;
+        }
+        if(Physics.CheckSphere(transform.position, 0.25f, groundLayer))
+        {
+            Owner.SwitchState(typeof(WalkingState));
         }
     }
+
     public override void OnStateFixedUpdate()
     {
         Move();
-        firstPersonCamera.transform.position = new(transform.position.x, transform.position.y + defaultEyeHeight, transform.position.z);
     }
     
     private void Move()

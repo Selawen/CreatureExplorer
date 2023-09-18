@@ -7,11 +7,8 @@ public class WalkingState : State
     [SerializeField] private float walkSpeed = 5f;
     [SerializeField] private float sprintSpeed = 10f;
 
-    [SerializeField] private Camera firstPersonCamera;
-
     [SerializeField] private LayerMask groundLayer;
 
-    private float eyeHeight;
     private float standardColliderHeight;
 
     private bool isSprinting;
@@ -27,8 +24,6 @@ public class WalkingState : State
         rigidbody = GetComponent<Rigidbody>();
         capsuleCollider = gameObject.GetComponent<CapsuleCollider>();
         standardColliderHeight = capsuleCollider.height;
-
-        eyeHeight = firstPersonCamera.transform.position.y - transform.position.y;
     }
 
     public override void OnStateEnter()
@@ -46,7 +41,6 @@ public class WalkingState : State
             return;
         }
         Move();
-        firstPersonCamera.transform.position = new(transform.position.x, transform.position.y + eyeHeight, transform.position.z);
     }
 
     public void GetSprintInput(InputAction.CallbackContext callbackContext)
