@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody))]
 public class JumpingState : State
@@ -30,10 +31,6 @@ public class JumpingState : State
             Owner.SwitchState(typeof(FallingState));
             return;
         }
-        if(Physics.CheckSphere(transform.position, 0.25f, groundLayer))
-        {
-            Owner.SwitchState(typeof(WalkingState));
-        }
     }
 
     public override void OnStateFixedUpdate()
@@ -41,6 +38,11 @@ public class JumpingState : State
         Move();
     }
     
+    public void GetMoveInput(InputAction.CallbackContext callbackContext)
+    {
+        moveInput = callbackContext.ReadValue<Vector2>().normalized;
+    }
+
     private void Move()
     {
         if (moveInput.sqrMagnitude >= 0.1f)
