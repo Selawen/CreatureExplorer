@@ -42,7 +42,7 @@ public class WalkingState : State
 
     public void GetJumpInput(InputAction.CallbackContext callbackContext)
     {
-        if (callbackContext.started && Physics.CheckSphere(transform.position, 0.25f, groundLayer))
+        if (callbackContext.started && Physics.CheckSphere(transform.position, 0.25f, groundLayer) && Owner.CurrentState.GetType() == GetType())
         {
             Owner.SwitchState(typeof(JumpingState));
         }

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -40,15 +41,11 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         stateMachine.OnUpdate();
-
     }
 
     private void FixedUpdate()
     {
         stateMachine.OnFixedUpdate();
-    }
-    private void LateUpdate()
-    {
         firstPersonCamera.transform.rotation = Quaternion.Euler(new Vector3(verticalRotation, transform.eulerAngles.y, 0));
     }
 
@@ -81,9 +78,8 @@ public class PlayerController : MonoBehaviour
     }
 
     private void HandleRotation(Vector2 lookInput)
-    {
+    { 
         verticalRotation = Mathf.Clamp(verticalRotation - (lookInput.y * mouseSensitivity), -maximumViewAngle, maximumViewAngle);
-
         transform.Rotate(new Vector3(0, lookInput.x * mouseSensitivity, 0));
     }
 
