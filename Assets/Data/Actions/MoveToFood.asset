@@ -10,18 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 713644fb7bff7834580668143c3cc8cb, type: 3}
-  m_Name: Eat
+  m_Name: MoveToFood
   m_EditorClassIdentifier: 
-  <Name>k__BackingField: Eating
+  <Name>k__BackingField: Moving toward food
   <Effects>k__BackingField:
     <WorldStates>k__BackingField:
-    - <StateName>k__BackingField: 0
-      <StateValue>k__BackingField: 0
-  <Prerequisites>k__BackingField:
-    <WorldStates>k__BackingField:
-    - <StateName>k__BackingField: 2
-      <StateValue>k__BackingField: 0
     - <StateName>k__BackingField: 3
       <StateValue>k__BackingField: 1
-  <ActionBehaviour>k__BackingField: {fileID: 2435853527441941368, guid: c5c7731c9dbb0904dbe581c876c741c8,
+  <Prerequisites>k__BackingField:
+    <WorldStates>k__BackingField:
+    - <StateName>k__BackingField: 4
+      <StateValue>k__BackingField: 1
+  <ActionBehaviour>k__BackingField: {fileID: 7030559467870109324, guid: d1fcd10ac757fa24c89059f11e1e9bdb,
     type: 3}

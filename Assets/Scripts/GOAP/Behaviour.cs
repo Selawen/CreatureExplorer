@@ -2,28 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Behaviour : MonoBehaviour
+abstract public class Behaviour : MonoBehaviour
 {
     public bool finished = false;
+    public bool failed = false;
 
-    public GameObject targetObj;
+    protected float actionDuration = 2;
 
     private float timer = 0;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    /// <summary>
+    /// called to perform the behaviour associated witn an action
+    /// </summary>
+    /// <param name="creature">the creature that is performing the action</param>
+    /// <param name="target">the target of the action</param>
+    /// <returns>returns a new target if the behaviour changes the target. Null if not</returns>
+    abstract public GameObject PerformAction(GameObject creature, GameObject target);
 
-    // Update is called once per frame
-    public void UpdateBehaviour()
+    public void Update()
     {
         //cut action off after 1 minute
         timer += Time.deltaTime;
         if (timer > 60)
         {
-            finished = true;
+            failed = true;
+            DestroyImmediate(gameObject);
         }
     }
+
+    abstract protected IEnumerator CheckFinish();
 }

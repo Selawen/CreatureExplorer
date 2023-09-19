@@ -1,29 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
-public class Move : Behaviour
+public class Eat : Behaviour
 {
-    private NavMeshAgent moveAgent;
 
     public override GameObject PerformAction(GameObject creature, GameObject target)
-    {
-        moveAgent = creature.GetComponent<NavMeshAgent>();
-        moveAgent.SetDestination(target.transform.position);
-
+    { 
         StartCoroutine(CheckFinish());
+        Destroy(target, actionDuration);
 
         return target;
     }
 
     protected override IEnumerator CheckFinish()
     {
-        while ((moveAgent.destination - moveAgent.transform.position).magnitude > 0.5f)
-        {
-            yield return null;
-        }
-
+        yield return new WaitForSeconds(actionDuration);
         finished = true;
         yield return null;
 

@@ -10,12 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 713644fb7bff7834580668143c3cc8cb, type: 3}
-  m_Name: Move
+  m_Name: LookForFood
   m_EditorClassIdentifier: 
-  <Name>k__BackingField: Move
+  <Name>k__BackingField: Looking for food
   <Effects>k__BackingField:
     <WorldStates>k__BackingField:
-    - <StateName>k__BackingField: 3
+    - <StateName>k__BackingField: 4
       <StateValue>k__BackingField: 1
   <Prerequisites>k__BackingField:
-    <WorldStates>k__BackingField: []
+    <WorldStates>k__BackingField:
+    - <StateName>k__BackingField: 2
+      <StateValue>k__BackingField: 0
+  <ActionBehaviour>k__BackingField: {fileID: 5832179030421958106, guid: a6d21566bf83faa4ab104e747e1db04e,
+    type: 3}

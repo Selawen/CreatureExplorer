@@ -11,6 +11,4 @@ public class Action: ScriptableObject
     [field: SerializeField] public WorldState Effects { get; private set; }
     [field: SerializeField] public WorldState Prerequisites { get; private set; }
     [field: SerializeField] public Behaviour ActionBehaviour { get; private set; }
-
-
 }

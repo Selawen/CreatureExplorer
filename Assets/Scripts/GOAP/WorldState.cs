@@ -33,6 +33,10 @@ public class StatePair
         StateValue = value;
     }
     
+    public void SetValue(bool newValue)
+    {
+        StateValue = newValue;
+    }
 }
 
 public enum StateType
@@ -40,5 +44,6 @@ public enum StateType
     isHungry, 
     isSleepy,
     isFrightened,
-    isNearFood
+    isNearFood,
+    seesFood
 }
