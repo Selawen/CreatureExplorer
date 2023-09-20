@@ -129,6 +129,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 5926066154527639816}
+        m_TargetAssemblyTypeName: FallingState, Assembly-CSharp
+        m_MethodName: GetMoveInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 87c7cb15-60a6-4e23-8647-61f2b5a9d820
     m_ActionName: Overworld/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
@@ -302,8 +314,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4d621aa170acaf4f9cab1fda596abb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 400
-  aerialSpeed: 2
+  jumpForce: 5
+  aerialSpeed: 10
+  maxHorizontalVelocity: 12
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
@@ -322,6 +335,8 @@ MonoBehaviour:
   painfulVelocity: 10
   cripplingVelocity: 15
   lethalVelocity: 20
+  aerialSpeed: 10
+  maxHorizontalVelocity: 12
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
@@ -364,7 +379,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7807978120469739682}
   serializedVersion: 2
-  m_Mass: 72
+  m_Mass: 85
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
