@@ -35,8 +35,17 @@
                 {
                     "name": "Look",
                     "type": "PassThrough",
-                    "id": "5750ee7d-8559-435c-9570-997c5ae2cdf2",
+                    "id": "9f837080-7f11-4cce-bfbe-4fba7c46bb59",
                     "expectedControlType": "Delta",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Jump",
+                    "type": "Button",
+                    "id": "b2611243-30b9-4381-9a28-74ad65cfcafc",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -51,18 +60,10 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "(DEBUG)_OnLeftClick",
+                    "name": "Interact",
                     "type": "Button",
-                    "id": "f171f722-1a6e-47e8-86e1-9fb136b90101",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "(DEBUG)_OnRightClick",
-                    "type": "Button",
-                    "id": "5a243dd4-c12a-4e88-bd48-e101bc7f939f",
+                    "id": "43ded661-b387-47cc-bd57-884071db4db5",
+
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -73,7 +74,7 @@
                 {
                     "name": "KeyboardMovement",
                     "id": "1669c4ee-a3de-4d15-984c-82da274f8561",
-                    "path": "2DVector",
+                    "path": "2DVector(mode=2)",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -87,7 +88,7 @@
                     "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard&Mouse",
                     "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -98,7 +99,7 @@
                     "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard&Mouse",
                     "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -109,7 +110,7 @@
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard&Mouse",
                     "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -120,10 +121,21 @@
                     "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard&Mouse",
                     "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "ace8e7bc-e850-474b-b802-a536aca7aefc",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "NintendoSwitch",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
@@ -131,7 +143,18 @@
                     "path": "<Keyboard>/ctrl",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Crouch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a119424e-ff13-4b36-8535-5251528b2347",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "NintendoSwitch",
                     "action": "Crouch",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -142,54 +165,153 @@
                     "path": "<Keyboard>/shift",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard&Mouse",
                     "action": "Sprint",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "b95c9eea-367c-4194-8e31-dd0d6131a333",
-                    "path": "<Mouse>/delta",
+                    "id": "c267f94d-afa9-407d-bd95-ff24933c8c91",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "Look",
+                    "groups": "NintendoSwitch",
+                    "action": "Sprint",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
                     "id": "d84ea603-e5c1-4c8a-ae3e-e55b58f21992",
-                    "path": "<Keyboard>/space",
+                    "path": "<Keyboard>/b",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard&Mouse",
                     "action": "OpenBook",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "212a5b71-edb9-4f9f-aab2-6b58b13e54f5",
-                    "path": "<Mouse>/leftButton",
+                    "id": "0ac831fe-ad7d-4532-bdba-9f372e64d4cf",
+                    "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "(DEBUG)_OnLeftClick",
+                    "groups": "NintendoSwitch",
+                    "action": "OpenBook",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "8685745c-6e7a-4f26-ab47-584022212d6b",
-                    "path": "<Mouse>/rightButton",
+                    "id": "4e278ec4-3339-4b97-b3dc-fa9c3a649209",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6f88013a-4220-4162-80fa-3fd3dd4f4ade",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "NintendoSwitch",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ba1550b5-b916-427a-a13b-88c37ffd0413",
+                    "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "87c87764-9caa-4a8a-bd7a-3c67811dacd2",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "NintendoSwitch",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b0e28539-b8c3-4025-b903-95252afaf01f",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "2D Vector",
+                    "id": "fadbdd6c-a65b-4d19-86a4-dcc778fc5ae8",
+                    "path": "2DVector",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "(DEBUG)_OnRightClick",
-                    "isComposite": false,
+                    "action": "Look",
+                    "isComposite": true,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "23e22845-54a5-4fba-adfe-f53b4bf46b47",
+                    "path": "<Gamepad>/rightStick/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "NintendoSwitch",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "ae73c781-5872-4e50-b3fb-26a4f4400c86",
+                    "path": "<Gamepad>/rightStick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "NintendoSwitch",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "4af663bf-6f27-4796-b5e5-887935dbda4e",
+                    "path": "<Gamepad>/rightStick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "NintendoSwitch",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "ec89b6a6-3c48-46c6-a04e-07b2fb308516",
+                    "path": "<Gamepad>/rightStick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "NintendoSwitch",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         },
@@ -241,7 +363,7 @@
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard&Mouse",
                     "action": "Click",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -252,7 +374,7 @@
                     "path": "<Mouse>/position",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard&Mouse",
                     "action": "Point",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -263,7 +385,7 @@
                     "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard&Mouse",
                     "action": "Turn",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -274,7 +396,7 @@
                     "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard&Mouse",
                     "action": "QuickCloseBook",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -282,5 +404,33 @@
             ]
         }
     ],
-    "controlSchemes": []
+    "controlSchemes": [
+        {
+            "name": "Keyboard&Mouse",
+            "bindingGroup": "Keyboard&Mouse",
+            "devices": [
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Mouse>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "NintendoSwitch",
+            "bindingGroup": "NintendoSwitch",
+            "devices": [
+                {
+                    "devicePath": "<SwitchProControllerHID>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
 }
