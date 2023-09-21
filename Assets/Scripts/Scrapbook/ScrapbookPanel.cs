@@ -7,6 +7,8 @@ public class ScrapbookPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     [SerializeField] private float hoverXValue;
     [SerializeField] private float extendedXValue;
 
+    //[SerializeField] private Scrapbook scrapbook;
+
     private RectTransform rect;
     private bool extended;
 

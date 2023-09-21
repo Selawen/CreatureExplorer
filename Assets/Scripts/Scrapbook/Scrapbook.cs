@@ -8,8 +8,11 @@ public class Scrapbook : MonoBehaviour
 
     [SerializeField] private int scrapbookPageCount = 6;
     [SerializeField] private ushort maximumUnplacedPictureCount = 10;
-    [SerializeField] private ScrapbookPage scrapbookPagePrefab;
+
     [SerializeField] private RectTransform pagesParent;
+
+    [SerializeField] private ScrapbookPage scrapbookPagePrefab;
+    [SerializeField] private PageText textEntryPrefab;
 
     private int currentPageIndex;
 
@@ -57,6 +60,11 @@ public class Scrapbook : MonoBehaviour
             return;
         }
         // To do: send out a message that the scrapbook's picture storage is full.
+    }
+
+    public void CreateNewTextEntry()
+    {
+        Instantiate(textEntryPrefab, CurrentPage.transform);
     }
 
 }
