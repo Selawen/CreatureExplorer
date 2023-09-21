@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -6,10 +5,11 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float mouseSensitivity = 0.1f;
     [SerializeField] private float maximumViewAngle = 70f;
     [SerializeField] private float interactionDistance = 2f;
     [SerializeField] private float interactionRadius = 1.25f;
+
+    [SerializeField] private GameSettings gameSettings;
 
     [SerializeField] private LayerMask interactionLayers;
 
@@ -79,8 +79,8 @@ public class PlayerController : MonoBehaviour
 
     private void HandleRotation(Vector2 lookInput)
     { 
-        verticalRotation = Mathf.Clamp(verticalRotation - (lookInput.y * mouseSensitivity), -maximumViewAngle, maximumViewAngle);
-        transform.Rotate(new Vector3(0, lookInput.x * mouseSensitivity, 0));
+        verticalRotation = Mathf.Clamp(verticalRotation - (lookInput.y * gameSettings.LookSensitivity), -maximumViewAngle, maximumViewAngle);
+        transform.Rotate(new Vector3(0, lookInput.x * gameSettings.LookSensitivity, 0));
     }
 
     private void OnDrawGizmos()
