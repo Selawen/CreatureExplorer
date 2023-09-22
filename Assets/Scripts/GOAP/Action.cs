@@ -6,14 +6,14 @@ abstract public class Action: MonoBehaviour
 {
     [field: SerializeField] public string Name { get; private set; }
 
-    [field: SerializeField] public WorldState Effects { get; private set; }
-    [field: SerializeField] public WorldState Prerequisites { get; private set; }
+    [field: SerializeField] public CreatureState Effects { get; private set; }
+    [field: SerializeField] public StatePair[] Prerequisites { get; private set; }
 
 
     public bool finished = false;
     public bool failed = false;
 
-    protected float actionDuration = 2;
+    [SerializeField] protected float actionDuration = 2;
 
     private float timer = 0;
 

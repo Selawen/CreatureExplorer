@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6194966855391490909}
-  - component: {fileID: 2435853527441941368}
+  - component: {fileID: 470012628063031045}
   m_Layer: 0
-  m_Name: Eat Action
+  m_Name: Sleep Action
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2435853527441941368
+--- !u!114 &470012628063031045
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,21 +41,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 6147323002965255808}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 207cacfc18bea8a40a204910107943f2, type: 3}
+  m_Script: {fileID: 11500000, guid: 6f80cde8eb55053459b2f5c9a6ed67e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Name>k__BackingField: Eating
+  <Name>k__BackingField: Sleeping
   <Effects>k__BackingField:
     <CreatureStates>k__BackingField:
-    - <StateName>k__BackingField: 0
-      <StateValue>k__BackingField: 0
-    - <StateName>k__BackingField: 3
-      <StateValue>k__BackingField: 0
-    - <StateName>k__BackingField: 4
+    - <StateName>k__BackingField: 1
       <StateValue>k__BackingField: 0
   <Prerequisites>k__BackingField:
-  - <StateName>k__BackingField: 3
+  - <StateName>k__BackingField: 1
     <StateValue>k__BackingField: 1
+  - <StateName>k__BackingField: 2
+    <StateValue>k__BackingField: 0
   finished: 0
   failed: 0
-  actionDuration: 1
+  actionDuration: 2

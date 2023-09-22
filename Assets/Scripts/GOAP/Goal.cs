@@ -7,5 +7,5 @@ public class Goal: ScriptableObject
 {
     [field:SerializeField] public string Name { get; private set; }
 
-    [field: SerializeField] public WorldState Target { get; private set; }
+    [field: SerializeField] public StatePair[] Target { get; private set; }
 }

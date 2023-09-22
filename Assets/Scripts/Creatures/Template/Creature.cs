@@ -13,8 +13,7 @@ public class Creature : MonoBehaviour
     [SerializeField] private GameObject testTarget;
 
     [Header("GOAP")]
-    [SerializeField] private WorldState currentWorldState;
-    [field:SerializeField] private Goal[] possibleGoals;
+    [SerializeField] private CreatureState currentCreatureState;
     [field:SerializeField] private List<Action> currentPlan;
     
     private Goal currentGoal;
@@ -34,24 +33,23 @@ public class Creature : MonoBehaviour
     void Start()
     {
         planner = GetComponent<Planner>();
-        currentGoal = possibleGoals[0];
 
-        if (currentWorldState.WorldStates.Length <=0)
+        if (currentCreatureState.CreatureStates.Length <=0)
         {
-            currentWorldState = new WorldState();
+            currentCreatureState = new CreatureState();
 
             // TODO: remove, only used for testing
-            for (int x = 0; x < currentWorldState.WorldStates.Length; x++)
+            for (int x = 0; x < currentCreatureState.CreatureStates.Length; x++)
             {
-                if (currentWorldState.WorldStates[x].StateName == StateType.isHungry)
+                if (currentCreatureState.CreatureStates[x].StateName == StateType.isHungry || currentCreatureState.CreatureStates[x].StateName == StateType.isSleepy)
                 {
-                    currentWorldState.WorldStates[x].SetValue(true);
-                    break;
+                    currentCreatureState.CreatureStates[x].SetValue(true);
                 }
             }
         }
 
-        currentPlan = planner.Plan(currentGoal, currentWorldState);
+        currentGoal = planner.GenerateGoal(currentCreatureState);
+        currentPlan = planner.Plan(currentGoal, currentCreatureState);
 
         StartAction();
 
@@ -61,12 +59,12 @@ public class Creature : MonoBehaviour
         }
     }
 
-    void Update()
+    void FixedUpdate()
     {
         // if an action has failed try and generate a new goal
         if (currentAction.failed)
         {
-            GenerateNewGoal();
+            currentGoal = planner.GenerateGoal(currentCreatureState);
             if (debug)
             {
                 goalText.text = currentGoal.Name;
@@ -94,60 +92,44 @@ public class Creature : MonoBehaviour
 
     private void FinishAction()
     {
-        foreach (StatePair effect in currentPlan[0].Effects.WorldStates)
+        foreach (StatePair effect in currentAction.Effects.CreatureStates)
         {
-            if (debug)
+            for (int x = 0; x < currentCreatureState.CreatureStates.Length; x++)
             {
-                Debug.Log("updating worldstate of " + effect.StateName.ToString());
+                if (currentCreatureState.CreatureStates[x].Equals(effect))
+                {
+                    currentCreatureState.CreatureStates[x].SetValue(effect.StateValue);
+                    continue;
+                }
             }
 
-            for (int x = 0; x < currentWorldState.WorldStates.Length; x++)
+            if (debug)
             {
-                if (currentWorldState.WorldStates[x].StateName == effect.StateName)
-                {
-                    currentWorldState.WorldStates[x].SetValue(effect.StateValue);
-                    break;
-                }
+                Debug.Log("updated worldstate of " + effect.StateName.ToString());
             }
         }
 
+
+        // check if goal has been reached
+        if (currentCreatureState.SatisfiesRequirements(currentGoal.Target))
+        {
+            currentGoal = planner.GenerateGoal(currentCreatureState);
+            currentPlan = planner.Plan(currentGoal, currentCreatureState);
+
+            StartAction();
+
+            if (debug)
+            {
+                Debug.Log("Generated new goal: " + currentGoal);
+                goalText.text = currentGoal.Name;
+            }
+
+            return;
+        }
+        
         // remove the action that has now finished from the plan
         currentPlan.RemoveAt(0);
 
-        // check if goal has been reached
-        foreach (StatePair goalTarget in currentGoal.Target.WorldStates)
-        {
-            bool reached = true;
-            for (int x = 0; x < currentWorldState.WorldStates.Length; x++)
-            {
-                if (currentWorldState.WorldStates[x].StateName == goalTarget.StateName)
-                {
-                    reached = currentWorldState.WorldStates[x].StateValue == goalTarget.StateValue ? true:false;
-                    break;
-                }
-            }
-
-            if (!reached)
-                break;
-            else
-            {
-                GenerateNewGoal();
-                return;
-            }
-        }
-
         StartAction();
-    }
-
-    private void GenerateNewGoal()
-    {
-        // TODO: add goal generation 
-        if (debug)
-        {
-            goalText.text = "Goal reached";
-            actionText.text = "";
-        }
-
-        this.enabled = false;
     }
 }

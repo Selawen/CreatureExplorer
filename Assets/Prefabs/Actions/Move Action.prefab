@@ -46,12 +46,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Name>k__BackingField: Move Towards food
   <Effects>k__BackingField:
-    <WorldStates>k__BackingField:
+    <CreatureStates>k__BackingField:
     - <StateName>k__BackingField: 3
       <StateValue>k__BackingField: 1
   <Prerequisites>k__BackingField:
-    <WorldStates>k__BackingField:
-    - <StateName>k__BackingField: 4
-      <StateValue>k__BackingField: 1
+  - <StateName>k__BackingField: 4
+    <StateValue>k__BackingField: 1
   finished: 0
   failed: 0
+  actionDuration: 2
