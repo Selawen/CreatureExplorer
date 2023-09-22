@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Move : Behaviour
+public class Move : Action
 {
     private NavMeshAgent moveAgent;
 
@@ -26,7 +26,5 @@ public class Move : Behaviour
 
         finished = true;
         yield return null;
-
-        DestroyImmediate(gameObject);
     }
 }

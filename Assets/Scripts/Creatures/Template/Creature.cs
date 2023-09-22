@@ -18,8 +18,7 @@ public class Creature : MonoBehaviour
     [field:SerializeField] private List<Action> currentPlan;
     
     private Goal currentGoal;
-    private Behaviour currentAction;
-    private GameObject currentActionBehaviour;
+    private Action currentAction;
     private GameObject currentTarget = null;
 
     private Planner planner;
@@ -81,8 +80,9 @@ public class Creature : MonoBehaviour
 
     private void StartAction()
     {
-        currentActionBehaviour = Instantiate(currentPlan[0].ActionBehaviour.gameObject);
-        currentAction = currentActionBehaviour.GetComponent<Behaviour>();
+        // reset values on previous action before starting next action
+        currentAction?.Reset();
+        currentAction = currentPlan[0];
 
         currentTarget = currentAction.PerformAction(gameObject, currentTarget);
 
@@ -136,7 +136,7 @@ public class Creature : MonoBehaviour
             }
         }
 
-            StartAction();
+        StartAction();
     }
 
     private void GenerateNewGoal()

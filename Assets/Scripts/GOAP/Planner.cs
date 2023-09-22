@@ -6,7 +6,11 @@ public class Planner : MonoBehaviour
 {
     [field: SerializeField] private Action[] possibleActions;
 
-    
+    private void Awake()
+    {
+        possibleActions = GetComponentsInChildren<Action>();
+    }
+
     public Goal SetGoal(WorldState currentState)
     {
         return null;

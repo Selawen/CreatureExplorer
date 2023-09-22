@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Eat : Behaviour
+public class Eat : Action
 {
 
     public override GameObject PerformAction(GameObject creature, GameObject target)
@@ -18,7 +18,5 @@ public class Eat : Behaviour
         yield return new WaitForSeconds(actionDuration);
         finished = true;
         yield return null;
-
-        DestroyImmediate(gameObject);
     }
 }

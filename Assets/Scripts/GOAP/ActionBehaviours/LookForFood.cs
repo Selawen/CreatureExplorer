@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LookForFood : Behaviour
+public class LookForFood : Action
 {
     public override GameObject PerformAction(GameObject creature, GameObject target)
     {
@@ -27,7 +27,5 @@ public class LookForFood : Behaviour
         yield return new WaitForSeconds(actionDuration);
         finished = true;
         yield return null;
-
-        DestroyImmediate(gameObject);
     }
 }
