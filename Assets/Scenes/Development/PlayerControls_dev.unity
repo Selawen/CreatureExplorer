@@ -25,7 +25,7 @@ RenderSettings:
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 4
+  m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: 0.5
@@ -1235,10 +1235,20 @@ PrefabInstance:
       propertyPath: sprintSpeed
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 4733703374740454852, guid: 66426cf5097a71540a340409520fad9b,
+        type: 3}
+      propertyPath: playerLayer.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     - target: {fileID: 5926066154527639816, guid: 66426cf5097a71540a340409520fad9b,
         type: 3}
       propertyPath: aerialSpeed
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5926066154527639816, guid: 66426cf5097a71540a340409520fad9b,
+        type: 3}
+      propertyPath: playerLayer.m_Bits
+      value: 64
       objectReference: {fileID: 0}
     - target: {fileID: 5926066154527639816, guid: 66426cf5097a71540a340409520fad9b,
         type: 3}
@@ -1364,6 +1374,11 @@ PrefabInstance:
         type: 3}
       propertyPath: aerialSpeed
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8802313589631307658, guid: 66426cf5097a71540a340409520fad9b,
+        type: 3}
+      propertyPath: playerLayer.m_Bits
+      value: 64
       objectReference: {fileID: 0}
     - target: {fileID: 8802313589631307658, guid: 66426cf5097a71540a340409520fad9b,
         type: 3}

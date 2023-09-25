@@ -7,7 +7,7 @@ public class WalkingState : State
     [SerializeField] private float walkSpeed = 5f;
     [SerializeField] private float sprintSpeed = 10f;
 
-    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private LayerMask playerLayer;
 
     private bool isSprinting;
 
@@ -22,7 +22,7 @@ public class WalkingState : State
 
     public override void OnStateFixedUpdate()
     {
-        if(!Physics.CheckSphere(transform.position, 0.25f, groundLayer))
+        if(!Physics.CheckSphere(transform.position, 0.25f, ~playerLayer))
         {
             Owner.SwitchState(typeof(FallingState));
             return;
@@ -42,7 +42,7 @@ public class WalkingState : State
 
     public void GetJumpInput(InputAction.CallbackContext callbackContext)
     {
-        if (callbackContext.started && Physics.CheckSphere(transform.position, 0.25f, groundLayer) && Owner.CurrentState.GetType() == GetType())
+        if (callbackContext.started && Physics.CheckSphere(transform.position, 0.25f, ~playerLayer) && Owner.CurrentState.GetType() == GetType())
         {
             Owner.SwitchState(typeof(JumpingState));
         }

@@ -8,7 +8,7 @@ public class JumpingState : State
     [SerializeField] private float aerialSpeed;
     [SerializeField] private float maxHorizontalVelocity = 5f;
 
-    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private LayerMask playerLayer;
 
     private Vector2 moveInput;
 
@@ -27,7 +27,7 @@ public class JumpingState : State
 
     public override void OnStateUpdate()
     {
-        if(!Physics.CheckSphere(transform.position, 0.25f, groundLayer) && rigidbody.velocity.y <= 0)
+        if(!Physics.CheckSphere(transform.position, 0.25f, ~playerLayer) && rigidbody.velocity.y <= 0)
         {
             Owner.SwitchState(typeof(FallingState));
             return;
