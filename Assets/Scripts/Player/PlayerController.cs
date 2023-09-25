@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private LayerMask interactionLayers;
 
+    [SerializeField] private Camera pictureCamera;
+
     [SerializeField] private UnityEvent onScrapbookOpened;
 
     private float verticalRotation;
@@ -47,6 +49,26 @@ public class PlayerController : MonoBehaviour
     {
         stateMachine.OnFixedUpdate();
         firstPersonCamera.transform.rotation = Quaternion.Euler(new Vector3(verticalRotation, transform.eulerAngles.y, 0));
+    }
+    
+    public void SwapToCamera(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.started)
+        {
+            pictureCamera.gameObject.SetActive(true);
+            firstPersonCamera.gameObject.SetActive(false);
+            playerInput.SwitchCurrentActionMap("Camera");
+        }
+    }
+
+    public void SwapFromCamera(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.started)
+        {
+            pictureCamera.gameObject.SetActive(false);
+            firstPersonCamera.gameObject.SetActive(true);
+            playerInput.SwitchCurrentActionMap("Overworld");
+        }
     }
 
     public void GetInteractionInput(InputAction.CallbackContext callbackContext)
