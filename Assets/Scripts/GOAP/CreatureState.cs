@@ -5,41 +5,67 @@ using UnityEngine;
 [Serializable]
 public class CreatureState 
 {
-    [field: SerializeField] public StatePair[] CreatureStates { get; private set; }
+    [field: SerializeField] public MoodState[] CreatureStates { get; private set; }
 
     public CreatureState()
     {
         int stateAmounts = Enum.GetNames(typeof(StateType)).Length;
 
-        CreatureStates = new StatePair[stateAmounts];
+        CreatureStates = new MoodState[stateAmounts];
 
         for (int x = stateAmounts; x>0; )
         {
             x--;
-            CreatureStates[x] = new StatePair((StateType)x, false);
+            CreatureStates[x] = new MoodState((StateType)x, 0.5f);
         }
     }
 
+    public MoodState Find(StateType mood)
+    {
+        foreach (MoodState state in this.CreatureStates)
+        {
+            if (state.Equals(mood))
+            {
+                return state;
+            }
+        }
+
+        return null;
+    }
+    
     /// <summary>
     /// does this CreatureState meet the requirements given
     /// </summary>
     /// <param name="requirements">the requirements to satisfy</param>
     /// <returns></returns>
-    public bool SatisfiesRequirements(StatePair[] requirements)
+    public bool SatisfiesRequirements(MoodState[] requirements, CreatureState creatureState = null)
     {
         int targetsReached = 0;
 
-        foreach (StatePair Target in requirements)
+        foreach (MoodState target in requirements)
         {
-            for (int x = 0; x < this.CreatureStates.Length; x++)
-            {
-                if (this.CreatureStates[x] == Target)
-                {
-                    targetsReached++;
-                    break;
-                }
-            }
+            MoodState thisMood = Find(target.MoodType);
 
+            switch (thisMood?.Operator)
+            {
+                case StateOperant.Set :
+                    if ((target.Operator == StateOperant.GreaterThan && thisMood >= target) || (target.Operator == StateOperant.LessThan && thisMood <= target))
+                        targetsReached++;
+                    break;
+
+                case StateOperant.Add :
+                    if (target.Operator == StateOperant.GreaterThan && creatureState.Find(target.MoodType) + thisMood >= target)
+                        targetsReached++;
+                    break;
+
+                case StateOperant.Subtract :
+                    if (target.Operator == StateOperant.LessThan && creatureState.Find(target.MoodType) - thisMood <= target)
+                        targetsReached++;
+                    break;
+
+                default :
+                    break;
+            }      
         }
 
         return (targetsReached >= requirements.Length);
@@ -47,20 +73,26 @@ public class CreatureState
 }
 
 [Serializable]
-public class StatePair
+public class MoodState
 {
-    [field: SerializeField] public StateType StateName { get; private set; }
-    [field: SerializeField] public bool StateValue { get; private set; }
+    [field: SerializeField] public StateType MoodType { get; private set; }
+    [field: SerializeField] public StateOperant Operator { get; private set; }
+    [field: SerializeField][field: Range(0.0f, 100.0f)]  public float StateValue { get; private set; }
 
-    public StatePair(StateType stateType, bool value)
+    public MoodState(StateType stateType, float value)
     {
-        StateName = stateType;
+        MoodType = stateType;
         StateValue = value;
     }
 
-    public void SetValue(bool newValue)
+    public void SetValue(float newValue)
     {
         StateValue = newValue;
+    }
+    public void AddValue(float newValue)
+    {
+        StateValue += newValue;
+        StateValue = Mathf.Clamp(StateValue, 0, 100);
     }
 
     /// <summary>
@@ -68,24 +100,67 @@ public class StatePair
     /// </summary>
     /// <param name="b">the statepair to compare the type of</param>
     /// <returns></returns>
-    public bool Equals(StatePair b)
+    public bool Equals(MoodState b)
     {
-        return (this.StateName == b.StateName);
-    }
-    
-    public static bool operator ==(StatePair a, StatePair b)
-    {
-        return (a.StateName == b.StateName && a.StateValue == b.StateValue);
+        return (this.MoodType == b.MoodType);
     }
 
-    public static bool operator !=(StatePair a, StatePair b) => !(a == b);
+    /// <summary>
+    /// Returns true if the state type is the same
+    /// </summary>
+    /// <param name="b">the statetype to compare the type of</param>
+    /// <returns></returns>
+    public bool Equals(StateType b)
+    {
+        return (this.MoodType == b);
+    }
+    
+    public static bool operator ==(MoodState a, MoodState b)
+    {
+        return (a.MoodType == b.MoodType && a.StateValue == b.StateValue);
+    }
+
+    public static bool operator !=(MoodState a, MoodState b) => !(a == b);
+
+    public static bool operator >=(MoodState a, MoodState b)
+    {
+        return (a.MoodType == b.MoodType && a.StateValue >= b.StateValue);
+    }
+
+    public static bool operator <=(MoodState a, MoodState b)
+    {
+        return (a.MoodType == b.MoodType && a.StateValue <= b.StateValue);
+    }
+
+    public static MoodState operator +(MoodState a, MoodState b)
+    {
+        MoodState result = a;
+        result.AddValue(b.StateValue);
+
+        return result;
+    }
+    public static MoodState operator -(MoodState a, MoodState b)
+    {
+        MoodState result = a;
+        result.AddValue(-b.StateValue);
+
+        return result;
+    }
 }
 
 public enum StateType
 {
-    isHungry, 
-    isSleepy,
-    isFrightened,
-    isNearFood,
-    seesFood
+    Annoyance,
+    Tiredness,
+    Fear,
+    Hunger
+}
+
+public enum StateOperant
+{
+    GreaterThan,
+    LessThan,
+    Set,
+    Add,
+    Subtract
 }

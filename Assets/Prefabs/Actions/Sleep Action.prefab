@@ -45,15 +45,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Name>k__BackingField: Sleeping
-  <Effects>k__BackingField:
+  <GoalEffects>k__BackingField:
     <CreatureStates>k__BackingField:
-    - <StateName>k__BackingField: 1
-      <StateValue>k__BackingField: 0
-  <Prerequisites>k__BackingField:
-  - <StateName>k__BackingField: 1
-    <StateValue>k__BackingField: 1
-  - <StateName>k__BackingField: 2
+    - <MoodType>k__BackingField: 1
+      <Relation>k__BackingField: 4
+      <StateValue>k__BackingField: 60
+    - <MoodType>k__BackingField: 3
+      <Relation>k__BackingField: 3
+      <StateValue>k__BackingField: 20
+  <ActionEffects>k__BackingField:
+  - <EffectType>k__BackingField: 1
     <StateValue>k__BackingField: 0
+  <Prerequisites>k__BackingField: []
   finished: 0
   failed: 0
   actionDuration: 2

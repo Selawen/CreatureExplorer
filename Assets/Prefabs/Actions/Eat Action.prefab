@@ -45,16 +45,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Name>k__BackingField: Eating
-  <Effects>k__BackingField:
+  <GoalEffects>k__BackingField:
     <CreatureStates>k__BackingField:
-    - <StateName>k__BackingField: 0
-      <StateValue>k__BackingField: 0
-    - <StateName>k__BackingField: 3
-      <StateValue>k__BackingField: 0
-    - <StateName>k__BackingField: 4
-      <StateValue>k__BackingField: 0
+    - <MoodType>k__BackingField: 3
+      <Relation>k__BackingField: 4
+      <StateValue>k__BackingField: 20
+  <ActionEffects>k__BackingField:
+  - <EffectType>k__BackingField: 0
+    <StateValue>k__BackingField: 0
   <Prerequisites>k__BackingField:
-  - <StateName>k__BackingField: 3
+  - <EffectType>k__BackingField: 5
     <StateValue>k__BackingField: 1
   finished: 0
   failed: 0

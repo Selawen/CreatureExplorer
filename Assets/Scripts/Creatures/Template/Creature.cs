@@ -14,7 +14,7 @@ public class Creature : MonoBehaviour
 
     [Header("GOAP")]
     [SerializeField] private CreatureState currentCreatureState;
-    [field:SerializeField] private List<Action> currentPlan;
+    [SerializeField] private List<Action> currentPlan;
     
     private Goal currentGoal;
     private Action currentAction;
@@ -28,47 +28,27 @@ public class Creature : MonoBehaviour
         {
             goalText.transform.parent.gameObject.SetActive(false);
         }
-    }
 
-    void Start()
-    {
         planner = GetComponent<Planner>();
 
         if (currentCreatureState.CreatureStates.Length <=0)
         {
             currentCreatureState = new CreatureState();
-
-            // TODO: remove, only used for testing
-            for (int x = 0; x < currentCreatureState.CreatureStates.Length; x++)
-            {
-                if (currentCreatureState.CreatureStates[x].StateName == StateType.isHungry || currentCreatureState.CreatureStates[x].StateName == StateType.isSleepy)
-                {
-                    currentCreatureState.CreatureStates[x].SetValue(true);
-                }
-            }
         }
 
-        currentGoal = planner.GenerateGoal(currentCreatureState);
-        currentPlan = planner.Plan(currentGoal, currentCreatureState);
-
-        StartAction();
-
-        if (debug)
-        {
-            goalText.text = currentGoal.Name;
-        }
+        GenerateNewGoal();   
     }
 
-    void FixedUpdate()
+
+    void Update()
     {
         // if an action has failed try and generate a new goal
         if (currentAction.failed)
         {
-            currentGoal = planner.GenerateGoal(currentCreatureState);
             if (debug)
-            {
-                goalText.text = currentGoal.Name;
-            }
+                Debug.Log("Action failed! " + currentAction.Name);
+
+            GenerateNewGoal();
         }
         else if (currentAction.finished)
         {
@@ -92,38 +72,28 @@ public class Creature : MonoBehaviour
 
     private void FinishAction()
     {
-        foreach (StatePair effect in currentAction.Effects.CreatureStates)
+        foreach (MoodState effect in currentAction.GoalEffects.CreatureStates)
         {
-            for (int x = 0; x < currentCreatureState.CreatureStates.Length; x++)
-            {
-                if (currentCreatureState.CreatureStates[x].Equals(effect))
-                {
-                    currentCreatureState.CreatureStates[x].SetValue(effect.StateValue);
-                    continue;
-                }
-            }
+            MoodState changedState = currentCreatureState.Find(effect.MoodType);
 
+            if (effect.Operator == StateOperant.Set)
+                changedState.SetValue(effect.StateValue);
+            else if (effect.Operator == StateOperant.Add)
+                changedState.AddValue(effect.StateValue);
+            else if (effect.Operator == StateOperant.Subtract)
+                changedState.AddValue(-effect.StateValue);            
+            
             if (debug)
             {
-                Debug.Log("updated worldstate of " + effect.StateName.ToString());
+                Debug.Log("updated worldstate of " + effect.MoodType.ToString());
             }
         }
 
 
         // check if goal has been reached
-        if (currentCreatureState.SatisfiesRequirements(currentGoal.Target))
+        if (currentPlan.Count <= 1)
         {
-            currentGoal = planner.GenerateGoal(currentCreatureState);
-            currentPlan = planner.Plan(currentGoal, currentCreatureState);
-
-            StartAction();
-
-            if (debug)
-            {
-                Debug.Log("Generated new goal: " + currentGoal);
-                goalText.text = currentGoal.Name;
-            }
-
+            GenerateNewGoal();
             return;
         }
         
@@ -131,5 +101,19 @@ public class Creature : MonoBehaviour
         currentPlan.RemoveAt(0);
 
         StartAction();
+    }
+
+    private void GenerateNewGoal()
+    {
+        currentGoal = planner.GenerateGoal(currentCreatureState);
+        currentPlan = planner.Plan(currentGoal, currentCreatureState);
+
+        StartAction();
+
+        if (debug)
+        {
+            Debug.Log("Generated new goal: " + currentGoal);
+            goalText.text = currentGoal.Name;
+        }
     }
 }

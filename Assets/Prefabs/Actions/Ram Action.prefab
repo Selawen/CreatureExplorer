@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6194966855391490909}
-  - component: {fileID: 5832179030421958106}
+  - component: {fileID: 2157227185863761333}
   m_Layer: 0
-  m_Name: Find Food Action
+  m_Name: Ram Action
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5832179030421958106
+--- !u!114 &2157227185863761333
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,20 +41,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 6147323002965255808}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0ac9f9ce81882b4484cb992f16bdaac, type: 3}
+  m_Script: {fileID: 11500000, guid: 250a21a8b8372c8479dee3f0219ced49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Name>k__BackingField: Looking for Food
+  <Name>k__BackingField: Ram Tree
   <GoalEffects>k__BackingField:
     <CreatureStates>k__BackingField:
     - <MoodType>k__BackingField: 0
+      <Relation>k__BackingField: 2
+      <StateValue>k__BackingField: 0
+    - <MoodType>k__BackingField: 1
       <Relation>k__BackingField: 3
-      <StateValue>k__BackingField: 8
+      <StateValue>k__BackingField: 30
   <ActionEffects>k__BackingField:
-  - <EffectType>k__BackingField: 4
+  - <EffectType>k__BackingField: 3
+    <StateValue>k__BackingField: 0
+  <Prerequisites>k__BackingField:
+  - <EffectType>k__BackingField: 6
     <StateValue>k__BackingField: 1
-  <Prerequisites>k__BackingField: []
   finished: 0
   failed: 0
-  actionDuration: 1
-  searchTarget: 0
+  actionDuration: 2
