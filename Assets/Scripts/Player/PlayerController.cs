@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
 
     private float verticalRotation;
 
+    private Vector2 rotationInput;
+
     private FiniteStateMachine stateMachine;
 
     private Camera firstPersonCamera;
@@ -41,6 +43,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         stateMachine.OnUpdate();
+        HandleRotation(rotationInput);
     }
 
     private void FixedUpdate()
@@ -65,7 +68,7 @@ public class PlayerController : MonoBehaviour
 
     public void GetRotationInput(InputAction.CallbackContext callbackContext)
     {
-        HandleRotation(callbackContext.ReadValue<Vector2>());
+        rotationInput = callbackContext.ReadValue<Vector2>();
     }
 
     public void GetOpenScrapbookInput(InputAction.CallbackContext callbackContext)
