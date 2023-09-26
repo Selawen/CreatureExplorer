@@ -175,7 +175,9 @@ public enum StateType
     Annoyance,
     Tiredness,
     Fear,
-    Hunger
+    Hunger,
+    Happiness,
+    Boredom
 }
 
 public enum StateOperant
