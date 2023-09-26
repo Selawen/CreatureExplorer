@@ -504,21 +504,21 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
+      value: 0.1
+      inSlope: 1.407665
+      outSlope: 1.407665
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.057971016
     - serializedVersion: 3
       time: 1
       value: 0.7
-      inSlope: 0
-      outSlope: 0
+      inSlope: 0.08438147
+      outSlope: 0.08438147
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.09782606
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -547,7 +547,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  HappynessPriority:
+  HappinessPriority:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -645,6 +645,14 @@ MonoBehaviour:
     - <MoodType>k__BackingField: 5
       <Operator>k__BackingField: 2
       <StateValue>k__BackingField: 50
+  changesEverySecond:
+    <CreatureStates>k__BackingField:
+    - <MoodType>k__BackingField: 1
+      <Operator>k__BackingField: 3
+      <StateValue>k__BackingField: 0.5
+    - <MoodType>k__BackingField: 3
+      <Operator>k__BackingField: 3
+      <StateValue>k__BackingField: 0.5
   currentPlan: []
 --- !u!195 &7210352520341627553
 NavMeshAgent:
