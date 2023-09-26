@@ -6,46 +6,46 @@ public class WalkingState : State
 {
     [SerializeField] private float walkSpeed = 5f;
     [SerializeField] private float sprintSpeed = 10f;
-    [SerializeField] private float standingEyeHeight = 1.7f;
 
-    [SerializeField] private Camera firstPersonCamera;
+    [SerializeField] private LayerMask playerLayer;
 
-    private float standardColliderHeight;
     private bool isSprinting;
 
     private Vector2 moveInput;
 
     private new Rigidbody rigidbody;
 
-    private CapsuleCollider capsuleCollider;
-
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
-        capsuleCollider = GetComponent<CapsuleCollider>();
-        standardColliderHeight = capsuleCollider.height;
     }
-    public override void OnStateEnter()
-    {
-        capsuleCollider.height = standardColliderHeight;
-        capsuleCollider.center = Vector3.up * (standardColliderHeight * 0.5f);
 
-        Vector3 camPosition = Camera.main.transform.position;
-        Camera.main.transform.position = new(camPosition.x, standingEyeHeight, camPosition.z);
-    }
     public override void OnStateFixedUpdate()
     {
+        if(!Physics.CheckSphere(transform.position, 0.25f, ~playerLayer))
+        {
+            Owner.SwitchState(typeof(FallingState));
+            return;
+        }
         Move();
-
-        firstPersonCamera.transform.position = new(transform.position.x, transform.position.y + standingEyeHeight, transform.position.z);
     }
+
     public void GetSprintInput(InputAction.CallbackContext callbackContext)
     {
         isSprinting = callbackContext.performed;
     }
+
     public void GetMoveInput(InputAction.CallbackContext callbackContext)
     {
         moveInput = callbackContext.ReadValue<Vector2>().normalized;
+    }
+
+    public void GetJumpInput(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.started && Physics.CheckSphere(transform.position, 0.25f, ~playerLayer) && Owner.CurrentState.GetType() == GetType())
+        {
+            Owner.SwitchState(typeof(JumpingState));
+        }
     }
 
     private void Move()
@@ -57,8 +57,18 @@ public class WalkingState : State
 
             Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
 
-            rigidbody.velocity = (rigidbody.velocity + moveDirection).normalized * speed;
+            float verticalVelocity = rigidbody.velocity.y;
+
+            Vector3 newVelocity = moveDirection.normalized * speed;
+
+            newVelocity.y = verticalVelocity;
+
+            rigidbody.velocity = newVelocity;
+
+            return;
         }
+        rigidbody.velocity = rigidbody.velocity.y * Vector3.up;
+
     }
 
 }

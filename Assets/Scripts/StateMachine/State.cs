@@ -4,6 +4,12 @@ using UnityEngine;
 
 public abstract class State : MonoBehaviour, IState
 {
+    public FiniteStateMachine Owner { get; private set; }
+    public void InitializeState(FiniteStateMachine owner)
+    {
+        Owner = owner;
+    }
+
     public virtual void OnStateEnter() { }
 
     public virtual void OnStateExit() { }

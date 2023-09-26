@@ -15,6 +15,7 @@ public class PageText : MoveablePageComponent
             throw new System.NullReferenceException("No TextMeshPro InputField found on object named: " + name);
         }
     }
+
     private void Start()
     {
         if (!_componentTransform)
@@ -25,6 +26,7 @@ public class PageText : MoveablePageComponent
         }
         SetHalfSizes();
     }
+
     public override void OnBeginDrag(PointerEventData eventData)
     {
         base.OnBeginDrag(eventData);
