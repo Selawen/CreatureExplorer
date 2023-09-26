@@ -35,7 +35,7 @@ abstract public class Action: MonoBehaviour
             failed = true;
         }
     }
-    public void Reset()
+    public virtual void Reset()
     {
         finished = false;
         failed = false;

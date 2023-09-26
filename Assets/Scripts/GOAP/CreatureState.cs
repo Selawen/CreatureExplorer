@@ -32,6 +32,28 @@ public class CreatureState
 
         return null;
     }
+
+    public void SetValue(float value, StateType mood)
+    {
+        foreach (MoodState state in this.CreatureStates)
+        {
+            if (state.Equals(mood))
+            {
+                state.SetValue(value);
+            }
+        }
+    }
+
+    public void AddValue(float value, StateType mood)
+    {
+        foreach (MoodState state in this.CreatureStates)
+        {
+            if (state.Equals(mood))
+            {
+                state.AddValue(value);
+            }
+        }
+    }
     
     /// <summary>
     /// does this CreatureState meet the requirements given

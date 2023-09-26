@@ -167,6 +167,87 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0ac9f9ce81882b4484cb992f16bdaac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &5839525288904877944
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1626580585487544790}
+    m_Modifications:
+    - target: {fileID: 6147323002965255808, guid: e91d3f26e7953b84484e350694b1fcbe,
+        type: 3}
+      propertyPath: m_Name
+      value: Ruminate Action
+      objectReference: {fileID: 0}
+    - target: {fileID: 6194966855391490909, guid: e91d3f26e7953b84484e350694b1fcbe,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6194966855391490909, guid: e91d3f26e7953b84484e350694b1fcbe,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6194966855391490909, guid: e91d3f26e7953b84484e350694b1fcbe,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6194966855391490909, guid: e91d3f26e7953b84484e350694b1fcbe,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6194966855391490909, guid: e91d3f26e7953b84484e350694b1fcbe,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6194966855391490909, guid: e91d3f26e7953b84484e350694b1fcbe,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6194966855391490909, guid: e91d3f26e7953b84484e350694b1fcbe,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6194966855391490909, guid: e91d3f26e7953b84484e350694b1fcbe,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6194966855391490909, guid: e91d3f26e7953b84484e350694b1fcbe,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6194966855391490909, guid: e91d3f26e7953b84484e350694b1fcbe,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6194966855391490909, guid: e91d3f26e7953b84484e350694b1fcbe,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e91d3f26e7953b84484e350694b1fcbe, type: 3}
+--- !u!114 &8126686905616745472 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2435853527441941368, guid: e91d3f26e7953b84484e350694b1fcbe,
+    type: 3}
+  m_PrefabInstance: {fileID: 5839525288904877944}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 207cacfc18bea8a40a204910107943f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7154717475542345988
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -287,7 +368,7 @@ PrefabInstance:
     - target: {fileID: 7210352520341627486, guid: c4d537d1eccf6d84da8c18f49b4831be,
         type: 3}
       propertyPath: possibleActions.Array.size
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7210352520341627486, guid: c4d537d1eccf6d84da8c18f49b4831be,
         type: 3}
@@ -315,6 +396,11 @@ PrefabInstance:
       propertyPath: possibleActions.Array.data[8]
       value: 
       objectReference: {fileID: 2991554160310096638}
+    - target: {fileID: 7210352520341627486, guid: c4d537d1eccf6d84da8c18f49b4831be,
+        type: 3}
+      propertyPath: possibleActions.Array.data[9]
+      value: 
+      objectReference: {fileID: 8126686905616745472}
     - target: {fileID: 7210352520341627486, guid: c4d537d1eccf6d84da8c18f49b4831be,
         type: 3}
       propertyPath: AnnoyancePriority.m_Curve.Array.size

@@ -10,7 +10,6 @@ public class Creature : MonoBehaviour
     [SerializeField] private bool debug;
     [SerializeField] private TextMeshProUGUI goalText;
     [SerializeField] private TextMeshProUGUI actionText;
-    [SerializeField] private GameObject testTarget;
 
     [Header("GOAP")]
     [SerializeField] private CreatureState currentCreatureState;
@@ -60,6 +59,7 @@ public class Creature : MonoBehaviour
     {
         // reset values on previous action before starting next action
         currentAction?.Reset();
+
         currentAction = currentPlan[0];
 
         currentTarget = currentAction.PerformAction(gameObject, currentTarget);
@@ -72,23 +72,22 @@ public class Creature : MonoBehaviour
 
     private void FinishAction()
     {
+        // Update creatureState with effects of finished action
         foreach (MoodState effect in currentAction.GoalEffects.CreatureStates)
         {
-            MoodState changedState = currentCreatureState.Find(effect.MoodType);
 
             if (effect.Operator == StateOperant.Set)
-                changedState.SetValue(effect.StateValue);
+                currentCreatureState.SetValue(effect.StateValue, effect.MoodType);
             else if (effect.Operator == StateOperant.Add)
-                changedState.AddValue(effect.StateValue);
+                currentCreatureState.AddValue(effect.StateValue, effect.MoodType);
             else if (effect.Operator == StateOperant.Subtract)
-                changedState.AddValue(-effect.StateValue);            
+                currentCreatureState.AddValue(-effect.StateValue, effect.MoodType);
             
             if (debug)
             {
                 Debug.Log("updated worldstate of " + effect.MoodType.ToString());
             }
         }
-
 
         // check if goal has been reached
         if (currentPlan.Count <= 1)
@@ -107,6 +106,8 @@ public class Creature : MonoBehaviour
     {
         currentGoal = planner.GenerateGoal(currentCreatureState);
         currentPlan = planner.Plan(currentGoal, currentCreatureState);
+
+        currentTarget = null;
 
         StartAction();
 

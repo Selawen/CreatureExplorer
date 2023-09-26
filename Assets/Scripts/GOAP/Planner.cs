@@ -20,10 +20,11 @@ public class Planner : MonoBehaviour
 
     public Goal GenerateGoal(CreatureState currentState)
     {
+        CreatureState planState = currentState;
         float highestPrio = 0;
         StateType prioMood = StateType.Fear;
 
-        foreach (MoodState state in currentState.CreatureStates)
+        foreach (MoodState state in planState.CreatureStates)
         {
             // TODO: make less naive, and more generic
 
@@ -82,6 +83,13 @@ public class Planner : MonoBehaviour
 
     public List<Action> Plan(Goal goal, CreatureState currentState)
     {
+        // TODO: figureout way for this to not be necessairy
+        CreatureState planState = new CreatureState();
+        foreach (MoodState mood in planState.CreatureStates)
+        {
+            mood.SetValue(currentState.Find(mood.MoodType).StateValue);
+        }
+
         List<Action> plan = new List<Action>();
 
         if (goal == null)
@@ -101,7 +109,7 @@ public class Planner : MonoBehaviour
 
         foreach (Action a in possibleActions)
         {
-            if (a.GoalEffects.SatisfiesRequirements(goalPrerequisites, currentState))
+            if (a.GoalEffects.SatisfiesRequirements(goalPrerequisites, planState))
             {
                 viableActions.Add(a);
             }

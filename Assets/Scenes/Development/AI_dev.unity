@@ -113,8 +113,8 @@ NavMeshSettings:
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
     minRegionArea: 2
-    manualCellSize: 0
-    cellSize: 0.16666667
+    manualCellSize: 1
+    cellSize: 0.25
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
@@ -351,7 +351,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!114 &943567958
 MonoBehaviour:
@@ -555,10 +555,40 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 530009447095143258, guid: e34132a6dc9d16d419298730646672cc,
+        type: 3}
+      propertyPath: HungerPriority.m_Curve.Array.data[0].value
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 530009447095143259, guid: e34132a6dc9d16d419298730646672cc,
+        type: 3}
+      propertyPath: currentCreatureState.<CreatureStates>k__BackingField.Array.data[0].<Operator>k__BackingField
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 530009447095143259, guid: e34132a6dc9d16d419298730646672cc,
+        type: 3}
+      propertyPath: currentCreatureState.<CreatureStates>k__BackingField.Array.data[1].<Operator>k__BackingField
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 530009447095143259, guid: e34132a6dc9d16d419298730646672cc,
+        type: 3}
+      propertyPath: currentCreatureState.<CreatureStates>k__BackingField.Array.data[2].<Operator>k__BackingField
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 530009447095143259, guid: e34132a6dc9d16d419298730646672cc,
+        type: 3}
+      propertyPath: currentCreatureState.<CreatureStates>k__BackingField.Array.data[3].<Operator>k__BackingField
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 530009447095143260, guid: e34132a6dc9d16d419298730646672cc,
         type: 3}
       propertyPath: m_Name
       value: Creature 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2991554160310096638, guid: e34132a6dc9d16d419298730646672cc,
+        type: 3}
+      propertyPath: <GoalEffects>k__BackingField.<CreatureStates>k__BackingField.Array.data[0].<StateValue>k__BackingField
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e34132a6dc9d16d419298730646672cc, type: 3}
