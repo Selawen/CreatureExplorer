@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public abstract class MoveablePageComponent : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
+public abstract class MoveablePageComponent : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerClickHandler
 {
     protected float _scaleFactor = 1.2f;
 
@@ -11,8 +11,8 @@ public abstract class MoveablePageComponent : MonoBehaviour, IDragHandler, IBegi
 
     protected Image _componentGraphic;
 
-    private float halfWidth;
-    private float halfHeight;
+    protected float halfWidth;
+    protected float halfHeight;
 
     private void Awake()
     { 
@@ -33,7 +33,7 @@ public abstract class MoveablePageComponent : MonoBehaviour, IDragHandler, IBegi
         _componentTransform.localScale = Vector3.one * _scaleFactor;
     }
 
-    public void OnDrag(PointerEventData eventData)
+    public virtual void OnDrag(PointerEventData eventData)
     {
         if(eventData.button == PointerEventData.InputButton.Left)
         {
@@ -54,4 +54,11 @@ public abstract class MoveablePageComponent : MonoBehaviour, IDragHandler, IBegi
         _componentTransform.localScale = Vector3.one;
     }
 
+    public virtual void OnPointerClick(PointerEventData eventData)
+    {
+        if(eventData.button == PointerEventData.InputButton.Right)
+        {
+            Destroy(gameObject);
+        }
+    }
 }
