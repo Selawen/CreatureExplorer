@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenuAttribute(fileName = "NewGoal", menuName = "GOAP/Create Goal")]

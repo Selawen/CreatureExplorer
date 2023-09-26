@@ -1,11 +1,9 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Search : Action
 {
     [SerializeField] private SearchTarget searchTarget;
-
 
     public override GameObject PerformAction(GameObject creature, GameObject target)
     {

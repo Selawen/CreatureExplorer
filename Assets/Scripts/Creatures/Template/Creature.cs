@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -13,6 +12,7 @@ public class Creature : MonoBehaviour
 
     [Header("GOAP")]
     [SerializeField] private CreatureState currentCreatureState;
+    [SerializeField] private CreatureState changesEverySecond;
     [SerializeField] private List<Action> currentPlan;
     
     private Goal currentGoal;
@@ -39,8 +39,10 @@ public class Creature : MonoBehaviour
     }
 
 
-    void Update()
+    void FixedUpdate()
     {
+        UpdateValues();
+
         // if an action has failed try and generate a new goal
         if (currentAction.failed)
         {
@@ -53,6 +55,18 @@ public class Creature : MonoBehaviour
         {
             FinishAction();
         }       
+    }
+
+    private void UpdateValues()
+    {
+        // Update creatureState with effects of finished action
+        foreach (MoodState change in changesEverySecond.CreatureStates)
+        {
+            if (change.Operator == StateOperant.Add)
+                currentCreatureState.AddValue(change.StateValue * Time.deltaTime, change.MoodType);
+            else if (change.Operator == StateOperant.Subtract)
+                currentCreatureState.AddValue(-change.StateValue * Time.deltaTime, change.MoodType);
+        }
     }
 
     private void StartAction()
@@ -75,7 +89,6 @@ public class Creature : MonoBehaviour
         // Update creatureState with effects of finished action
         foreach (MoodState effect in currentAction.GoalEffects.CreatureStates)
         {
-
             if (effect.Operator == StateOperant.Set)
                 currentCreatureState.SetValue(effect.StateValue, effect.MoodType);
             else if (effect.Operator == StateOperant.Add)

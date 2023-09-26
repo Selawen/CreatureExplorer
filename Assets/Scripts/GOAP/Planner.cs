@@ -3,10 +3,7 @@ using UnityEngine;
 
 public class Planner : MonoBehaviour
 {
-    [SerializeField] private AnimationCurve AnnoyancePriority;
-    [SerializeField] private AnimationCurve FearPriority;
-    [SerializeField] private AnimationCurve HungerPriority;
-    [SerializeField] private AnimationCurve TirednessPriority;
+    [SerializeField] private AnimationCurve AnnoyancePriority, FearPriority, HungerPriority, TirednessPriority, HappinessPriority, BoredomPriority;
 
     [field: SerializeField] private Goal[] possibleGoals;
     [Tooltip("initialised at startup")]
@@ -55,6 +52,20 @@ public class Planner : MonoBehaviour
                     if (TirednessPriority.Evaluate(state.StateValue/100) > highestPrio)
                     {
                         highestPrio = TirednessPriority.Evaluate(state.StateValue);
+                        prioMood = state.MoodType;
+                    }
+                    break;
+                case StateType.Happiness:
+                    if (HappinessPriority.Evaluate(state.StateValue/100) > highestPrio)
+                    {
+                        highestPrio = HappinessPriority.Evaluate(state.StateValue);
+                        prioMood = state.MoodType;
+                    }
+                    break;
+                case StateType.Boredom:
+                    if (BoredomPriority.Evaluate(state.StateValue/100) > highestPrio)
+                    {
+                        highestPrio = BoredomPriority.Evaluate(state.StateValue);
                         prioMood = state.MoodType;
                     }
                     break;

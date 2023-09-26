@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
@@ -27,7 +26,7 @@ public class ActionKey
     public bool Equals(ActionKey b)
     {
         return (this.EffectType == b.EffectType);
-    }
+    }    
     
     public static bool operator ==(ActionKey a, ActionKey b)
     {

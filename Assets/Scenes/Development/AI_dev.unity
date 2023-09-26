@@ -200,14 +200,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 259319025}
-  m_LocalRotation: {x: 0.100235924, y: -0, z: -0, w: 0.9949637}
-  m_LocalPosition: {x: 0, y: 3.58, z: -5.4}
+  m_LocalRotation: {x: 0.2588191, y: 0, z: 0, w: 0.9659258}
+  m_LocalPosition: {x: 0, y: 4.83, z: -8.84}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 11.506, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 30, y: 0, z: 0}
 --- !u!114 &259319029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -562,6 +562,46 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 530009447095143259, guid: e34132a6dc9d16d419298730646672cc,
         type: 3}
+      propertyPath: changesOverTime.<CreatureStates>k__BackingField.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 530009447095143259, guid: e34132a6dc9d16d419298730646672cc,
+        type: 3}
+      propertyPath: changesOverTime.<CreatureStates>k__BackingField.Array.data[0].<MoodType>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 530009447095143259, guid: e34132a6dc9d16d419298730646672cc,
+        type: 3}
+      propertyPath: changesOverTime.<CreatureStates>k__BackingField.Array.data[0].<Operator>k__BackingField
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 530009447095143259, guid: e34132a6dc9d16d419298730646672cc,
+        type: 3}
+      propertyPath: changesOverTime.<CreatureStates>k__BackingField.Array.data[1].<MoodType>k__BackingField
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 530009447095143259, guid: e34132a6dc9d16d419298730646672cc,
+        type: 3}
+      propertyPath: changesOverTime.<CreatureStates>k__BackingField.Array.data[1].<Operator>k__BackingField
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 530009447095143259, guid: e34132a6dc9d16d419298730646672cc,
+        type: 3}
+      propertyPath: changesOverTime.<CreatureStates>k__BackingField.Array.data[2].<MoodType>k__BackingField
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 530009447095143259, guid: e34132a6dc9d16d419298730646672cc,
+        type: 3}
+      propertyPath: changesOverTime.<CreatureStates>k__BackingField.Array.data[3].<MoodType>k__BackingField
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 530009447095143259, guid: e34132a6dc9d16d419298730646672cc,
+        type: 3}
+      propertyPath: changesOverTime.<CreatureStates>k__BackingField.Array.data[4].<MoodType>k__BackingField
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 530009447095143259, guid: e34132a6dc9d16d419298730646672cc,
+        type: 3}
       propertyPath: currentCreatureState.<CreatureStates>k__BackingField.Array.data[0].<Operator>k__BackingField
       value: 2
       objectReference: {fileID: 0}
@@ -579,6 +619,21 @@ PrefabInstance:
         type: 3}
       propertyPath: currentCreatureState.<CreatureStates>k__BackingField.Array.data[3].<Operator>k__BackingField
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 530009447095143259, guid: e34132a6dc9d16d419298730646672cc,
+        type: 3}
+      propertyPath: currentCreatureState.<CreatureStates>k__BackingField.Array.data[0].<StateValue>k__BackingField
+      value: 56.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 530009447095143259, guid: e34132a6dc9d16d419298730646672cc,
+        type: 3}
+      propertyPath: currentCreatureState.<CreatureStates>k__BackingField.Array.data[3].<StateValue>k__BackingField
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 530009447095143259, guid: e34132a6dc9d16d419298730646672cc,
+        type: 3}
+      propertyPath: currentCreatureState.<CreatureStates>k__BackingField.Array.data[5].<StateValue>k__BackingField
+      value: 85
       objectReference: {fileID: 0}
     - target: {fileID: 530009447095143260, guid: e34132a6dc9d16d419298730646672cc,
         type: 3}

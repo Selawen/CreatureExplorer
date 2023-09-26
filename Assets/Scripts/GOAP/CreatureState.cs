@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
@@ -117,6 +116,8 @@ public class MoodState
         StateValue = Mathf.Clamp(StateValue, 0, 100);
     }
 
+    #region operator overrides
+
     /// <summary>
     /// Returns true if the state type is the same
     /// </summary>
@@ -135,6 +136,11 @@ public class MoodState
     public bool Equals(StateType b)
     {
         return (this.MoodType == b);
+    }
+
+    public override int GetHashCode()
+    {
+        return this.GetHashCode();
     }
     
     public static bool operator ==(MoodState a, MoodState b)
@@ -168,6 +174,7 @@ public class MoodState
 
         return result;
     }
+    #endregion
 }
 
 public enum StateType
@@ -175,7 +182,9 @@ public enum StateType
     Annoyance,
     Tiredness,
     Fear,
-    Hunger
+    Hunger,
+    Happiness,
+    Boredom
 }
 
 public enum StateOperant

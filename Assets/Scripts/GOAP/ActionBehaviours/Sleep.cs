@@ -1,10 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Sleep : Action
 {
-
     public override GameObject PerformAction(GameObject creature, GameObject target)
     { 
         StartCoroutine(CheckFinish());
