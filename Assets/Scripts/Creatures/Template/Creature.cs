@@ -6,7 +6,8 @@ using TMPro;
 public class Creature : MonoBehaviour
 {
     [Header("Debugging")]
-    [SerializeField] private bool debug;
+    [SerializeField] private bool showThoughts;
+    [SerializeField] private bool logDebugs;
     [SerializeField] private TextMeshProUGUI goalText;
     [SerializeField] private TextMeshProUGUI actionText;
 
@@ -23,7 +24,7 @@ public class Creature : MonoBehaviour
 
     private void Awake()
     {
-        if (!debug)
+        if (!showThoughts)
         {
             goalText.transform.parent.gameObject.SetActive(false);
         }
@@ -46,8 +47,8 @@ public class Creature : MonoBehaviour
         // if an action has failed try and generate a new goal
         if (currentAction.failed)
         {
-            if (debug)
-                Debug.Log("Action failed! " + currentAction.Name);
+            if (logDebugs)
+                Debug.LogWarning("Action failed! " + currentAction.Name);
 
             GenerateNewGoal();
         }
@@ -71,14 +72,14 @@ public class Creature : MonoBehaviour
 
     private void StartAction()
     {
-        // reset values on previous action before starting next action
-        currentAction?.Reset();
-
         currentAction = currentPlan[0];
+
+        // reset values on action before running it
+        currentAction?.Reset();
 
         currentTarget = currentAction.PerformAction(gameObject, currentTarget);
 
-        if (debug)
+        if (showThoughts)
         {
             actionText.text = currentPlan[0].Name;
         }
@@ -96,7 +97,7 @@ public class Creature : MonoBehaviour
             else if (effect.Operator == StateOperant.Subtract)
                 currentCreatureState.AddValue(-effect.StateValue, effect.MoodType);
             
-            if (debug)
+            if (logDebugs)
             {
                 Debug.Log("updated worldstate of " + effect.MoodType.ToString());
             }
@@ -124,9 +125,13 @@ public class Creature : MonoBehaviour
 
         StartAction();
 
-        if (debug)
+        if (logDebugs)
         {
             Debug.Log("Generated new goal: " + currentGoal);
+        }
+
+        if (showThoughts)
+        {
             goalText.text = currentGoal.Name;
         }
     }

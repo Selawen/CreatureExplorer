@@ -1,4 +1,4 @@
-using System.Collections;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -8,9 +8,18 @@ public class Ram : Action
 
     private float originalSpeed, originalRotationSpeed, originalAcceleration;
 
+    private void Start()
+    {
+        moveAgent = gameObject.GetComponentInParent<NavMeshAgent>();
+        originalSpeed = moveAgent.speed;
+        originalRotationSpeed = moveAgent.angularSpeed;
+        originalAcceleration = moveAgent.acceleration;
+    }
+
     public override GameObject PerformAction(GameObject creature, GameObject target)
     {
-        moveAgent = creature.GetComponent<NavMeshAgent>();
+        moveAgent = gameObject.GetComponentInParent<NavMeshAgent>();
+
         originalSpeed = moveAgent.speed;
         originalRotationSpeed = moveAgent.angularSpeed;
         originalAcceleration = moveAgent.acceleration;
@@ -21,7 +30,8 @@ public class Ram : Action
         moveAgent.autoBraking = false;
         moveAgent.SetDestination(target.transform.position);
 
-        StartCoroutine(CheckFinish());
+        DoAction();
+        FailCheck(token);
 
         return target;
     }
@@ -33,22 +43,27 @@ public class Ram : Action
         moveAgent.speed = originalSpeed;
         moveAgent.angularSpeed = originalRotationSpeed;
         moveAgent.acceleration = originalAcceleration;
-        moveAgent.autoBraking = false;
+        moveAgent.autoBraking = true;
     }
 
-    protected override IEnumerator CheckFinish()
+    protected override async void DoAction(GameObject target = null)
     {
-        while ((moveAgent.destination - moveAgent.transform.position).magnitude > 0.5f)
-        {
-            yield return null;
-        }
+        await CheckDistanceToDestination();
 
         moveAgent.speed = originalSpeed;
         moveAgent.angularSpeed = originalRotationSpeed;
         moveAgent.acceleration = originalAcceleration;
-        moveAgent.autoBraking = false;
-        finished = true;
-        yield return null;
+        moveAgent.autoBraking = true;
+
+        base.DoAction();
+    }
+
+    private async Task CheckDistanceToDestination()
+    {
+        while ((moveAgent.destination - moveAgent.transform.position).magnitude > 0.5f)
+        {
+            await Task.Yield();
+        }
     }
 }
 

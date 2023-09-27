@@ -1,4 +1,5 @@
-using System.Collections;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 
 abstract public class Action: MonoBehaviour
@@ -15,7 +16,14 @@ abstract public class Action: MonoBehaviour
 
     [SerializeField] protected float actionDuration = 2;
 
-    private float timer = 0;
+    protected CancellationTokenSource source;
+    protected CancellationToken token;
+
+    private void Awake()
+    {
+        source = new CancellationTokenSource();
+        token = source.Token;
+    }
 
     /// <summary>
     /// called to perform the behaviour associated witn an action
@@ -25,21 +33,13 @@ abstract public class Action: MonoBehaviour
     /// <returns>returns a new target if the behaviour changes the target. Null if not</returns>
     abstract public GameObject PerformAction(GameObject creature, GameObject target);
 
-    public void Update()
-    {
-        //cut action off after 1 minute
-        timer += Time.deltaTime;
-        if (timer > 60)
-        {
-            failed = true;
-        }
-    }
     public virtual void Reset()
     {
+        //source = new CancellationTokenSource();
+        token = source.Token;
+
         finished = false;
         failed = false;
-
-        timer = 0;
     }
 
     /// <summary>
@@ -66,6 +66,27 @@ abstract public class Action: MonoBehaviour
         return (targetsReached >= requirements.Length);
     }
 
-    abstract protected IEnumerator CheckFinish();
+    /// <summary>
+    /// If the action takes more than 50 percent longer than it's supposed to, assume it has failed
+    /// </summary>
+    protected virtual async void FailCheck(CancellationToken cancelToken)
+    {
+        try
+        {
+            await Task.Delay((int)((actionDuration * 1.5f) * 1000), cancelToken);
+            failed = true;
+        } catch (TaskCanceledException e)
+        {
+        }
+    }
 
+    protected virtual async void DoAction(GameObject target = null)
+    {
+        // standard end of DoAction method, set to finished and cancel the failcheck if not failed already
+        if (!failed)
+        {
+            finished = true;
+            source.Cancel();
+        }
+    }
 }
