@@ -10,6 +10,7 @@ namespace BoidSystem
         [SerializeField] private ushort flockingPercentile = 100;
         [SerializeField] private ushort velocityMatchPercentile = 8;
         [SerializeField] private ushort avoidDistance = 20;
+        [SerializeField] private ushort avoidancePercentile = 5;
         [SerializeField] private ushort destinationSeekingPercentile = 10;
         [SerializeField] private ushort steeringInfluence = 2;
 
@@ -112,7 +113,7 @@ namespace BoidSystem
                     }
                 }
             }
-            return avoidance;
+            return avoidance / avoidancePercentile;
         }
 
         private Vector3 MatchVelocity(Boid boid)

@@ -642,17 +642,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boidGroupName: CheeseBirds
-  flockingPercentile: 20
+  flockingPercentile: 40
   velocityMatchPercentile: 10
   avoidDistance: 5
+  avoidancePercentile: 5
   destinationSeekingPercentile: 10
   steeringInfluence: 2
-  maximumSpeed: 12
+  maximumSpeed: 20
   boidAmount: 10
   boidPrefab: {fileID: 5802392399673129542, guid: cd05ad2fa005ba442837b4ff861aa73c,
     type: 3}
-  customDestination: {fileID: 1116277082}
-  steerObject: {fileID: 841782862}
+  customDestination: {fileID: 0}
+  steerObject: {fileID: 0}
 --- !u!4 &1418374595
 Transform:
   m_ObjectHideFlags: 0
