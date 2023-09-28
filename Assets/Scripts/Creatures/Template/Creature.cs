@@ -15,7 +15,10 @@ public class Creature : MonoBehaviour
     [SerializeField] private CreatureState currentCreatureState;
     [SerializeField] private CreatureState changesEverySecond;
     [SerializeField] private List<Action> currentPlan;
-    
+
+    [Header("Creature Stats")]
+    [SerializeField] private float hearingSensitivity = 1;
+
     private Goal currentGoal;
     private Action currentAction;
     private GameObject currentTarget = null;
@@ -67,6 +70,17 @@ public class Creature : MonoBehaviour
                 currentCreatureState.AddValue(change.StateValue * Time.deltaTime, change.MoodType);
             else if (change.Operator == StateOperant.Subtract)
                 currentCreatureState.AddValue(-change.StateValue * Time.deltaTime, change.MoodType);
+        }
+    }
+
+    public void ReactToPlayer(Vector3 playerPos, float playerLoudness)
+    {
+        if ((transform.position - playerPos).sqrMagnitude < playerLoudness*hearingSensitivity)
+        {
+            if (logDebugs)
+            {
+                Debug.Log("Noticed Player");
+            } 
         }
     }
 
