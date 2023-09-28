@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private UnityEvent onCameraOpened;
     [SerializeField] private UnityEvent onCameraClosed;
 
+    [SerializeField] private Camera pictureCamera;
+
     private float verticalRotation;
 
     private Vector2 rotationInput;
@@ -53,6 +55,7 @@ public class PlayerController : MonoBehaviour
     {
         stateMachine.OnFixedUpdate();
         firstPersonCamera.transform.rotation = Quaternion.Euler(new Vector3(verticalRotation, transform.eulerAngles.y, 0));
+        pictureCamera.transform.rotation = Quaternion.Euler(new Vector3(verticalRotation, transform.eulerAngles.y, 0));
     }
 
     public void SwapToCamera(InputAction.CallbackContext callbackContext)
