@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -6,10 +5,11 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float mouseSensitivity = 0.1f;
     [SerializeField] private float maximumViewAngle = 70f;
     [SerializeField] private float interactionDistance = 2f;
     [SerializeField] private float interactionRadius = 1.25f;
+
+    [SerializeField] private GameSettings gameSettings;
 
     [SerializeField] private LayerMask interactionLayers;
 
@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private UnityEvent onCameraClosed;
 
     private float verticalRotation;
+
+    private Vector2 rotationInput;
 
     private FiniteStateMachine stateMachine;
 
@@ -44,6 +46,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         stateMachine.OnUpdate();
+        HandleRotation(rotationInput);
     }
 
     private void FixedUpdate()
@@ -86,7 +89,7 @@ public class PlayerController : MonoBehaviour
 
     public void GetRotationInput(InputAction.CallbackContext callbackContext)
     {
-        HandleRotation(callbackContext.ReadValue<Vector2>());
+        rotationInput = callbackContext.ReadValue<Vector2>();
     }
 
     public void GetOpenScrapbookInput(InputAction.CallbackContext callbackContext)
@@ -100,8 +103,8 @@ public class PlayerController : MonoBehaviour
 
     private void HandleRotation(Vector2 lookInput)
     { 
-        verticalRotation = Mathf.Clamp(verticalRotation - (lookInput.y * mouseSensitivity), -maximumViewAngle, maximumViewAngle);
-        transform.Rotate(new Vector3(0, lookInput.x * mouseSensitivity, 0));
+        verticalRotation = Mathf.Clamp(verticalRotation - (lookInput.y * gameSettings.LookSensitivity), -maximumViewAngle, maximumViewAngle);
+        transform.Rotate(new Vector3(0, lookInput.x * gameSettings.LookSensitivity, 0));
     }
 
     private void OnDrawGizmos()

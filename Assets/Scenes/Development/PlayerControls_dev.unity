@@ -1540,6 +1540,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1310373100559079287}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1882385866 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8723811626375387891, guid: 66426cf5097a71540a340409520fad9b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1310373100559079287}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 507fb507dc1ce2845aeaa98c4c95df92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1310373100559079287
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1556,6 +1568,11 @@ PrefabInstance:
         type: 3}
       propertyPath: sprintSpeed
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4733703374740454852, guid: 66426cf5097a71540a340409520fad9b,
+        type: 3}
+      propertyPath: playerLayer.m_Bits
+      value: 64
       objectReference: {fileID: 0}
     - target: {fileID: 5926066154527639816, guid: 66426cf5097a71540a340409520fad9b,
         type: 3}
@@ -1645,7 +1662,7 @@ PrefabInstance:
     - target: {fileID: 7807978120469739686, guid: 66426cf5097a71540a340409520fad9b,
         type: 3}
       propertyPath: m_ActionEvents.Array.size
-      value: 15
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 7807978120469739686, guid: 66426cf5097a71540a340409520fad9b,
         type: 3}
@@ -1956,6 +1973,11 @@ PrefabInstance:
         type: 3}
       propertyPath: aerialSpeed
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8802313589631307658, guid: 66426cf5097a71540a340409520fad9b,
+        type: 3}
+      propertyPath: playerLayer.m_Bits
+      value: 64
       objectReference: {fileID: 0}
     - target: {fileID: 8802313589631307658, guid: 66426cf5097a71540a340409520fad9b,
         type: 3}

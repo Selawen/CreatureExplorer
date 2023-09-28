@@ -12,7 +12,7 @@ public class FallingState : State
     [SerializeField] private float aerialSpeed = 4f;
     [SerializeField] private float maxHorizontalVelocity = 5f;
 
-    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private LayerMask playerLayer;
 
     [SerializeField] private UnityEvent onLethalLanding;
 
@@ -27,7 +27,7 @@ public class FallingState : State
 
     public override void OnStateUpdate()
     {
-        if(Physics.CheckSphere(transform.position, 0.25f, groundLayer))
+        if(Physics.CheckSphere(transform.position, 0.25f, ~playerLayer))
         {
             if(rigidbody.velocity.y <= -lethalVelocity)
             {

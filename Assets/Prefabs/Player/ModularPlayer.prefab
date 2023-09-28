@@ -260,10 +260,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 507fb507dc1ce2845aeaa98c4c95df92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseSensitivity: 0.1
   maximumViewAngle: 55
   interactionDistance: 2
   interactionRadius: 1.25
+  gameSettings: {fileID: 11400000, guid: 0e36501920850ee48a198c6521c2d486, type: 2}
   interactionLayers:
     serializedVersion: 2
     m_Bits: 55
@@ -284,9 +284,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 5
   sprintSpeed: 10
-  groundLayer:
+  playerLayer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 64
 --- !u!114 &5220420252872243190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -317,9 +317,9 @@ MonoBehaviour:
   jumpForce: 5
   aerialSpeed: 10
   maxHorizontalVelocity: 12
-  groundLayer:
+  playerLayer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 64
 --- !u!114 &5926066154527639816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -337,9 +337,9 @@ MonoBehaviour:
   lethalVelocity: 20
   aerialSpeed: 10
   maxHorizontalVelocity: 12
-  groundLayer:
+  playerLayer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 64
   onLethalLanding:
     m_PersistentCalls:
       m_Calls: []
