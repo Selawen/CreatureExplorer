@@ -64,11 +64,6 @@ public class WalkingState : State
             newVelocity.y = verticalVelocity;
 
             rigidbody.velocity = newVelocity;
-
-            return;
         }
-        rigidbody.velocity = rigidbody.velocity.y * Vector3.up;
-
     }
-
 }
