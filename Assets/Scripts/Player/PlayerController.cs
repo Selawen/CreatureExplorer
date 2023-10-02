@@ -101,6 +101,7 @@ public class PlayerController : MonoBehaviour
         {
             playerInput.SwitchCurrentActionMap("Scrapbook");
             onScrapbookOpened?.Invoke();
+            Cursor.lockState = CursorLockMode.None;
         }
     }
 

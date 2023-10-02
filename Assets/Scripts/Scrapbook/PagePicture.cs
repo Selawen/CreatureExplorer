@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class PagePicture : MoveablePageComponent
 {
+    public PictureInfo PictureInfo { get; private set; }
+
     [SerializeField] private Image pictureGraphic;
 
     private bool placedOnPage;
@@ -29,6 +31,11 @@ public class PagePicture : MoveablePageComponent
     public void SetPicture(Sprite pictureSprite)
     {
         pictureGraphic.sprite = pictureSprite;
+    }
+
+    public void LinkPictureInformation(PictureInfo information)
+    {
+        PictureInfo = information;
     }
 
     private void SelectForPlacement()

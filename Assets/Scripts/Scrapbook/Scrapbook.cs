@@ -7,6 +7,7 @@ public class Scrapbook : MonoBehaviour
 {
     public static Scrapbook Instance { get; private set; }
     public ScrapbookPage CurrentPage { get { return allPages[currentPageIndex]; } }
+    public bool CollectionIsFull { get { return collectedPictures.InventoryIsFull(); } }
 
     [SerializeField] private int scrapbookPageCount = 6;
     [SerializeField] private ushort maximumUnplacedPictureCount = 10;
