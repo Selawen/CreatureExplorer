@@ -5,6 +5,11 @@ using TMPro;
 [RequireComponent(typeof(Planner))]
 public class Creature : MonoBehaviour
 {
+    [Header("Creature Stats")]
+    // protected and public are swapped because header hates public fields
+    [SerializeField] protected float hearingSensitivity = 1;
+    public Vector3 waryOff { get; protected set; }
+
     [Header("Debugging")]
     [SerializeField] private bool showThoughts;
     [SerializeField] private bool logDebugs;
@@ -14,10 +19,9 @@ public class Creature : MonoBehaviour
     [Header("GOAP")]
     [SerializeField] private CreatureState currentCreatureState;
     [SerializeField] private CreatureState changesEverySecond;
+    [SerializeField] private CreatureState reactionToPlayer;
     [SerializeField] private List<Action> currentPlan;
 
-    [Header("Creature Stats")]
-    [SerializeField] private float hearingSensitivity = 1;
 
     private Goal currentGoal;
     private Action currentAction;
@@ -72,16 +76,33 @@ public class Creature : MonoBehaviour
                 currentCreatureState.AddValue(-change.StateValue * Time.deltaTime, change.MoodType);
         }
     }
-
-    public void ReactToPlayer(Vector3 playerPos, float playerLoudness)
+    protected void UpdateValues(CreatureState updateWith)
     {
-        if ((transform.position - playerPos).sqrMagnitude < playerLoudness*hearingSensitivity)
+        // Update creatureState with effects of finished action
+        foreach (MoodState change in updateWith.CreatureStates)
         {
-            if (logDebugs)
-            {
-                Debug.Log("Noticed Player");
-            } 
+            if (change.Operator == StateOperant.Set)
+                currentCreatureState.SetValue(change.StateValue, change.MoodType);
+            else if (change.Operator == StateOperant.Add)
+                currentCreatureState.AddValue(change.StateValue * Time.deltaTime, change.MoodType);
+            else if (change.Operator == StateOperant.Subtract)
+                currentCreatureState.AddValue(-change.StateValue * Time.deltaTime, change.MoodType);
         }
+    }
+
+    public void HearPlayer(Vector3 playerPos, float playerLoudness)
+    {
+        if ((transform.position - playerPos).sqrMagnitude < playerLoudness * hearingSensitivity)
+            ReactToPlayer(playerPos);
+    }
+
+    protected virtual void ReactToPlayer(Vector3 playerPos)
+    {
+        UpdateValues(reactionToPlayer);
+        if (logDebugs)
+        {
+            Debug.Log("Noticed Player");
+        } 
     }
 
     private void StartAction()

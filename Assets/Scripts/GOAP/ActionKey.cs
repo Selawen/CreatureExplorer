@@ -44,6 +44,7 @@ public enum Effect
     IsAnnoyed,
     SeesFood,
     IsNearFood,
-    SeesTree
+    SeesTree,
+    IsNearDanger
 }
 

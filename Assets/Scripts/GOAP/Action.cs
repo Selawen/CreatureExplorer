@@ -25,6 +25,12 @@ abstract public class Action: MonoBehaviour
         token = source.Token;
     }
 
+    private void OnDisable()
+    {
+        source.Cancel();
+        source.Dispose();
+    }
+
     /// <summary>
     /// called to perform the behaviour associated witn an action
     /// </summary>
@@ -80,6 +86,7 @@ abstract public class Action: MonoBehaviour
         }
     }
 
+    // TODO: make sure this action stops if playmode is stopped
     protected virtual async void DoAction(GameObject target = null)
     {
         // standard end of DoAction method, set to finished and cancel the failcheck if not failed already
