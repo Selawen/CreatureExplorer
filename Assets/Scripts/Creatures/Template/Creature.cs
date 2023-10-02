@@ -17,6 +17,7 @@ public class Creature : MonoBehaviour
     [SerializeField] private TextMeshProUGUI actionText;
 
     [Header("GOAP")]
+    [SerializeField] private Effect worldState;
     [SerializeField] private CreatureState currentCreatureState;
     [SerializeField] private CreatureState changesEverySecond;
     [SerializeField] private CreatureState reactionToPlayer;
@@ -67,6 +68,8 @@ public class Creature : MonoBehaviour
 
     private void UpdateValues()
     {
+        // TODO: have the creature's worldState update depending on mood
+
         // Update creatureState with effects of finished action
         foreach (MoodState change in changesEverySecond.CreatureStates)
         {
@@ -154,7 +157,7 @@ public class Creature : MonoBehaviour
     private void GenerateNewGoal()
     {
         currentGoal = planner.GenerateGoal(currentCreatureState);
-        currentPlan = planner.Plan(currentGoal, currentCreatureState);
+        currentPlan = planner.Plan(currentGoal, currentCreatureState, worldState);
 
         currentTarget = null;
 

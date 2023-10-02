@@ -36,15 +36,16 @@ public class ActionKey
     public static bool operator !=(ActionKey a, ActionKey b) => !(a == b);
 }
 
+[Flags]
 public enum Effect
 {
-    IsHungry,
-    IsSleepy,
-    IsFrightened,
-    IsAnnoyed,
-    SeesFood,
-    IsNearFood,
-    SeesTree,
-    IsNearDanger
+    IsHungry = 1 << 0,
+    IsSleepy = 1 << 1,
+    IsFrightened = 1 << 2,
+    IsAnnoyed = 1 << 3,
+    SeesFood = 1 << 4,
+    IsNearFood = 1 << 5,
+    SeesTree = 1 << 6,
+    IsNearDanger = 1 << 7
 }
 

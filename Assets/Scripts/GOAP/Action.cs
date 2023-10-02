@@ -71,6 +71,41 @@ abstract public class Action: MonoBehaviour
 
         return (targetsReached >= requirements.Length);
     }
+    /// <summary>
+    /// does this action meet the requirements given
+    /// </summary>
+    /// <param name="requirements">the requirements to satisfy</param>
+    /// <returns></returns>
+    public bool SatisfiesRequirements(ActionKey[] requirements, Effect currentState)
+    {
+        Effect actionEffect = currentState;
+        int targetsReached = 0;
+
+        for (int x = 0; x < this.ActionEffects.Length; x++)
+        {
+            // if the statevalue is true set corresponding worldstate bit to 1, if not set it to 0
+            if (this.ActionEffects[x].StateValue)
+            {
+                actionEffect |= this.ActionEffects[x].EffectType;
+            }
+            else
+            {
+                actionEffect &= ~this.ActionEffects[x].EffectType;
+            }
+        }
+
+        foreach (ActionKey target in requirements)
+        {
+            // if the targetvalue is already as required in the worldstate, skip checking the 
+            if ((target.StateValue && actionEffect.HasFlag(target.EffectType))||(!target.StateValue && !actionEffect.HasFlag(target.EffectType)))
+            {
+                targetsReached++;
+                continue;
+            }
+        }
+
+        return (targetsReached >= requirements.Length);
+    }
 
     /// <summary>
     /// If the action takes more than 50 percent longer than it's supposed to, assume it has failed

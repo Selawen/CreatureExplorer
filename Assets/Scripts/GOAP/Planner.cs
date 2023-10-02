@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -85,21 +86,23 @@ public class Planner : MonoBehaviour
         // TODO: actually generate diffferent goal if prioritised mood doesn't have any goals, instead of randomly choosing one
         if (goalChoices.Count < 1)
         {
-            Goal randomGoal = possibleGoals[Random.Range(0, possibleGoals.Length)];
+            Goal randomGoal = possibleGoals[UnityEngine.Random.Range(0, possibleGoals.Length)];
             return randomGoal;
         }
 
-        return goalChoices[Random.Range(0, goalChoices.Count)];
+        return goalChoices[UnityEngine.Random.Range(0, goalChoices.Count)];
     }
 
-    public List<Action> Plan(Goal goal, CreatureState currentState)
+    public List<Action> Plan(Goal goal, CreatureState currentStats, Effect worldState)
     {
         // TODO: figureout way for this to not be necessairy
-        CreatureState planState = new CreatureState();
-        foreach (MoodState mood in planState.CreatureStates)
+        CreatureState planStats = new CreatureState();
+        foreach (MoodState mood in planStats.CreatureStates)
         {
-            mood.SetValue(currentState.Find(mood.MoodType).StateValue);
+            mood.SetValue(currentStats.Find(mood.MoodType).StateValue);
         }
+
+        Effect planWorldState = worldState;
 
         List<Action> plan = new List<Action>();
 
@@ -120,7 +123,7 @@ public class Planner : MonoBehaviour
 
         foreach (Action a in possibleActions)
         {
-            if (a.GoalEffects.SatisfiesRequirements(goalPrerequisites, planState))
+            if (a.GoalEffects.SatisfiesRequirements(goalPrerequisites, planStats))
             {
                 viableActions.Add(a);
             }
@@ -128,7 +131,7 @@ public class Planner : MonoBehaviour
 
         if (viableActions.Count > 1)
         {
-            chosenAction = viableActions[Random.Range(0, viableActions.Count)];
+            chosenAction = viableActions[UnityEngine.Random.Range(0, viableActions.Count)];
             plan.Add(chosenAction);
 
             currentActionPrerequisites = chosenAction.Prerequisites;
@@ -161,24 +164,60 @@ public class Planner : MonoBehaviour
 
             foreach (Action a in possibleActions)
             {
-                if (a.SatisfiesRequirements(currentActionPrerequisites))
+                if (a.SatisfiesRequirements(currentActionPrerequisites, planWorldState))
                 {
                     viableActions.Add(a);
+
                 }
             }
 
+            // TODO: refactor
             if (viableActions.Count > 1)
             {
-                chosenAction = viableActions[Random.Range(0, viableActions.Count)];
+                chosenAction = viableActions[UnityEngine.Random.Range(0, viableActions.Count)];
                 plan.Add(chosenAction);
+
+                for (int x = 0; x < chosenAction.ActionEffects.Length; x++)
+                {
+                    // if the statevalue is true set corresponding worldstate bit to 1, if not set it to 0
+                    if (chosenAction.ActionEffects[x].StateValue)
+                    {
+                        planWorldState |= chosenAction.ActionEffects[x].EffectType;
+                    }
+                    else
+                    {
+                        planWorldState &= ~chosenAction.ActionEffects[x].EffectType;
+                    }
+                }
 
                 currentActionPrerequisites = chosenAction.Prerequisites;
             }
             else
             {
-                plan.Add(viableActions[0]);
+                try
+                {
+                    plan.Add(viableActions[0]);
 
-                currentActionPrerequisites = viableActions[0].Prerequisites;
+                    for (int x = 0; x < viableActions[0].ActionEffects.Length; x++)
+                    {
+                        // if the statevalue is true set corresponding worldstate bit to 1, if not set it to 0
+                        if (viableActions[0].ActionEffects[x].StateValue)
+                        {
+                            planWorldState |= viableActions[0].ActionEffects[x].EffectType;
+                        }
+                        else
+                        {
+                            planWorldState &= ~viableActions[0].ActionEffects[x].EffectType;
+                        }
+                    }
+
+                    currentActionPrerequisites = viableActions[0].Prerequisites;
+                } catch (Exception e)
+                {
+                    plan.Clear();
+                    plan.Add(defaultAction);
+                    return plan;
+                }
             }
 
         } 

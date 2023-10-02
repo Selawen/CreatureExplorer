@@ -701,10 +701,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 879ce6e2a3de90649b4fe65100d98580, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hearingSensitivity: 1
   showThoughts: 1
   logDebugs: 0
   goalText: {fileID: 530009448259105565}
   actionText: {fileID: 530009446309208750}
+  worldState: 9
   currentCreatureState:
     <CreatureStates>k__BackingField:
     - <MoodType>k__BackingField: 0
@@ -742,7 +744,6 @@ MonoBehaviour:
       <Operator>k__BackingField: 3
       <StateValue>k__BackingField: 2
   currentPlan: []
-  hearingSensitivity: 1
 --- !u!114 &530009448259105565 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7210352519244847641, guid: c4d537d1eccf6d84da8c18f49b4831be,
