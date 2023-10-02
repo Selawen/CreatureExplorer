@@ -17,7 +17,10 @@ public abstract class MoveablePageComponent : MonoBehaviour, IDragHandler, IBegi
     private void Awake()
     { 
         _componentTransform = GetComponent<RectTransform>();
-        _parentTransform = _componentTransform.parent.GetComponent<RectTransform>();
+        if(_componentTransform.parent != null)
+        {
+            _parentTransform = _componentTransform.parent.GetComponent<RectTransform>();
+        }
 
         _componentGraphic = GetComponent<Image>();
     }
