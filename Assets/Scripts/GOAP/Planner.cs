@@ -16,6 +16,17 @@ public class Planner : MonoBehaviour
         possibleActions = GetComponentsInChildren<Action>();
     }
 
+    public bool GeneratePlan(CreatureState currentState, Effect worldState, out Goal goal, out List<Action> plan)
+    {
+
+        do
+        {
+            goal = GenerateGoal(currentState);
+        } while (Plan(goal, currentState, worldState, out plan));
+
+        return true;
+    }
+
     public Goal GenerateGoal(CreatureState currentState)
     {
         CreatureState planState = currentState;
