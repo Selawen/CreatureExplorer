@@ -144,6 +144,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2087896794633566168}
   - component: {fileID: 2087896794633566175}
+  - component: {fileID: 8640943402844139059}
   m_Layer: 5
   m_Name: Scrapbook
   m_TagString: Untagged
@@ -183,6 +184,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2087896794633566169}
   m_CullTransparentMesh: 1
+--- !u!114 &8640943402844139059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2087896794633566169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16bc3559ebc27fa418bc92234ca877c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scrapbookPageCount: 6
+  maximumUnplacedPictureCount: 10
+  pagesParent: {fileID: 2087896795719615363}
+  picturePanel: {fileID: 2087896795935162477}
+  scrapbookPagePrefab: {fileID: 5136323729310042846, guid: 975e8437b7c6e934a9bf031dd1008050,
+    type: 3}
+  textEntryPrefab: {fileID: 5805013474910249602, guid: 38fccf206a6782341ad3f98472978233,
+    type: 3}
 --- !u!1 &2087896794642423447
 GameObject:
   m_ObjectHideFlags: 0

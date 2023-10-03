@@ -340,6 +340,7 @@ GameObject:
   - component: {fileID: 7807978120469739683}
   - component: {fileID: 7807978120469739686}
   - component: {fileID: 8723811626375387891}
+  - component: {fileID: 1310373100559079289}
   - component: {fileID: 4733703374740454852}
   - component: {fileID: 5220420252872243190}
   - component: {fileID: 8802313589631307658}
@@ -348,7 +349,6 @@ GameObject:
   - component: {fileID: 4853092522908900813}
   - component: {fileID: 7807978120469739685}
   - component: {fileID: 7807978120469739687}
-  - component: {fileID: 1310373100559079289}
   m_Layer: 6
   m_Name: ModularPlayer
   m_TagString: Untagged
@@ -725,6 +725,27 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   pictureCamera: {fileID: 8039731687057702383}
+--- !u!114 &1310373100559079289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7807978120469739682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e04e4d031a7ff6a4fb020ec8b3fb81fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pictureCamera: {fileID: 8039731687057702383}
+  picturePrefab: {fileID: 1099497629079080459, guid: 62a69665ffa767549a3ee2178569ccc7,
+    type: 3}
+  boxSize: 5
+  maximumScanDistance: 20
+  ignoredPhotoLayers:
+    serializedVersion: 2
+    m_Bits: 100
+  photoAccuracy: 10
 --- !u!114 &4733703374740454852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -814,8 +835,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hurtTime: 5
   hurtMoveSpeed: 2.5
+  vignetteStrength: 0.3
   sharedPlayerSource: {fileID: 5861372465537932847}
   hurtSound: {fileID: 8300000, guid: 6d8140b87acd220499955e8ee610ae7c, type: 3}
+  volume: {fileID: 0}
 --- !u!114 &4853092522908900813
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -830,9 +853,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   crippleTime: 10
   crippleMoveSpeed: 1.5
+  vignetteStrength: 0.5
   sharedPlayerSource: {fileID: 5861372465537932847}
   painSound: {fileID: 8300000, guid: 6235c4b569fe9b448a6361810f53627f, type: 3}
   boneCrackSound: {fileID: 8300000, guid: 019a61ec6cd40b548b5f5e0c3879c577, type: 3}
+  volume: {fileID: 0}
 --- !u!54 &7807978120469739685
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -863,24 +888,3 @@ CapsuleCollider:
   m_Height: 1.9
   m_Direction: 1
   m_Center: {x: 0, y: 0.95, z: 0}
---- !u!114 &1310373100559079289
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7807978120469739682}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e04e4d031a7ff6a4fb020ec8b3fb81fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pictureCamera: {fileID: 8039731687057702383}
-  picturePrefab: {fileID: 1099497629079080459, guid: 62a69665ffa767549a3ee2178569ccc7,
-    type: 3}
-  boxSize: 5
-  maximumScanDistance: 20
-  ignoredPhotoLayers:
-    serializedVersion: 2
-    m_Bits: 100
-  photoAccuracy: 10

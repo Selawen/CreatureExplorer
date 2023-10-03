@@ -72,7 +72,7 @@ public class Scrapbook : MonoBehaviour
         return false;
         // To do: send out a message that the scrapbook's picture storage is full.
     }
-
+    
     public void CreateNewTextEntry()
     {
         Instantiate(textEntryPrefab, CurrentPage.transform);

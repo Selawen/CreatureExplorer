@@ -8,11 +8,9 @@ using UnityEngine.UI;
 public class PlayerCamera : MonoBehaviour
 {
     [SerializeField] private Camera pictureCamera;
-    //[SerializeField] private Image testImage;
 
     [SerializeField] private PagePicture picturePrefab;
 
-    [SerializeField] private float boxSize = 5f;
     [SerializeField] private float maximumScanDistance = 20f;
     [SerializeField] private LayerMask ignoredPhotoLayers;
 
@@ -49,7 +47,6 @@ public class PlayerCamera : MonoBehaviour
         RenderTexture.active = screenTexture;
         pictureCamera.Render();
 
-        // To do: Link this picture info to the picture data of a scrapbook picture.
         PictureInfo pictureInfo = new PictureInfo(AnalyzeSubjects(), transform.position);
 
         Texture2D renderedTexture = new Texture2D(Screen.height, Screen.height);
@@ -67,8 +64,6 @@ public class PlayerCamera : MonoBehaviour
         newPagePicture.SetPicture(spr);
         newPagePicture.LinkPictureInformation(pictureInfo);
         Scrapbook.Instance.AddPictureToCollection(newPagePicture);
-
-        //testImage.overrideSprite = spr;
 
         pictureCamera.gameObject.SetActive(false);
 
@@ -88,9 +83,9 @@ public class PlayerCamera : MonoBehaviour
         }
     }
 
-    private List<GameObject> AnalyzeSubjects()
+    private List<IIdentifiable> AnalyzeSubjects()
     {
-        List<GameObject> result = new();
+        List<IIdentifiable> result = new();
 
         float camStep = pictureCamera.pixelHeight / photoAccuracy;
         float xStart = (pictureCamera.pixelWidth - pictureCamera.pixelHeight) * 0.5f;
@@ -102,33 +97,16 @@ public class PlayerCamera : MonoBehaviour
                 Ray ray = pictureCamera.ScreenPointToRay(new Vector3(xStart + x * camStep, y * camStep));
                 if(Physics.Raycast(ray, out RaycastHit hit, maximumScanDistance, ~ignoredPhotoLayers))
                 {
-                    if (!result.Contains(hit.transform.gameObject))
+                    if (hit.transform.TryGetComponent(out IIdentifiable identifiable))
                     {
-                        result.Add(hit.transform.gameObject);
+                        if (!result.Contains(identifiable))
+                        {
+                            result.Add(identifiable);
+                        }
                     }
                 }
             }
         }
-
-
-        //RaycastHit[] hits = Physics.BoxCastAll(pictureCamera.transform.position, Vector3.one * 0.5f * boxSize, pictureCamera.transform.forward, pictureCamera.transform.rotation, maximumScanDistance, ~ignoredPhotoLayers);
-
-        //Plane[] planes = GeometryUtility.CalculateFrustumPlanes(pictureCamera);
-        //foreach(RaycastHit hit in hits)
-        //{
-        //    if (!GeometryUtility.TestPlanesAABB(planes, hit.collider.bounds))
-        //    {
-        //        continue;
-        //    }
-
-        //    if (Physics.Raycast(pictureCamera.transform.position, (hit.point - pictureCamera.transform.position).normalized, out RaycastHit testHit, maximumScanDistance, ~ignoredPhotoLayers))
-        //    {
-        //        if (testHit.transform == hit.transform)
-        //        {
-        //            result.Add(hit.transform.gameObject);
-        //        }
-        //    }
-        //}
         return result;
     }
 
