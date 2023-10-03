@@ -51,10 +51,6 @@ public class PlayerCamera : MonoBehaviour
 
         // To do: Link this picture info to the picture data of a scrapbook picture.
         PictureInfo pictureInfo = new PictureInfo(AnalyzeSubjects(), transform.position);
-        //foreach (GameObject g in pictureInfo.PictureObjects)
-        //{
-        //    Debug.Log("Found " + g.name + " in the picture!");
-        //}
 
         Texture2D renderedTexture = new Texture2D(Screen.height, Screen.height);
         renderedTexture.ReadPixels(new Rect(0, 0, Screen.height, Screen.height), 0, 0);
@@ -79,8 +75,6 @@ public class PlayerCamera : MonoBehaviour
     }
     private void OnDrawGizmos()
     {
-        //Gizmos.DrawWireCube(pictureCamera.transform.position + pictureCamera.transform.forward * 0.5f * boxSize, Vector3.one * boxSize);
-        //Gizmos.DrawWireMesh(m.sharedMesh, pictureCamera.transform.position + pictureCamera.transform.forward * 0.5f * boxSize, pictureCamera.transform.rotation, Vector3.one * boxSize);
         float camStep = pictureCamera.pixelHeight / photoAccuracy;
         float xStart = (pictureCamera.pixelWidth - pictureCamera.pixelHeight) * 0.5f;
 
@@ -90,7 +84,6 @@ public class PlayerCamera : MonoBehaviour
             {
                 Ray ray = pictureCamera.ScreenPointToRay(new Vector3(xStart + x * camStep, y * camStep));
                 Gizmos.DrawLine(ray.origin, ray.direction * maximumScanDistance);
-                //Gizmos.DrawRay(ray);
             }
         }
     }

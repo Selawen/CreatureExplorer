@@ -32,6 +32,10 @@ public class JumpingState : State
             Owner.SwitchState(typeof(FallingState));
             return;
         }
+        if(Physics.CheckSphere(transform.position, 0.25f, ~playerLayer))
+        {
+            Owner.SwitchState(typeof(WalkingState));
+        }
     }
 
     public override void OnStateFixedUpdate()
