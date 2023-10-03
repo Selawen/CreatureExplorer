@@ -71,6 +71,7 @@ abstract public class Action: MonoBehaviour
 
         return (targetsReached >= requirements.Length);
     }
+
     /// <summary>
     /// does this action meet the requirements given
     /// </summary>
@@ -96,7 +97,6 @@ abstract public class Action: MonoBehaviour
 
         foreach (ActionKey target in requirements)
         {
-            // if the targetvalue is already as required in the worldstate, skip checking the 
             if ((target.StateValue && actionEffect.HasFlag(target.EffectType))||(!target.StateValue && !actionEffect.HasFlag(target.EffectType)))
             {
                 targetsReached++;
@@ -105,6 +105,22 @@ abstract public class Action: MonoBehaviour
         }
 
         return (targetsReached >= requirements.Length);
+    }
+
+    public bool RequirementsSatisfied(Effect currentState)
+    {
+        int targetsReached = 0;
+
+        foreach (ActionKey target in Prerequisites)
+        {
+            if ((target.StateValue && currentState.HasFlag(target.EffectType)) || (!target.StateValue && !currentState.HasFlag(target.EffectType)))
+            {
+                targetsReached++;
+                continue;
+            }
+        }
+
+        return (targetsReached >= Prerequisites.Length);
     }
 
     /// <summary>

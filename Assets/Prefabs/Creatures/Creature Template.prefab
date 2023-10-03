@@ -644,10 +644,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e3a84701072da54d8079d63ac8029bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hearingSensitivity: 1
   showThoughts: 0
   logDebugs: 0
   goalText: {fileID: 7210352519244847641}
   actionText: {fileID: 7210352521194736554}
+  worldState: 0
   currentCreatureState:
     <CreatureStates>k__BackingField:
     - <MoodType>k__BackingField: 0
@@ -679,7 +681,7 @@ MonoBehaviour:
   reactionToPlayer:
     <CreatureStates>k__BackingField: []
   currentPlan: []
-  hearingSensitivity: 1
+  defaultGoal: {fileID: 11400000, guid: 5da59843664f7ac40b46f28d93efc212, type: 2}
 --- !u!1 &7210352520757950096
 GameObject:
   m_ObjectHideFlags: 0

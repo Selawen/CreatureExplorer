@@ -526,7 +526,7 @@ PrefabInstance:
     - target: {fileID: 7210352520341627486, guid: c4d537d1eccf6d84da8c18f49b4831be,
         type: 3}
       propertyPath: HungerPriority.m_Curve.Array.data[1].value
-      value: 0.8
+      value: 0.85
       objectReference: {fileID: 0}
     - target: {fileID: 7210352520341627486, guid: c4d537d1eccf6d84da8c18f49b4831be,
         type: 3}
@@ -546,7 +546,7 @@ PrefabInstance:
     - target: {fileID: 7210352520341627486, guid: c4d537d1eccf6d84da8c18f49b4831be,
         type: 3}
       propertyPath: TirednessPriority.m_Curve.Array.data[1].time
-      value: 0.7661756
+      value: 0.80059373
       objectReference: {fileID: 0}
     - target: {fileID: 7210352520341627486, guid: c4d537d1eccf6d84da8c18f49b4831be,
         type: 3}
@@ -571,7 +571,7 @@ PrefabInstance:
     - target: {fileID: 7210352520341627486, guid: c4d537d1eccf6d84da8c18f49b4831be,
         type: 3}
       propertyPath: TirednessPriority.m_Curve.Array.data[1].value
-      value: 0.6652262
+      value: 0.7123937
       objectReference: {fileID: 0}
     - target: {fileID: 7210352520341627486, guid: c4d537d1eccf6d84da8c18f49b4831be,
         type: 3}
@@ -591,7 +591,7 @@ PrefabInstance:
     - target: {fileID: 7210352520341627486, guid: c4d537d1eccf6d84da8c18f49b4831be,
         type: 3}
       propertyPath: TirednessPriority.m_Curve.Array.data[1].inSlope
-      value: 2.5415637
+      value: 0.41193464
       objectReference: {fileID: 0}
     - target: {fileID: 7210352520341627486, guid: c4d537d1eccf6d84da8c18f49b4831be,
         type: 3}
@@ -616,7 +616,7 @@ PrefabInstance:
     - target: {fileID: 7210352520341627486, guid: c4d537d1eccf6d84da8c18f49b4831be,
         type: 3}
       propertyPath: TirednessPriority.m_Curve.Array.data[1].outSlope
-      value: 2.5415637
+      value: 0.41193464
       objectReference: {fileID: 0}
     - target: {fileID: 7210352520341627486, guid: c4d537d1eccf6d84da8c18f49b4831be,
         type: 3}
@@ -626,7 +626,7 @@ PrefabInstance:
     - target: {fileID: 7210352520341627486, guid: c4d537d1eccf6d84da8c18f49b4831be,
         type: 3}
       propertyPath: TirednessPriority.m_Curve.Array.data[1].outWeight
-      value: 0.1942422
+      value: 0.38299647
       objectReference: {fileID: 0}
     - target: {fileID: 7210352520341627487, guid: c4d537d1eccf6d84da8c18f49b4831be,
         type: 3}
@@ -706,7 +706,7 @@ MonoBehaviour:
   logDebugs: 0
   goalText: {fileID: 530009448259105565}
   actionText: {fileID: 530009446309208750}
-  worldState: 9
+  worldState: 8
   currentCreatureState:
     <CreatureStates>k__BackingField:
     - <MoodType>k__BackingField: 0
@@ -735,6 +735,9 @@ MonoBehaviour:
     - <MoodType>k__BackingField: 3
       <Operator>k__BackingField: 3
       <StateValue>k__BackingField: 0.5
+    - <MoodType>k__BackingField: 2
+      <Operator>k__BackingField: 4
+      <StateValue>k__BackingField: 0.3
   reactionToPlayer:
     <CreatureStates>k__BackingField:
     - <MoodType>k__BackingField: 0
@@ -742,8 +745,9 @@ MonoBehaviour:
       <StateValue>k__BackingField: 2
     - <MoodType>k__BackingField: 2
       <Operator>k__BackingField: 3
-      <StateValue>k__BackingField: 2
+      <StateValue>k__BackingField: 20
   currentPlan: []
+  defaultGoal: {fileID: 11400000, guid: 5da59843664f7ac40b46f28d93efc212, type: 2}
 --- !u!114 &530009448259105565 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7210352519244847641, guid: c4d537d1eccf6d84da8c18f49b4831be,

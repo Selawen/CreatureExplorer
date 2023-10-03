@@ -17,12 +17,13 @@ public class Creature : MonoBehaviour
     [SerializeField] private TextMeshProUGUI actionText;
 
     [Header("GOAP")]
-    [SerializeField] private Effect worldState;
+    [SerializeField] protected Effect worldState;
     [SerializeField] private CreatureState currentCreatureState;
     [SerializeField] private CreatureState changesEverySecond;
     [SerializeField] private CreatureState reactionToPlayer;
     [SerializeField] private List<Action> currentPlan;
 
+    [SerializeField] private Goal defaultGoal;
 
     private Goal currentGoal;
     private Action currentAction;
@@ -65,49 +66,6 @@ public class Creature : MonoBehaviour
             FinishAction();
         }       
     }
-
-    private void UpdateValues()
-    {
-        // TODO: have the creature's worldState update depending on mood
-
-        // Update creatureState with effects of finished action
-        foreach (MoodState change in changesEverySecond.CreatureStates)
-        {
-            if (change.Operator == StateOperant.Add)
-                currentCreatureState.AddValue(change.StateValue * Time.deltaTime, change.MoodType);
-            else if (change.Operator == StateOperant.Subtract)
-                currentCreatureState.AddValue(-change.StateValue * Time.deltaTime, change.MoodType);
-        }
-    }
-    protected void UpdateValues(CreatureState updateWith)
-    {
-        // Update creatureState with effects of finished action
-        foreach (MoodState change in updateWith.CreatureStates)
-        {
-            if (change.Operator == StateOperant.Set)
-                currentCreatureState.SetValue(change.StateValue, change.MoodType);
-            else if (change.Operator == StateOperant.Add)
-                currentCreatureState.AddValue(change.StateValue * Time.deltaTime, change.MoodType);
-            else if (change.Operator == StateOperant.Subtract)
-                currentCreatureState.AddValue(-change.StateValue * Time.deltaTime, change.MoodType);
-        }
-    }
-
-    public void HearPlayer(Vector3 playerPos, float playerLoudness)
-    {
-        if ((transform.position - playerPos).sqrMagnitude < playerLoudness * hearingSensitivity)
-            ReactToPlayer(playerPos);
-    }
-
-    protected virtual void ReactToPlayer(Vector3 playerPos)
-    {
-        UpdateValues(reactionToPlayer);
-        if (logDebugs)
-        {
-            Debug.Log("Noticed Player");
-        } 
-    }
-
     private void StartAction()
     {
         currentAction = currentPlan[0];
@@ -157,7 +115,11 @@ public class Creature : MonoBehaviour
     private void GenerateNewGoal()
     {
         currentGoal = planner.GenerateGoal(currentCreatureState);
-        currentPlan = planner.Plan(currentGoal, currentCreatureState, worldState);
+
+        if (!planner.Plan(currentGoal, currentCreatureState, worldState, out currentPlan))
+        {
+            currentGoal = defaultGoal;
+        }
 
         currentTarget = null;
 
@@ -173,4 +135,94 @@ public class Creature : MonoBehaviour
             goalText.text = currentGoal.Name;
         }
     }
+
+    private void UpdateValues()
+    {
+        // Update creatureState with effects of finished action
+        foreach (MoodState change in changesEverySecond.CreatureStates)
+        {
+            if (change.Operator == StateOperant.Add)
+                currentCreatureState.AddValue(change.StateValue * Time.deltaTime, change.MoodType);
+            else if (change.Operator == StateOperant.Subtract)
+                currentCreatureState.AddValue(-change.StateValue * Time.deltaTime, change.MoodType);
+        }
+
+        UpdateCreatureState();
+    }
+
+    protected void UpdateValues(CreatureState updateWith)
+    {
+        // Update creatureState with effects of finished action
+        foreach (MoodState change in updateWith.CreatureStates)
+        {
+            if (change.Operator == StateOperant.Set)
+                currentCreatureState.SetValue(change.StateValue, change.MoodType);
+            else if (change.Operator == StateOperant.Add)
+                currentCreatureState.AddValue(change.StateValue * Time.deltaTime, change.MoodType);
+            else if (change.Operator == StateOperant.Subtract)
+                currentCreatureState.AddValue(-change.StateValue * Time.deltaTime, change.MoodType);
+        }
+
+        UpdateCreatureState();
+    }
+
+    private void UpdateCreatureState()
+    {
+        // TODO: refactor
+        if (currentCreatureState.Find(StateType.Hunger).StateValue > 50)
+        {
+            worldState |= Effect.IsHungry;
+        }
+        else
+        {
+            worldState &= ~Effect.IsHungry;
+        }
+
+        if (currentCreatureState.Find(StateType.Tiredness).StateValue > 50)
+        {
+            worldState |= Effect.IsSleepy;
+        }
+        else
+        {
+            worldState &= ~Effect.IsSleepy;
+        }
+
+        if (currentCreatureState.Find(StateType.Annoyance).StateValue > 50)
+        {
+            worldState |= Effect.IsAnnoyed;
+        }
+        else
+        {
+            worldState &= ~Effect.IsAnnoyed;
+        }
+
+        if (currentCreatureState.Find(StateType.Fear).StateValue > 50)
+        {
+            worldState |= Effect.IsFrightened;
+        }
+        else
+        {
+            worldState &= ~Effect.IsFrightened;
+        }
+    }
+
+    public void HearPlayer(Vector3 playerPos, float playerLoudness)
+    {
+        if ((transform.position - playerPos).sqrMagnitude < playerLoudness * hearingSensitivity)
+            ReactToPlayer(playerPos);
+        else
+        {
+            worldState &= ~Effect.IsNearDanger;
+        }
+    }
+
+    protected virtual void ReactToPlayer(Vector3 playerPos)
+    {
+        UpdateValues(reactionToPlayer);
+        if (logDebugs)
+        {
+            Debug.Log("Noticed Player");
+        } 
+    }
+
 }

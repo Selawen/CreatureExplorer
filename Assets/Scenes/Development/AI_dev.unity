@@ -6490,6 +6490,16 @@ PrefabInstance:
       propertyPath: HungerPriority.m_Curve.Array.data[0].value
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 530009447095143258, guid: e34132a6dc9d16d419298730646672cc,
+        type: 3}
+      propertyPath: TirednessPriority.m_Curve.Array.data[1].time
+      value: 0.80059373
+      objectReference: {fileID: 0}
+    - target: {fileID: 530009447095143258, guid: e34132a6dc9d16d419298730646672cc,
+        type: 3}
+      propertyPath: TirednessPriority.m_Curve.Array.data[1].value
+      value: 0.50720876
+      objectReference: {fileID: 0}
     - target: {fileID: 530009447095143259, guid: e34132a6dc9d16d419298730646672cc,
         type: 3}
       propertyPath: logDebugs
@@ -6583,7 +6593,7 @@ PrefabInstance:
     - target: {fileID: 1509665200547473177, guid: e34132a6dc9d16d419298730646672cc,
         type: 3}
       propertyPath: logDebugs
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1509665200547473177, guid: e34132a6dc9d16d419298730646672cc,
         type: 3}
@@ -6594,16 +6604,6 @@ PrefabInstance:
         type: 3}
       propertyPath: currentPlan.Array.size
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1509665200547473177, guid: e34132a6dc9d16d419298730646672cc,
-        type: 3}
-      propertyPath: reactionToPlayer.<CreatureStates>k__BackingField.Array.data[1].<Operator>k__BackingField
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1509665200547473177, guid: e34132a6dc9d16d419298730646672cc,
-        type: 3}
-      propertyPath: reactionToPlayer.<CreatureStates>k__BackingField.Array.data[1].<StateValue>k__BackingField
-      value: 55
       objectReference: {fileID: 0}
     - target: {fileID: 6793286122768968649, guid: e34132a6dc9d16d419298730646672cc,
         type: 3}

@@ -31,42 +31,42 @@ public class Planner : MonoBehaviour
                 case StateType.Annoyance:
                     if (AnnoyancePriority.Evaluate(state.StateValue/100) > highestPrio)
                     {
-                        highestPrio = AnnoyancePriority.Evaluate(state.StateValue);
+                        highestPrio = AnnoyancePriority.Evaluate(state.StateValue / 100);
                         prioMood = state.MoodType;
                     }
                     break;
                 case StateType.Fear:
                     if (FearPriority.Evaluate(state.StateValue/100) > highestPrio)
                     {
-                        highestPrio = FearPriority.Evaluate(state.StateValue);
+                        highestPrio = FearPriority.Evaluate(state.StateValue / 100);
                         prioMood = state.MoodType;
                     }
                     break;
                 case StateType.Hunger:
                     if (HungerPriority.Evaluate(state.StateValue/100) > highestPrio)
                     {
-                        highestPrio = HungerPriority.Evaluate(state.StateValue);
+                        highestPrio = HungerPriority.Evaluate(state.StateValue / 100);
                         prioMood = state.MoodType;
                     }
                     break;
                 case StateType.Tiredness:
                     if (TirednessPriority.Evaluate(state.StateValue/100) > highestPrio)
                     {
-                        highestPrio = TirednessPriority.Evaluate(state.StateValue);
+                        highestPrio = TirednessPriority.Evaluate(state.StateValue / 100);
                         prioMood = state.MoodType;
                     }
                     break;
                 case StateType.Happiness:
                     if (HappinessPriority.Evaluate(state.StateValue/100) > highestPrio)
                     {
-                        highestPrio = HappinessPriority.Evaluate(state.StateValue);
+                        highestPrio = HappinessPriority.Evaluate(state.StateValue / 100);
                         prioMood = state.MoodType;
                     }
                     break;
                 case StateType.Boredom:
                     if (BoredomPriority.Evaluate(state.StateValue/100) > highestPrio)
                     {
-                        highestPrio = BoredomPriority.Evaluate(state.StateValue);
+                        highestPrio = BoredomPriority.Evaluate(state.StateValue / 100);
                         prioMood = state.MoodType;
                     }
                     break;
@@ -93,7 +93,7 @@ public class Planner : MonoBehaviour
         return goalChoices[UnityEngine.Random.Range(0, goalChoices.Count)];
     }
 
-    public List<Action> Plan(Goal goal, CreatureState currentStats, Effect worldState)
+    public bool Plan(Goal goal, CreatureState currentStats, Effect worldState, out List<Action> plan)
     {
         // TODO: figureout way for this to not be necessairy
         CreatureState planStats = new CreatureState();
@@ -104,12 +104,12 @@ public class Planner : MonoBehaviour
 
         Effect planWorldState = worldState;
 
-        List<Action> plan = new List<Action>();
+        plan = new List<Action>();
 
         if (goal == null)
         {
             plan.Add(defaultAction);
-            return plan;
+            return false;
         }
 
 
@@ -138,8 +138,9 @@ public class Planner : MonoBehaviour
         }
         else if (viableActions.Count < 1)
         {
+            plan.Clear();
             plan.Add(defaultAction);
-            currentActionPrerequisites = defaultAction.Prerequisites;
+            return false;
         }
         else
         {
@@ -149,15 +150,16 @@ public class Planner : MonoBehaviour
         }
 
         int failsafe = 0;
+
         // Create path towards action that satisfies goal
-        while (currentActionPrerequisites.Length>0)
+        while (!plan[plan.Count-1].RequirementsSatisfied(planWorldState))
         {
             // make sure Unity doesn't crash
             failsafe++;
             if (failsafe > 60)
             {
                 Debug.LogError("took too long to generate plan");
-                return plan;
+                return false;
             }
 
             viableActions.Clear();
@@ -216,7 +218,7 @@ public class Planner : MonoBehaviour
                 {
                     plan.Clear();
                     plan.Add(defaultAction);
-                    return plan;
+                    return false;
                 }
             }
 
@@ -224,6 +226,6 @@ public class Planner : MonoBehaviour
 
         plan.Reverse();
 
-        return plan;
+        return true;
     }
 }
