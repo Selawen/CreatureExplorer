@@ -6,6 +6,8 @@ public class WalkingState : State
 {
     [SerializeField] private float walkSpeed = 5f;
     [SerializeField] private float sprintSpeed = 10f;
+    [SerializeField] private float strafeSprintSpeed = 8f;
+    [SerializeField] private float maxSprintAngle = 15f;
 
     [SerializeField] private LayerMask playerLayer;
 
@@ -18,6 +20,10 @@ public class WalkingState : State
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
+        if(strafeSprintSpeed >= sprintSpeed)
+        {
+            throw new System.Exception("Strafe Sprint Speed can't be higher than sprint speed! Strafing must be slower than forward sprinting!");
+        }
     }
 
     public override void OnStateFixedUpdate()
@@ -52,8 +58,14 @@ public class WalkingState : State
     {
         if (moveInput.sqrMagnitude >= 0.1f)
         {
-            float speed = isSprinting ? sprintSpeed : walkSpeed;
-            float targetAngle = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg + rigidbody.transform.eulerAngles.y;
+            float speed = walkSpeed;
+            float inputAngle = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg;
+            float targetAngle = inputAngle + rigidbody.transform.eulerAngles.y;
+
+            if (isSprinting)
+            {
+                speed = Mathf.Abs(inputAngle) <= maxSprintAngle ? sprintSpeed : strafeSprintSpeed;
+            }
 
             Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
 
