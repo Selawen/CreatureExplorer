@@ -5,6 +5,7 @@ using UnityEngine;
 abstract public class Action: MonoBehaviour
 {
     [field: SerializeField] public string Name { get; private set; }
+    [field: SerializeField] public string Onomotopea { get; private set; }
 
     [field: SerializeField] public CreatureState GoalEffects { get; private set; }
     [field: SerializeField] public ActionKey[] ActionEffects { get; private set; }

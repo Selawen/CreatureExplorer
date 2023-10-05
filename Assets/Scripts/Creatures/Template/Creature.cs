@@ -15,6 +15,7 @@ public class Creature : MonoBehaviour
     [SerializeField] private bool logDebugs;
     [SerializeField] private TextMeshProUGUI goalText;
     [SerializeField] private TextMeshProUGUI actionText;
+    [SerializeField] private TextMeshProUGUI soundEffectText;
 
     [Header("GOAP")]
     [SerializeField] private CreatureState currentCreatureState;
@@ -33,7 +34,8 @@ public class Creature : MonoBehaviour
     {
         if (!showThoughts)
         {
-            goalText.transform.parent.gameObject.SetActive(false);
+            goalText.gameObject.SetActive(false);
+            actionText.gameObject.SetActive(false);
         }
 
         planner = GetComponent<Planner>();
@@ -113,6 +115,8 @@ public class Creature : MonoBehaviour
         currentAction?.Reset();
 
         currentTarget = currentAction.PerformAction(gameObject, currentTarget);
+
+        soundEffectText.text = currentAction.Onomotopea;
 
         if (showThoughts)
         {
