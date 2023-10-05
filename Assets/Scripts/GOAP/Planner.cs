@@ -4,6 +4,7 @@ using UnityEngine;
 public class Planner : MonoBehaviour
 {
     [SerializeField] private AnimationCurve AnnoyancePriority, FearPriority, HungerPriority, TirednessPriority, HappinessPriority, BoredomPriority;
+    [SerializeField] private float AnnoyancePrio, FearPrio, HungerPrio, TirednessPrio, HappinessPrio, BoredomPrio;
 
     [field: SerializeField] private Goal[] possibleGoals;
     [Tooltip("initialised automatically")]
@@ -28,42 +29,48 @@ public class Planner : MonoBehaviour
             switch (state.MoodType)
             {
                 case StateType.Annoyance:
-                    if (AnnoyancePriority.Evaluate(state.StateValue/100) > highestPrio)
+                    AnnoyancePrio = AnnoyancePriority.Evaluate(state.StateValue / 100);
+                    if (AnnoyancePrio > highestPrio)
                     {
                         highestPrio = AnnoyancePriority.Evaluate(state.StateValue);
                         prioMood = state.MoodType;
                     }
                     break;
                 case StateType.Fear:
-                    if (FearPriority.Evaluate(state.StateValue/100) > highestPrio)
+                    FearPrio = FearPriority.Evaluate(state.StateValue / 100);
+                    if (FearPrio > highestPrio)
                     {
                         highestPrio = FearPriority.Evaluate(state.StateValue);
                         prioMood = state.MoodType;
                     }
                     break;
                 case StateType.Hunger:
-                    if (HungerPriority.Evaluate(state.StateValue/100) > highestPrio)
+                    HungerPrio = HungerPriority.Evaluate(state.StateValue / 100);
+                    if (HungerPrio > highestPrio)
                     {
                         highestPrio = HungerPriority.Evaluate(state.StateValue);
                         prioMood = state.MoodType;
                     }
                     break;
                 case StateType.Tiredness:
-                    if (TirednessPriority.Evaluate(state.StateValue/100) > highestPrio)
+                    TirednessPrio = TirednessPriority.Evaluate(state.StateValue / 100);
+                    if (TirednessPrio > highestPrio)
                     {
                         highestPrio = TirednessPriority.Evaluate(state.StateValue);
                         prioMood = state.MoodType;
                     }
                     break;
                 case StateType.Happiness:
-                    if (HappinessPriority.Evaluate(state.StateValue/100) > highestPrio)
+                    HappinessPrio = HappinessPriority.Evaluate(state.StateValue / 100);
+                    if (HappinessPrio > highestPrio)
                     {
                         highestPrio = HappinessPriority.Evaluate(state.StateValue);
                         prioMood = state.MoodType;
                     }
                     break;
                 case StateType.Boredom:
-                    if (BoredomPriority.Evaluate(state.StateValue/100) > highestPrio)
+                    BoredomPrio = BoredomPriority.Evaluate(state.StateValue / 100);
+                    if (BoredomPrio > highestPrio)
                     {
                         highestPrio = BoredomPriority.Evaluate(state.StateValue);
                         prioMood = state.MoodType;
