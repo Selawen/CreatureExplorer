@@ -105,6 +105,15 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void GetCloseScrapbookInput(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.started)
+        {
+            playerInput.SwitchCurrentActionMap("Overworld");
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+    }
+
     private void HandleRotation(Vector2 lookInput)
     { 
         verticalRotation = Mathf.Clamp(verticalRotation - (lookInput.y * gameSettings.LookSensitivity), -maximumViewAngle, maximumViewAngle);
