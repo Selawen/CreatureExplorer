@@ -2,12 +2,11 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Ram : Action
+public class Flee : Action
 {
     [SerializeField] private float speedMultiplier = 4;
 
     private NavMeshAgent moveAgent;
-
     private float originalSpeed, originalRotationSpeed, originalAcceleration;
 
     private void Start()
@@ -29,15 +28,13 @@ public class Ram : Action
         moveAgent.speed *= speedMultiplier;
         moveAgent.angularSpeed *= speedMultiplier;
         moveAgent.acceleration *= speedMultiplier;
-        moveAgent.autoBraking = false;
-        moveAgent.SetDestination(target.transform.position);
+        moveAgent.SetDestination(creature.transform.position +(creature.transform.position - creature.GetComponent<Creature>().waryOff).normalized*10);
 
         DoAction();
         FailCheck(token);
 
         return target;
     }
-
     public override void Reset()
     {
         base.Reset();
@@ -45,17 +42,17 @@ public class Ram : Action
         moveAgent.speed = originalSpeed;
         moveAgent.angularSpeed = originalRotationSpeed;
         moveAgent.acceleration = originalAcceleration;
-        moveAgent.autoBraking = true;
     }
 
     protected override async void DoAction(GameObject target = null)
     {
-        await CheckDistanceToDestination();
+        //Task[] tasks = {Task.Delay((int)(actionDuration * 1000)), CheckDistanceToDestination()};
+
+        await Task.Delay((int)(actionDuration * 1000));
 
         moveAgent.speed = originalSpeed;
         moveAgent.angularSpeed = originalRotationSpeed;
         moveAgent.acceleration = originalAcceleration;
-        moveAgent.autoBraking = true;
 
         base.DoAction();
     }
@@ -68,4 +65,3 @@ public class Ram : Action
         }
     }
 }
-

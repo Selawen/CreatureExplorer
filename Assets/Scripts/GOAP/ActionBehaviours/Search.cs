@@ -1,4 +1,4 @@
-using System.Collections;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class Search : Action
@@ -7,6 +7,7 @@ public class Search : Action
 
     public override GameObject PerformAction(GameObject creature, GameObject target)
     {
+        FailCheck(token);
         foreach (Collider c in Physics.OverlapSphere(creature.transform.position, 100))
         {
             switch (searchTarget)
@@ -15,7 +16,7 @@ public class Search : Action
                     
                     if (c.gameObject.TryGetComponent<Food>(out Food f))
                     {
-                        StartCoroutine(CheckFinish());
+                        DoAction();
                         return c.gameObject;
                     }
                     break;
@@ -24,25 +25,22 @@ public class Search : Action
                     
                     if (c.gameObject.TryGetComponent<Tree>(out Tree t))
                     {
-                        StartCoroutine(CheckFinish());
+                        DoAction();
                         return c.gameObject;
                     }
                     break;
             }
         }
-
-        failed = true;
-        StartCoroutine(CheckFinish());
-
         return target;
     }
 
-    protected override IEnumerator CheckFinish()
+    protected override async void DoAction(GameObject target = null)
     {
-        yield return new WaitForSeconds(actionDuration);
-        finished = true;
-        yield return null;
+        await Task.Delay((int)actionDuration * 1000);
+
+        base.DoAction();
     }
+
     public enum SearchTarget
     {
         Food,

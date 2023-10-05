@@ -393,9 +393,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7210352520341627484}
+  - component: {fileID: 7210352520341627553}
   - component: {fileID: 7210352520341627486}
   - component: {fileID: 7210352520341627487}
-  - component: {fileID: 7210352520341627553}
   m_Layer: 0
   m_Name: Creature Template
   m_TagString: Untagged
@@ -421,6 +421,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!195 &7210352520341627553
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7210352520341627480}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1
+  m_BaseOffset: 0.5
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!114 &7210352520341627486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -622,7 +644,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e3a84701072da54d8079d63ac8029bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debug: 1
+  showThoughts: 0
+  logDebugs: 0
   goalText: {fileID: 7210352519244847641}
   actionText: {fileID: 7210352521194736554}
   currentCreatureState:
@@ -653,29 +676,10 @@ MonoBehaviour:
     - <MoodType>k__BackingField: 3
       <Operator>k__BackingField: 3
       <StateValue>k__BackingField: 0.5
+  reactionToPlayer:
+    <CreatureStates>k__BackingField: []
   currentPlan: []
---- !u!195 &7210352520341627553
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7210352520341627480}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 1
-  m_BaseOffset: 0.5
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  hearingSensitivity: 1
 --- !u!1 &7210352520757950096
 GameObject:
   m_ObjectHideFlags: 0

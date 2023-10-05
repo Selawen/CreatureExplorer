@@ -5,16 +5,24 @@ using TMPro;
 [RequireComponent(typeof(Planner))]
 public class Creature : MonoBehaviour
 {
+    [Header("Creature Stats")]
+    // protected and public are swapped because header hates public fields
+    [SerializeField] protected float hearingSensitivity = 1;
+    public Vector3 waryOff { get; protected set; }
+
     [Header("Debugging")]
-    [SerializeField] private bool debug;
+    [SerializeField] private bool showThoughts;
+    [SerializeField] private bool logDebugs;
     [SerializeField] private TextMeshProUGUI goalText;
     [SerializeField] private TextMeshProUGUI actionText;
 
     [Header("GOAP")]
     [SerializeField] private CreatureState currentCreatureState;
     [SerializeField] private CreatureState changesEverySecond;
+    [SerializeField] private CreatureState reactionToPlayer;
     [SerializeField] private List<Action> currentPlan;
-    
+
+
     private Goal currentGoal;
     private Action currentAction;
     private GameObject currentTarget = null;
@@ -23,7 +31,7 @@ public class Creature : MonoBehaviour
 
     private void Awake()
     {
-        if (!debug)
+        if (!showThoughts)
         {
             goalText.transform.parent.gameObject.SetActive(false);
         }
@@ -46,8 +54,8 @@ public class Creature : MonoBehaviour
         // if an action has failed try and generate a new goal
         if (currentAction.failed)
         {
-            if (debug)
-                Debug.Log("Action failed! " + currentAction.Name);
+            if (logDebugs)
+                Debug.LogWarning("Action failed! " + currentAction.Name);
 
             GenerateNewGoal();
         }
@@ -68,17 +76,45 @@ public class Creature : MonoBehaviour
                 currentCreatureState.AddValue(-change.StateValue * Time.deltaTime, change.MoodType);
         }
     }
+    protected void UpdateValues(CreatureState updateWith)
+    {
+        // Update creatureState with effects of finished action
+        foreach (MoodState change in updateWith.CreatureStates)
+        {
+            if (change.Operator == StateOperant.Set)
+                currentCreatureState.SetValue(change.StateValue, change.MoodType);
+            else if (change.Operator == StateOperant.Add)
+                currentCreatureState.AddValue(change.StateValue * Time.deltaTime, change.MoodType);
+            else if (change.Operator == StateOperant.Subtract)
+                currentCreatureState.AddValue(-change.StateValue * Time.deltaTime, change.MoodType);
+        }
+    }
+
+    public void HearPlayer(Vector3 playerPos, float playerLoudness)
+    {
+        if ((transform.position - playerPos).sqrMagnitude < playerLoudness * hearingSensitivity)
+            ReactToPlayer(playerPos);
+    }
+
+    protected virtual void ReactToPlayer(Vector3 playerPos)
+    {
+        UpdateValues(reactionToPlayer);
+        if (logDebugs)
+        {
+            Debug.Log("Noticed Player");
+        } 
+    }
 
     private void StartAction()
     {
-        // reset values on previous action before starting next action
-        currentAction?.Reset();
-
         currentAction = currentPlan[0];
+
+        // reset values on action before running it
+        currentAction?.Reset();
 
         currentTarget = currentAction.PerformAction(gameObject, currentTarget);
 
-        if (debug)
+        if (showThoughts)
         {
             actionText.text = currentPlan[0].Name;
         }
@@ -96,7 +132,7 @@ public class Creature : MonoBehaviour
             else if (effect.Operator == StateOperant.Subtract)
                 currentCreatureState.AddValue(-effect.StateValue, effect.MoodType);
             
-            if (debug)
+            if (logDebugs)
             {
                 Debug.Log("updated worldstate of " + effect.MoodType.ToString());
             }
@@ -124,9 +160,13 @@ public class Creature : MonoBehaviour
 
         StartAction();
 
-        if (debug)
+        if (logDebugs)
         {
             Debug.Log("Generated new goal: " + currentGoal);
+        }
+
+        if (showThoughts)
+        {
             goalText.text = currentGoal.Name;
         }
     }

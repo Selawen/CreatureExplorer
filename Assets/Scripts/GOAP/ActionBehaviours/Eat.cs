@@ -1,20 +1,26 @@
-using System.Collections;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class Eat : Action
 {
     public override GameObject PerformAction(GameObject creature, GameObject target)
-    { 
-        StartCoroutine(CheckFinish());
-        Destroy(target, actionDuration);
+    {
+        DoAction(target);
+        FailCheck(token);
 
         return target;
     }
 
-    protected override IEnumerator CheckFinish()
+    protected override async void DoAction(GameObject target = null)
     {
-        yield return new WaitForSeconds(actionDuration);
-        finished = true;
-        yield return null;
+        await Task.Delay((int)actionDuration * 1000);
+
+        if (!failed)
+        {
+            Destroy(target);
+
+            finished = true;
+            source.Cancel();
+        }
     }
 }

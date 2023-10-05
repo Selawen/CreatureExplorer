@@ -6,7 +6,7 @@ public class Planner : MonoBehaviour
     [SerializeField] private AnimationCurve AnnoyancePriority, FearPriority, HungerPriority, TirednessPriority, HappinessPriority, BoredomPriority;
 
     [field: SerializeField] private Goal[] possibleGoals;
-    [Tooltip("initialised at startup")]
+    [Tooltip("initialised automatically")]
     [field: SerializeField] private Action[] possibleActions;
     [field: SerializeField] private Action defaultAction;
 

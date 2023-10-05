@@ -1,18 +1,20 @@
-using System.Collections;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class Sleep : Action
 {
     public override GameObject PerformAction(GameObject creature, GameObject target)
-    { 
-        StartCoroutine(CheckFinish());
+    {
+        token = source.Token;
+        DoAction();
+        FailCheck(token);
         return target;
     }
 
-    protected override IEnumerator CheckFinish()
+    protected override async void DoAction( GameObject target = null)
     {
-        yield return new WaitForSeconds(actionDuration);
-        finished = true;
-        yield return null;
+        await Task.Delay((int)actionDuration * 1000);
+
+        base.DoAction();
     }
 }

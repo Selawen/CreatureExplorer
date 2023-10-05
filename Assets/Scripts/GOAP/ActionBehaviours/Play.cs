@@ -1,4 +1,4 @@
-using System.Collections;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -6,16 +6,20 @@ public class Play : Action
 {
     private NavMeshAgent moveAgent;
 
+    private void Start()
+    {
+        moveAgent = gameObject.GetComponentInParent<NavMeshAgent>();
+    }
+
     public override GameObject PerformAction(GameObject creature, GameObject target)
     {
-        moveAgent = creature.GetComponent<NavMeshAgent>();
-        moveAgent.SetDestination(creature.transform.position + (creature.transform.forward + creature.transform.right));
-
-        StartCoroutine(CheckFinish());
+        moveAgent = gameObject.GetComponentInParent<NavMeshAgent>();
+        DoAction();
+        FailCheck(token);
         return target;
     }
 
-    protected override IEnumerator CheckFinish()
+    protected override async void DoAction(GameObject target = null)
     {
         float playTimer = actionDuration;
 
@@ -25,9 +29,9 @@ public class Play : Action
             moveAgent.SetDestination(moveAgent.transform.position + (moveAgent.transform.forward + moveAgent.transform.right));
 
             playTimer -= Time.deltaTime;
-            yield return null;
+            await Task.Yield();
         }
-        finished = true;
-        yield return null;
+
+        base.DoAction();
     }
 }
