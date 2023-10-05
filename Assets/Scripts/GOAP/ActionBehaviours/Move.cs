@@ -23,6 +23,12 @@ public class Move : Action
         return target;
     }
 
+    public override void Reset()
+    {
+        base.Reset();
+        moveAgent.SetDestination(moveAgent.transform.position);
+    }
+
     protected override async void DoAction(GameObject target = null)
     {
         await CheckDistanceToDestination();

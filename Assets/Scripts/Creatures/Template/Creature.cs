@@ -44,10 +44,12 @@ public class Creature : MonoBehaviour
         {
             currentCreatureState = new CreatureState();
         }
-
-        GenerateNewGoal();   
     }
 
+    private void Start()
+    {
+        GenerateNewGoal();
+    }
 
     void FixedUpdate()
     {
@@ -86,9 +88,9 @@ public class Creature : MonoBehaviour
             if (change.Operator == StateOperant.Set)
                 currentCreatureState.SetValue(change.StateValue, change.MoodType);
             else if (change.Operator == StateOperant.Add)
-                currentCreatureState.AddValue(change.StateValue * Time.deltaTime, change.MoodType);
+                currentCreatureState.AddValue(change.StateValue, change.MoodType);
             else if (change.Operator == StateOperant.Subtract)
-                currentCreatureState.AddValue(-change.StateValue * Time.deltaTime, change.MoodType);
+                currentCreatureState.AddValue(-change.StateValue, change.MoodType);
         }
     }
 

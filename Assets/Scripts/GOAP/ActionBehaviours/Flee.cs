@@ -28,7 +28,7 @@ public class Flee : Action
         moveAgent.speed *= speedMultiplier;
         moveAgent.angularSpeed *= speedMultiplier;
         moveAgent.acceleration *= speedMultiplier;
-        moveAgent.SetDestination(creature.transform.position +(creature.transform.position - creature.GetComponent<Creature>().waryOff).normalized*10);
+        moveAgent.SetDestination(creature.transform.position +(creature.transform.position - creature.GetComponent<Creature>().waryOff).normalized*20);
 
         DoAction();
         FailCheck(token);

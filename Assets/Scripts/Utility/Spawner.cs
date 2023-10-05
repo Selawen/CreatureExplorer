@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
+    [SerializeField] private LayerMask canspawnOn;
     [SerializeField] private GameObject spawnedObject;
 
     [SerializeField] private float spawnrange;
@@ -20,10 +21,14 @@ public class Spawner : MonoBehaviour
     public IEnumerator Spawn()
     {
         yield return new WaitForSeconds(spawnDelay);
-
-        Instantiate(spawnedObject, transform.position + new Vector3(Random.Range(0, spawnrange), 0, Random.Range(0, spawnrange)), transform.rotation);
-
         if (continous)
             StartCoroutine(Spawn());
+        
+        Vector3 spawnpos = transform.position + new Vector3(Random.Range(-spawnrange, spawnrange), 0, Random.Range(-spawnrange, spawnrange));
+
+        if (Physics.Raycast(spawnpos + Vector3.up * 200, Vector3.down, out RaycastHit hit, 500, canspawnOn))
+        {
+            Instantiate(spawnedObject, hit.point + new Vector3(0,spawnedObject.transform.lossyScale.y*0.5f,0), transform.rotation, transform);
+        }
     }
 }

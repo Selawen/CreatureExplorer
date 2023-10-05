@@ -8,29 +8,40 @@ public class Search : Action
     public override GameObject PerformAction(GameObject creature, GameObject target)
     {
         FailCheck(token);
-        foreach (Collider c in Physics.OverlapSphere(creature.transform.position, 100))
+
+        float distance = 1000;
+        Collider nearest = null;
+
+        foreach (Collider c in Physics.OverlapSphere(creature.transform.position, 40))
         {
             switch (searchTarget)
             {
                 case (SearchTarget.Food) :
                     
-                    if (c.gameObject.TryGetComponent<Food>(out Food f))
+                    if (c.gameObject.TryGetComponent<Food>(out Food f) && (c.transform.position-creature.transform.position).sqrMagnitude < distance)
                     {
-                        DoAction();
-                        return c.gameObject;
+                        distance = (c.transform.position - creature.transform.position).sqrMagnitude;
+                        nearest = c;
                     }
                     break;
 
                 case (SearchTarget.Tree) :
                     
-                    if (c.gameObject.TryGetComponent<Tree>(out Tree t))
+                    if (c.gameObject.TryGetComponent<Tree>(out Tree t) && (c.transform.position - creature.transform.position).sqrMagnitude < distance)
                     {
-                        DoAction();
-                        return c.gameObject;
+                        distance = (c.transform.position - creature.transform.position).sqrMagnitude;
+                        nearest = c;
                     }
                     break;
             }
         }
+
+        if (nearest != null)
+        {
+            DoAction();
+            return nearest.gameObject;
+        }
+
         return target;
     }
 
