@@ -4,10 +4,10 @@ using UnityEngine;
 [Serializable]
 public class ActionKey
 {
-    [field: SerializeField] public Effect EffectType { get; private set; }
+    [field: SerializeField] public Condition EffectType { get; private set; }
     [field: SerializeField] public bool StateValue { get; private set; }
 
-    public ActionKey(Effect stateType, bool value)
+    public ActionKey(Condition stateType, bool value)
     {
         EffectType = stateType;
         StateValue = value;
@@ -37,7 +37,7 @@ public class ActionKey
 }
 
 [Flags]
-public enum Effect
+public enum Condition
 {
     IsHungry = 1 << 0,
     IsSleepy = 1 << 1,

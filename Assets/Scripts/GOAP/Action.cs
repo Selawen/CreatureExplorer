@@ -77,9 +77,9 @@ abstract public class Action: MonoBehaviour
     /// </summary>
     /// <param name="requirements">the requirements to satisfy</param>
     /// <returns></returns>
-    public bool SatisfiesRequirements(ActionKey[] requirements, Effect currentState)
+    public bool SatisfiesRequirements(ActionKey[] requirements, Condition currentState)
     {
-        Effect actionEffect = currentState;
+        Condition actionEffect = currentState;
         int targetsReached = 0;
 
         for (int x = 0; x < this.ActionEffects.Length; x++)
@@ -107,7 +107,7 @@ abstract public class Action: MonoBehaviour
         return (targetsReached >= requirements.Length);
     }
 
-    public bool RequirementsSatisfied(Effect currentState)
+    public bool RequirementsSatisfied(Condition currentState)
     {
         int targetsReached = 0;
 

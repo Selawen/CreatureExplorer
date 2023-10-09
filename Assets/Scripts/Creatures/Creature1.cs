@@ -9,6 +9,6 @@ public class Creature1 : Creature
         base.ReactToPlayer(playerPos);
 
         waryOff = playerPos;
-        worldState |= Effect.IsNearDanger;
+        worldState |= Condition.IsNearDanger;
     }
 }

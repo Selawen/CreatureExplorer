@@ -17,13 +17,11 @@ public class Creature : MonoBehaviour
     [SerializeField] private TextMeshProUGUI actionText;
 
     [Header("GOAP")]
-    [SerializeField] protected Effect worldState;
+    [SerializeField] protected Condition worldState;
     [SerializeField] private CreatureState currentCreatureState;
     [SerializeField] private CreatureState changesEverySecond;
     [SerializeField] private CreatureState reactionToPlayer;
     [SerializeField] private List<Action> currentPlan;
-
-    [SerializeField] private Goal defaultGoal;
 
     private Goal currentGoal;
     private Action currentAction;
@@ -31,7 +29,7 @@ public class Creature : MonoBehaviour
 
     private Planner planner;
 
-    private void Awake()
+    private void Start()
     {
         if (!showThoughts)
         {
@@ -114,12 +112,17 @@ public class Creature : MonoBehaviour
 
     private void GenerateNewGoal()
     {
-        currentGoal = planner.GenerateGoal(currentCreatureState);
-
-        if (!planner.Plan(currentGoal, currentCreatureState, worldState, out currentPlan))
+        if (!planner.GeneratePlan(currentCreatureState, worldState, out currentGoal, out currentPlan) && logDebugs)
         {
-            currentGoal = defaultGoal;
+            Debug.Log("Failed in generating plan, resorting to deault action");
         }
+
+        //currentGoal = planner.GenerateGoal(currentCreatureState);
+        //
+        //if (!planner.Plan(currentGoal, currentCreatureState, worldState, out currentPlan))
+        //{
+        //    currentGoal = defaultGoal;
+        //}
 
         currentTarget = null;
 
@@ -171,38 +174,38 @@ public class Creature : MonoBehaviour
         // TODO: refactor
         if (currentCreatureState.Find(StateType.Hunger).StateValue > 50)
         {
-            worldState |= Effect.IsHungry;
+            worldState |= Condition.IsHungry;
         }
         else
         {
-            worldState &= ~Effect.IsHungry;
+            worldState &= ~Condition.IsHungry;
         }
 
         if (currentCreatureState.Find(StateType.Tiredness).StateValue > 50)
         {
-            worldState |= Effect.IsSleepy;
+            worldState |= Condition.IsSleepy;
         }
         else
         {
-            worldState &= ~Effect.IsSleepy;
+            worldState &= ~Condition.IsSleepy;
         }
 
         if (currentCreatureState.Find(StateType.Annoyance).StateValue > 50)
         {
-            worldState |= Effect.IsAnnoyed;
+            worldState |= Condition.IsAnnoyed;
         }
         else
         {
-            worldState &= ~Effect.IsAnnoyed;
+            worldState &= ~Condition.IsAnnoyed;
         }
 
         if (currentCreatureState.Find(StateType.Fear).StateValue > 50)
         {
-            worldState |= Effect.IsFrightened;
+            worldState |= Condition.IsFrightened;
         }
         else
         {
-            worldState &= ~Effect.IsFrightened;
+            worldState &= ~Condition.IsFrightened;
         }
     }
 
@@ -212,7 +215,7 @@ public class Creature : MonoBehaviour
             ReactToPlayer(playerPos);
         else
         {
-            worldState &= ~Effect.IsNearDanger;
+            worldState &= ~Condition.IsNearDanger;
         }
     }
 

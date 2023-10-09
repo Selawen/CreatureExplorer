@@ -4773,6 +4773,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 020387ff2122ae3479385c71d07ca37c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  raycastMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!136 &943567959
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4844,8 +4847,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 943567957}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.58, y: 2, z: 2.33}
+  m_LocalRotation: {x: -0, y: 0.46947125, z: 0, w: 0.88294774}
+  m_LocalPosition: {x: 6.58, y: 1.97, z: 2.3299997}
   m_LocalScale: {x: 0.5, y: 2, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6258,6 +6261,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5f512a2b5602bc4c8c36e7b63e89638, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canspawnOn:
+    serializedVersion: 2
+    m_Bits: 8
   spawnedObject: {fileID: 8813846894892180988, guid: 88363ad5b65d6674f9bc661e982c2e41,
     type: 3}
   spawnrange: 5
@@ -6484,21 +6490,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 530009447095143258, guid: e34132a6dc9d16d419298730646672cc,
-        type: 3}
-      propertyPath: HungerPriority.m_Curve.Array.data[0].value
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 530009447095143258, guid: e34132a6dc9d16d419298730646672cc,
-        type: 3}
-      propertyPath: TirednessPriority.m_Curve.Array.data[1].time
-      value: 0.80059373
-      objectReference: {fileID: 0}
-    - target: {fileID: 530009447095143258, guid: e34132a6dc9d16d419298730646672cc,
-        type: 3}
-      propertyPath: TirednessPriority.m_Curve.Array.data[1].value
-      value: 0.50720876
       objectReference: {fileID: 0}
     - target: {fileID: 530009447095143259, guid: e34132a6dc9d16d419298730646672cc,
         type: 3}
@@ -7406,7 +7397,7 @@ GameObject:
   - component: {fileID: 1227338298}
   - component: {fileID: 1227338297}
   - component: {fileID: 1227338296}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
