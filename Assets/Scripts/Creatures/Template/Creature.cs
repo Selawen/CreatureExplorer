@@ -50,19 +50,21 @@ public class Creature : MonoBehaviour
     void FixedUpdate()
     {
         UpdateValues();
-
-        // if an action has failed try and generate a new goal
-        if (currentAction.failed)
+        if (currentAction != null)
         {
-            if (logDebugs)
-                Debug.LogWarning("Action failed! " + currentAction.Name);
+            // if an action has failed try and generate a new goal
+            if (currentAction.failed)
+            {
+                if (logDebugs)
+                    Debug.LogWarning("Action failed! " + currentAction.Name);
 
-            GenerateNewGoal();
-        }
-        else if (currentAction.finished)
-        {
-            FinishAction();
-        }       
+                GenerateNewGoal();
+            }
+            else if (currentAction.finished)
+            {
+                FinishAction();
+            }
+        } 
     }
     private void StartAction()
     {
@@ -161,9 +163,9 @@ public class Creature : MonoBehaviour
             if (change.Operator == StateOperant.Set)
                 currentCreatureState.SetValue(change.StateValue, change.MoodType);
             else if (change.Operator == StateOperant.Add)
-                currentCreatureState.AddValue(change.StateValue * Time.deltaTime, change.MoodType);
+                currentCreatureState.AddValue(change.StateValue, change.MoodType);
             else if (change.Operator == StateOperant.Subtract)
-                currentCreatureState.AddValue(-change.StateValue * Time.deltaTime, change.MoodType);
+                currentCreatureState.AddValue(-change.StateValue, change.MoodType);
         }
 
         UpdateCreatureState();

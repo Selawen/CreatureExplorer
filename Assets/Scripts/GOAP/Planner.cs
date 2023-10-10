@@ -27,8 +27,8 @@ public class Planner : MonoBehaviour
 
     public bool GeneratePlan(CreatureState currentState, Condition worldState, out Goal goal, out List<Action> plan)
     {
-        goal = null;
-        plan = null;
+        goal = defaultGoal;
+        plan = new List<Action>();
 
         // try generating a plan from the highest priority action. if no plan viable, take next highest priority 
         prioIndex = 0;
@@ -36,12 +36,23 @@ public class Planner : MonoBehaviour
         do
         {
             if (prioIndex > 5)
+            {
+                goal = defaultGoal;
+                plan.Clear();
+                plan.Add(defaultAction);
                 return false;
+            }
 
             goal = GenerateGoal(currentState);
             prioIndex++;
         } while (!PlanActions(goal, currentState, worldState, out plan));
 
+        if (plan.Count < 1)
+        {
+            Debug.LogError("no valid course of action found");
+            goal = defaultGoal;
+            plan.Add(defaultAction);
+        }
         return true;
     }
 
@@ -70,7 +81,7 @@ public class Planner : MonoBehaviour
                     }
                     catch (Exception e)
                     {
-                        moodPriorities.Add(prio + 0.0001f, StateType.Annoyance);
+                        moodPriorities.Add(Mathf.Clamp(prio + 0.0001f, 0, 1), StateType.Annoyance);
                     }
 
                     break;
@@ -83,7 +94,7 @@ public class Planner : MonoBehaviour
                     }
                     catch (Exception e)
                     {
-                        moodPriorities.Add(prio + 0.0002f, StateType.Annoyance);
+                        moodPriorities.Add(Mathf.Clamp(prio + 0.0002f, 0, 1), StateType.Annoyance);
                     }
 
                     break;
@@ -95,7 +106,7 @@ public class Planner : MonoBehaviour
                     }
                     catch (Exception e)
                     {
-                        moodPriorities.Add(prio + 0.0003f, StateType.Annoyance);
+                        moodPriorities.Add(Mathf.Clamp(prio + 0.0003f, 0, 1), StateType.Annoyance);
                     }
 
                     break;
@@ -108,7 +119,7 @@ public class Planner : MonoBehaviour
                     }
                     catch (Exception e)
                     {
-                        moodPriorities.Add(prio + 0.0004f, StateType.Annoyance);
+                        moodPriorities.Add(Mathf.Clamp(prio + 0.0004f, 0, 1), StateType.Annoyance);
                     }
 
                     break;
@@ -121,7 +132,7 @@ public class Planner : MonoBehaviour
                     }
                     catch (Exception e)
                     {
-                        moodPriorities.Add(prio + 0.0005f, StateType.Annoyance);
+                        moodPriorities.Add(Mathf.Clamp(prio + 0.0005f, 0, 1), StateType.Annoyance);
                     }
 
                     break;
@@ -133,7 +144,7 @@ public class Planner : MonoBehaviour
                     }
                     catch (Exception e)
                     {
-                        moodPriorities.Add(prio + 0.0006f, StateType.Annoyance);
+                        moodPriorities.Add(Mathf.Clamp(prio + 0.0006f, 0, 1), StateType.Annoyance);
                     }
 
                     break;
@@ -196,11 +207,11 @@ public class Planner : MonoBehaviour
         
         MoodState[] goalPrerequisites = goal.Target;
         List<Action> viableActions = new List<Action>();
-        //Action chosenAction;
 
         // Look for action that satisfies goal
         viableActions.Clear();
 
+        // TODO: take into account plan, not just top action
         foreach (Action a in possibleActions)
         {
             if (a.GoalEffects.SatisfiesRequirements(goalPrerequisites, planStats))
@@ -228,8 +239,10 @@ public class Planner : MonoBehaviour
         while (completionCounter < possiblePlans.Count)
         {
             completionCounter = 0;
+
             List<Plan> updatedPlans = new List<Plan>();
             List<Plan> extraPlans = new List<Plan>();
+
             foreach (Plan p in possiblePlans)
             {
                 bool needNewPlan = false;
@@ -241,7 +254,7 @@ public class Planner : MonoBehaviour
 
                 // make sure Unity doesn't crash
                 failsafe++;
-                if (failsafe > 100)
+                if (failsafe > 150)
                 {
                     Debug.LogError("took too long to generate plan");
                     plan.Clear();
@@ -270,6 +283,12 @@ public class Planner : MonoBehaviour
                     }
                 }
 
+                // if no new course of action is found even though the plan isn't complete delete plan from list of possible plans
+                if (!needNewPlan)
+                {
+                    updatedPlans.Add(p);
+                }
+
             }
 
             foreach(Plan update in updatedPlans)
@@ -278,10 +297,22 @@ public class Planner : MonoBehaviour
             }
 
             possiblePlans.AddRange(extraPlans);
+
+            if (possiblePlans.Count < 1)
+            {
+                return false;
+            }
         }
 
-        // TODO: return plan with highest cost/reward ratio instead of random one
-        plan = possiblePlans[UnityEngine.Random.Range(0, possiblePlans.Count)].ActionList;
+        float costRewardRatio = 0;
+        foreach (Plan p in possiblePlans)
+        {
+            if ((p.Reward/p.Cost) > costRewardRatio)
+            {
+                costRewardRatio = (p.Reward / p.Cost);
+                plan = possiblePlans[UnityEngine.Random.Range(0, possiblePlans.Count)].ActionList;
+            }
+        }
         plan.Reverse();
 
         return true;

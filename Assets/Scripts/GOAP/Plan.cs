@@ -14,29 +14,37 @@ public class Plan : ScriptableObject
 
     public Plan()
     {
+        Cost = 0;
+        Reward = 0;
         ActionList = new List<Action>();
         PlanComplete = false;
     }
 
     public Plan(Plan p)
     {
+        Cost = p.Cost;
+        Reward = p.Reward;
         ActionList = p.ActionList;
         currentActionPrerequisites = p.currentActionPrerequisites;
         planWorldState = p.planWorldState;
-        PlanComplete = false;
+        PlanComplete = ActionList[ActionList.Count - 1].RequirementsSatisfied(planWorldState);
     }
 
     public Plan(Action firstAction, Condition worldState)
     {
+        Cost = firstAction.Cost;
+        Reward = firstAction.Reward;
         ActionList = new List<Action>();
         ActionList.Add(firstAction);
         currentActionPrerequisites = firstAction.Prerequisites;
         planWorldState = worldState;
-        PlanComplete = (ActionList[0].SatisfiesRequirements(currentActionPrerequisites, planWorldState));
+        PlanComplete = ActionList[ActionList.Count - 1].RequirementsSatisfied(planWorldState);
     }
 
     public void AddAction(Action action)
     {
+        Cost += action.Cost; 
+        Reward += action.Reward; 
         ActionList.Add(action);
         currentActionPrerequisites = action.Prerequisites;
 
@@ -52,6 +60,8 @@ public class Plan : ScriptableObject
                 planWorldState &= ~action.ActionEffects[x].EffectType;
             }
         }
+
+        PlanComplete = ActionList[ActionList.Count - 1].RequirementsSatisfied(planWorldState);    
     }
 
     public void MarkComplete()
