@@ -208,10 +208,10 @@ public class Planner : MonoBehaviour
         MoodState[] goalPrerequisites = goal.Target;
         List<Action> viableActions = new List<Action>();
 
-        // Look for action that satisfies goal
+        // TODO: look at the impact of total plans on goal target?
+        // Look for actions that satisfy goal target
         viableActions.Clear();
 
-        // TODO: take into account plan, not just top action
         foreach (Action a in possibleActions)
         {
             if (a.GoalEffects.SatisfiesRequirements(goalPrerequisites, planStats))
@@ -232,10 +232,10 @@ public class Planner : MonoBehaviour
             possiblePlans.Add(new Plan(viableActions[x], worldState));
         }
 
-        // TODO: debugging
         int failsafe = 0;
         int completionCounter = 0;
 
+        // While there are incomplete plans that have the potential to be completed, expand the incomplete plans
         while (completionCounter < possiblePlans.Count)
         {
             completionCounter = 0;
@@ -291,6 +291,7 @@ public class Planner : MonoBehaviour
 
             }
 
+            // Remove the plans that have been updated, then add the updated versions to possibleplans
             foreach(Plan update in updatedPlans)
             {
                 possiblePlans.Remove(update);
@@ -316,88 +317,5 @@ public class Planner : MonoBehaviour
         plan.Reverse();
 
         return true;
-
-        #region old code
-        /*
-        failsafe = 0;
-        // Create path towards action that satisfies goal
-        while (!plan[plan.Count-1].RequirementsSatisfied(planWorldState))
-        {
-            // make sure Unity doesn't crash
-            failsafe++;
-            if (failsafe > 60)
-            {
-                Debug.LogError("took too long to generate plan");
-                return false;
-            }
-
-            viableActions.Clear();
-
-            foreach (Action a in possibleActions)
-            {
-                if (a.SatisfiesRequirements(currentActionPrerequisites, planWorldState))
-                {
-                    viableActions.Add(a);
-
-                }
-            }
-
-            // TODO: refactor
-            if (viableActions.Count > 1)
-            {
-                chosenAction = viableActions[UnityEngine.Random.Range(0, viableActions.Count)];
-                plan.Add(chosenAction);
-
-                for (int x = 0; x < chosenAction.ActionEffects.Length; x++)
-                {
-                    // if the statevalue is true set corresponding worldstate bit to 1, if not set it to 0
-                    if (chosenAction.ActionEffects[x].StateValue)
-                    {
-                        planWorldState |= chosenAction.ActionEffects[x].EffectType;
-                    }
-                    else
-                    {
-                        planWorldState &= ~chosenAction.ActionEffects[x].EffectType;
-                    }
-                }
-
-                currentActionPrerequisites = chosenAction.Prerequisites;
-            }
-            else
-            {
-                try
-                {
-                    plan.Add(viableActions[0]);
-
-                    for (int x = 0; x < viableActions[0].ActionEffects.Length; x++)
-                    {
-                        // if the statevalue is true set corresponding worldstate bit to 1, if not set it to 0
-                        if (viableActions[0].ActionEffects[x].StateValue)
-                        {
-                            planWorldState |= viableActions[0].ActionEffects[x].EffectType;
-                        }
-                        else
-                        {
-                            planWorldState &= ~viableActions[0].ActionEffects[x].EffectType;
-                        }
-                    }
-
-                    currentActionPrerequisites = viableActions[0].Prerequisites;
-                } catch (Exception e)
-                {
-                    plan.Clear();
-                    plan.Add(defaultAction);
-                    return false;
-                }
-            }
-
-        } 
-
-        // TODO: return plan with highest cost/reward ratio
-        plan.Reverse();
-
-        return true;
-        */
-        #endregion
     }
 }
