@@ -44,7 +44,7 @@ abstract public class Action: MonoBehaviour
 
     public virtual void Reset()
     {
-        //source = new CancellationTokenSource();
+        source = new CancellationTokenSource();
         token = source.Token;
 
         finished = false;
@@ -135,8 +135,10 @@ abstract public class Action: MonoBehaviour
         {
             await Task.Delay((int)((actionDuration * 1.5f) * 1000), cancelToken);
             failed = true;
+            source.Cancel();
         } catch (TaskCanceledException e)
         {
+            Debug.Log($"{this.name} has finished");
         }
     }
 

@@ -171,44 +171,15 @@ public class Creature : MonoBehaviour
         UpdateCreatureState();
     }
 
+    /// <summary>
+    /// set the worldstate to reflect mood values
+    /// </summary>
     private void UpdateCreatureState()
     {
-        // TODO: refactor
-        if (currentCreatureState.Find(StateType.Hunger).StateValue > 50)
-        {
-            worldState |= Condition.IsHungry;
-        }
-        else
-        {
-            worldState &= ~Condition.IsHungry;
-        }
-
-        if (currentCreatureState.Find(StateType.Tiredness).StateValue > 50)
-        {
-            worldState |= Condition.IsSleepy;
-        }
-        else
-        {
-            worldState &= ~Condition.IsSleepy;
-        }
-
-        if (currentCreatureState.Find(StateType.Annoyance).StateValue > 50)
-        {
-            worldState |= Condition.IsAnnoyed;
-        }
-        else
-        {
-            worldState &= ~Condition.IsAnnoyed;
-        }
-
-        if (currentCreatureState.Find(StateType.Fear).StateValue > 50)
-        {
-            worldState |= Condition.IsFrightened;
-        }
-        else
-        {
-            worldState &= ~Condition.IsFrightened;
-        }
+        worldState = (currentCreatureState.Find(StateType.Hunger).StateValue > 50) ? SetConditionTrue(worldState, Condition.IsHungry) : SetConditionFalse(worldState, Condition.IsHungry);
+        worldState = (currentCreatureState.Find(StateType.Tiredness).StateValue > 50) ? SetConditionTrue(worldState, Condition.IsSleepy) : SetConditionFalse(worldState, Condition.IsSleepy);
+        worldState = (currentCreatureState.Find(StateType.Annoyance).StateValue > 50) ? SetConditionTrue(worldState, Condition.IsAnnoyed) : SetConditionFalse(worldState, Condition.IsAnnoyed);
+        worldState = (currentCreatureState.Find(StateType.Fear).StateValue > 50) ? SetConditionTrue(worldState, Condition.IsFrightened) : SetConditionFalse(worldState, Condition.IsFrightened);
     }
 
     public void HearPlayer(Vector3 playerPos, float playerLoudness)
@@ -217,7 +188,7 @@ public class Creature : MonoBehaviour
             ReactToPlayer(playerPos);
         else
         {
-            worldState &= ~Condition.IsNearDanger;
+            worldState = SetConditionFalse(worldState, Condition.IsNearDanger);
         }
     }
 
@@ -230,4 +201,12 @@ public class Creature : MonoBehaviour
         } 
     }
 
+    private Condition SetConditionTrue(Condition currentState, Condition flagToSet)
+    {
+        return currentState |= flagToSet;
+    }
+    private Condition SetConditionFalse(Condition currentState, Condition flagToSet)
+    {
+        return currentState &= ~flagToSet;
+    }
 }
