@@ -7,7 +7,7 @@ public class Search : Action
 
     public override GameObject PerformAction(GameObject creature, GameObject target)
     {
-        FailCheck(token);
+        FailCheck(failToken);
 
         float distance = 1000;
         Collider nearest = null;
@@ -38,11 +38,16 @@ public class Search : Action
 
         if (nearest != null)
         {
-            DoAction();
+            Task.Run(() => DoAction(), token);
             return nearest.gameObject;
         }
 
         return target;
+    }
+
+    public override void CalculateCostAndReward(CreatureState currentState, MoodState targetMood, float targetMoodPrio)
+    {
+        base.CalculateCostAndReward(currentState, targetMood, targetMoodPrio);
     }
 
     protected override async void DoAction(GameObject target = null)

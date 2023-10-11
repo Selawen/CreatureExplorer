@@ -32,10 +32,16 @@ public class Ram : Action
         moveAgent.autoBraking = false;
         moveAgent.SetDestination(target.transform.position);
 
+        //Task.Run(() => DoAction(), token);
         DoAction();
-        FailCheck(token);
+        FailCheck(failToken);
 
         return target;
+    }
+
+    public override void CalculateCostAndReward(CreatureState currentState, MoodState targetMood, float targetMoodPrio)
+    {
+        base.CalculateCostAndReward(currentState, targetMood, targetMoodPrio);
     }
 
     public override void Reset()

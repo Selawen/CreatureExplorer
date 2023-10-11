@@ -12,6 +12,7 @@ public class Tree : MonoBehaviour
         if (Physics.Raycast(transform.position + Vector3.up * 200, Vector3.down, out RaycastHit hit, 500, raycastMask))
         {
             transform.position = hit.point;
+            transform.up = hit.normal;
             transform.Rotate(new Vector3(0, Random.Range(0, 360), 0));
         }
     }

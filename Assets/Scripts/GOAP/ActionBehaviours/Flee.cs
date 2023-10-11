@@ -30,11 +30,14 @@ public class Flee : Action
         moveAgent.acceleration *= speedMultiplier;
         moveAgent.SetDestination(creature.transform.position +(creature.transform.position - creature.GetComponent<Creature>().waryOff).normalized*10);
 
+        //Task.Run(() => DoAction(), failToken);
+        // Navmeshagent doesn't play nice with threading
         DoAction();
-        FailCheck(token);
+        FailCheck(failToken);
 
         return target;
     }
+
     public override void Reset()
     {
         base.Reset();
@@ -44,11 +47,16 @@ public class Flee : Action
         moveAgent.acceleration = originalAcceleration;
     }
 
+    public override void CalculateCostAndReward(CreatureState currentState, MoodState targetMood, float targetMoodPrio)
+    {
+        base.CalculateCostAndReward(currentState, targetMood, targetMoodPrio);
+    }
+
     protected override async void DoAction(GameObject target = null)
     {
-        //Task[] tasks = {Task.Delay((int)(actionDuration * 1000)), CheckDistanceToDestination()};
+        Task[] tasks = {Task.Delay((int)(actionDuration * 1000)), CheckDistanceToDestination()};
 
-        await Task.Delay((int)(actionDuration * 1000));
+        await Task.WhenAny(tasks);// .Delay((int)(actionDuration * 1000));
 
         moveAgent.speed = originalSpeed;
         moveAgent.angularSpeed = originalRotationSpeed;

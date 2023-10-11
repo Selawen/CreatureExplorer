@@ -5,9 +5,10 @@ using UnityEngine;
 abstract public class Action: MonoBehaviour
 {
     [field: SerializeField] public string Name { get; private set; }
-    [field: SerializeField] public int Cost { get; private set; }
+    [field: SerializeField] public float Cost { get; protected set; }
     // TODO: have reward be calculated based on situation
-    [field: SerializeField] public int Reward { get; private set; }
+    [field: SerializeField] public float BaseReward { get; private set; }
+    [field: SerializeField] public float Reward { get; protected set; }
 
     [field: SerializeField] public CreatureState GoalEffects { get; private set; }
     [field: SerializeField] public ActionKey[] ActionEffects { get; private set; }
@@ -19,17 +20,23 @@ abstract public class Action: MonoBehaviour
 
     [SerializeField] protected float actionDuration = 2;
 
+    protected CancellationTokenSource failSource;
+    protected CancellationToken failToken;
     protected CancellationTokenSource source;
     protected CancellationToken token;
 
     private void Awake()
     {
+        failSource = new CancellationTokenSource();
+        failToken = failSource.Token;
         source = new CancellationTokenSource();
-        token = source.Token;
+        token = failSource.Token;
     }
 
     private void OnDisable()
     {
+        failSource.Cancel();
+        failSource.Dispose();
         source.Cancel();
         source.Dispose();
     }
@@ -40,15 +47,32 @@ abstract public class Action: MonoBehaviour
     /// <param name="creature">the creature that is performing the action</param>
     /// <param name="target">the target of the action</param>
     /// <returns>returns a new target if the behaviour changes the target. Null if not</returns>
-    abstract public GameObject PerformAction(GameObject creature, GameObject target);
+    public abstract GameObject PerformAction(GameObject creature, GameObject target);
 
     public virtual void Reset()
     {
+        failSource = new CancellationTokenSource();
+        failToken = failSource.Token;
         source = new CancellationTokenSource();
-        token = source.Token;
+        token = failSource.Token;
 
         finished = false;
         failed = false;
+    }
+
+    public virtual void CalculateCostAndReward(CreatureState currentState, MoodState targetMood, float targetMoodPrio)
+    {
+        Reward = BaseReward;
+        foreach (MoodState mood in GoalEffects.CreatureStates)
+        {
+            // Add a bonus to the reward if this action influences the main mood in the right way
+            if (mood.MoodType == targetMood.MoodType && (mood.Operator == StateOperant.Set || (targetMood.Operator == StateOperant.LessThan && mood.Operator == StateOperant.Subtract) || (targetMood.Operator == StateOperant.GreaterThan &&  mood.Operator == StateOperant.Add)))
+            {
+                //calculate reward bonus
+                Reward += currentState.Find(targetMood.MoodType).StateValue * targetMoodPrio * mood.StateValue * 0.01f;
+                Debug.Log($"prio is {targetMoodPrio}, {Name} reward is upped from {BaseReward} to {Reward}");
+            }
+        }
     }
 
     /// <summary>
@@ -134,8 +158,10 @@ abstract public class Action: MonoBehaviour
         try
         {
             await Task.Delay((int)((actionDuration * 1.5f) * 1000), cancelToken);
-            failed = true;
-            source.Cancel();
+            {
+                failed = true;
+                source.Cancel();
+            }
         } catch (TaskCanceledException e)
         {
             Debug.Log($"{this.name} has finished");
@@ -149,7 +175,7 @@ abstract public class Action: MonoBehaviour
         if (!failed)
         {
             finished = true;
-            source.Cancel();
+            failSource.Cancel();
         }
     }
 }

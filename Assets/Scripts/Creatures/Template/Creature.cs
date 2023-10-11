@@ -56,7 +56,7 @@ public class Creature : MonoBehaviour
             if (currentAction.failed)
             {
                 if (logDebugs)
-                    Debug.LogWarning("Action failed! " + currentAction.Name);
+                    Debug.Log("Action failed! " + currentAction.Name);
 
                 GenerateNewGoal();
             }

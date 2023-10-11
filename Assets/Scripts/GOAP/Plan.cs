@@ -7,6 +7,7 @@ public class Plan : ScriptableObject
     public bool PlanComplete { get; private set; }
     public float Cost { get; private set; }
     public float Reward { get; private set; }
+    public float CostRewardRatio { get; private set; }
     public List<Action> ActionList { get; private set; }
 
     public  ActionKey[] currentActionPrerequisites { get; private set; }
@@ -32,32 +33,34 @@ public class Plan : ScriptableObject
 
     public Plan(Action firstAction, Condition worldState)
     {
-        Cost = firstAction.Cost;
-        Reward = firstAction.Reward;
         ActionList = new List<Action>();
-        ActionList.Add(firstAction);
-        currentActionPrerequisites = firstAction.Prerequisites;
+        AddAction(firstAction, true);
         planWorldState = worldState;
         PlanComplete = ActionList[ActionList.Count - 1].RequirementsSatisfied(planWorldState);
     }
 
-    public void AddAction(Action action)
+    public void AddAction(Action action, bool firstAction = false)
     {
         Cost += action.Cost; 
-        Reward += action.Reward; 
+        Reward += action.Reward;
+        CostRewardRatio = Reward/ Cost;
+
         ActionList.Add(action);
         currentActionPrerequisites = action.Prerequisites;
 
-        for (int x = 0; x < action.ActionEffects.Length; x++)
+        if (!firstAction)
         {
-            // if the statevalue is true set corresponding worldstate bit to 1, if not set it to 0
-            if (action.ActionEffects[x].StateValue)
+            for (int x = 0; x < action.ActionEffects.Length; x++)
             {
-                planWorldState |= action.ActionEffects[x].EffectType;
-            }
-            else
-            {
-                planWorldState &= ~action.ActionEffects[x].EffectType;
+                // if the statevalue is true set corresponding worldstate bit to 1, if not set it to 0
+                if (action.ActionEffects[x].StateValue)
+                {
+                    planWorldState |= action.ActionEffects[x].EffectType;
+                }
+                else
+                {
+                    planWorldState &= ~action.ActionEffects[x].EffectType;
+                }
             }
         }
 

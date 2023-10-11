@@ -14,6 +14,7 @@ public class Planner : MonoBehaviour
 
     private Dictionary<float, StateType> moodPriorities;
     private int prioIndex = 0;
+    private float currentPrioKey;
 
     private void Awake()
     {
@@ -37,6 +38,7 @@ public class Planner : MonoBehaviour
         {
             if (prioIndex > 5)
             {
+                Debug.LogError("no valid course of action found");
                 goal = defaultGoal;
                 plan.Clear();
                 plan.Add(defaultAction);
@@ -51,7 +53,9 @@ public class Planner : MonoBehaviour
         {
             Debug.LogError("no valid course of action found");
             goal = defaultGoal;
+            plan.Clear();
             plan.Add(defaultAction);
+            return false;
         }
         return true;
     }
@@ -161,6 +165,7 @@ public class Planner : MonoBehaviour
         Array.Sort(prioValues);
 
         int goalPrioIndex = prioValues.Length-1-prioIndex;
+        currentPrioKey = prioValues[goalPrioIndex];
 
         while (goalChoices.Count < 1 && goalPrioIndex >= 0)
         {
@@ -229,6 +234,8 @@ public class Planner : MonoBehaviour
 
         for (int x = viableActions.Count-1; x >= 0; x--)
         {
+            //moodPriorities[currentPrioKey]
+            viableActions[x].CalculateCostAndReward(currentStats, goal.Target[0], currentPrioKey);
             possiblePlans.Add(new Plan(viableActions[x], worldState));
         }
 
@@ -274,7 +281,18 @@ public class Planner : MonoBehaviour
 
                         Plan newPlan = new Plan(p);
                         extraPlans.Add(newPlan);
+
+                        //moodPriorities[currentPrioKey]
+                        MoodState mainMood = goal.Target[0];
+                        foreach (MoodState mood in goal.Target)
+                        {
+                            if (mood.MoodType == moodPriorities[currentPrioKey])
+                                mainMood = mood;
+                        }
+
+                        a.CalculateCostAndReward(currentStats, mainMood, currentPrioKey);
                         newPlan.AddAction(a);
+
                         if (a.RequirementsSatisfied(newPlan.planWorldState))
                         {
                             newPlan.MarkComplete();
@@ -305,13 +323,14 @@ public class Planner : MonoBehaviour
             }
         }
 
-        float costRewardRatio = 0;
+        float bestCostRewardRatio = 0;
         foreach (Plan p in possiblePlans)
         {
-            if ((p.Reward/p.Cost) > costRewardRatio)
+            Debug.Log($"reward/cost of plan ending with {p.ActionList[0]} is {p.CostRewardRatio}");
+            if ((p.CostRewardRatio) > bestCostRewardRatio)
             {
-                costRewardRatio = (p.Reward / p.Cost);
-                plan = possiblePlans[UnityEngine.Random.Range(0, possiblePlans.Count)].ActionList;
+                bestCostRewardRatio = p.CostRewardRatio;
+                plan = p.ActionList; 
             }
         }
         plan.Reverse();

@@ -17,10 +17,18 @@ public class Move : Action
 
         moveAgent.SetDestination(target.transform.position);
 
+        Task.Run(() => DoAction(), failToken);
+
+        // Navmeshagent doesn't play nice with threading
         DoAction();
-        FailCheck(token);
+        FailCheck(failToken);
 
         return target;
+    }
+
+    public override void CalculateCostAndReward(CreatureState currentState, MoodState targetMood, float targetMoodPrio)
+    {
+        base.CalculateCostAndReward(currentState, targetMood, targetMoodPrio);
     }
 
     protected override async void DoAction(GameObject target = null)

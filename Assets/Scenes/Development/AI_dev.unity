@@ -6268,6 +6268,7 @@ MonoBehaviour:
     type: 3}
   spawnrange: 5
   spawnDelay: 5
+  maxSpawnAmount: 10
   continous: 1
 --- !u!1001 &1066921984
 PrefabInstance:
@@ -6584,7 +6585,7 @@ PrefabInstance:
     - target: {fileID: 1509665200547473177, guid: e34132a6dc9d16d419298730646672cc,
         type: 3}
       propertyPath: logDebugs
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1509665200547473177, guid: e34132a6dc9d16d419298730646672cc,
         type: 3}
@@ -6595,6 +6596,16 @@ PrefabInstance:
         type: 3}
       propertyPath: currentPlan.Array.size
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1509665200547473177, guid: e34132a6dc9d16d419298730646672cc,
+        type: 3}
+      propertyPath: currentCreatureState.<CreatureStates>k__BackingField.Array.data[0].<StateValue>k__BackingField
+      value: 43.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1509665200547473177, guid: e34132a6dc9d16d419298730646672cc,
+        type: 3}
+      propertyPath: currentCreatureState.<CreatureStates>k__BackingField.Array.data[3].<StateValue>k__BackingField
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 6793286122768968649, guid: e34132a6dc9d16d419298730646672cc,
         type: 3}

@@ -9,6 +9,7 @@ public class Spawner : MonoBehaviour
 
     [SerializeField] private float spawnrange;
     [SerializeField] private float spawnDelay;
+    [SerializeField] private int maxSpawnAmount = 10;
     [SerializeField] private bool continous;
 
     // Start is called before the first frame update
@@ -21,6 +22,12 @@ public class Spawner : MonoBehaviour
     public IEnumerator Spawn()
     {
         yield return new WaitForSeconds(spawnDelay);
+
+        while (transform.childCount > maxSpawnAmount)
+        {
+            yield return null;
+        }
+
         if (continous)
             StartCoroutine(Spawn());
 
