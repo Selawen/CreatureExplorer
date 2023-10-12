@@ -5,10 +5,10 @@ using TMPro;
 [RequireComponent(typeof(Planner))]
 public class Creature : MonoBehaviour
 {
-    [Header("Creature Stats")]
+    [Header("Events")]
     // protected and public are swapped because header hates public fields
     [SerializeField] protected float hearingSensitivity = 1;
-    public Vector3 waryOff { get; protected set; }
+    public Vector3 WaryOff { get; protected set; }
 
     [Header("Debugging")]
     [SerializeField] private bool showThoughts;
@@ -66,6 +66,8 @@ public class Creature : MonoBehaviour
             }
         } 
     }
+
+#region GOAP
     private void StartAction()
     {
         currentAction = currentPlan[0];
@@ -119,13 +121,6 @@ public class Creature : MonoBehaviour
             Debug.Log("Failed in generating plan, resorting to deault action");
         }
 
-        //currentGoal = planner.GenerateGoal(currentCreatureState);
-        //
-        //if (!planner.Plan(currentGoal, currentCreatureState, worldState, out currentPlan))
-        //{
-        //    currentGoal = defaultGoal;
-        //}
-
         currentTarget = null;
 
         StartAction();
@@ -141,9 +136,11 @@ public class Creature : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Update creatureState with effects set in changesEverySecond
+    /// </summary>
     private void UpdateValues()
     {
-        // Update creatureState with effects of finished action
         foreach (MoodState change in changesEverySecond.CreatureStates)
         {
             if (change.Operator == StateOperant.Add)
@@ -154,10 +151,12 @@ public class Creature : MonoBehaviour
 
         UpdateCreatureState();
     }
-
+    /// <summary>
+    /// Update creatureState with effects of finished action
+    /// </summary>
+    /// <param name="updateWith">the CreatureState containing the Moodstates to update with</param>
     protected void UpdateValues(CreatureState updateWith)
-    {
-        // Update creatureState with effects of finished action
+    {        
         foreach (MoodState change in updateWith.CreatureStates)
         {
             if (change.Operator == StateOperant.Set)
@@ -181,6 +180,7 @@ public class Creature : MonoBehaviour
         worldState = (currentCreatureState.Find(StateType.Annoyance).StateValue > 50) ? SetConditionTrue(worldState, Condition.IsAnnoyed) : SetConditionFalse(worldState, Condition.IsAnnoyed);
         worldState = (currentCreatureState.Find(StateType.Fear).StateValue > 50) ? SetConditionTrue(worldState, Condition.IsFrightened) : SetConditionFalse(worldState, Condition.IsFrightened);
     }
+    #endregion
 
     public void HearPlayer(Vector3 playerPos, float playerLoudness)
     {
@@ -188,7 +188,8 @@ public class Creature : MonoBehaviour
             ReactToPlayer(playerPos);
         else
         {
-            worldState = SetConditionFalse(worldState, Condition.IsNearDanger);
+            ReactToPlayerLeaving(playerPos);
+            //worldState = SetConditionFalse(worldState, Condition.IsNearDanger);
         }
     }
 
@@ -198,6 +199,14 @@ public class Creature : MonoBehaviour
         if (logDebugs)
         {
             Debug.Log("Noticed Player");
+        } 
+    }
+
+    protected virtual void ReactToPlayerLeaving(Vector3 playerPos)
+    {
+        if (logDebugs)
+        {
+            Debug.Log("Lost sight of Player");
         } 
     }
 

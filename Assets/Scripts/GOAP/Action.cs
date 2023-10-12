@@ -5,8 +5,8 @@ using UnityEngine;
 abstract public class Action: MonoBehaviour
 {
     [field: SerializeField] public string Name { get; private set; }
+    // TODO: have cost be calculated based on situation?
     [field: SerializeField] public float Cost { get; protected set; }
-    // TODO: have reward be calculated based on situation
     [field: SerializeField] public float BaseReward { get; private set; }
     [field: SerializeField] public float Reward { get; protected set; }
 
@@ -70,7 +70,7 @@ abstract public class Action: MonoBehaviour
             {
                 //calculate reward bonus
                 Reward += currentState.Find(targetMood.MoodType).StateValue * targetMoodPrio * mood.StateValue * 0.01f;
-                Debug.Log($"prio is {targetMoodPrio}, {Name} reward is upped from {BaseReward} to {Reward}");
+                //Debug.Log($"prio is {targetMoodPrio}, {Name} reward is upped from {BaseReward} to {Reward}");
             }
         }
     }
@@ -103,6 +103,7 @@ abstract public class Action: MonoBehaviour
     /// does this action meet the requirements given
     /// </summary>
     /// <param name="requirements">the requirements to satisfy</param>
+    /// <param name="currentState">the condition before the action is performed</param>
     /// <returns></returns>
     public bool SatisfiesRequirements(ActionKey[] requirements, Condition currentState)
     {
@@ -134,6 +135,11 @@ abstract public class Action: MonoBehaviour
         return (targetsReached >= requirements.Length);
     }
 
+    /// <summary>
+    /// Are the requirements of this action satisfied by the Conditon given?
+    /// </summary>
+    /// <param name="currentState">the condition to check against</param>
+    /// <returns></returns>
     public bool RequirementsSatisfied(Condition currentState)
     {
         int targetsReached = 0;

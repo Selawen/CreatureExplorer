@@ -156,7 +156,7 @@ public class Planner : MonoBehaviour
         }
     }
 
-    public Goal GenerateGoal(CreatureState currentState)
+    private Goal GenerateGoal(CreatureState currentState)
     {
         List<Goal> goalChoices = new List<Goal>();
 
@@ -189,7 +189,7 @@ public class Planner : MonoBehaviour
         return goalChoices[UnityEngine.Random.Range(0, goalChoices.Count)];
     }
 
-    public bool PlanActions(Goal goal, CreatureState currentStats, Condition worldState, out List<Action> plan)
+    private bool PlanActions(Goal goal, CreatureState currentStats, Condition worldState, out List<Action> plan)
     {
         plan = new List<Action>();
 
