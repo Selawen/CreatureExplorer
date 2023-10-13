@@ -14,6 +14,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask interactionLayers;
 
     [SerializeField] private UnityEvent onScrapbookOpened;
+    [SerializeField] private UnityEvent onCameraOpened;
+    [SerializeField] private UnityEvent onCameraClosed;
+
+    [SerializeField] private Camera pictureCamera;
 
     private float verticalRotation;
 
@@ -32,6 +36,7 @@ public class PlayerController : MonoBehaviour
 
         playerInput = GetComponent<PlayerInput>();
         Cursor.lockState = CursorLockMode.Locked;
+        onCameraClosed?.Invoke();
     }
 
     private void Start()
@@ -50,6 +55,25 @@ public class PlayerController : MonoBehaviour
     {
         stateMachine.OnFixedUpdate();
         firstPersonCamera.transform.rotation = Quaternion.Euler(new Vector3(verticalRotation, transform.eulerAngles.y, 0));
+        pictureCamera.transform.rotation = Quaternion.Euler(new Vector3(verticalRotation, transform.eulerAngles.y, 0));
+    }
+
+    public void SwapToCamera(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.started)
+        {
+            playerInput.SwitchCurrentActionMap("Camera");
+            onCameraOpened?.Invoke();
+        }
+    }
+
+    public void SwapFromCamera(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.started)
+        {
+            playerInput.SwitchCurrentActionMap("Overworld");
+            onCameraClosed?.Invoke();
+        }
     }
 
     public void GetInteractionInput(InputAction.CallbackContext callbackContext)
@@ -77,6 +101,7 @@ public class PlayerController : MonoBehaviour
         {
             playerInput.SwitchCurrentActionMap("Scrapbook");
             onScrapbookOpened?.Invoke();
+            Cursor.lockState = CursorLockMode.None;
         }
     }
 

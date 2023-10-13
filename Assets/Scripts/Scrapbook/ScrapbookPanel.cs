@@ -42,4 +42,10 @@ public class ScrapbookPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             rect.anchoredPosition = new Vector2(dockedXValue, rect.anchoredPosition.y);
         }
     }
+
+    public void DockPanel()
+    {
+        rect.anchoredPosition = new Vector2(dockedXValue, rect.anchoredPosition.y);
+    }
+
 }

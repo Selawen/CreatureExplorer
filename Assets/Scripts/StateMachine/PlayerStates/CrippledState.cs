@@ -1,11 +1,20 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.HighDefinition;
 
 [RequireComponent(typeof(Rigidbody))]
 public class CrippledState : State
 {
     [SerializeField] private float crippleTime = 10f;
     [SerializeField] private float crippleMoveSpeed = 2f;
+    [SerializeField] private float vignetteStrength = 0.5f;
+
+    [SerializeField] private AudioSource sharedPlayerSource;
+    [SerializeField] private AudioClip painSound;
+    [SerializeField] private AudioClip boneCrackSound;
+
+    [SerializeField] private Volume volume;
 
     private float timer = 0f;
 
@@ -16,6 +25,19 @@ public class CrippledState : State
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
+    }
+
+    public override void OnStateEnter()
+    {
+        base.OnStateEnter();
+        sharedPlayerSource.clip = painSound;
+        sharedPlayerSource.Play();
+        sharedPlayerSource.clip = boneCrackSound;
+        sharedPlayerSource.Play();
+        if (volume.profile.TryGet(out Vignette vignette))
+        {
+            vignette.intensity.value = vignetteStrength;
+        }
     }
 
     public override void OnStateUpdate()
@@ -29,7 +51,14 @@ public class CrippledState : State
 
         Move();
     }
-
+    public override void OnStateExit()
+    {
+        base.OnStateExit();
+        if (volume.profile.TryGet(out Vignette vignette))
+        {
+            vignette.intensity.value = 0;
+        }
+    }
     public void GetMoveInput(InputAction.CallbackContext callbackContext)
     {
         moveInput = callbackContext.ReadValue<Vector2>().normalized;

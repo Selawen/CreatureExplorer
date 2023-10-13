@@ -1,12 +1,20 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.HighDefinition;
 
 [RequireComponent(typeof(Rigidbody))]
 public class HurtState : State
 {
     [SerializeField] private float hurtTime = 5f;
     [SerializeField] private float hurtMoveSpeed = 3.5f;
-    
+    [SerializeField] private float vignetteStrength = 0.3f;
+
+    [SerializeField] private AudioSource sharedPlayerSource;
+    [SerializeField] private AudioClip hurtSound;
+
+    [SerializeField] private Volume volume;
+
     private float timer = 0f;
 
     private Vector2 moveInput;
@@ -16,6 +24,17 @@ public class HurtState : State
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
+    }
+
+    public override void OnStateEnter()
+    {
+        base.OnStateEnter();
+        sharedPlayerSource.clip = hurtSound;
+        sharedPlayerSource.Play();
+        if(volume.profile.TryGet(out Vignette vignette))
+        {
+            vignette.intensity.value = vignetteStrength;
+        }
     }
 
     public override void OnStateUpdate()
@@ -30,6 +49,14 @@ public class HurtState : State
         }
 
         Move();
+    }
+    public override void OnStateExit()
+    {
+        base.OnStateExit();
+        if (volume.profile.TryGet(out Vignette vignette))
+        {
+            vignette.intensity.value = 0;
+        }
     }
 
     public void GetMoveInput(InputAction.CallbackContext callbackContext)

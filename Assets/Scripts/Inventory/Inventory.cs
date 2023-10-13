@@ -44,6 +44,8 @@ public class Inventory<T>
         return false;
     }
 
+    public bool InventoryIsFull() => inventoryItems.Count == capacity;
+
     // Get the item at a certain index, if it exists. Otherwise, return the default.
     // Might convert this function to a bool, with an out T parameter. - Justin
     public T GetItemAtIndex(ushort index) => inventoryItems[index] != null ? inventoryItems[index] : default;
