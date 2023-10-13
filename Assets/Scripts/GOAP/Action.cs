@@ -25,7 +25,7 @@ abstract public class Action: MonoBehaviour
     protected CancellationTokenSource source;
     protected CancellationToken token;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         failSource = new CancellationTokenSource();
         failToken = failSource.Token;

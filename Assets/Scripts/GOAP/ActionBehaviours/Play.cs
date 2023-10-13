@@ -6,8 +6,9 @@ public class Play : Action
 {
     private NavMeshAgent moveAgent;
 
-    private void Start()
+    protected override void Awake()
     {
+        base.Awake();
         moveAgent = gameObject.GetComponentInParent<NavMeshAgent>();
     }
 
