@@ -31,6 +31,8 @@ public class Creature : MonoBehaviour
 
     private Planner planner;
 
+    private bool sawPlayer = false;
+
     private void Start()
     {
         if (!showThoughts)
@@ -188,7 +190,7 @@ public class Creature : MonoBehaviour
     {
         if ((transform.position - playerPos).sqrMagnitude < playerLoudness * hearingSensitivity)
             ReactToPlayer(playerPos);
-        else
+        else if (sawPlayer)
         {
             ReactToPlayerLeaving(playerPos);
             //worldState = SetConditionFalse(worldState, Condition.IsNearDanger);
@@ -197,6 +199,7 @@ public class Creature : MonoBehaviour
 
     protected virtual void ReactToPlayer(Vector3 playerPos)
     {
+        sawPlayer = true;
         UpdateValues(reactionToPlayer);
         if (logDebugs)
         {
@@ -206,6 +209,7 @@ public class Creature : MonoBehaviour
 
     protected virtual void ReactToPlayerLeaving(Vector3 playerPos)
     {
+        sawPlayer = false;
         if (logDebugs)
         {
             Debug.Log("Lost sight of Player");

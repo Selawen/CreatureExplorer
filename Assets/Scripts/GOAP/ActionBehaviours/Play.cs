@@ -34,7 +34,7 @@ public class Play : Action
 
         while (playTimer > 0)
         {
-            // TODO: make more performant
+            // TODO: make more performant?
             moveAgent.SetDestination(moveAgent.transform.position + (moveAgent.transform.forward + moveAgent.transform.right));
 
             playTimer -= Time.deltaTime;
