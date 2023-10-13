@@ -17,7 +17,7 @@ public class Flee : Action
         originalAcceleration = moveAgent.acceleration;
     }
 
-    public override GameObject PerformAction(GameObject creature, GameObject target)
+    public override GameObject PerformAction(Creature creature, GameObject target)
     {
         moveAgent = gameObject.GetComponentInParent<NavMeshAgent>();
 

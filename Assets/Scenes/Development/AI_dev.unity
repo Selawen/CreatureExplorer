@@ -5839,7 +5839,7 @@ PrefabInstance:
     - target: {fileID: 7807978120469739683, guid: 66426cf5097a71540a340409520fad9b,
         type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 7807978120469739683, guid: 66426cf5097a71540a340409520fad9b,
         type: 3}
@@ -6247,7 +6247,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1066813265
 MonoBehaviour:
@@ -6440,7 +6440,7 @@ PrefabInstance:
     - target: {fileID: 530009447095143256, guid: e34132a6dc9d16d419298730646672cc,
         type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 530009447095143256, guid: e34132a6dc9d16d419298730646672cc,
         type: 3}
@@ -6596,6 +6596,11 @@ PrefabInstance:
         type: 3}
       propertyPath: currentPlan.Array.size
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1509665200547473177, guid: e34132a6dc9d16d419298730646672cc,
+        type: 3}
+      propertyPath: <Foodsource>k__BackingField
+      value: Food
       objectReference: {fileID: 0}
     - target: {fileID: 1509665200547473177, guid: e34132a6dc9d16d419298730646672cc,
         type: 3}
@@ -9932,6 +9937,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 861525939929995070, guid: cd9fc217f2fb09f4f87c455c82885d84,
+        type: 3}
+      propertyPath: currentCreatureState.<CreatureStates>k__BackingField.Array.data[5].<StateValue>k__BackingField
+      value: 11.5
+      objectReference: {fileID: 0}
     - target: {fileID: 7521121884212094408, guid: cd9fc217f2fb09f4f87c455c82885d84,
         type: 3}
       propertyPath: m_RootOrder
@@ -9945,7 +9955,7 @@ PrefabInstance:
     - target: {fileID: 7521121884212094408, guid: cd9fc217f2fb09f4f87c455c82885d84,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7521121884212094408, guid: cd9fc217f2fb09f4f87c455c82885d84,
         type: 3}
@@ -9987,10 +9997,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7521121884212094411, guid: cd9fc217f2fb09f4f87c455c82885d84,
+        type: 3}
+      propertyPath: <FoodSource>k__BackingField
+      value: Charger
+      objectReference: {fileID: 0}
+    - target: {fileID: 7521121884212094411, guid: cd9fc217f2fb09f4f87c455c82885d84,
+        type: 3}
+      propertyPath: <Foodsource>k__BackingField
+      value: Charger
+      objectReference: {fileID: 0}
     - target: {fileID: 7521121884212094412, guid: cd9fc217f2fb09f4f87c455c82885d84,
         type: 3}
       propertyPath: m_Name
       value: Torca
+      objectReference: {fileID: 0}
+    - target: {fileID: 7521121884212094412, guid: cd9fc217f2fb09f4f87c455c82885d84,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cd9fc217f2fb09f4f87c455c82885d84, type: 3}

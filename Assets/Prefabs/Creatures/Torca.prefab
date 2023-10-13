@@ -97,8 +97,92 @@ PrefabInstance:
       propertyPath: reactionToPlayer.<CreatureStates>k__BackingField.Array.data[0].<StateValue>k__BackingField
       value: 10
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7210352520341627487, guid: c4d537d1eccf6d84da8c18f49b4831be, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c4d537d1eccf6d84da8c18f49b4831be, type: 3}
+--- !u!114 &7521121882960059789 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7210352519244847641, guid: c4d537d1eccf6d84da8c18f49b4831be,
+    type: 3}
+  m_PrefabInstance: {fileID: 896275609358878612}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &7521121884212094412 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7210352520341627480, guid: c4d537d1eccf6d84da8c18f49b4831be,
+    type: 3}
+  m_PrefabInstance: {fileID: 896275609358878612}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &861525939929995070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7521121884212094412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed8b96312a57eec47b29426e8be670fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hearingSensitivity: 1
+  <FoodSource>k__BackingField: Charger
+  showThoughts: 1
+  logDebugs: 0
+  goalText: {fileID: 7521121882960059789}
+  actionText: {fileID: 7521121885061991486}
+  worldState: 0
+  currentCreatureState:
+    <CreatureStates>k__BackingField:
+    - <MoodType>k__BackingField: 0
+      <Operator>k__BackingField: 2
+      <StateValue>k__BackingField: 0
+    - <MoodType>k__BackingField: 1
+      <Operator>k__BackingField: 2
+      <StateValue>k__BackingField: 20
+    - <MoodType>k__BackingField: 2
+      <Operator>k__BackingField: 2
+      <StateValue>k__BackingField: 0
+    - <MoodType>k__BackingField: 3
+      <Operator>k__BackingField: 2
+      <StateValue>k__BackingField: 50
+    - <MoodType>k__BackingField: 4
+      <Operator>k__BackingField: 2
+      <StateValue>k__BackingField: 50
+    - <MoodType>k__BackingField: 5
+      <Operator>k__BackingField: 2
+      <StateValue>k__BackingField: 50
+  changesEverySecond:
+    <CreatureStates>k__BackingField:
+    - <MoodType>k__BackingField: 1
+      <Operator>k__BackingField: 3
+      <StateValue>k__BackingField: 0.5
+    - <MoodType>k__BackingField: 3
+      <Operator>k__BackingField: 3
+      <StateValue>k__BackingField: 0.5
+  reactionToPlayer:
+    <CreatureStates>k__BackingField:
+    - <MoodType>k__BackingField: 0
+      <Operator>k__BackingField: 3
+      <StateValue>k__BackingField: 10
+  currentPlan: []
+--- !u!114 &7521121885061991486 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7210352521194736554, guid: c4d537d1eccf6d84da8c18f49b4831be,
+    type: 3}
+  m_PrefabInstance: {fileID: 896275609358878612}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &8766355791077564230 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8491660029327513810, guid: c4d537d1eccf6d84da8c18f49b4831be,

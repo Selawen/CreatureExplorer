@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2449828465151668406}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.495, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -307,7 +307,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: 1.89}
   m_SizeDelta: {x: 800, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &7210352519269463270
@@ -396,6 +396,7 @@ GameObject:
   - component: {fileID: 7210352520341627553}
   - component: {fileID: 7210352520341627486}
   - component: {fileID: 7210352520341627487}
+  - component: {fileID: 1411846612349418880}
   m_Layer: 0
   m_Name: Creature Template
   m_TagString: Untagged
@@ -645,6 +646,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hearingSensitivity: 1
+  <FoodSource>k__BackingField: 
   showThoughts: 0
   logDebugs: 0
   goalText: {fileID: 7210352519244847641}
@@ -684,6 +686,19 @@ MonoBehaviour:
       <Operator>k__BackingField: 3
       <StateValue>k__BackingField: 12.5
   currentPlan: []
+--- !u!135 &1411846612349418880
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7210352520341627480}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7210352520757950096
 GameObject:
   m_ObjectHideFlags: 0

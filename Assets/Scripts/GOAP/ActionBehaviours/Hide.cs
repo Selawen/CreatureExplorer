@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Hide : Action
 {
-    public override GameObject PerformAction(GameObject creature, GameObject target)
+    public override GameObject PerformAction(Creature creature, GameObject target)
     {
         Task.Run(() => DoAction(), token);
         FailCheck(failToken);

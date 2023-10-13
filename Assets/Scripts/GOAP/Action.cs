@@ -47,7 +47,7 @@ abstract public class Action: MonoBehaviour
     /// <param name="creature">the creature that is performing the action</param>
     /// <param name="target">the target of the action</param>
     /// <returns>returns a new target if the behaviour changes the target. Null if not</returns>
-    public abstract GameObject PerformAction(GameObject creature, GameObject target);
+    public abstract GameObject PerformAction(Creature creature, GameObject target);
 
     public virtual void Reset()
     {
@@ -170,7 +170,7 @@ abstract public class Action: MonoBehaviour
             }
         } catch (TaskCanceledException e)
         {
-            Debug.Log($"{this.name} has finished");
+            //Debug.Log($"{this.name} has finished");
         }
     }
 

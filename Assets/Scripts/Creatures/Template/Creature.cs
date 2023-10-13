@@ -9,6 +9,8 @@ public class Creature : MonoBehaviour
     // protected and public are swapped because header hates public fields
     [SerializeField] protected float hearingSensitivity = 1;
     public Vector3 WaryOff { get; protected set; }
+    [Tooltip("The name of the script that is on this creature's foodsource")]
+    [field: SerializeField] public string FoodSource { get; protected set; }
 
     [Header("Debugging")]
     [SerializeField] private bool showThoughts;
@@ -75,7 +77,7 @@ public class Creature : MonoBehaviour
         // reset values on action before running it
         currentAction?.Reset();
 
-        currentTarget = currentAction.PerformAction(gameObject, currentTarget);
+        currentTarget = currentAction.PerformAction(this, currentTarget);
 
         if (showThoughts)
         {

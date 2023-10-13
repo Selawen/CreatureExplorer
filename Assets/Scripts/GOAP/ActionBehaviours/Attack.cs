@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Attack : Action
 {
-    public override GameObject PerformAction(GameObject creature, GameObject target)
+    public override GameObject PerformAction(Creature creature, GameObject target)
     {
         DoAction(target);
         FailCheck(failToken);

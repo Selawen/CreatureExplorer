@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Sleep : Action
 {
-    public override GameObject PerformAction(GameObject creature, GameObject target)
+    public override GameObject PerformAction(Creature creature, GameObject target)
     {
         failToken = failSource.Token;
         Task.Run(() => DoAction(), token);

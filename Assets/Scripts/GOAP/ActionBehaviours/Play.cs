@@ -11,7 +11,7 @@ public class Play : Action
         moveAgent = gameObject.GetComponentInParent<NavMeshAgent>();
     }
 
-    public override GameObject PerformAction(GameObject creature, GameObject target)
+    public override GameObject PerformAction(Creature creature, GameObject target)
     {
         moveAgent = gameObject.GetComponentInParent<NavMeshAgent>();
         //Task.Run(() => DoAction(), failToken);
