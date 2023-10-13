@@ -19,7 +19,7 @@ public class Move : Action
 
         moveAgent.SetDestination(targetTransform.position);
 
-        Task.Run(() => DoAction(), failToken);
+        //Task.Run(() => DoAction(), failToken);
 
         // Navmeshagent doesn't play nice with threading
         DoAction();

@@ -6582,35 +6582,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: Charger
       objectReference: {fileID: 0}
-    - target: {fileID: 1509665200547473177, guid: e34132a6dc9d16d419298730646672cc,
+    - target: {fileID: 530009447095143260, guid: e34132a6dc9d16d419298730646672cc,
         type: 3}
-      propertyPath: logDebugs
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1509665200547473177, guid: e34132a6dc9d16d419298730646672cc,
-        type: 3}
-      propertyPath: hearingSensitivity
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 1509665200547473177, guid: e34132a6dc9d16d419298730646672cc,
-        type: 3}
-      propertyPath: currentPlan.Array.size
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1509665200547473177, guid: e34132a6dc9d16d419298730646672cc,
         type: 3}
       propertyPath: <Foodsource>k__BackingField
       value: Food
-      objectReference: {fileID: 0}
-    - target: {fileID: 1509665200547473177, guid: e34132a6dc9d16d419298730646672cc,
-        type: 3}
-      propertyPath: currentCreatureState.<CreatureStates>k__BackingField.Array.data[0].<StateValue>k__BackingField
-      value: 43.9
-      objectReference: {fileID: 0}
-    - target: {fileID: 1509665200547473177, guid: e34132a6dc9d16d419298730646672cc,
-        type: 3}
-      propertyPath: currentCreatureState.<CreatureStates>k__BackingField.Array.data[3].<StateValue>k__BackingField
-      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 6793286122768968649, guid: e34132a6dc9d16d419298730646672cc,
         type: 3}
@@ -10191,6 +10171,59 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 12728451}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1861050408
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1861050410}
+  - component: {fileID: 1861050409}
+  m_Layer: 0
+  m_Name: ChargerSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1861050409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1861050408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5f512a2b5602bc4c8c36e7b63e89638, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canspawnOn:
+    serializedVersion: 2
+    m_Bits: 8
+  spawnedObject: {fileID: 530009447095143260, guid: e34132a6dc9d16d419298730646672cc,
+    type: 3}
+  spawnrange: 10
+  spawnDelay: 10
+  maxSpawnAmount: 3
+  continous: 1
+--- !u!4 &1861050410
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1861050408}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.3, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1878376331 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 530009447095143256, guid: e34132a6dc9d16d419298730646672cc,

@@ -822,7 +822,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 879ce6e2a3de90649b4fe65100d98580, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hearingSensitivity: 1
+  hearingSensitivity: 10
+  <FoodSource>k__BackingField: Food
   showThoughts: 1
   logDebugs: 0
   goalText: {fileID: 530009448259105565}
@@ -832,7 +833,7 @@ MonoBehaviour:
     <CreatureStates>k__BackingField:
     - <MoodType>k__BackingField: 0
       <Operator>k__BackingField: 2
-      <StateValue>k__BackingField: 91.3
+      <StateValue>k__BackingField: 43.9
     - <MoodType>k__BackingField: 1
       <Operator>k__BackingField: 2
       <StateValue>k__BackingField: 20
@@ -841,7 +842,7 @@ MonoBehaviour:
       <StateValue>k__BackingField: 0
     - <MoodType>k__BackingField: 3
       <Operator>k__BackingField: 2
-      <StateValue>k__BackingField: 50
+      <StateValue>k__BackingField: 100
     - <MoodType>k__BackingField: 4
       <Operator>k__BackingField: 2
       <StateValue>k__BackingField: 50
