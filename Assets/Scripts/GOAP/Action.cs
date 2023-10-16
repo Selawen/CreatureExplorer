@@ -5,6 +5,7 @@ using UnityEngine;
 abstract public class Action: MonoBehaviour
 {
     [field: SerializeField] public string Name { get; private set; }
+    [field: SerializeField] public string Onomatopea { get; private set; }
     // TODO: have cost be calculated based on situation?
     [field: SerializeField] public float Cost { get; protected set; }
     [field: SerializeField] public float BaseReward { get; private set; }

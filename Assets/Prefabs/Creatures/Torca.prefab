@@ -125,7 +125,7 @@ PrefabInstance:
     - target: {fileID: 7210352520341627486, guid: c4d537d1eccf6d84da8c18f49b4831be,
         type: 3}
       propertyPath: possibleActions.Array.size
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 7210352520341627486, guid: c4d537d1eccf6d84da8c18f49b4831be,
         type: 3}
@@ -142,6 +142,11 @@ PrefabInstance:
       propertyPath: possibleActions.Array.data[9]
       value: 
       objectReference: {fileID: 2083881218145084389}
+    - target: {fileID: 7210352520341627486, guid: c4d537d1eccf6d84da8c18f49b4831be,
+        type: 3}
+      propertyPath: possibleActions.Array.data[10]
+      value: 
+      objectReference: {fileID: 6060424198147818693}
     - target: {fileID: 7210352520341627486, guid: c4d537d1eccf6d84da8c18f49b4831be,
         type: 3}
       propertyPath: HungerPriority.m_Curve.Array.data[0].inSlope
@@ -222,15 +227,44 @@ PrefabInstance:
       propertyPath: reactionToPlayer.<CreatureStates>k__BackingField.Array.data[0].<StateValue>k__BackingField
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 7493574693465862899, guid: c4d537d1eccf6d84da8c18f49b4831be,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7210352520341627487, guid: c4d537d1eccf6d84da8c18f49b4831be, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c4d537d1eccf6d84da8c18f49b4831be, type: 3}
+--- !u!114 &610037542226353938 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 290337051581290630, guid: c4d537d1eccf6d84da8c18f49b4831be,
+    type: 3}
+  m_PrefabInstance: {fileID: 896275609358878612}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &5921206383200418089 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6799428552790998717, guid: c4d537d1eccf6d84da8c18f49b4831be,
     type: 3}
   m_PrefabInstance: {fileID: 896275609358878612}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6060424198147818693 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6371122712087528273, guid: c4d537d1eccf6d84da8c18f49b4831be,
+    type: 3}
+  m_PrefabInstance: {fileID: 896275609358878612}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d31afcf914cc904aa56b18abc127530, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7521121882960059789 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7210352519244847641, guid: c4d537d1eccf6d84da8c18f49b4831be,
@@ -263,10 +297,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hearingSensitivity: 5
   <FoodSource>k__BackingField: Charger
-  showThoughts: 1
+  showThoughts: 0
   <logDebugs>k__BackingField: 0
   goalText: {fileID: 7521121882960059789}
   actionText: {fileID: 7521121885061991486}
+  soundText: {fileID: 610037542226353938}
   worldState: 0
   currentCreatureState:
     <CreatureStates>k__BackingField:
