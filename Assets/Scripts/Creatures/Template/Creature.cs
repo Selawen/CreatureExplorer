@@ -209,6 +209,7 @@ public class Creature : MonoBehaviour
 
             // TODO: implement proper reaction
             goalText.text = "DEAD";
+            soundText.text = "DEAD";
             actionText.text = "";
             this.enabled = false;
 
