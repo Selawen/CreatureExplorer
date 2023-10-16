@@ -69,8 +69,10 @@ abstract public class Action: MonoBehaviour
             if (mood.MoodType == targetMood.MoodType && (mood.Operator == StateOperant.Set || (targetMood.Operator == StateOperant.LessThan && mood.Operator == StateOperant.Subtract) || (targetMood.Operator == StateOperant.GreaterThan &&  mood.Operator == StateOperant.Add)))
             {
                 //calculate reward bonus
-                Reward += currentState.Find(targetMood.MoodType).StateValue * targetMoodPrio * mood.StateValue * 0.01f;
-                //Debug.Log($"prio is {targetMoodPrio}, {Name} reward is upped from {BaseReward} to {Reward}");
+                // TODO: balance so that creature is more likely to ruminate when not hungry and eat when hungrier (for example)
+                Reward += (1-mood.StateValue*0.01f) ;
+                Reward *= targetMoodPrio * mood.StateValue;
+                Debug.Log($"prio is {targetMoodPrio}, {Name} reward is upped from {BaseReward} to {Reward}");
             }
         }
     }
