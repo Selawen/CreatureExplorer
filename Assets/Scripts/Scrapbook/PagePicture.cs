@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class PagePicture : MoveablePageComponent, IPointerEnterHandler, IPointerExitHandler
 {
     public PictureInfo PictureInfo { get; private set; }
+    public System.Action OnPictureClicked;
 
     [SerializeField] private Image pictureGraphic;
 
@@ -13,6 +14,7 @@ public class PagePicture : MoveablePageComponent, IPointerEnterHandler, IPointer
     private void Start()
     {
         SetHalfSizes();
+        OnPictureClicked = SelectForPlacement;
     }
 
     public void SetPicture(Sprite pictureSprite)
@@ -29,7 +31,7 @@ public class PagePicture : MoveablePageComponent, IPointerEnterHandler, IPointer
     {
         if (eventData.button == PointerEventData.InputButton.Left && !placedOnPage)
         {
-            SelectForPlacement();
+            OnPictureClicked?.Invoke();
             return;
         }
         if (eventData.button == PointerEventData.InputButton.Right && placedOnPage)
@@ -58,19 +60,18 @@ public class PagePicture : MoveablePageComponent, IPointerEnterHandler, IPointer
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log("No longer hovering over the picture");
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
         //Debug.Log("Hovering over the picture");
-        foreach(IIdentifiable i in PictureInfo.PictureObjects)
-        {
-            Debug.Log($"This picture contains a {i.GivenName}");
-            Debug.Log($"It is described as {i.GivenDescription}");
-        }
+        //foreach(IIdentifiable i in PictureInfo.PictureObjects)
+        //{
+        //    Debug.Log($"This picture contains a {i.GivenName}");
+        //    Debug.Log($"It is described as {i.GivenDescription}");
+        //}
     }
 
-    private void SelectForPlacement()
+    public void SelectForPlacement()
     {
         ScrapbookPage page = Scrapbook.Instance.CurrentPage;
         page.AddComponentToPage(this);

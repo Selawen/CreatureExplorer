@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
+    public float Loudness { get; private set; }
+
     [SerializeField] private float maximumViewAngle = 70f;
     [SerializeField] private float interactionDistance = 2f;
     [SerializeField] private float interactionRadius = 1.25f;
@@ -104,6 +106,8 @@ public class PlayerController : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
         }
     }
+
+    public void SetLoudness(float newLoudness) => Loudness = newLoudness;
 
     private void HandleRotation(Vector2 lookInput)
     { 

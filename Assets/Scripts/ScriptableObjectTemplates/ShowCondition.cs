@@ -3,13 +3,13 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ShowCondition", menuName = "Titan Quests/New Show Condition")]
 public class ShowCondition : QuestCondition
 {
-    [SerializeField] private IInteractable requiredObject;
+    [SerializeField] private QuestableObject requiredObject;
 
     public override bool Evaluate(PictureInfo pictureInfo)
     {
-        foreach (IInteractable interactable in pictureInfo.PictureObjects)
+        foreach (QuestableObject questable in pictureInfo.PictureObjects)
         {
-            if (interactable.GetType() == requiredObject.GetType())
+            if (questable.QuestObjectID == requiredObject.QuestObjectID)
             {
                 return true;
             }
