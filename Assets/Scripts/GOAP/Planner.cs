@@ -16,9 +16,12 @@ public class Planner : MonoBehaviour
     private int prioIndex = 0;
     private float currentPrioKey;
 
+    private bool debug;
+
     private void Awake()
     {
         moodPriorities = new Dictionary<float, StateType>();
+        debug = GetComponent<Creature>().logDebugs;
     }
 
     private void OnValidate()
@@ -38,7 +41,8 @@ public class Planner : MonoBehaviour
         {
             if (prioIndex > 5)
             {
-                Debug.LogError("no valid course of action found");
+                if (debug)
+                    Debug.LogError("no valid course of action found");
                 goal = defaultGoal;
                 plan.Clear();
                 plan.Add(defaultAction);
@@ -51,7 +55,8 @@ public class Planner : MonoBehaviour
 
         if (plan.Count < 1)
         {
-            Debug.LogError("no valid course of action found");
+            if (debug) 
+                Debug.LogError("no valid course of action found");
             goal = defaultGoal;
             plan.Clear();
             plan.Add(defaultAction);
@@ -76,19 +81,6 @@ public class Planner : MonoBehaviour
             // TODO: make more generic, find better way to avoid duplicate keys
             switch (state.MoodType)
             {
-                case StateType.Annoyance:
-                    prio = AnnoyancePriority.Evaluate(state.StateValue / 100);
-
-                    try
-                    {
-                        moodPriorities.Add(prio, StateType.Annoyance);
-                    }
-                    catch (Exception e)
-                    {
-                        moodPriorities.Add(Mathf.Clamp(prio + 0.0001f, 0, 1), StateType.Annoyance);
-                    }
-
-                    break;
                 case StateType.Fear:
                     prio = FearPriority.Evaluate(state.StateValue / 100);
 
@@ -98,10 +90,39 @@ public class Planner : MonoBehaviour
                     }
                     catch (Exception e)
                     {
-                        moodPriorities.Add(Mathf.Clamp(prio + 0.0002f, 0, 1), StateType.Annoyance);
+                        try
+                        {
+                            moodPriorities.Add(Mathf.Clamp(prio + 0.0001f, 0, 1), StateType.Fear);
+                        }
+                        catch (Exception ex)
+                        {
+                            moodPriorities.Add(Mathf.Clamp(prio - 0.0001f, 0, 1), StateType.Fear);
+                        }
                     }
 
                     break;
+
+                case StateType.Annoyance:
+                    prio = AnnoyancePriority.Evaluate(state.StateValue / 100);
+
+                    try
+                    {
+                        moodPriorities.Add(prio, StateType.Annoyance);
+                    }
+                    catch (Exception e)
+                    {
+                        try
+                        {
+                            moodPriorities.Add(Mathf.Clamp(prio + 0.0002f, 0, 1), StateType.Annoyance);
+                        }
+                        catch (Exception ex)
+                        {
+                            moodPriorities.Add(Mathf.Clamp(prio - 0.0002f, 0, 1), StateType.Annoyance);
+                        }
+                    }
+
+                    break;
+
                 case StateType.Hunger:
                     prio = HungerPriority.Evaluate(state.StateValue / 100);
                     try
@@ -110,10 +131,18 @@ public class Planner : MonoBehaviour
                     }
                     catch (Exception e)
                     {
-                        moodPriorities.Add(Mathf.Clamp(prio + 0.0003f, 0, 1), StateType.Annoyance);
+                        try
+                        {
+                            moodPriorities.Add(Mathf.Clamp(prio + 0.0003f, 0, 1), StateType.Hunger);
+                        }
+                        catch (Exception ex)
+                        {
+                            moodPriorities.Add(Mathf.Clamp(prio - 0.0003f, 0, 1), StateType.Hunger);
+                        }
                     }
 
                     break;
+
                 case StateType.Tiredness:
                     prio = TirednessPriority.Evaluate(state.StateValue / 100);
 
@@ -123,10 +152,18 @@ public class Planner : MonoBehaviour
                     }
                     catch (Exception e)
                     {
-                        moodPriorities.Add(Mathf.Clamp(prio + 0.0004f, 0, 1), StateType.Annoyance);
+                        try
+                        {
+                            moodPriorities.Add(Mathf.Clamp(prio + 0.0004f, 0, 1), StateType.Tiredness);
+                        }
+                        catch (Exception ex)
+                        {
+                            moodPriorities.Add(Mathf.Clamp(prio - 0.0004f, 0, 1), StateType.Tiredness);
+                        }
                     }
 
                     break;
+
                 case StateType.Happiness:
                     prio = HappinessPriority.Evaluate(state.StateValue / 100);
 
@@ -136,10 +173,18 @@ public class Planner : MonoBehaviour
                     }
                     catch (Exception e)
                     {
-                        moodPriorities.Add(Mathf.Clamp(prio + 0.0005f, 0, 1), StateType.Annoyance);
+                        try
+                        {
+                            moodPriorities.Add(Mathf.Clamp(prio + 0.0005f, 0, 1), StateType.Happiness);
+                        }
+                        catch (Exception ex)
+                        {
+                            moodPriorities.Add(Mathf.Clamp(prio - 0.0005f, 0, 1), StateType.Happiness);
+                        }
                     }
 
                     break;
+
                 case StateType.Boredom:
                     prio = BoredomPriority.Evaluate(state.StateValue / 100);
                     try
@@ -148,12 +193,26 @@ public class Planner : MonoBehaviour
                     }
                     catch (Exception e)
                     {
-                        moodPriorities.Add(Mathf.Clamp(prio + 0.0006f, 0, 1), StateType.Annoyance);
+                        try
+                        {
+                            moodPriorities.Add(Mathf.Clamp(prio + 0.0006f, 0, 1), StateType.Boredom);
+                        }
+                        catch (Exception ex)
+                        {
+                            moodPriorities.Add(Mathf.Clamp(prio - 0.0006f, 0, 1), StateType.Boredom);
+                        }
                     }
 
                     break;
             }
         }
+
+        /*
+        foreach (KeyValuePair<float, StateType> kvp in moodPriorities)
+        {
+            Debug.Log($"prio of {kvp.Value} is {kvp.Key}");
+        }
+        */
     }
 
     private Goal GenerateGoal(CreatureState currentState)
@@ -174,7 +233,9 @@ public class Planner : MonoBehaviour
                 foreach (MoodState mood in g.Target)
                 {
                     if (mood.MoodType == moodPriorities[prioValues[goalPrioIndex]])
+                    {
                         goalChoices.Add(g);
+                    }
                 }
             }
             goalPrioIndex--;
@@ -263,7 +324,8 @@ public class Planner : MonoBehaviour
                 failsafe++;
                 if (failsafe > 150)
                 {
-                    Debug.LogError("took too long to generate plan");
+                    if (debug) 
+                        Debug.LogError("took too long to generate plan");
                     plan.Clear();
                     plan.Add(defaultAction);
                     return false;
@@ -319,6 +381,8 @@ public class Planner : MonoBehaviour
 
             if (possiblePlans.Count < 1)
             {
+                if (debug) 
+                    Debug.Log($"goal {goal.Name} not possible");
                 return false;
             }
         }
@@ -335,6 +399,8 @@ public class Planner : MonoBehaviour
         }
         plan.Reverse();
 
+        if (debug) 
+            Debug.Log($"generated plan for goal {goal.Name}");
         return true;
     }
 }

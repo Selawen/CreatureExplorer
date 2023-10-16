@@ -34,12 +34,21 @@ public class Search : Action
                         nearest = c;
                     }
                     break;
+
+                case (SearchTarget.Anything):
+
+                    if ((c.transform.position - creature.transform.position).sqrMagnitude < distance && c.transform != creature.transform)
+                    {
+                        distance = (c.transform.position - creature.transform.position).sqrMagnitude;
+                        nearest = c;
+                    }
+                    break;
             }
         }
 
         if (nearest != null)
         {
-            Task.Run(() => DoAction(), token);
+            DoAction();
             return nearest.gameObject;
         }
 
@@ -61,6 +70,7 @@ public class Search : Action
     public enum SearchTarget
     {
         Food,
-        Tree
+        Tree,
+        Anything
     }
 }

@@ -14,7 +14,7 @@ public class Creature : MonoBehaviour
 
     [Header("Debugging")]
     [SerializeField] private bool showThoughts;
-    [SerializeField] private bool logDebugs;
+    [field: SerializeField] public bool logDebugs { get; private set; }
     [SerializeField] private TextMeshProUGUI goalText;
     [SerializeField] private TextMeshProUGUI actionText;
 
@@ -22,6 +22,7 @@ public class Creature : MonoBehaviour
     [SerializeField] protected Condition worldState;
     [SerializeField] private CreatureState currentCreatureState;
     [SerializeField] private CreatureState changesEverySecond;
+    [SerializeField] private CreatureState reactionToAttack;
     [SerializeField] private CreatureState reactionToPlayer;
     [SerializeField] private List<Action> currentPlan;
 
@@ -186,6 +187,29 @@ public class Creature : MonoBehaviour
     }
     #endregion
 
+    /// <summary>
+    /// Is the attack on this creature successful?
+    /// </summary>
+    /// <returns></returns>
+    public bool AttackSuccess(Vector3 attackSource)
+    {
+        // TODO: think about what to set the value to beat to
+        ReactToAttack(attackSource);
+
+        if (Random.Range(0, currentCreatureState.Find(StateType.Tiredness).StateValue) > 20)
+        {
+            currentAction.Reset();
+
+            // TODO: implement proper reaction
+            goalText.text = "DEAD";
+            actionText.text = "";
+            this.enabled = false;
+
+            return true;
+        } else 
+            return false;
+    }
+
     public void HearPlayer(Vector3 playerPos, float playerLoudness)
     {
         if ((transform.position - playerPos).sqrMagnitude < playerLoudness * hearingSensitivity)
@@ -195,6 +219,18 @@ public class Creature : MonoBehaviour
             ReactToPlayerLeaving(playerPos);
             //worldState = SetConditionFalse(worldState, Condition.IsNearDanger);
         }
+    }
+
+    protected virtual void ReactToAttack(Vector3 attackPos)
+    {
+        WaryOff = attackPos;
+        UpdateValues(reactionToAttack);
+        worldState = SetConditionTrue(worldState, Condition.IsNearDanger);
+
+        if (logDebugs)
+        {
+            Debug.Log("Was Attacked");
+        } 
     }
 
     protected virtual void ReactToPlayer(Vector3 playerPos)

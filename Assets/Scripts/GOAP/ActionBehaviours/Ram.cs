@@ -52,6 +52,8 @@ public class Ram : Action
         moveAgent.angularSpeed = originalRotationSpeed;
         moveAgent.acceleration = originalAcceleration;
         moveAgent.autoBraking = true;
+
+        moveAgent.ResetPath();
     }
 
     protected override async void DoAction(GameObject target = null)
@@ -62,6 +64,8 @@ public class Ram : Action
         moveAgent.angularSpeed = originalRotationSpeed;
         moveAgent.acceleration = originalAcceleration;
         moveAgent.autoBraking = true;
+
+        moveAgent.ResetPath();
 
         base.DoAction();
     }

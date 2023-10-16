@@ -10,5 +10,7 @@ public enum Condition
     SeesFood = 1 << 4,
     IsNearFood = 1 << 5,
     SeesTree = 1 << 6,
-    IsNearDanger = 1 << 7
+    IsNearDanger = 1 << 7,
+    FoodIsReadyToEat = 1 << 8,
+    SeesTarget = 1 << 9
 }

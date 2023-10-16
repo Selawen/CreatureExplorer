@@ -647,7 +647,7 @@ MonoBehaviour:
   hearingSensitivity: 1
   <FoodSource>k__BackingField: 
   showThoughts: 0
-  logDebugs: 0
+  <logDebugs>k__BackingField: 0
   goalText: {fileID: 7210352519244847641}
   actionText: {fileID: 7210352521194736554}
   worldState: 0
@@ -678,6 +678,26 @@ MonoBehaviour:
       <StateValue>k__BackingField: 0.5
     - <MoodType>k__BackingField: 3
       <Operator>k__BackingField: 3
+      <StateValue>k__BackingField: 0.5
+  reactionToAttack:
+    <CreatureStates>k__BackingField:
+    - <MoodType>k__BackingField: 0
+      <Operator>k__BackingField: 0
+      <StateValue>k__BackingField: 0.5
+    - <MoodType>k__BackingField: 1
+      <Operator>k__BackingField: 0
+      <StateValue>k__BackingField: 0.5
+    - <MoodType>k__BackingField: 2
+      <Operator>k__BackingField: 0
+      <StateValue>k__BackingField: 0.5
+    - <MoodType>k__BackingField: 3
+      <Operator>k__BackingField: 0
+      <StateValue>k__BackingField: 0.5
+    - <MoodType>k__BackingField: 4
+      <Operator>k__BackingField: 0
+      <StateValue>k__BackingField: 0.5
+    - <MoodType>k__BackingField: 5
+      <Operator>k__BackingField: 0
       <StateValue>k__BackingField: 0.5
   reactionToPlayer:
     <CreatureStates>k__BackingField:
@@ -757,7 +777,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6132076, g: 0.6132076, b: 0.6132076, a: 1}
+  m_Color: {r: 0.6132076, g: 0.6132076, b: 0.6132076, a: 0.5019608}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

@@ -479,6 +479,87 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 21257e1241403194eab83b133d967165, type: 3}
+--- !u!1001 &6279735088407306878
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1626580585487544790}
+    m_Modifications:
+    - target: {fileID: 5106061626453554042, guid: a4c6ceaa25b064244bbebba312394986,
+        type: 3}
+      propertyPath: m_Name
+      value: Forage Action
+      objectReference: {fileID: 0}
+    - target: {fileID: 5541019557779497788, guid: a4c6ceaa25b064244bbebba312394986,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 5541019557779497788, guid: a4c6ceaa25b064244bbebba312394986,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5541019557779497788, guid: a4c6ceaa25b064244bbebba312394986,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5541019557779497788, guid: a4c6ceaa25b064244bbebba312394986,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5541019557779497788, guid: a4c6ceaa25b064244bbebba312394986,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5541019557779497788, guid: a4c6ceaa25b064244bbebba312394986,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5541019557779497788, guid: a4c6ceaa25b064244bbebba312394986,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5541019557779497788, guid: a4c6ceaa25b064244bbebba312394986,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5541019557779497788, guid: a4c6ceaa25b064244bbebba312394986,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5541019557779497788, guid: a4c6ceaa25b064244bbebba312394986,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5541019557779497788, guid: a4c6ceaa25b064244bbebba312394986,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a4c6ceaa25b064244bbebba312394986, type: 3}
+--- !u!114 &5723354706784592309 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1750608340182254539, guid: a4c6ceaa25b064244bbebba312394986,
+    type: 3}
+  m_PrefabInstance: {fileID: 6279735088407306878}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7990808fce727284d8db0926f9d19367, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7154717475542345988
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -609,13 +690,13 @@ PrefabInstance:
     - target: {fileID: 7210352520341627486, guid: c4d537d1eccf6d84da8c18f49b4831be,
         type: 3}
       propertyPath: possibleActions.Array.size
-      value: 12
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 7210352520341627486, guid: c4d537d1eccf6d84da8c18f49b4831be,
         type: 3}
       propertyPath: possibleGoals.Array.data[3]
       value: 
-      objectReference: {fileID: 11400000, guid: 60f21d4aea509184685cacb6b7102d95,
+      objectReference: {fileID: 11400000, guid: 3dd4fcab36381ab4d89cb840adc8f792,
         type: 2}
     - target: {fileID: 7210352520341627486, guid: c4d537d1eccf6d84da8c18f49b4831be,
         type: 3}
@@ -663,6 +744,11 @@ PrefabInstance:
       propertyPath: possibleActions.Array.data[11]
       value: 
       objectReference: {fileID: 1118247003846344908}
+    - target: {fileID: 7210352520341627486, guid: c4d537d1eccf6d84da8c18f49b4831be,
+        type: 3}
+      propertyPath: possibleActions.Array.data[12]
+      value: 
+      objectReference: {fileID: 5723354706784592309}
     - target: {fileID: 7210352520341627486, guid: c4d537d1eccf6d84da8c18f49b4831be,
         type: 3}
       propertyPath: AnnoyancePriority.m_Curve.Array.size
@@ -899,7 +985,7 @@ MonoBehaviour:
   hearingSensitivity: 10
   <FoodSource>k__BackingField: Food
   showThoughts: 1
-  logDebugs: 0
+  <logDebugs>k__BackingField: 0
   goalText: {fileID: 530009448259105565}
   actionText: {fileID: 530009446309208750}
   worldState: 8
@@ -934,11 +1020,16 @@ MonoBehaviour:
     - <MoodType>k__BackingField: 2
       <Operator>k__BackingField: 4
       <StateValue>k__BackingField: 0.3
+  reactionToAttack:
+    <CreatureStates>k__BackingField:
+    - <MoodType>k__BackingField: 2
+      <Operator>k__BackingField: 3
+      <StateValue>k__BackingField: 80
   reactionToPlayer:
     <CreatureStates>k__BackingField:
     - <MoodType>k__BackingField: 0
       <Operator>k__BackingField: 3
-      <StateValue>k__BackingField: 2
+      <StateValue>k__BackingField: 0.5
     - <MoodType>k__BackingField: 2
       <Operator>k__BackingField: 3
       <StateValue>k__BackingField: 20
