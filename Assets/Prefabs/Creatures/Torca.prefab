@@ -12,6 +12,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3703513111590520603, guid: c4d537d1eccf6d84da8c18f49b4831be,
+        type: 3}
+      propertyPath: searchRadius
+      value: 1000
+      objectReference: {fileID: 0}
     - target: {fileID: 4337417848347193026, guid: c4d537d1eccf6d84da8c18f49b4831be,
         type: 3}
       propertyPath: actionDuration
@@ -297,6 +302,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hearingSensitivity: 5
   <FoodSource>k__BackingField: Charger
+  checkSurroundingsTimer: 0.5
   showThoughts: 1
   <logDebugs>k__BackingField: 0
   goalText: {fileID: 7521121882960059789}

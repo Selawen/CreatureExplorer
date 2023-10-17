@@ -21,7 +21,7 @@ public class Planner : MonoBehaviour
     private void Awake()
     {
         moodPriorities = new Dictionary<float, StateType>();
-        debug = GetComponent<Creature>().logDebugs;
+        debug = GetComponent<Creature>().LogDebugs;
     }
 
     private void OnValidate()
@@ -390,7 +390,8 @@ public class Planner : MonoBehaviour
         float bestCostRewardRatio = 0;
         foreach (Plan p in possiblePlans)
         {
-            Debug.Log($"reward/cost of plan ending with {p.ActionList[0]} is {p.CostRewardRatio}");
+            if (debug)
+                Debug.Log($"reward/cost of plan ending with {p.ActionList[0]} is {p.CostRewardRatio}");
             if ((p.CostRewardRatio) > bestCostRewardRatio)
             {
                 bestCostRewardRatio = p.CostRewardRatio;

@@ -11,12 +11,12 @@ public class Creature : MonoBehaviour
     [field: SerializeField] protected float hearingSensitivity = 1;
     [Tooltip("The name of the script that is on this creature's foodsource")]
     [field: SerializeField] public string FoodSource { get; protected set; }
-    [SerializeField] protected float foodCheckTimer = 0.5f;
+    [SerializeField] protected float checkSurroundingsTimer = 0.5f;
     public Vector3 WaryOff { get; protected set; }
 
     [Header("Debugging")]
     [SerializeField] private bool showThoughts;
-    [field: SerializeField] public bool logDebugs { get; private set; }
+    [field: SerializeField] public bool LogDebugs { get; private set; }
     [SerializeField] private TextMeshProUGUI goalText;
     [SerializeField] private TextMeshProUGUI actionText;
     [SerializeField] private TextMeshProUGUI soundText;
@@ -28,6 +28,9 @@ public class Creature : MonoBehaviour
     [SerializeField] private CreatureState reactionToAttack;
     [SerializeField] private CreatureState reactionToPlayer;
     [SerializeField] private List<Action> currentPlan;
+
+    protected delegate void CheckSurroundings();
+    protected CheckSurroundings surroundCheck;
 
     private Goal currentGoal;
     private Action currentAction;
@@ -54,6 +57,8 @@ public class Creature : MonoBehaviour
         }
 
         GenerateNewGoal();
+
+        surroundCheck += CheckForFood;
         StartCoroutines();
     }
 
@@ -65,7 +70,7 @@ public class Creature : MonoBehaviour
             // if an action has failed try and generate a new goal
             if (currentAction.failed)
             {
-                if (logDebugs)
+                if (LogDebugs)
                     Debug.Log("Action failed! " + currentAction.Name);
 
                 GenerateNewGoal();
@@ -79,8 +84,7 @@ public class Creature : MonoBehaviour
 
     private void StartCoroutines()
     {
-        StartCoroutine(CheckForFood());
-
+        StartCoroutine(LookAtSurroundings());
     }
 
     private void OnDisable()
@@ -92,7 +96,8 @@ public class Creature : MonoBehaviour
     private void OnEnable()
     {
         StartCoroutines();
-        currentAction.enabled = true;
+        if (currentAction!= null)
+            currentAction.enabled = true;
     }
 
 
@@ -127,7 +132,7 @@ public class Creature : MonoBehaviour
             else if (effect.Operator == StateOperant.Subtract)
                 currentCreatureState.AddValue(-effect.StateValue, effect.MoodType);
             
-            if (logDebugs)
+            if (LogDebugs)
             {
                 Debug.Log("updated worldstate of " + effect.MoodType.ToString());
             }
@@ -148,7 +153,7 @@ public class Creature : MonoBehaviour
 
     private void GenerateNewGoal()
     {
-        if (!planner.GeneratePlan(currentCreatureState, worldState, out currentGoal, out currentPlan) && logDebugs)
+        if (!planner.GeneratePlan(currentCreatureState, worldState, out currentGoal, out currentPlan) && LogDebugs)
         {
             Debug.Log("Failed in generating plan, resorting to deault action");
         }
@@ -157,7 +162,7 @@ public class Creature : MonoBehaviour
 
         StartAction();
 
-        if (logDebugs)
+        if (LogDebugs)
         {
             Debug.Log("Generated new goal: " + currentGoal);
         }
@@ -245,7 +250,7 @@ public class Creature : MonoBehaviour
         UpdateValues(reactionToAttack);
         worldState = SetConditionTrue(worldState, Condition.IsNearDanger);
 
-        if (logDebugs)
+        if (LogDebugs)
         {
             Debug.Log("Was Attacked");
         } 
@@ -265,7 +270,7 @@ public class Creature : MonoBehaviour
     {
         sawPlayer = true;
         UpdateValues(reactionToPlayer);
-        if (logDebugs)
+        if (LogDebugs)
         {
             Debug.Log("Noticed Player");
         } 
@@ -274,18 +279,33 @@ public class Creature : MonoBehaviour
     protected virtual void ReactToPlayerLeaving(Vector3 playerPos)
     {
         sawPlayer = false;
-        if (logDebugs)
+        if (LogDebugs)
         {
             Debug.Log("Lost sight of Player");
         } 
     }
 
-    // TODO: get hungry faster when food is near
-    protected IEnumerator CheckForFood()
+    protected IEnumerator LookAtSurroundings()
+    {
+        yield return new WaitForSeconds(checkSurroundingsTimer);
+        StartCoroutine(LookAtSurroundings());
+        surroundCheck.Invoke();
+    }
+
+    /// <summary>
+    /// Checks for food in neighbourhood and ups the hunger value with the amount of food nearby
+    /// </summary>
+    protected void CheckForFood()
     {
         Food f = new Food();
-        LookForObjects<Food>.CheckForObjects(f, transform.position, hearingSensitivity);
-        yield return null;
+        int foodcount = LookForObjects<Food>.CheckForObjects(f, transform.position, hearingSensitivity).Count;
+
+        currentCreatureState.AddValue(foodcount, StateType.Hunger);
+
+        if (LogDebugs)
+        {
+            Debug.Log($"found {foodcount} {FoodSource}, hunger is now {currentCreatureState.Find(StateType.Hunger).StateValue}");
+        }
     }
 
     protected Condition SetConditionTrue(Condition currentState, Condition flagToSet)

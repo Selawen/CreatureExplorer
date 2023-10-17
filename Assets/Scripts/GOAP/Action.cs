@@ -73,7 +73,7 @@ abstract public class Action: MonoBehaviour
                 // TODO: balance so that creature is more likely to ruminate when not hungry and eat when hungrier (for example)
                 Reward += (1-mood.StateValue*0.01f) ;
                 Reward *= targetMoodPrio * mood.StateValue;
-                Debug.Log($"prio is {targetMoodPrio}, {Name} reward is upped from {BaseReward} to {Reward}");
+                //Debug.Log($"prio is {targetMoodPrio}, {Name} reward is upped from {BaseReward} to {Reward}");
             }
         }
     }

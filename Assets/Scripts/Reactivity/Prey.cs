@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class Prey : Creature
 {
-    [SerializeField] private float checkForThreatsTimer = 0.5f;
     [SerializeField] private CreatureState reactionToPredator;
 
     protected override void Start()
     {
+        surroundCheck += CheckForPredators;
         base.Start();
-        StartCoroutine(CheckForPredators());
     }
 
     protected void ReactToThreat(Vector3 threatPosition)
@@ -31,10 +30,8 @@ public class Prey : Creature
         ReactToThreat(predator.transform.position, reactionToPredator);
     }
 
-    private IEnumerator CheckForPredators()
+    private void CheckForPredators()
     {
-        yield return new WaitForSeconds(checkForThreatsTimer);
-
         float distance = hearingSensitivity;
         Collider nearest = null;
 
@@ -49,8 +46,6 @@ public class Prey : Creature
 
         if (nearest != null)
             ReactToThreat(nearest.gameObject.GetComponent<Torca>());
-
-        StartCoroutine(CheckForPredators());
     }
 
 }

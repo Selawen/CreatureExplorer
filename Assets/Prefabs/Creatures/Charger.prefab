@@ -580,7 +580,7 @@ PrefabInstance:
     - target: {fileID: 2934756986934741964, guid: c4d537d1eccf6d84da8c18f49b4831be,
         type: 3}
       propertyPath: m_RootOrder
-      value: 13
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 3340654331724243323, guid: c4d537d1eccf6d84da8c18f49b4831be,
         type: 3}
@@ -748,12 +748,12 @@ PrefabInstance:
         type: 3}
       propertyPath: possibleActions.Array.data[12]
       value: 
-      objectReference: {fileID: 4260528371984607829}
+      objectReference: {fileID: 1310402755327064096}
     - target: {fileID: 7210352520341627486, guid: c4d537d1eccf6d84da8c18f49b4831be,
         type: 3}
       propertyPath: possibleActions.Array.data[13]
       value: 
-      objectReference: {fileID: 1310402755327064096}
+      objectReference: {fileID: 4260528371984607829}
     - target: {fileID: 7210352520341627486, guid: c4d537d1eccf6d84da8c18f49b4831be,
         type: 3}
       propertyPath: AnnoyancePriority.m_Curve.Array.size
@@ -952,7 +952,7 @@ PrefabInstance:
     - target: {fileID: 7493574693465862899, guid: c4d537d1eccf6d84da8c18f49b4831be,
         type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 7503602301300266393, guid: c4d537d1eccf6d84da8c18f49b4831be,
         type: 3}
@@ -994,6 +994,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hearingSensitivity: 10
   <FoodSource>k__BackingField: Food
+  checkSurroundingsTimer: 1
   showThoughts: 1
   <logDebugs>k__BackingField: 0
   goalText: {fileID: 530009448259105565}
@@ -1045,12 +1046,11 @@ MonoBehaviour:
       <Operator>k__BackingField: 3
       <StateValue>k__BackingField: 20
   currentPlan: []
-  checkForThreatsTimer: 0.5
   reactionToPredator:
     <CreatureStates>k__BackingField:
     - <MoodType>k__BackingField: 2
       <Operator>k__BackingField: 3
-      <StateValue>k__BackingField: 30
+      <StateValue>k__BackingField: 20
 --- !u!114 &530009448259105565 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7210352519244847641, guid: c4d537d1eccf6d84da8c18f49b4831be,
