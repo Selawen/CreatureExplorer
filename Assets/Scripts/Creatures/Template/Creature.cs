@@ -64,6 +64,8 @@ public class Creature : MonoBehaviour
 
     protected virtual void FixedUpdate()
     {
+        // TODO: make it possible to interrupt actions
+
         UpdateValues();
         if (currentAction != null)
         {
