@@ -2,21 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Charger : Creature
+public class Charger : Prey
 {
     protected override void ReactToPlayer(Vector3 playerPos)
     {
         base.ReactToPlayer(playerPos);
 
-        WaryOff = playerPos;
-        worldState |= Condition.IsNearDanger;
+        ReactToThreat(playerPos);
     }
 
     protected override void ReactToPlayerLeaving(Vector3 playerPos)
     {
         base.ReactToPlayerLeaving(playerPos);
 
-        WaryOff = playerPos;
-        worldState &= ~Condition.IsNearDanger;
+        //WaryOff = playerPos;
+        SetConditionFalse(worldState, Condition.IsNearDanger);
     }
 }

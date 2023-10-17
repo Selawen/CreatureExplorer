@@ -15,7 +15,7 @@ public class Spawner : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        Instantiate(spawnedObject, transform.position + new Vector3(Random.Range(0, spawnrange), 0, Random.Range(0, spawnrange)), transform.rotation);
+        Instantiate(spawnedObject, transform.position + new Vector3(Random.Range(0, spawnrange), 0, Random.Range(0, spawnrange)), transform.rotation, transform);
         StartCoroutine(Spawn());
     }
 

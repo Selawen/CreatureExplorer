@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -6,11 +7,12 @@ using TMPro;
 public class Creature : MonoBehaviour
 {
     [Header("Events")]
-    // protected and public are swapped because header hates public fields
-    [SerializeField] protected float hearingSensitivity = 1;
-    public Vector3 WaryOff { get; protected set; }
+    // Protected and public switched around to appease header
+    [field: SerializeField] protected float hearingSensitivity = 1;
     [Tooltip("The name of the script that is on this creature's foodsource")]
     [field: SerializeField] public string FoodSource { get; protected set; }
+    [SerializeField] protected float foodCheckTimer = 0.5f;
+    public Vector3 WaryOff { get; protected set; }
 
     [Header("Debugging")]
     [SerializeField] private bool showThoughts;
@@ -35,7 +37,7 @@ public class Creature : MonoBehaviour
 
     private bool sawPlayer = false;
 
-    private void Start()
+    protected virtual void Start()
     {
         if (!showThoughts)
         {
@@ -51,11 +53,11 @@ public class Creature : MonoBehaviour
             currentCreatureState = new CreatureState();
         }
 
-        GenerateNewGoal();   
+        GenerateNewGoal();
+        StartCoroutines();
     }
 
-
-    void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         UpdateValues();
         if (currentAction != null)
@@ -75,7 +77,26 @@ public class Creature : MonoBehaviour
         } 
     }
 
-#region GOAP
+    private void StartCoroutines()
+    {
+        StartCoroutine(CheckForFood());
+
+    }
+
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+        currentAction.enabled = false;
+    }
+
+    private void OnEnable()
+    {
+        StartCoroutines();
+        currentAction.enabled = true;
+    }
+
+
+    #region GOAP
     private void StartAction()
     {
         currentAction = currentPlan[0];
@@ -218,17 +239,6 @@ public class Creature : MonoBehaviour
             return false;
     }
 
-    public void HearPlayer(Vector3 playerPos, float playerLoudness)
-    {
-        if ((transform.position - playerPos).sqrMagnitude < playerLoudness * hearingSensitivity)
-            ReactToPlayer(playerPos);
-        else if (sawPlayer)
-        {
-            ReactToPlayerLeaving(playerPos);
-            //worldState = SetConditionFalse(worldState, Condition.IsNearDanger);
-        }
-    }
-
     protected virtual void ReactToAttack(Vector3 attackPos)
     {
         WaryOff = attackPos;
@@ -239,6 +249,16 @@ public class Creature : MonoBehaviour
         {
             Debug.Log("Was Attacked");
         } 
+    }
+
+    public void HearPlayer(Vector3 playerPos, float playerLoudness)
+    {
+        if ((transform.position - playerPos).sqrMagnitude < playerLoudness * hearingSensitivity)
+            ReactToPlayer(playerPos);
+        else if (sawPlayer)
+        {
+            ReactToPlayerLeaving(playerPos);
+        }
     }
 
     protected virtual void ReactToPlayer(Vector3 playerPos)
@@ -260,11 +280,20 @@ public class Creature : MonoBehaviour
         } 
     }
 
-    private Condition SetConditionTrue(Condition currentState, Condition flagToSet)
+    // TODO: get hungry faster when food is near
+    protected IEnumerator CheckForFood()
+    {
+        Food f = new Food();
+        LookForObjects<Food>.CheckForObjects(f, transform.position, hearingSensitivity);
+        yield return null;
+    }
+
+    protected Condition SetConditionTrue(Condition currentState, Condition flagToSet)
     {
         return currentState |= flagToSet;
     }
-    private Condition SetConditionFalse(Condition currentState, Condition flagToSet)
+
+    protected Condition SetConditionFalse(Condition currentState, Condition flagToSet)
     {
         return currentState &= ~flagToSet;
     }

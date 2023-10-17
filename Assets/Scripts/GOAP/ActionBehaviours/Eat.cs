@@ -22,8 +22,11 @@ public class Eat : Action
     {
         await Task.Delay((int)actionDuration * 1000);
 
-        Destroy(target);
+        if (!token.IsCancellationRequested)
+        {
+            Destroy(target);
 
-        base.DoAction();
+            base.DoAction();
+        }
     }
 }
