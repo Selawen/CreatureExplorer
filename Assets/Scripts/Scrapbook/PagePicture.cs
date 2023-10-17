@@ -10,12 +10,7 @@ public class PagePicture : MoveablePageComponent, IPointerEnterHandler, IPointer
     [SerializeField] private Image pictureGraphic;
 
     private bool placedOnPage;
-    private Image pictureBackground;
 
-    private void Awake()
-    {
-        pictureBackground = GetComponent<Image>();
-    }
     private void Start()
     {
         SetHalfSizes();
@@ -44,13 +39,7 @@ public class PagePicture : MoveablePageComponent, IPointerEnterHandler, IPointer
             RemovePicture();
         }
     }
-    public override void OnBeginDrag(PointerEventData eventData)
-    {
-        base.OnBeginDrag(eventData);
-        //pictureBackground.raycastTarget = false;
-        // To do: set a dragging bool to true. Disable other events when doing so. Turn off raycast target on this component.
-        // Store the start position. (Change this to OnPointerClick? Otherwise, might not work properly or feel intuitive on Switch.)
-    }
+
     public override void OnDrag(PointerEventData eventData)
     {
         if (!placedOnPage)
@@ -68,15 +57,6 @@ public class PagePicture : MoveablePageComponent, IPointerEnterHandler, IPointer
             _componentTransform.Rotate(new Vector3(0, 0, eventData.delta.y));
         }
     }
-
-    public override void OnEndDrag(PointerEventData eventData)
-    {
-        base.OnEndDrag(eventData);
-        //pictureBackground.raycastTarget = true;
-        // To do: raycast to see if this is over the scrapbook page or the picture panel. Parent it appropiately and turn the raycast target back on. If not hitting either panel: return to 
-        // original position.
-    }
-
     public void OnPointerExit(PointerEventData eventData)
     {
     }

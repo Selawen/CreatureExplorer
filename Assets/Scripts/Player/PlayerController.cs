@@ -96,7 +96,15 @@ public class PlayerController : MonoBehaviour
     {
         rotationInput = callbackContext.ReadValue<Vector2>();
     }
-
+    
+    public void GetCloseScrapbookInput(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.started)
+        {
+            playerInput.SwitchCurrentActionMap("Overworld");
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+    }
     public void GetOpenScrapbookInput(InputAction.CallbackContext callbackContext)
     {
         if (callbackContext.started)

@@ -1,6 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class Scrapbook : MonoBehaviour
@@ -18,6 +18,7 @@ public class Scrapbook : MonoBehaviour
 
     [SerializeField] private ScrapbookPage scrapbookPagePrefab;
     [SerializeField] private PageText textEntryPrefab;
+    [SerializeField] private PlayerInput input;
 
     private int currentPageIndex;
 
@@ -86,7 +87,9 @@ public class Scrapbook : MonoBehaviour
 
     public void CreateNewTextEntry()
     {
-        Instantiate(textEntryPrefab, CurrentPage.transform);
+        PageText writeableText = Instantiate(textEntryPrefab, CurrentPage.transform);
+        writeableText.TextField.onSelect.AddListener((string s) => input.SwitchCurrentActionMap("Typing"));
+        writeableText.TextField.onDeselect.AddListener((string s) => input.SwitchCurrentActionMap("Scrapbook"));
     }
 
 }

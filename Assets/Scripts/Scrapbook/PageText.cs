@@ -5,12 +5,12 @@ using UnityEngine.UI;
 
 public class PageText : MoveablePageComponent
 {
-    private TMP_InputField textField;
+    public TMP_InputField TextField { get; private set; }
 
     private void Awake()
     {
-        textField = GetComponent<TMP_InputField>();
-        if (!textField)
+        TextField = GetComponent<TMP_InputField>();
+        if (!TextField)
         {
             throw new System.NullReferenceException("No TextMeshPro InputField found on object named: " + name);
         }
@@ -20,7 +20,7 @@ public class PageText : MoveablePageComponent
     {
         if (!_componentTransform)
         {
-            _componentTransform = textField.GetComponent<RectTransform>();
+            _componentTransform = TextField.GetComponent<RectTransform>();
             _parentTransform = _componentTransform.parent.GetComponent<RectTransform>();
             _componentGraphic = _componentTransform.GetComponent<Image>();
         }
@@ -30,13 +30,13 @@ public class PageText : MoveablePageComponent
     public override void OnBeginDrag(PointerEventData eventData)
     {
         base.OnBeginDrag(eventData);
-        textField.interactable = false;
+        TextField.interactable = false;
     }
 
     public override void OnEndDrag(PointerEventData eventData)
     {
         base.OnEndDrag(eventData);
-        textField.interactable = true;
+        TextField.interactable = true;
     }
 
 }
