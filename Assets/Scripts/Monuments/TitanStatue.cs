@@ -23,7 +23,9 @@ public class TitanStatue : MonoBehaviour, IInteractable
 
         foreach(PagePicture picture in Scrapbook.Instance.GetCollectedPictures())
         {
-            picture.OnPictureClicked = () => { ShowPicture(picture.PictureInfo); };
+            picture.OnPictureClicked -= picture.SelectForPlacement;
+            picture.OnPictureClicked += () => { ShowPicture(picture.PictureInfo); };
+            //picture.OnPictureClicked = () => { ShowPicture(picture.PictureInfo); Debug.Log("Clicked on a picture that has to be shown now"); };
         }
 
         // To do: Open the picture collection and let the player pick a picture to show to the statue
