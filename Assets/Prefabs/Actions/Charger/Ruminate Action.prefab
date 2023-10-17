@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6194966855391490909}
-  - component: {fileID: 875806746159327669}
+  - component: {fileID: 2435853527441941368}
   m_Layer: 0
-  m_Name: Play Action
+  m_Name: Ruminate Action
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &875806746159327669
+--- !u!114 &2435853527441941368
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,30 +41,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 6147323002965255808}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3e07eb3e599f004da321ebaff3499a5, type: 3}
+  m_Script: {fileID: 11500000, guid: 207cacfc18bea8a40a204910107943f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Name>k__BackingField: Playing
-  <Onomotopea>k__BackingField: yaaaay
+  <Name>k__BackingField: Ruminating
+  <Onomatopea>k__BackingField: nomnom
+  <Cost>k__BackingField: 3
+  <BaseReward>k__BackingField: 10
+  <Reward>k__BackingField: 10
   <GoalEffects>k__BackingField:
     <CreatureStates>k__BackingField:
-    - <MoodType>k__BackingField: 5
-      <Operator>k__BackingField: 4
-      <StateValue>k__BackingField: 60
-    - <MoodType>k__BackingField: 4
-      <Operator>k__BackingField: 3
-      <StateValue>k__BackingField: 40
-    - <MoodType>k__BackingField: 1
-      <Operator>k__BackingField: 3
-      <StateValue>k__BackingField: 20
     - <MoodType>k__BackingField: 3
+      <Operator>k__BackingField: 4
+      <StateValue>k__BackingField: 20
+    - <MoodType>k__BackingField: 5
       <Operator>k__BackingField: 3
       <StateValue>k__BackingField: 20
-    - <MoodType>k__BackingField: 0
-      <Operator>k__BackingField: 4
-      <StateValue>k__BackingField: 10
-  <ActionEffects>k__BackingField: []
-  <Prerequisites>k__BackingField: []
+  <ActionEffects>k__BackingField:
+  - <EffectType>k__BackingField: 1
+    <StateValue>k__BackingField: 0
+  <Prerequisites>k__BackingField:
+  - <EffectType>k__BackingField: 128
+    <StateValue>k__BackingField: 0
   finished: 0
   failed: 0
-  actionDuration: 5
+  actionDuration: 3

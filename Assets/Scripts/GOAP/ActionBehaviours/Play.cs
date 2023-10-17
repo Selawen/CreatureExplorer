@@ -6,17 +6,26 @@ public class Play : Action
 {
     private NavMeshAgent moveAgent;
 
-    private void Start()
+    protected override void Awake()
     {
+        base.Awake();
         moveAgent = gameObject.GetComponentInParent<NavMeshAgent>();
     }
 
-    public override GameObject PerformAction(GameObject creature, GameObject target)
+    public override GameObject PerformAction(Creature creature, GameObject target)
     {
         moveAgent = gameObject.GetComponentInParent<NavMeshAgent>();
+        //Task.Run(() => DoAction(), failToken);
+
+        // Navmeshagent doesn't play nice with threading
         DoAction();
-        FailCheck(token);
+        FailCheck(failToken);
         return target;
+    }
+
+    public override void CalculateCostAndReward(CreatureState currentState, MoodState targetMood, float targetMoodPrio)
+    {
+        base.CalculateCostAndReward(currentState, targetMood, targetMoodPrio);
     }
 
     protected override async void DoAction(GameObject target = null)
@@ -25,7 +34,7 @@ public class Play : Action
 
         while (playTimer > 0)
         {
-            // TODO: make more performant
+            // TODO: make more performant?
             moveAgent.SetDestination(moveAgent.transform.position + (moveAgent.transform.forward + moveAgent.transform.right));
 
             playTimer -= Time.deltaTime;

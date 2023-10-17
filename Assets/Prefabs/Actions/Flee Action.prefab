@@ -45,19 +45,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Name>k__BackingField: Run Away
-  <Onomotopea>k__BackingField: AAAAAAAAH
+  <Onomatopea>k__BackingField: AAAAAAAHHH
+  <Cost>k__BackingField: 5
+  <BaseReward>k__BackingField: 10
+  <Reward>k__BackingField: 10
   <GoalEffects>k__BackingField:
     <CreatureStates>k__BackingField:
     - <MoodType>k__BackingField: 2
       <Operator>k__BackingField: 4
       <StateValue>k__BackingField: 20
+    - <MoodType>k__BackingField: 3
+      <Operator>k__BackingField: 3
+      <StateValue>k__BackingField: 25
+    - <MoodType>k__BackingField: 1
+      <Operator>k__BackingField: 3
+      <StateValue>k__BackingField: 40
   <ActionEffects>k__BackingField:
-  - <EffectType>k__BackingField: 2
+  - <EffectType>k__BackingField: 128
     <StateValue>k__BackingField: 0
-  - <EffectType>k__BackingField: 7
-    <StateValue>k__BackingField: 0
-  <Prerequisites>k__BackingField: []
+  <Prerequisites>k__BackingField:
+  - <EffectType>k__BackingField: 128
+    <StateValue>k__BackingField: 1
+  - <EffectType>k__BackingField: 4
+    <StateValue>k__BackingField: 1
   finished: 0
   failed: 0
-  actionDuration: 2
+  actionDuration: 4
   speedMultiplier: 7

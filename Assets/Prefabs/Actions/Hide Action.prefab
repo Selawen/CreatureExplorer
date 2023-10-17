@@ -45,18 +45,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Name>k__BackingField: Hiding
-  <Onomotopea>k__BackingField: pls don't see
+  <Onomatopea>k__BackingField: pls don't find
+  <Cost>k__BackingField: 2
+  <BaseReward>k__BackingField: 7
+  <Reward>k__BackingField: 7
   <GoalEffects>k__BackingField:
     <CreatureStates>k__BackingField:
     - <MoodType>k__BackingField: 2
       <Operator>k__BackingField: 4
-      <StateValue>k__BackingField: 70
+      <StateValue>k__BackingField: 51
+    - <MoodType>k__BackingField: 1
+      <Operator>k__BackingField: 4
+      <StateValue>k__BackingField: 10
   <ActionEffects>k__BackingField:
-  - <EffectType>k__BackingField: 2
+  - <EffectType>k__BackingField: 4
     <StateValue>k__BackingField: 0
   <Prerequisites>k__BackingField:
-  - <EffectType>k__BackingField: 7
+  - <EffectType>k__BackingField: 128
     <StateValue>k__BackingField: 0
+  - <EffectType>k__BackingField: 4
+    <StateValue>k__BackingField: 1
   finished: 0
   failed: 0
-  actionDuration: 4
+  actionDuration: 5

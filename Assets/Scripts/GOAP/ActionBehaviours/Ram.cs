@@ -18,7 +18,7 @@ public class Ram : Action
         originalAcceleration = moveAgent.acceleration;
     }
 
-    public override GameObject PerformAction(GameObject creature, GameObject target)
+    public override GameObject PerformAction(Creature creature, GameObject target)
     {
         moveAgent = gameObject.GetComponentInParent<NavMeshAgent>();
 
@@ -32,10 +32,16 @@ public class Ram : Action
         moveAgent.autoBraking = false;
         moveAgent.SetDestination(target.transform.position);
 
+        //Task.Run(() => DoAction(), token);
         DoAction();
-        FailCheck(token);
+        FailCheck(failToken);
 
         return target;
+    }
+
+    public override void CalculateCostAndReward(CreatureState currentState, MoodState targetMood, float targetMoodPrio)
+    {
+        base.CalculateCostAndReward(currentState, targetMood, targetMoodPrio);
     }
 
     public override void Reset()
@@ -45,8 +51,9 @@ public class Ram : Action
         moveAgent.speed = originalSpeed;
         moveAgent.angularSpeed = originalRotationSpeed;
         moveAgent.acceleration = originalAcceleration;
-        moveAgent.autoBraking = true; 
-        moveAgent.SetDestination(moveAgent.transform.position);
+        moveAgent.autoBraking = true;
+
+        moveAgent.ResetPath();
     }
 
     protected override async void DoAction(GameObject target = null)
@@ -57,6 +64,8 @@ public class Ram : Action
         moveAgent.angularSpeed = originalRotationSpeed;
         moveAgent.acceleration = originalAcceleration;
         moveAgent.autoBraking = true;
+
+        moveAgent.ResetPath();
 
         base.DoAction();
     }

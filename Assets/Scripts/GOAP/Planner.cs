@@ -1,197 +1,406 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Planner : MonoBehaviour
 {
     [SerializeField] private AnimationCurve AnnoyancePriority, FearPriority, HungerPriority, TirednessPriority, HappinessPriority, BoredomPriority;
-    [SerializeField] private float AnnoyancePrio, FearPrio, HungerPrio, TirednessPrio, HappinessPrio, BoredomPrio;
 
     [field: SerializeField] private Goal[] possibleGoals;
     [Tooltip("initialised automatically")]
     [field: SerializeField] private Action[] possibleActions;
+    [field: SerializeField] private Goal defaultGoal;
     [field: SerializeField] private Action defaultAction;
+
+    private Dictionary<float, StateType> moodPriorities;
+    private int prioIndex = 0;
+    private float currentPrioKey;
+
+    private bool debug;
+
+    private void Awake()
+    {
+        moodPriorities = new Dictionary<float, StateType>();
+        debug = GetComponent<Creature>().logDebugs;
+    }
 
     private void OnValidate()
     {
         possibleActions = GetComponentsInChildren<Action>();
     }
 
-    public Goal GenerateGoal(CreatureState currentState)
+    public bool GeneratePlan(CreatureState currentState, Condition worldState, out Goal goal, out List<Action> plan)
     {
-        CreatureState planState = currentState;
-        float highestPrio = 0;
-        StateType prioMood = StateType.Fear;
+        goal = defaultGoal;
+        plan = new List<Action>();
 
-        foreach (MoodState state in planState.CreatureStates)
+        // try generating a plan from the highest priority action. if no plan viable, take next highest priority 
+        prioIndex = 0;
+        UpdatePriorities(currentState);
+        do
         {
-            // TODO: make less naive, and more generic
-
-            switch (state.MoodType)
+            if (prioIndex > 5)
             {
-                case StateType.Annoyance:
-                    AnnoyancePrio = AnnoyancePriority.Evaluate(state.StateValue / 100);
-                    if (AnnoyancePrio > highestPrio)
-                    {
-                        highestPrio = AnnoyancePriority.Evaluate(state.StateValue);
-                        prioMood = state.MoodType;
-                    }
-                    break;
-                case StateType.Fear:
-                    FearPrio = FearPriority.Evaluate(state.StateValue / 100);
-                    if (FearPrio > highestPrio)
-                    {
-                        highestPrio = FearPriority.Evaluate(state.StateValue);
-                        prioMood = state.MoodType;
-                    }
-                    break;
-                case StateType.Hunger:
-                    HungerPrio = HungerPriority.Evaluate(state.StateValue / 100);
-                    if (HungerPrio > highestPrio)
-                    {
-                        highestPrio = HungerPriority.Evaluate(state.StateValue);
-                        prioMood = state.MoodType;
-                    }
-                    break;
-                case StateType.Tiredness:
-                    TirednessPrio = TirednessPriority.Evaluate(state.StateValue / 100);
-                    if (TirednessPrio > highestPrio)
-                    {
-                        highestPrio = TirednessPriority.Evaluate(state.StateValue);
-                        prioMood = state.MoodType;
-                    }
-                    break;
-                case StateType.Happiness:
-                    HappinessPrio = HappinessPriority.Evaluate(state.StateValue / 100);
-                    if (HappinessPrio > highestPrio)
-                    {
-                        highestPrio = HappinessPriority.Evaluate(state.StateValue);
-                        prioMood = state.MoodType;
-                    }
-                    break;
-                case StateType.Boredom:
-                    BoredomPrio = BoredomPriority.Evaluate(state.StateValue / 100);
-                    if (BoredomPrio > highestPrio)
-                    {
-                        highestPrio = BoredomPriority.Evaluate(state.StateValue);
-                        prioMood = state.MoodType;
-                    }
-                    break;
+                if (debug)
+                    Debug.LogError("no valid course of action found");
+                goal = defaultGoal;
+                plan.Clear();
+                plan.Add(defaultAction);
+                return false;
             }
-        }
 
-        List<Goal> goalChoices = new List<Goal>();
-        foreach (Goal g in possibleGoals)
+            goal = GenerateGoal(currentState);
+            prioIndex++;
+        } while (!PlanActions(goal, currentState, worldState, out plan));
+
+        if (plan.Count < 1)
         {
-            foreach (MoodState mood in g.Target)
-            {
-                if (mood.MoodType == prioMood)
-                    goalChoices.Add(g);
-            }
+            if (debug) 
+                Debug.LogError("no valid course of action found");
+            goal = defaultGoal;
+            plan.Clear();
+            plan.Add(defaultAction);
+            return false;
         }
-
-        // TODO: actually generate diffferent goal if prioritised mood doesn't have any goals, instead of randomly choosing one
-        if (goalChoices.Count < 1)
-        {
-            Goal randomGoal = possibleGoals[Random.Range(0, possibleGoals.Length)];
-            return randomGoal;
-        }
-
-        return goalChoices[Random.Range(0, goalChoices.Count)];
+        return true;
     }
 
-    public List<Action> Plan(Goal goal, CreatureState currentState)
+    /// <summary>
+    /// Update the priority values of each mood type
+    /// </summary>
+    /// <param name="currentState"></param>
+    public void UpdatePriorities(CreatureState currentState)
     {
-        // TODO: figureout way for this to not be necessairy
-        CreatureState planState = new CreatureState();
-        foreach (MoodState mood in planState.CreatureStates)
+        CreatureState planState = currentState;
+
+        moodPriorities.Clear();
+
+        float prio = 0;
+        foreach (MoodState state in planState.CreatureStates)
         {
-            mood.SetValue(currentState.Find(mood.MoodType).StateValue);
+            // TODO: make more generic, find better way to avoid duplicate keys
+            switch (state.MoodType)
+            {
+                case StateType.Fear:
+                    prio = FearPriority.Evaluate(state.StateValue / 100);
+
+                    try
+                    {
+                        moodPriorities.Add(prio, StateType.Fear);
+                    }
+                    catch (Exception e)
+                    {
+                        try
+                        {
+                            moodPriorities.Add(Mathf.Clamp(prio + 0.0001f, 0, 1), StateType.Fear);
+                        }
+                        catch (Exception ex)
+                        {
+                            moodPriorities.Add(Mathf.Clamp(prio - 0.0001f, 0, 1), StateType.Fear);
+                        }
+                    }
+
+                    break;
+
+                case StateType.Annoyance:
+                    prio = AnnoyancePriority.Evaluate(state.StateValue / 100);
+
+                    try
+                    {
+                        moodPriorities.Add(prio, StateType.Annoyance);
+                    }
+                    catch (Exception e)
+                    {
+                        try
+                        {
+                            moodPriorities.Add(Mathf.Clamp(prio + 0.0002f, 0, 1), StateType.Annoyance);
+                        }
+                        catch (Exception ex)
+                        {
+                            moodPriorities.Add(Mathf.Clamp(prio - 0.0002f, 0, 1), StateType.Annoyance);
+                        }
+                    }
+
+                    break;
+
+                case StateType.Hunger:
+                    prio = HungerPriority.Evaluate(state.StateValue / 100);
+                    try
+                    {
+                        moodPriorities.Add(prio, StateType.Hunger);
+                    }
+                    catch (Exception e)
+                    {
+                        try
+                        {
+                            moodPriorities.Add(Mathf.Clamp(prio + 0.0003f, 0, 1), StateType.Hunger);
+                        }
+                        catch (Exception ex)
+                        {
+                            moodPriorities.Add(Mathf.Clamp(prio - 0.0003f, 0, 1), StateType.Hunger);
+                        }
+                    }
+
+                    break;
+
+                case StateType.Tiredness:
+                    prio = TirednessPriority.Evaluate(state.StateValue / 100);
+
+                    try
+                    {
+                        moodPriorities.Add(prio, StateType.Tiredness);
+                    }
+                    catch (Exception e)
+                    {
+                        try
+                        {
+                            moodPriorities.Add(Mathf.Clamp(prio + 0.0004f, 0, 1), StateType.Tiredness);
+                        }
+                        catch (Exception ex)
+                        {
+                            moodPriorities.Add(Mathf.Clamp(prio - 0.0004f, 0, 1), StateType.Tiredness);
+                        }
+                    }
+
+                    break;
+
+                case StateType.Happiness:
+                    prio = HappinessPriority.Evaluate(state.StateValue / 100);
+
+                    try
+                    {
+                        moodPriorities.Add(prio, StateType.Happiness);
+                    }
+                    catch (Exception e)
+                    {
+                        try
+                        {
+                            moodPriorities.Add(Mathf.Clamp(prio + 0.0005f, 0, 1), StateType.Happiness);
+                        }
+                        catch (Exception ex)
+                        {
+                            moodPriorities.Add(Mathf.Clamp(prio - 0.0005f, 0, 1), StateType.Happiness);
+                        }
+                    }
+
+                    break;
+
+                case StateType.Boredom:
+                    prio = BoredomPriority.Evaluate(state.StateValue / 100);
+                    try
+                    {
+                        moodPriorities.Add(prio, StateType.Boredom);
+                    }
+                    catch (Exception e)
+                    {
+                        try
+                        {
+                            moodPriorities.Add(Mathf.Clamp(prio + 0.0006f, 0, 1), StateType.Boredom);
+                        }
+                        catch (Exception ex)
+                        {
+                            moodPriorities.Add(Mathf.Clamp(prio - 0.0006f, 0, 1), StateType.Boredom);
+                        }
+                    }
+
+                    break;
+            }
         }
 
-        List<Action> plan = new List<Action>();
+        /*
+        foreach (KeyValuePair<float, StateType> kvp in moodPriorities)
+        {
+            Debug.Log($"prio of {kvp.Value} is {kvp.Key}");
+        }
+        */
+    }
+
+    private Goal GenerateGoal(CreatureState currentState)
+    {
+        List<Goal> goalChoices = new List<Goal>();
+
+        float[] prioValues = new float[moodPriorities.Count]; 
+        moodPriorities.Keys.CopyTo(prioValues, 0);
+        Array.Sort(prioValues);
+
+        int goalPrioIndex = prioValues.Length-1-prioIndex;
+        currentPrioKey = prioValues[goalPrioIndex];
+
+        while (goalChoices.Count < 1 && goalPrioIndex >= 0)
+        {
+            foreach (Goal g in possibleGoals)
+            {
+                foreach (MoodState mood in g.Target)
+                {
+                    if (mood.MoodType == moodPriorities[prioValues[goalPrioIndex]])
+                    {
+                        goalChoices.Add(g);
+                    }
+                }
+            }
+            goalPrioIndex--;
+        }
+
+        // Return default goal if the priority doesn't yield a good one
+        if (goalChoices.Count < 1)
+        {
+            return defaultGoal;
+        }
+
+        return goalChoices[UnityEngine.Random.Range(0, goalChoices.Count)];
+    }
+
+    private bool PlanActions(Goal goal, CreatureState currentStats, Condition worldState, out List<Action> plan)
+    {
+        plan = new List<Action>();
 
         if (goal == null)
         {
             plan.Add(defaultAction);
-            return plan;
+            return false;
         }
 
+        List<Plan> possiblePlans = new List<Plan>();
 
+        // TODO: figure out way for this to not be necessary
+        CreatureState planStats = new CreatureState();
+        foreach (MoodState mood in planStats.CreatureStates)
+        {
+            mood.SetValue(currentStats.Find(mood.MoodType).StateValue);
+        }
+
+        Condition planWorldState = worldState;
+        
         MoodState[] goalPrerequisites = goal.Target;
-        ActionKey[] currentActionPrerequisites;
         List<Action> viableActions = new List<Action>();
-        Action chosenAction;
 
-        // Look for action that satisfies goal
+        // TODO: look at the impact of total plans on goal target?
+        // Look for actions that satisfy goal target
         viableActions.Clear();
 
         foreach (Action a in possibleActions)
         {
-            if (a.GoalEffects.SatisfiesRequirements(goalPrerequisites, planState))
+            if (a.GoalEffects.SatisfiesRequirements(goalPrerequisites, planStats))
             {
                 viableActions.Add(a);
             }
         }
 
-        if (viableActions.Count > 1)
+        if (viableActions.Count < 1)
         {
-            chosenAction = viableActions[Random.Range(0, viableActions.Count)];
-            plan.Add(chosenAction);
-
-            currentActionPrerequisites = chosenAction.Prerequisites;
-        }
-        else if (viableActions.Count < 1)
-        {
+            plan.Clear();
             plan.Add(defaultAction);
-            currentActionPrerequisites = defaultAction.Prerequisites;
+            return false;
         }
-        else
-        {
-            plan.Add(viableActions[0]);
 
-            currentActionPrerequisites = viableActions[0].Prerequisites;
+        for (int x = viableActions.Count-1; x >= 0; x--)
+        {
+            //moodPriorities[currentPrioKey]
+            viableActions[x].CalculateCostAndReward(currentStats, goal.Target[0], currentPrioKey);
+            possiblePlans.Add(new Plan(viableActions[x], worldState));
         }
 
         int failsafe = 0;
-        // Create path towards action that satisfies goal
-        while (currentActionPrerequisites.Length>0)
+        int completionCounter = 0;
+
+        // While there are incomplete plans that have the potential to be completed, expand the incomplete plans
+        while (completionCounter < possiblePlans.Count)
         {
-            // make sure Unity doesn't crash
-            failsafe++;
-            if (failsafe > 60)
-            {
-                Debug.LogError("took too long to generate plan");
-                return plan;
-            }
+            completionCounter = 0;
 
-            viableActions.Clear();
+            List<Plan> updatedPlans = new List<Plan>();
+            List<Plan> extraPlans = new List<Plan>();
 
-            foreach (Action a in possibleActions)
+            foreach (Plan p in possiblePlans)
             {
-                if (a.SatisfiesRequirements(currentActionPrerequisites))
+                bool needNewPlan = false;
+                if (p.PlanComplete)
                 {
-                    viableActions.Add(a);
+                    completionCounter++;
+                    continue;
                 }
+
+                // make sure Unity doesn't crash
+                failsafe++;
+                if (failsafe > 150)
+                {
+                    if (debug) 
+                        Debug.LogError("took too long to generate plan");
+                    plan.Clear();
+                    plan.Add(defaultAction);
+                    return false;
+                }
+
+                foreach (Action a in possibleActions)
+                {
+                    if (a.SatisfiesRequirements(p.currentActionPrerequisites, p.planWorldState))
+                    {
+                        if (!needNewPlan)
+                        {
+                            needNewPlan = true;
+                            updatedPlans.Add(p);
+                        }
+
+                        Plan newPlan = new Plan(p);
+                        extraPlans.Add(newPlan);
+
+                        //moodPriorities[currentPrioKey]
+                        MoodState mainMood = goal.Target[0];
+                        foreach (MoodState mood in goal.Target)
+                        {
+                            if (mood.MoodType == moodPriorities[currentPrioKey])
+                                mainMood = mood;
+                        }
+
+                        a.CalculateCostAndReward(currentStats, mainMood, currentPrioKey);
+                        newPlan.AddAction(a);
+
+                        if (a.RequirementsSatisfied(newPlan.planWorldState))
+                        {
+                            newPlan.MarkComplete();
+                            completionCounter++;
+                        }                        
+                    }
+                }
+
+                // if no new course of action is found even though the plan isn't complete delete plan from list of possible plans
+                if (!needNewPlan)
+                {
+                    updatedPlans.Add(p);
+                }
+
             }
 
-            if (viableActions.Count > 1)
+            // Remove the plans that have been updated, then add the updated versions to possibleplans
+            foreach(Plan update in updatedPlans)
             {
-                chosenAction = viableActions[Random.Range(0, viableActions.Count)];
-                plan.Add(chosenAction);
-
-                currentActionPrerequisites = chosenAction.Prerequisites;
+                possiblePlans.Remove(update);
             }
-            else
+
+            possiblePlans.AddRange(extraPlans);
+
+            if (possiblePlans.Count < 1)
             {
-                plan.Add(viableActions[0]);
-
-                currentActionPrerequisites = viableActions[0].Prerequisites;
+                if (debug) 
+                    Debug.Log($"goal {goal.Name} not possible");
+                return false;
             }
+        }
 
-        } 
-
+        float bestCostRewardRatio = 0;
+        foreach (Plan p in possiblePlans)
+        {
+            Debug.Log($"reward/cost of plan ending with {p.ActionList[0]} is {p.CostRewardRatio}");
+            if ((p.CostRewardRatio) > bestCostRewardRatio)
+            {
+                bestCostRewardRatio = p.CostRewardRatio;
+                plan = p.ActionList; 
+            }
+        }
         plan.Reverse();
 
-        return plan;
+        if (debug) 
+            Debug.Log($"generated plan for goal {goal.Name}");
+        return true;
     }
 }

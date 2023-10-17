@@ -4,10 +4,10 @@ using UnityEngine;
 [Serializable]
 public class ActionKey
 {
-    [field: SerializeField] public Effect EffectType { get; private set; }
+    [field: SerializeField] public Condition EffectType { get; private set; }
     [field: SerializeField] public bool StateValue { get; private set; }
 
-    public ActionKey(Effect stateType, bool value)
+    public ActionKey(Condition stateType, bool value)
     {
         EffectType = stateType;
         StateValue = value;
@@ -34,17 +34,5 @@ public class ActionKey
     }
 
     public static bool operator !=(ActionKey a, ActionKey b) => !(a == b);
-}
-
-public enum Effect
-{
-    IsHungry,
-    IsSleepy,
-    IsFrightened,
-    IsAnnoyed,
-    SeesFood,
-    IsNearFood,
-    SeesTree,
-    IsNearDanger
 }
 
