@@ -12,6 +12,7 @@ public class Scrapbook : MonoBehaviour
     [SerializeField] private int scrapbookPageCount = 6;
     [SerializeField] private ushort maximumUnplacedPictureCount = 10;
 
+    [SerializeField] private GameObject elementsPanel;
     [SerializeField] private RectTransform pagesParent;
     [SerializeField] private LayoutGroup picturePanel;
 
@@ -40,6 +41,11 @@ public class Scrapbook : MonoBehaviour
             newPage.gameObject.SetActive(i == 0);
             allPages[i] = newPage;
         }
+    }
+
+    public void OpenPages()
+    {
+        elementsPanel.SetActive(true);
     }
 
     public void GoToNextPage()
@@ -73,6 +79,11 @@ public class Scrapbook : MonoBehaviour
         // To do: send out a message that the scrapbook's picture storage is full.
     }
     
+    public List<PagePicture> GetCollectedPictures()
+    {
+        return collectedPictures.GetContents();
+    }
+
     public void CreateNewTextEntry()
     {
         Instantiate(textEntryPrefab, CurrentPage.transform);

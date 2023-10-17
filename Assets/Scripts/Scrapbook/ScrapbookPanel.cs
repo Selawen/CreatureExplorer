@@ -3,35 +3,36 @@ using UnityEngine.EventSystems;
 
 public class ScrapbookPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
+    public static ScrapbookPanel Instance { get; private set; }
+
+    [SerializeField] private RectTransform panel;
+
     [SerializeField] private float dockedXValue;
     [SerializeField] private float hoverXValue;
     [SerializeField] private float extendedXValue;
 
-    //[SerializeField] private Scrapbook scrapbook;
-
-    private RectTransform rect;
     private bool extended;
 
     private void Awake()
     {
-        rect = GetComponent<RectTransform>();
-        if (!rect)
-        {
-            throw new System.NullReferenceException("There's no Rect Transform on the scrapbook panel! This is not allowed!");
-        }
+        Instance = this;
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        rect.anchoredPosition = new Vector2(extended ? dockedXValue : extendedXValue, rect.anchoredPosition.y);
-        extended = !extended;
+        if (extended)
+        {
+            DockPanel();
+            return;
+        }
+        OpenPanel();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (!extended)
         {
-            rect.anchoredPosition = new Vector2(hoverXValue, rect.anchoredPosition.y);
+            panel.anchoredPosition = new Vector2(hoverXValue, panel.anchoredPosition.y);
         }
     }
 
@@ -39,13 +40,20 @@ public class ScrapbookPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         if (!extended)
         {
-            rect.anchoredPosition = new Vector2(dockedXValue, rect.anchoredPosition.y);
+            panel.anchoredPosition = new Vector2(dockedXValue, panel.anchoredPosition.y);
         }
+    }
+
+    public void OpenPanel()
+    {
+        panel.anchoredPosition = new Vector2(extendedXValue, panel.anchoredPosition.y);
+        extended = true;
     }
 
     public void DockPanel()
     {
-        rect.anchoredPosition = new Vector2(dockedXValue, rect.anchoredPosition.y);
+        panel.anchoredPosition = new Vector2(dockedXValue, panel.anchoredPosition.y);
+        extended = false;
     }
 
 }

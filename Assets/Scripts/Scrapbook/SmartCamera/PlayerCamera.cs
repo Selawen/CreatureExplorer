@@ -70,6 +70,11 @@ public class PlayerCamera : MonoBehaviour
     }
     private void OnDrawGizmos()
     {
+        Matrix4x4 originalMatrix = Gizmos.matrix;
+        Matrix4x4 rotationMatrix = Matrix4x4.TRS(pictureCamera.transform.position - transform.position, transform.rotation, transform.lossyScale);
+
+        Gizmos.matrix = rotationMatrix;
+
         float camStep = pictureCamera.pixelHeight / photoAccuracy;
         float xStart = (pictureCamera.pixelWidth - pictureCamera.pixelHeight) * 0.5f;
 
@@ -78,14 +83,16 @@ public class PlayerCamera : MonoBehaviour
             for (int y = 0; y <= photoAccuracy; y++)
             {
                 Ray ray = pictureCamera.ScreenPointToRay(new Vector3(xStart + x * camStep, y * camStep));
-                Gizmos.DrawLine(ray.origin, ray.direction * maximumScanDistance);
+                Gizmos.DrawRay(ray.origin, ray.direction * maximumScanDistance);
             }
         }
+
+        Gizmos.matrix = originalMatrix;
     }
 
-    private List<IIdentifiable> AnalyzeSubjects()
+    private List<QuestableObject> AnalyzeSubjects()
     {
-        List<IIdentifiable> result = new();
+        List<QuestableObject> result = new();
 
         float camStep = pictureCamera.pixelHeight / photoAccuracy;
         float xStart = (pictureCamera.pixelWidth - pictureCamera.pixelHeight) * 0.5f;
@@ -97,11 +104,11 @@ public class PlayerCamera : MonoBehaviour
                 Ray ray = pictureCamera.ScreenPointToRay(new Vector3(xStart + x * camStep, y * camStep));
                 if(Physics.Raycast(ray, out RaycastHit hit, maximumScanDistance, ~ignoredPhotoLayers))
                 {
-                    if (hit.transform.TryGetComponent(out IIdentifiable identifiable))
+                    if (hit.transform.TryGetComponent(out QuestableObject questableObject))
                     {
-                        if (!result.Contains(identifiable))
+                        if (!result.Contains(questableObject))
                         {
-                            result.Add(identifiable);
+                            result.Add(questableObject);
                         }
                     }
                 }

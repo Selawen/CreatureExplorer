@@ -5,14 +5,21 @@ using UnityEngine.UI;
 public class PagePicture : MoveablePageComponent, IPointerEnterHandler, IPointerExitHandler
 {
     public PictureInfo PictureInfo { get; private set; }
+    public System.Action OnPictureClicked;
 
     [SerializeField] private Image pictureGraphic;
 
     private bool placedOnPage;
+    private Image pictureBackground;
 
+    private void Awake()
+    {
+        pictureBackground = GetComponent<Image>();
+    }
     private void Start()
     {
         SetHalfSizes();
+        OnPictureClicked += SelectForPlacement;
     }
 
     public void SetPicture(Sprite pictureSprite)
@@ -29,7 +36,7 @@ public class PagePicture : MoveablePageComponent, IPointerEnterHandler, IPointer
     {
         if (eventData.button == PointerEventData.InputButton.Left && !placedOnPage)
         {
-            SelectForPlacement();
+            OnPictureClicked?.Invoke();
             return;
         }
         if (eventData.button == PointerEventData.InputButton.Right && placedOnPage)
@@ -37,7 +44,13 @@ public class PagePicture : MoveablePageComponent, IPointerEnterHandler, IPointer
             RemovePicture();
         }
     }
-
+    public override void OnBeginDrag(PointerEventData eventData)
+    {
+        base.OnBeginDrag(eventData);
+        //pictureBackground.raycastTarget = false;
+        // To do: set a dragging bool to true. Disable other events when doing so. Turn off raycast target on this component.
+        // Store the start position. (Change this to OnPointerClick? Otherwise, might not work properly or feel intuitive on Switch.)
+    }
     public override void OnDrag(PointerEventData eventData)
     {
         if (!placedOnPage)
@@ -56,21 +69,28 @@ public class PagePicture : MoveablePageComponent, IPointerEnterHandler, IPointer
         }
     }
 
+    public override void OnEndDrag(PointerEventData eventData)
+    {
+        base.OnEndDrag(eventData);
+        //pictureBackground.raycastTarget = true;
+        // To do: raycast to see if this is over the scrapbook page or the picture panel. Parent it appropiately and turn the raycast target back on. If not hitting either panel: return to 
+        // original position.
+    }
+
     public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log("No longer hovering over the picture");
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
         //Debug.Log("Hovering over the picture");
-        foreach(IIdentifiable i in PictureInfo.PictureObjects)
-        {
-            Debug.Log($"This picture contains a {i.GivenName}");
-            Debug.Log($"It is described as {i.GivenDescription}");
-        }
+        //foreach(IIdentifiable i in PictureInfo.PictureObjects)
+        //{
+        //    Debug.Log($"This picture contains a {i.GivenName}");
+        //    Debug.Log($"It is described as {i.GivenDescription}");
+        //}
     }
 
-    private void SelectForPlacement()
+    public void SelectForPlacement()
     {
         ScrapbookPage page = Scrapbook.Instance.CurrentPage;
         page.AddComponentToPage(this);
