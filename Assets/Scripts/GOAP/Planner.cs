@@ -333,7 +333,8 @@ public class Planner : MonoBehaviour
 
                 foreach (Action a in possibleActions)
                 {
-                    if (a.SatisfiesRequirements(p.currentActionPrerequisites, p.planWorldState))
+                    // if the action satisfies the current requirements and hasn't failed
+                    if (a.SatisfiesRequirements(p.currentActionPrerequisites, p.planWorldState) && !a.failed)
                     {
                         if (!needNewPlan)
                         {
