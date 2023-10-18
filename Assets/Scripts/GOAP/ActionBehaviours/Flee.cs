@@ -57,12 +57,13 @@ public class Flee : Action
         Task[] tasks = {Task.Delay((int)(actionDuration * 1000)), CheckDistanceToDestination()};
 
         await Task.WhenAny(tasks);// .Delay((int)(actionDuration * 1000));
+        {
+            moveAgent.speed = originalSpeed;
+            moveAgent.angularSpeed = originalRotationSpeed;
+            moveAgent.acceleration = originalAcceleration;
 
-        moveAgent.speed = originalSpeed;
-        moveAgent.angularSpeed = originalRotationSpeed;
-        moveAgent.acceleration = originalAcceleration;
-
-        base.DoAction();
+            base.DoAction();
+        }
     }
 
     private async Task CheckDistanceToDestination()
