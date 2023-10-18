@@ -8,6 +8,7 @@ public class PagePicture : MoveablePageComponent, IPointerEnterHandler, IPointer
     public System.Action OnPictureClicked;
 
     [SerializeField] private Image pictureGraphic;
+    [SerializeField] private float pageScaleFactor = 2.5f;
 
     private bool placedOnPage;
 
@@ -78,6 +79,7 @@ public class PagePicture : MoveablePageComponent, IPointerEnterHandler, IPointer
         transform.SetParent(page.transform, false);
         _parentTransform = page.GetComponent<RectTransform>();
         _componentTransform.anchoredPosition = new Vector3(_parentTransform.rect.width * 0.5f, -_parentTransform.rect.height * 0.5f, 0);
+        _componentTransform.localScale = Vector3.one * pageScaleFactor;
         placedOnPage = true;
         // To do: close the placement panel (event?)
     }
@@ -90,6 +92,7 @@ public class PagePicture : MoveablePageComponent, IPointerEnterHandler, IPointer
             return;
         }
         _componentTransform.rotation = Quaternion.identity;
+        _componentTransform.localScale = Vector3.one;
         Scrapbook.Instance.CurrentPage.RemoveComponentFromPage(this);
         placedOnPage = false;
     }
