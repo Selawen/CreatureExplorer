@@ -31,14 +31,16 @@ public class PlayerCamera : MonoBehaviour
     {
         if (callbackContext.started)
         {
-            Snap();
+            if (!Scrapbook.Instance.CollectionIsFull)
+            {
+                StartCoroutine(Snap());
+            }
         }
     }
 
-    private void Snap()
+    private IEnumerator Snap()
     {
-        if (Scrapbook.Instance.CollectionIsFull)
-            return;
+        yield return new WaitForEndOfFrame();
 
         pictureCamera.gameObject.SetActive(true);
 
