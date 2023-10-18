@@ -12,6 +12,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3703513111590520603, guid: c4d537d1eccf6d84da8c18f49b4831be,
+        type: 3}
+      propertyPath: searchRadius
+      value: 1000
+      objectReference: {fileID: 0}
     - target: {fileID: 4337417848347193026, guid: c4d537d1eccf6d84da8c18f49b4831be,
         type: 3}
       propertyPath: actionDuration
@@ -45,7 +50,7 @@ PrefabInstance:
     - target: {fileID: 4337417848347193026, guid: c4d537d1eccf6d84da8c18f49b4831be,
         type: 3}
       propertyPath: <GoalEffects>k__BackingField.<CreatureStates>k__BackingField.Array.data[0].<StateValue>k__BackingField
-      value: 70
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 6799428552790998717, guid: c4d537d1eccf6d84da8c18f49b4831be,
         type: 3}
@@ -122,6 +127,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7210352520341627486, guid: c4d537d1eccf6d84da8c18f49b4831be,
+        type: 3}
+      propertyPath: defaultAction
+      value: 
+      objectReference: {fileID: 6060424198147818693}
     - target: {fileID: 7210352520341627486, guid: c4d537d1eccf6d84da8c18f49b4831be,
         type: 3}
       propertyPath: possibleActions.Array.size
@@ -297,8 +307,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hearingSensitivity: 5
   <FoodSource>k__BackingField: Charger
-  showThoughts: 0
-  <logDebugs>k__BackingField: 0
+  checkSurroundingsTimer: 0.5
+  showThoughts: 1
+  <LogDebugs>k__BackingField: 0
   goalText: {fileID: 7521121882960059789}
   actionText: {fileID: 7521121885061991486}
   soundText: {fileID: 610037542226353938}

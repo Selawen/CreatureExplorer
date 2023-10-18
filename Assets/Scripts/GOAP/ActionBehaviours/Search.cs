@@ -12,40 +12,42 @@ public class Search : Action
 
         float distance = searchRadius;
         Collider nearest = null;
-
-        foreach (Collider c in Physics.OverlapSphere(creature.transform.position, 40))
+        
+        switch (searchTarget)
         {
-            switch (searchTarget)
-            {
-                case (SearchTarget.Food):
+            case (SearchTarget.Food):
 
+                foreach (Collider c in Physics.OverlapSphere(creature.transform.position, searchRadius))
+                {
                     if ((c.gameObject.GetComponent(creature.FoodSource) != null) && (c.transform.position - creature.transform.position).sqrMagnitude < distance)
                     {
                         distance = (c.transform.position - creature.transform.position).sqrMagnitude;
                         nearest = c;
                     }
-                    break;
+                }
+                break;
 
-                case (SearchTarget.Tree):
+            case (SearchTarget.Tree):
 
-                    if (c.gameObject.TryGetComponent<Tree>(out Tree t) && (c.transform.position - creature.transform.position).sqrMagnitude < distance)
-                    {
-                        distance = (c.transform.position - creature.transform.position).sqrMagnitude;
-                        nearest = c;
-                    }
-                    break;
+                Tree t = new Tree();
+                if (LookForObjects<Tree>.TryGetClosestObject(t, creature.transform.position, searchRadius, out t))
+                {
+                    DoAction();
+                    return t.gameObject;
+                }
+                break;
 
-                case (SearchTarget.Anything):
+            case (SearchTarget.Anything):
 
-                    if ((c.transform.position - creature.transform.position).sqrMagnitude < distance && c.transform != creature.transform)
-                    {
-                        distance = (c.transform.position - creature.transform.position).sqrMagnitude;
-                        nearest = c;
-                    }
-                    break;
-            }
+                GameObject g = new GameObject();
+                if (LookForObjects<GameObject>.TryGetClosestObject(g, creature.transform.position, searchRadius, out g))
+                {
+                    DoAction();
+                    return g.gameObject;
+                }
+                break;
         }
-
+        
         if (nearest != null)
         {
             DoAction();
