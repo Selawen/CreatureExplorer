@@ -207,6 +207,7 @@ public class Creature : MonoBehaviour
         }
 
         UpdateCreatureState();
+
     }
 
     /// <summary>
@@ -214,6 +215,34 @@ public class Creature : MonoBehaviour
     /// </summary>
     private void UpdateCreatureState()
     {
+        // TODO: refactor
+        // stop action to fall asleep if tiredness = 100
+        if (currentCreatureState.Find(StateType.Tiredness).StateValue >= 99)
+        {
+            MoodState tirednessAdjustment = currentAction.GoalEffects.Find(StateType.Tiredness);
+            // if this action doen not impact tiredness or makes creature more tired
+            if (tirednessAdjustment == null)
+            {
+                currentAction.Reset();
+                GetComponent<UnityEngine.AI.NavMeshAgent>().SetDestination(transform.position);
+
+                goalText.text = "Fell asleep";
+                currentPlan.Clear();
+                currentPlan.Add(GetComponentInChildren<Sleep>());
+                StartAction();
+            }
+            else if (tirednessAdjustment?.Operator == StateOperant.Add)
+            {
+                currentAction.Reset();
+                GetComponent<UnityEngine.AI.NavMeshAgent>().SetDestination(transform.position);
+
+                goalText.text = "Fell asleep";
+                currentPlan.Clear();
+                currentPlan.Add(GetComponentInChildren<Sleep>());
+                StartAction();
+            }
+        }
+
         worldState = (currentCreatureState.Find(StateType.Hunger).StateValue > 50) ? SetConditionTrue(worldState, Condition.IsHungry) : SetConditionFalse(worldState, Condition.IsHungry);
         worldState = (currentCreatureState.Find(StateType.Tiredness).StateValue > 50) ? SetConditionTrue(worldState, Condition.IsSleepy) : SetConditionFalse(worldState, Condition.IsSleepy);
         worldState = (currentCreatureState.Find(StateType.Annoyance).StateValue > 50) ? SetConditionTrue(worldState, Condition.IsAnnoyed) : SetConditionFalse(worldState, Condition.IsAnnoyed);
