@@ -79,6 +79,11 @@ public class Scrapbook : MonoBehaviour
         return false;
         // To do: send out a message that the scrapbook's picture storage is full.
     }
+
+    public bool RemovePictureFromCollection(PagePicture removedPicture)
+    {
+        return collectedPictures.RemoveItemFromInventory(removedPicture);
+    }
     
     public List<PagePicture> GetCollectedPictures()
     {

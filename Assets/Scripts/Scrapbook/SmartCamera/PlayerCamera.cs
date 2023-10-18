@@ -15,6 +15,7 @@ public class PlayerCamera : MonoBehaviour
     [SerializeField] private LayerMask ignoredPhotoLayers;
 
     [SerializeField, Range(1, 100)] private int photoAccuracy = 50;
+    [SerializeField] private PlayerInput input;
 
     private string path;
 
@@ -40,9 +41,11 @@ public class PlayerCamera : MonoBehaviour
 
     private IEnumerator Snap()
     {
+        pictureCamera.gameObject.SetActive(true);
+        input.SwitchCurrentActionMap("Typing");
+
         yield return new WaitForEndOfFrame();
 
-        pictureCamera.gameObject.SetActive(true);
 
         RenderTexture screenTexture = new RenderTexture(Screen.height, Screen.height, 16);
         pictureCamera.targetTexture = screenTexture;
@@ -68,6 +71,7 @@ public class PlayerCamera : MonoBehaviour
         Scrapbook.Instance.AddPictureToCollection(newPagePicture);
 
         pictureCamera.gameObject.SetActive(false);
+        input.SwitchCurrentActionMap("Camera");
 
     }
     private void OnDrawGizmos()

@@ -74,6 +74,7 @@ public class PagePicture : MoveablePageComponent, IPointerEnterHandler, IPointer
     {
         ScrapbookPage page = Scrapbook.Instance.CurrentPage;
         page.AddComponentToPage(this);
+        Scrapbook.Instance.RemovePictureFromCollection(this);
         transform.SetParent(page.transform, false);
         _parentTransform = page.GetComponent<RectTransform>();
         _componentTransform.anchoredPosition = new Vector3(_parentTransform.rect.width * 0.5f, -_parentTransform.rect.height * 0.5f, 0);

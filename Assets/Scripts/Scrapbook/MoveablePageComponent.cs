@@ -44,7 +44,7 @@ public abstract class MoveablePageComponent : MonoBehaviour, IDragHandler, IBegi
             float componentY = Mathf.Clamp(_componentTransform.anchoredPosition.y + eventData.delta.y, _parentTransform.rect.yMin + halfHeight * _componentTransform.localScale.y, _parentTransform.rect.yMax - halfHeight * _componentTransform.localScale.y);
 
             _componentTransform.anchoredPosition = new Vector2(componentX, componentY);
-        }else if(eventData.button == PointerEventData.InputButton.Right)
+        }else if(eventData.button == PointerEventData.InputButton.Middle)
         {
             _componentTransform.Rotate(new Vector3(0, 0, eventData.delta.y));
         }
