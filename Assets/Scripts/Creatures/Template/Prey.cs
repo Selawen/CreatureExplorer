@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Prey : Creature
 {
+    [Header("Prey")]
     [SerializeField] private CreatureState reactionToPredator;
 
     protected override void Start()

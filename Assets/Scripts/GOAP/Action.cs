@@ -6,6 +6,9 @@ abstract public class Action: MonoBehaviour
 {
     [field: SerializeField] public string Name { get; private set; }
     [field: SerializeField] public string Onomatopea { get; private set; }
+
+    [field: SerializeField] private AudioClip sound;
+
     // TODO: have cost be calculated based on situation?
     [field: SerializeField] public float Cost { get; protected set; }
     [field: SerializeField] public float BaseReward { get; private set; }
@@ -40,6 +43,16 @@ abstract public class Action: MonoBehaviour
         failSource.Dispose();
         source.Cancel();
         source.Dispose();
+    }
+
+    public GameObject ActivateAction(Creature creature, GameObject target)
+    {
+        if (GetComponentInParent<SoundPlayer>() != null)
+        {
+            GetComponentInParent<SoundPlayer>().PlaySound(sound);
+        }
+
+        return PerformAction(creature, target);
     }
 
     /// <summary>

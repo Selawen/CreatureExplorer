@@ -111,7 +111,7 @@ public class Creature : MonoBehaviour
         // reset values on action before running it
         currentAction?.Reset();
 
-        currentTarget = currentAction.PerformAction(this, currentTarget);
+        currentTarget = currentAction.ActivateAction(this, currentTarget);
 
         if (showThoughts)
         {
