@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemEffect : MonoBehaviour
+public class StatusEffect : MonoBehaviour
 {
     [SerializeField] private string StatusEffectName;
 
@@ -11,7 +11,7 @@ public class ItemEffect : MonoBehaviour
     private float effectDuration = 0;
     private Creature affectedCreature;
 
-    public ItemEffect(Creature toAffect, float duration = 0)
+    public StatusEffect(Creature toAffect, float duration = 0)
     {
         effectDuration = duration;
         affectedCreature = toAffect;
