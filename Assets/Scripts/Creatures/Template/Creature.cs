@@ -194,7 +194,7 @@ public class Creature : MonoBehaviour
     /// Update creatureState with effects of finished action
     /// </summary>
     /// <param name="updateWith">the CreatureState containing the Moodstates to update with</param>
-    protected void UpdateValues(CreatureState updateWith)
+    public void UpdateValues(CreatureState updateWith)
     {        
         foreach (MoodState change in updateWith.CreatureStates)
         {
