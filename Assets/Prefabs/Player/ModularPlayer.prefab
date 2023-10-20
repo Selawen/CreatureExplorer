@@ -674,8 +674,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maximumViewAngle: 55
-  interactionDistance: 2
-  interactionRadius: 1.25
+  interactionDistance: 4
+  interactionRadius: 3
   gameSettings: {fileID: 11400000, guid: 0e36501920850ee48a198c6521c2d486, type: 2}
   interactionLayers:
     serializedVersion: 2
@@ -741,7 +741,6 @@ MonoBehaviour:
   pictureCamera: {fileID: 8039731687057702383}
   picturePrefab: {fileID: 1099497629079080459, guid: 62a69665ffa767549a3ee2178569ccc7,
     type: 3}
-  boxSize: 5
   maximumScanDistance: 20
   ignoredPhotoLayers:
     serializedVersion: 2
@@ -761,6 +760,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 3.5
   sprintSpeed: 7
+  strafeSprintSpeed: 5
+  maxSprintAngle: 15
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -809,9 +810,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11fe5c6b3164c2a46b9564a51315e656, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  painfulVelocity: 10
-  cripplingVelocity: 15
-  lethalVelocity: 20
+  painfulVelocity: 18
+  cripplingVelocity: 22
+  lethalVelocity: 30
   aerialSpeed: 5
   maxHorizontalVelocity: 8
   dbg_SharedSource: {fileID: 5861372465537932847}
@@ -834,9 +835,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58272e08cf23681428cbdf3c2b378f33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hurtTime: 5
+  hurtTime: 3
   hurtMoveSpeed: 2.5
-  vignetteStrength: 0.3
+  vignetteStrength: 0.4
   sharedPlayerSource: {fileID: 5861372465537932847}
   hurtSound: {fileID: 8300000, guid: 6d8140b87acd220499955e8ee610ae7c, type: 3}
   volume: {fileID: 0}
@@ -852,7 +853,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f47763a9c7f92ad4991fbe1cc0de8b06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  crippleTime: 10
+  crippleTime: 6
   crippleMoveSpeed: 1.5
   vignetteStrength: 0.5
   sharedPlayerSource: {fileID: 5861372465537932847}
@@ -901,3 +902,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b2abf6878f951d4b96662a52477d891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  frequentInvokeTimer: 0.2
+  standardInvokeTimer: 0.5
+  slowInvokeTimer: 1

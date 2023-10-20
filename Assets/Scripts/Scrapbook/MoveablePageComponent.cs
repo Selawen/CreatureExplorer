@@ -33,7 +33,7 @@ public abstract class MoveablePageComponent : MonoBehaviour, IDragHandler, IBegi
     {
         Color c = _componentGraphic.color;
         _componentGraphic.color = new Color(c.r, c.g, c.b, 0.5f);
-        _componentTransform.localScale = Vector3.one * _scaleFactor;
+        _componentTransform.localScale = _componentTransform.localScale * _scaleFactor;
     }
 
     public virtual void OnDrag(PointerEventData eventData)
@@ -44,7 +44,7 @@ public abstract class MoveablePageComponent : MonoBehaviour, IDragHandler, IBegi
             float componentY = Mathf.Clamp(_componentTransform.anchoredPosition.y + eventData.delta.y, _parentTransform.rect.yMin + halfHeight * _componentTransform.localScale.y, _parentTransform.rect.yMax - halfHeight * _componentTransform.localScale.y);
 
             _componentTransform.anchoredPosition = new Vector2(componentX, componentY);
-        }else if(eventData.button == PointerEventData.InputButton.Right)
+        }else if(eventData.button == PointerEventData.InputButton.Middle)
         {
             _componentTransform.Rotate(new Vector3(0, 0, eventData.delta.y));
         }
@@ -54,7 +54,7 @@ public abstract class MoveablePageComponent : MonoBehaviour, IDragHandler, IBegi
     {
         Color c = _componentGraphic.color;
         _componentGraphic.color = new Color(c.r, c.g, c.b, 1);
-        _componentTransform.localScale = Vector3.one;
+        _componentTransform.localScale = _componentTransform.localScale / _scaleFactor;
     }
 
     public virtual void OnPointerClick(PointerEventData eventData)

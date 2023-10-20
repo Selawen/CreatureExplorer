@@ -5,14 +5,17 @@ using UnityEngine.UI;
 public class PagePicture : MoveablePageComponent, IPointerEnterHandler, IPointerExitHandler
 {
     public PictureInfo PictureInfo { get; private set; }
+    public System.Action OnPictureClicked;
 
     [SerializeField] private Image pictureGraphic;
+    [SerializeField] private float pageScaleFactor = 2.5f;
 
     private bool placedOnPage;
 
     private void Start()
     {
         SetHalfSizes();
+        OnPictureClicked += SelectForPlacement;
     }
 
     public void SetPicture(Sprite pictureSprite)
@@ -29,7 +32,7 @@ public class PagePicture : MoveablePageComponent, IPointerEnterHandler, IPointer
     {
         if (eventData.button == PointerEventData.InputButton.Left && !placedOnPage)
         {
-            SelectForPlacement();
+            OnPictureClicked?.Invoke();
             return;
         }
         if (eventData.button == PointerEventData.InputButton.Right && placedOnPage)
@@ -55,28 +58,28 @@ public class PagePicture : MoveablePageComponent, IPointerEnterHandler, IPointer
             _componentTransform.Rotate(new Vector3(0, 0, eventData.delta.y));
         }
     }
-
     public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log("No longer hovering over the picture");
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
         //Debug.Log("Hovering over the picture");
-        foreach(IIdentifiable i in PictureInfo.PictureObjects)
-        {
-            Debug.Log($"This picture contains a {i.GivenName}");
-            Debug.Log($"It is described as {i.GivenDescription}");
-        }
+        //foreach(IIdentifiable i in PictureInfo.PictureObjects)
+        //{
+        //    Debug.Log($"This picture contains a {i.GivenName}");
+        //    Debug.Log($"It is described as {i.GivenDescription}");
+        //}
     }
 
-    private void SelectForPlacement()
+    public void SelectForPlacement()
     {
         ScrapbookPage page = Scrapbook.Instance.CurrentPage;
         page.AddComponentToPage(this);
+        Scrapbook.Instance.RemovePictureFromCollection(this);
         transform.SetParent(page.transform, false);
         _parentTransform = page.GetComponent<RectTransform>();
         _componentTransform.anchoredPosition = new Vector3(_parentTransform.rect.width * 0.5f, -_parentTransform.rect.height * 0.5f, 0);
+        _componentTransform.localScale = Vector3.one * pageScaleFactor;
         placedOnPage = true;
         // To do: close the placement panel (event?)
     }
@@ -89,6 +92,7 @@ public class PagePicture : MoveablePageComponent, IPointerEnterHandler, IPointer
             return;
         }
         _componentTransform.rotation = Quaternion.identity;
+        _componentTransform.localScale = Vector3.one;
         Scrapbook.Instance.CurrentPage.RemoveComponentFromPage(this);
         placedOnPage = false;
     }

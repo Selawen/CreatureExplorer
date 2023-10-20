@@ -15,6 +15,7 @@ public class PlayerCamera : MonoBehaviour
     [SerializeField] private LayerMask ignoredPhotoLayers;
 
     [SerializeField, Range(1, 100)] private int photoAccuracy = 50;
+    [SerializeField] private PlayerInput input;
 
     private string path;
 
@@ -31,16 +32,20 @@ public class PlayerCamera : MonoBehaviour
     {
         if (callbackContext.started)
         {
-            Snap();
+            if (!Scrapbook.Instance.CollectionIsFull)
+            {
+                StartCoroutine(Snap());
+            }
         }
     }
 
-    private void Snap()
+    private IEnumerator Snap()
     {
-        if (Scrapbook.Instance.CollectionIsFull)
-            return;
-
         pictureCamera.gameObject.SetActive(true);
+        input.SwitchCurrentActionMap("Typing");
+
+        yield return new WaitForEndOfFrame();
+
 
         RenderTexture screenTexture = new RenderTexture(Screen.height, Screen.height, 16);
         pictureCamera.targetTexture = screenTexture;
@@ -66,10 +71,16 @@ public class PlayerCamera : MonoBehaviour
         Scrapbook.Instance.AddPictureToCollection(newPagePicture);
 
         pictureCamera.gameObject.SetActive(false);
+        input.SwitchCurrentActionMap("Camera");
 
     }
     private void OnDrawGizmos()
     {
+        Matrix4x4 originalMatrix = Gizmos.matrix;
+        Matrix4x4 rotationMatrix = Matrix4x4.TRS(pictureCamera.transform.position - transform.position, transform.rotation, transform.lossyScale);
+
+        Gizmos.matrix = rotationMatrix;
+
         float camStep = pictureCamera.pixelHeight / photoAccuracy;
         float xStart = (pictureCamera.pixelWidth - pictureCamera.pixelHeight) * 0.5f;
 
@@ -78,14 +89,16 @@ public class PlayerCamera : MonoBehaviour
             for (int y = 0; y <= photoAccuracy; y++)
             {
                 Ray ray = pictureCamera.ScreenPointToRay(new Vector3(xStart + x * camStep, y * camStep));
-                Gizmos.DrawLine(ray.origin, ray.direction * maximumScanDistance);
+                Gizmos.DrawRay(ray.origin, ray.direction * maximumScanDistance);
             }
         }
+
+        Gizmos.matrix = originalMatrix;
     }
 
-    private List<IIdentifiable> AnalyzeSubjects()
+    private List<QuestableObject> AnalyzeSubjects()
     {
-        List<IIdentifiable> result = new();
+        List<QuestableObject> result = new();
 
         float camStep = pictureCamera.pixelHeight / photoAccuracy;
         float xStart = (pictureCamera.pixelWidth - pictureCamera.pixelHeight) * 0.5f;
@@ -97,11 +110,11 @@ public class PlayerCamera : MonoBehaviour
                 Ray ray = pictureCamera.ScreenPointToRay(new Vector3(xStart + x * camStep, y * camStep));
                 if(Physics.Raycast(ray, out RaycastHit hit, maximumScanDistance, ~ignoredPhotoLayers))
                 {
-                    if (hit.transform.TryGetComponent(out IIdentifiable identifiable))
+                    if (hit.transform.TryGetComponent(out QuestableObject questableObject))
                     {
-                        if (!result.Contains(identifiable))
+                        if (!result.Contains(questableObject))
                         {
-                            result.Add(identifiable);
+                            result.Add(questableObject);
                         }
                     }
                 }

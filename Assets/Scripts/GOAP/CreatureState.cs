@@ -113,7 +113,7 @@ public class MoodState
     public void AddValue(float newValue)
     {
         StateValue += newValue;
-        StateValue = Mathf.Clamp(StateValue, 0, 100);
+        StateValue = Mathf.Clamp(StateValue, 0, 99);
     }
 
     #region operator overrides
@@ -145,7 +145,14 @@ public class MoodState
     
     public static bool operator ==(MoodState a, MoodState b)
     {
-        return (a.MoodType == b.MoodType && a.StateValue == b.StateValue);
+        try
+        {
+            return (a.MoodType == b.MoodType && a.StateValue == b.StateValue);
+        }
+        catch (NullReferenceException e)
+        {
+            return false;
+        }
     }
 
     public static bool operator !=(MoodState a, MoodState b) => !(a == b);

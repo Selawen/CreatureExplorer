@@ -1,6 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class Scrapbook : MonoBehaviour
@@ -12,11 +12,13 @@ public class Scrapbook : MonoBehaviour
     [SerializeField] private int scrapbookPageCount = 6;
     [SerializeField] private ushort maximumUnplacedPictureCount = 10;
 
+    [SerializeField] private GameObject elementsPanel;
     [SerializeField] private RectTransform pagesParent;
     [SerializeField] private LayoutGroup picturePanel;
 
     [SerializeField] private ScrapbookPage scrapbookPagePrefab;
     [SerializeField] private PageText textEntryPrefab;
+    [SerializeField] private PlayerInput input;
 
     private int currentPageIndex;
 
@@ -40,6 +42,11 @@ public class Scrapbook : MonoBehaviour
             newPage.gameObject.SetActive(i == 0);
             allPages[i] = newPage;
         }
+    }
+
+    public void OpenPages()
+    {
+        elementsPanel.SetActive(true);
     }
 
     public void GoToNextPage()
@@ -72,10 +79,22 @@ public class Scrapbook : MonoBehaviour
         return false;
         // To do: send out a message that the scrapbook's picture storage is full.
     }
+
+    public bool RemovePictureFromCollection(PagePicture removedPicture)
+    {
+        return collectedPictures.RemoveItemFromInventory(removedPicture);
+    }
     
+    public List<PagePicture> GetCollectedPictures()
+    {
+        return collectedPictures.GetContents();
+    }
+
     public void CreateNewTextEntry()
     {
-        Instantiate(textEntryPrefab, CurrentPage.transform);
+        PageText writeableText = Instantiate(textEntryPrefab, CurrentPage.transform);
+        writeableText.TextField.onSelect.AddListener((string s) => input.SwitchCurrentActionMap("Typing"));
+        writeableText.TextField.onDeselect.AddListener((string s) => input.SwitchCurrentActionMap("Scrapbook"));
     }
 
 }
