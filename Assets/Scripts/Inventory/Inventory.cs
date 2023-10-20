@@ -51,6 +51,8 @@ public class Inventory<T>
     public T GetItemAtIndex(ushort index) => inventoryItems[index] != null ? inventoryItems[index] : default;
 
     public ushort GetItemCount() => (ushort)inventoryItems.Count;
+
+    public ushort GetCapacity() => capacity;
     
     public List<T> GetContents() => inventoryItems;
 

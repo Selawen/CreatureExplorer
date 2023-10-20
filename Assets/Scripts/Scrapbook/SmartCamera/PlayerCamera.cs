@@ -13,14 +13,21 @@ public class PlayerCamera : MonoBehaviour
 
     [SerializeField] private float maximumScanDistance = 20f;
     [SerializeField] private LayerMask ignoredPhotoLayers;
+    [SerializeField] private TMPro.TMP_Text exceptionText;
 
     [SerializeField, Range(1, 100)] private int photoAccuracy = 50;
-    [SerializeField] private PlayerInput input;
+
+    [SerializeField] private Animator shutterTop, shutterBottom;
+
+    private PlayerInput input;
+
+    private bool snapping;
 
     private string path;
 
     private void Awake()
     {
+        input = GetComponent<PlayerInput>();
         if (Application.isEditor)
         {
             path = Application.dataPath;
@@ -32,8 +39,10 @@ public class PlayerCamera : MonoBehaviour
     {
         if (callbackContext.started)
         {
-            if (!Scrapbook.Instance.CollectionIsFull)
+            if (!Scrapbook.Instance.CollectionIsFull && !snapping)
             {
+                shutterTop.SetTrigger("Snap");
+                shutterBottom.SetTrigger("Snap");
                 StartCoroutine(Snap());
             }
         }
@@ -42,10 +51,9 @@ public class PlayerCamera : MonoBehaviour
     private IEnumerator Snap()
     {
         pictureCamera.gameObject.SetActive(true);
-        input.SwitchCurrentActionMap("Typing");
+        snapping = true;
 
         yield return new WaitForEndOfFrame();
-
 
         RenderTexture screenTexture = new RenderTexture(Screen.height, Screen.height, 16);
         pictureCamera.targetTexture = screenTexture;
@@ -58,20 +66,30 @@ public class PlayerCamera : MonoBehaviour
         renderedTexture.ReadPixels(new Rect(0, 0, Screen.height, Screen.height), 0, 0);
         RenderTexture.active = null;
 
-        string savingPath = path + "/Pictures/snap" + System.DateTime.UtcNow.Day + System.DateTime.UtcNow.Minute + System.DateTime.UtcNow.Second + ".png";
-        byte[] byteArray = renderedTexture.EncodeToPNG();
-        File.WriteAllBytes(savingPath, byteArray);
+        try
+        {
+            string savingPath = path + "/Pictures/snap" + System.DateTime.UtcNow.Day + System.DateTime.UtcNow.Minute + System.DateTime.UtcNow.Second + ".png";
+            byte[] byteArray = renderedTexture.EncodeToPNG();
+            File.WriteAllBytes(savingPath, byteArray);
 
-        Texture2D png = LoadTexture(savingPath);
-        Sprite spr = Sprite.Create(png, new Rect(0, 0, png.width, png.height), Vector2.one * 0.5f);
+            Texture2D png = LoadTexture(savingPath);
+            Sprite spr = Sprite.Create(png, new Rect(0, 0, png.width, png.height), Vector2.one * 0.5f);
 
-        PagePicture newPagePicture = Instantiate(picturePrefab);
-        newPagePicture.SetPicture(spr);
-        newPagePicture.LinkPictureInformation(pictureInfo);
-        Scrapbook.Instance.AddPictureToCollection(newPagePicture);
+            PagePicture newPagePicture = Instantiate(picturePrefab);
+            newPagePicture.SetPicture(spr);
+            newPagePicture.LinkPictureInformation(pictureInfo);
+            Scrapbook.Instance.AddPictureToCollection(newPagePicture);
+        }
+        catch (System.Exception exception)
+        {
+            if(exceptionText != null)
+            {
+                exceptionText.text = exception.ToString();
+            }
+        }
 
         pictureCamera.gameObject.SetActive(false);
-        input.SwitchCurrentActionMap("Camera");
+        snapping = false;
 
     }
     private void OnDrawGizmos()

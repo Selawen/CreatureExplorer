@@ -17,7 +17,6 @@ public class TitanStatue : MonoBehaviour, IInteractable
     public void Interact()
     {
         Scrapbook.Instance.OpenPages();
-        ScrapbookPanel.Instance.OpenPanel();
         Cursor.lockState = CursorLockMode.Confined;
         input.SwitchCurrentActionMap("Scrapbook");
 

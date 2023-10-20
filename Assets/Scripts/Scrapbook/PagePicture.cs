@@ -35,9 +35,15 @@ public class PagePicture : MoveablePageComponent, IPointerEnterHandler, IPointer
             OnPictureClicked?.Invoke();
             return;
         }
-        if (eventData.button == PointerEventData.InputButton.Right && placedOnPage)
+        if (eventData.button == PointerEventData.InputButton.Right)
         {
-            RemovePicture();
+            if (placedOnPage)
+            {
+                RemovePicture();
+                return;
+            }
+            Scrapbook.Instance.RemovePictureFromCollection(this);
+            Destroy(gameObject);
         }
     }
 
