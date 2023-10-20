@@ -8,6 +8,7 @@ abstract public class Action: MonoBehaviour
     [field: SerializeField] public string Onomatopea { get; private set; }
 
     [field: SerializeField] private AudioClip sound;
+    [field: SerializeField] private bool oneShot;
 
     // TODO: have cost be calculated based on situation?
     [field: SerializeField] public float Cost { get; protected set; }
@@ -49,7 +50,7 @@ abstract public class Action: MonoBehaviour
     {
         if (GetComponentInParent<SoundPlayer>() != null)
         {
-            GetComponentInParent<SoundPlayer>().PlaySound(sound);
+            GetComponentInParent<SoundPlayer>().PlaySound(sound, oneShot);
         }
 
         return PerformAction(creature, target);
