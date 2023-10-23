@@ -5,6 +5,8 @@ using UnityEngine.UI;
 public class ScrapbookPage : MonoBehaviour
 {
     [SerializeField] private TMPro.TMP_Text pageNumberText;
+    [SerializeField] private RectTransform defaultLayer;
+    [SerializeField] private RectTransform overlayLayer;
 
     private List<MoveablePageComponent> pageComponents = new();
 
@@ -16,6 +18,12 @@ public class ScrapbookPage : MonoBehaviour
     public void AddComponentToPage(MoveablePageComponent addedComponent)
     {
         pageComponents.Add(addedComponent);
+        if(addedComponent.GetType() == typeof(ScrapbookSticker))
+        {
+            addedComponent.transform.SetParent(overlayLayer);
+            return;
+        }
+        addedComponent.transform.SetParent(defaultLayer);
     }
 
     public void RemoveComponentFromPage(MoveablePageComponent removedComponent)

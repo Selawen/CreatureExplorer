@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Scrapbook : MonoBehaviour
+public class Scrapbook : MonoBehaviour, IPointerUpHandler
 {
     public static Scrapbook Instance { get; private set; }
     public ScrapbookPage CurrentPage { get { return allPages[currentPageIndex]; } }
@@ -11,6 +12,7 @@ public class Scrapbook : MonoBehaviour
 
     [SerializeField] private int scrapbookPageCount = 6;
     [SerializeField] private ushort maximumUnplacedPictureCount = 10;
+    [SerializeField] private float rotationRate = 5f;
 
     [SerializeField] private GameObject elementsPanel;
     [SerializeField] private RectTransform pagesParent;
@@ -25,7 +27,9 @@ public class Scrapbook : MonoBehaviour
     [SerializeField] private PlayerInput input;
 
     private int currentPageIndex;
+    private GraphicRaycaster raycaster;
 
+    private MoveablePageComponent targetComponent;
     private Inventory<PagePicture> collectedPictures;
 
     private ScrapbookPage[] allPages;
@@ -40,6 +44,7 @@ public class Scrapbook : MonoBehaviour
 
         allPages = new ScrapbookPage[scrapbookPageCount];
         collectedPictures = new Inventory<PagePicture>(maximumUnplacedPictureCount);
+        raycaster = GetComponentInParent<GraphicRaycaster>();
 
         UpdateCameraStorageText();
 
@@ -51,6 +56,58 @@ public class Scrapbook : MonoBehaviour
             allPages[i] = newPage;
         }
         previousPageButton.SetActive(false);
+
+        ClosePages();
+    }
+
+    public void GetClickInput(InputAction.CallbackContext callbackContext)
+    {
+        if(callbackContext.started && targetComponent == null)
+        {
+            // Begin drawing a group selection rectangle (to be implemented)
+            return;
+        }
+        if(callbackContext.performed && targetComponent != null)
+        {
+            // Can now start dragging the element
+        }
+        if (callbackContext.canceled)
+        {
+            if (targetComponent == null)
+            {
+                // End drawing a group selection rectangle (to be implemented) and create a group of all elements within that rectangle
+                return;
+            }
+        }
+    }
+
+    public void GetTurnAndScaleInput(InputAction.CallbackContext callbackContext)
+    {
+        if (targetComponent == null || !targetComponent.PlacedOnPage) return;
+
+        if (callbackContext.performed)
+        {
+            targetComponent.transform.Rotate(new(0, 0, rotationRate * callbackContext.ReadValue<Vector2>().x));
+            if (targetComponent.GetType() == typeof(PagePicture) || targetComponent.GetType() == typeof(ScrapbookSticker))
+            {
+                targetComponent.transform.localScale = Mathf.Clamp(targetComponent.transform.localScale.x + 0.1f * callbackContext.ReadValue<Vector2>().y, 1, 3) * Vector3.one;
+            }
+        }
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        List<RaycastResult> results = new();
+        raycaster.Raycast(eventData, results);
+        foreach(RaycastResult r in results)
+        {
+            Debug.Log(r.gameObject.name);
+        }
+    }
+
+    public void ClosePages()
+    {
+        elementsPanel.SetActive(false);
     }
 
     public void OpenPages()
@@ -117,7 +174,9 @@ public class Scrapbook : MonoBehaviour
     }
 
     public void CreateNewTextEntry() => Instantiate(textEntryPrefab, CurrentPage.transform);
-    
+
+    public void SwapTargetComponent(MoveablePageComponent newComponent) => targetComponent = newComponent;
+
     private void UpdateCameraStorageText()
     {
         ushort storageLeft = (ushort)(collectedPictures.GetCapacity() - collectedPictures.GetItemCount());
@@ -132,4 +191,5 @@ public class Scrapbook : MonoBehaviour
         camStorageText.text = "Storage left: " + storageLeft.ToString();
 
     }
+
 }
