@@ -88,14 +88,17 @@ public class Planner : MonoBehaviour
                     {
                         moodPriorities.Add(prio, StateType.Fear);
                     }
-                    catch (Exception e)
+                    catch (ArgumentException e)
                     {
                         try
                         {
+                            Debug.Log($"2nd try adding prio of {state.MoodType}");
+                            moodPriorities.Remove(prio);
                             moodPriorities.Add(Mathf.Clamp(prio + 0.0001f, 0, 1), StateType.Fear);
                         }
                         catch (Exception ex)
                         {
+                            Debug.Log("2nd try failed");
                             moodPriorities.Add(Mathf.Clamp(prio - 0.0001f, 0, 1), StateType.Fear);
                         }
                     }
@@ -113,10 +116,13 @@ public class Planner : MonoBehaviour
                     {
                         try
                         {
+                            Debug.Log($"2nd try adding prio of {state.MoodType}");
+                            moodPriorities.Remove(prio);
                             moodPriorities.Add(Mathf.Clamp(prio + 0.0002f, 0, 1), StateType.Annoyance);
                         }
-                        catch (Exception ex)
+                        catch (ArgumentException ex)
                         {
+                            Debug.Log("2nd try failed");
                             moodPriorities.Add(Mathf.Clamp(prio - 0.0002f, 0, 1), StateType.Annoyance);
                         }
                     }
@@ -129,14 +135,17 @@ public class Planner : MonoBehaviour
                     {
                         moodPriorities.Add(prio, StateType.Hunger);
                     }
-                    catch (Exception e)
+                    catch (ArgumentException e)
                     {
                         try
                         {
+                            Debug.Log($"2nd try adding prio of {state.MoodType}");
+                            moodPriorities.Remove(prio);
                             moodPriorities.Add(Mathf.Clamp(prio + 0.0003f, 0, 1), StateType.Hunger);
                         }
-                        catch (Exception ex)
+                        catch (ArgumentException ex)
                         {
+                            Debug.Log("2nd try failed");
                             moodPriorities.Add(Mathf.Clamp(prio - 0.0003f, 0, 1), StateType.Hunger);
                         }
                     }
@@ -154,10 +163,13 @@ public class Planner : MonoBehaviour
                     {
                         try
                         {
+                            Debug.Log($"2nd try adding prio of {state.MoodType}");
+                            moodPriorities.Remove(prio);
                             moodPriorities.Add(Mathf.Clamp(prio + 0.0004f, 0, 1), StateType.Tiredness);
                         }
                         catch (Exception ex)
                         {
+                            Debug.Log("2nd try failed");
                             moodPriorities.Add(Mathf.Clamp(prio - 0.0004f, 0, 1), StateType.Tiredness);
                         }
                     }
@@ -175,10 +187,13 @@ public class Planner : MonoBehaviour
                     {
                         try
                         {
+                            Debug.Log($"2nd try adding prio of {state.MoodType}");
+                            moodPriorities.Remove(prio);
                             moodPriorities.Add(Mathf.Clamp(prio + 0.0005f, 0, 1), StateType.Happiness);
                         }
                         catch (Exception ex)
                         {
+                            Debug.Log("2nd try failed");
                             moodPriorities.Add(Mathf.Clamp(prio - 0.0005f, 0, 1), StateType.Happiness);
                         }
                     }
@@ -195,10 +210,13 @@ public class Planner : MonoBehaviour
                     {
                         try
                         {
+                            Debug.Log($"2nd try adding prio of {state.MoodType}");
+                            moodPriorities.Remove(prio);
                             moodPriorities.Add(Mathf.Clamp(prio + 0.0006f, 0, 1), StateType.Boredom);
                         }
                         catch (Exception ex)
                         {
+                            Debug.Log("2nd try failed");
                             moodPriorities.Add(Mathf.Clamp(prio - 0.0006f, 0, 1), StateType.Boredom);
                         }
                     }

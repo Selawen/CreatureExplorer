@@ -11,6 +11,12 @@ public class Prey : Creature
         base.Start();
     }
 
+    protected override void UpdateCreatureState()
+    {
+        CheckForInterruptions(StateType.Tiredness, GetComponentInChildren<Flee>(), "Terrified", 90);
+        base.UpdateCreatureState();
+    }
+
     protected void ReactToThreat(Vector3 threatPosition)
     {
         WaryOff = threatPosition;
