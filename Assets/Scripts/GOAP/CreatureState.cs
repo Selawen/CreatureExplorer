@@ -94,7 +94,9 @@ public class CreatureState
 }
 
 [Serializable]
+#pragma warning disable CS0660 // Type defines operator == or operator != but does not override Object.Equals(object o)
 public class MoodState
+#pragma warning restore CS0660 // Type defines operator == or operator != but does not override Object.Equals(object o)
 {
     [field: SerializeField] public StateType MoodType { get; private set; }
     [field: SerializeField] public StateOperant Operator { get; private set; }
@@ -149,7 +151,7 @@ public class MoodState
         {
             return (a.MoodType == b.MoodType && a.StateValue == b.StateValue);
         }
-        catch (NullReferenceException e)
+        catch (NullReferenceException)
         {
             return false;
         }

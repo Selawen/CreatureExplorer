@@ -39,11 +39,11 @@ public class Search : Action
 
             case (SearchTarget.Anything):
 
-                GameObject g = new GameObject();
-                if (LookForObjects<GameObject>.TryGetClosestObject(g, creature.transform.position, searchRadius, out g))
+                Transform tempTransform = null;
+                if (LookForObjects<Transform>.TryGetClosestObject(tempTransform, creature.transform.position, searchRadius, creature.gameObject, out tempTransform))
                 {
                     DoAction();
-                    return g.gameObject;
+                    return tempTransform.gameObject;
                 }
                 break;
         }

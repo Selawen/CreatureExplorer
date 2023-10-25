@@ -41,4 +41,32 @@ public static class LookForObjects<T>
         return nearest!= null;
     }
 
+    /// <summary>
+    /// Look for the closest object with same type as objectToCheckFor
+    /// </summary>
+    /// <param name="objectToCheckFor"></param>
+    /// <param name="checkFromPosition"></param>
+    /// <param name="checkingRange"></param>
+    /// <param name="searcher">the object that initiated the search, excluded from results</param>
+    /// <param name="nearestObject"></param>
+    /// <returns></returns>
+    public static bool TryGetClosestObject(T objectToCheckFor, Vector3 checkFromPosition, float checkingRange, GameObject searcher, out T nearestObject)
+    {
+        nearestObject = objectToCheckFor;
+        float distance = checkingRange;
+        Collider nearest = null;
+
+        foreach (Collider c in Physics.OverlapSphere(checkFromPosition, checkingRange))
+        {
+            if (c.gameObject.TryGetComponent(out objectToCheckFor) && (c.transform.position - checkFromPosition).sqrMagnitude < distance && !c.gameObject.Equals(searcher))
+            {
+                nearestObject = objectToCheckFor;
+                distance = (c.transform.position - checkFromPosition).sqrMagnitude;
+                nearest = c;
+            }
+        }
+
+        return nearest!= null;
+    }
+
 }

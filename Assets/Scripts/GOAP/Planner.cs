@@ -12,14 +12,26 @@ public class Planner : MonoBehaviour
     [field: SerializeField] private Goal defaultGoal;
     [field: SerializeField] private Action defaultAction;
 
+    private Dictionary<StateType, AnimationCurve> curvesPerMood;
     private Dictionary<float, StateType> moodPriorities;
     private int prioIndex = 0;
+    private float[] prioKeys;
     private float currentPrioKey;
 
     private bool debug;
 
     private void Awake()
     {
+        curvesPerMood = new Dictionary<StateType, AnimationCurve>();
+
+        // TODO: refactor?
+        curvesPerMood.Add(StateType.Annoyance, AnnoyancePriority);
+        curvesPerMood.Add(StateType.Boredom, BoredomPriority);
+        curvesPerMood.Add(StateType.Fear, FearPriority);
+        curvesPerMood.Add(StateType.Happiness, HappinessPriority);
+        curvesPerMood.Add(StateType.Hunger, HungerPriority);
+        curvesPerMood.Add(StateType.Tiredness, TirednessPriority);
+
         moodPriorities = new Dictionary<float, StateType>();
         debug = GetComponent<Creature>().LogDebugs;
     }
@@ -39,7 +51,7 @@ public class Planner : MonoBehaviour
         UpdatePriorities(currentState);
         do
         {
-            if (prioIndex > 5)
+            if (prioIndex > Enum.GetValues(typeof(StateType)).Length-1)
             {
                 if (debug)
                     Debug.LogError("no valid course of action found");
@@ -76,154 +88,35 @@ public class Planner : MonoBehaviour
         moodPriorities.Clear();
 
         float prio = 0;
+
+        // TODO: find better way to avoid duplicate keys
         foreach (MoodState state in planState.CreatureStates)
         {
-            // TODO: make more generic, find better way to avoid duplicate keys
-            switch (state.MoodType)
+            prio = curvesPerMood[state.MoodType].Evaluate(state.StateValue / 100);
+
+            try
             {
-                case StateType.Fear:
-                    prio = FearPriority.Evaluate(state.StateValue / 100);
+                moodPriorities.Add(prio, state.MoodType);
+            }
+            catch (ArgumentException)
+            {
+                if (debug)
+                    Debug.Log($"2nd try adding prio of {state.MoodType}");
 
-                    try
-                    {
-                        moodPriorities.Add(prio, StateType.Fear);
-                    }
-                    catch (ArgumentException e)
-                    {
-                        try
-                        {
-                            Debug.Log($"2nd try adding prio of {state.MoodType}");
-                            moodPriorities.Remove(prio);
-                            moodPriorities.Add(Mathf.Clamp(prio + 0.0001f, 0, 1), StateType.Fear);
-                        }
-                        catch (Exception ex)
-                        {
-                            Debug.Log("2nd try failed");
-                            moodPriorities.Add(Mathf.Clamp(prio - 0.0001f, 0, 1), StateType.Fear);
-                        }
-                    }
-
-                    break;
-
-                case StateType.Annoyance:
-                    prio = AnnoyancePriority.Evaluate(state.StateValue / 100);
-
-                    try
-                    {
-                        moodPriorities.Add(prio, StateType.Annoyance);
-                    }
-                    catch (Exception e)
-                    {
-                        try
-                        {
-                            Debug.Log($"2nd try adding prio of {state.MoodType}");
-                            moodPriorities.Remove(prio);
-                            moodPriorities.Add(Mathf.Clamp(prio + 0.0002f, 0, 1), StateType.Annoyance);
-                        }
-                        catch (ArgumentException ex)
-                        {
-                            Debug.Log("2nd try failed");
-                            moodPriorities.Add(Mathf.Clamp(prio - 0.0002f, 0, 1), StateType.Annoyance);
-                        }
-                    }
-
-                    break;
-
-                case StateType.Hunger:
-                    prio = HungerPriority.Evaluate(state.StateValue / 100);
-                    try
-                    {
-                        moodPriorities.Add(prio, StateType.Hunger);
-                    }
-                    catch (ArgumentException e)
-                    {
-                        try
-                        {
-                            Debug.Log($"2nd try adding prio of {state.MoodType}");
-                            moodPriorities.Remove(prio);
-                            moodPriorities.Add(Mathf.Clamp(prio + 0.0003f, 0, 1), StateType.Hunger);
-                        }
-                        catch (ArgumentException ex)
-                        {
-                            Debug.Log("2nd try failed");
-                            moodPriorities.Add(Mathf.Clamp(prio - 0.0003f, 0, 1), StateType.Hunger);
-                        }
-                    }
-
-                    break;
-
-                case StateType.Tiredness:
-                    prio = TirednessPriority.Evaluate(state.StateValue / 100);
-
-                    try
-                    {
-                        moodPriorities.Add(prio, StateType.Tiredness);
-                    }
-                    catch (Exception e)
-                    {
-                        try
-                        {
-                            Debug.Log($"2nd try adding prio of {state.MoodType}");
-                            moodPriorities.Remove(prio);
-                            moodPriorities.Add(Mathf.Clamp(prio + 0.0004f, 0, 1), StateType.Tiredness);
-                        }
-                        catch (Exception ex)
-                        {
-                            Debug.Log("2nd try failed");
-                            moodPriorities.Add(Mathf.Clamp(prio - 0.0004f, 0, 1), StateType.Tiredness);
-                        }
-                    }
-
-                    break;
-
-                case StateType.Happiness:
-                    prio = HappinessPriority.Evaluate(state.StateValue / 100);
-
-                    try
-                    {
-                        moodPriorities.Add(prio, StateType.Happiness);
-                    }
-                    catch (Exception e)
-                    {
-                        try
-                        {
-                            Debug.Log($"2nd try adding prio of {state.MoodType}");
-                            moodPriorities.Remove(prio);
-                            moodPriorities.Add(Mathf.Clamp(prio + 0.0005f, 0, 1), StateType.Happiness);
-                        }
-                        catch (Exception ex)
-                        {
-                            Debug.Log("2nd try failed");
-                            moodPriorities.Add(Mathf.Clamp(prio - 0.0005f, 0, 1), StateType.Happiness);
-                        }
-                    }
-
-                    break;
-
-                case StateType.Boredom:
-                    prio = BoredomPriority.Evaluate(state.StateValue / 100);
-                    try
-                    {
-                        moodPriorities.Add(prio, StateType.Boredom);
-                    }
-                    catch (Exception e)
-                    {
-                        try
-                        {
-                            Debug.Log($"2nd try adding prio of {state.MoodType}");
-                            moodPriorities.Remove(prio);
-                            moodPriorities.Add(Mathf.Clamp(prio + 0.0006f, 0, 1), StateType.Boredom);
-                        }
-                        catch (Exception ex)
-                        {
-                            Debug.Log("2nd try failed");
-                            moodPriorities.Add(Mathf.Clamp(prio - 0.0006f, 0, 1), StateType.Boredom);
-                        }
-                    }
-
-                    break;
+                if (!moodPriorities.TryAdd(Mathf.Clamp(prio + (int)state.MoodType * 0.0001f, 0, 1), state.MoodType))
+                {
+                    if (debug)
+                        Debug.Log("2nd try failed");
+                    moodPriorities.Add(Mathf.Clamp(prio - (int)state.MoodType * 0.0001f, 0, 1), state.MoodType);
+                }
             }
         }
+
+        prioKeys = new float[moodPriorities.Count];
+        moodPriorities.Keys.CopyTo(prioKeys, 0);
+        Array.Sort(prioKeys);
+        //Debug.Log($"prioKeys: {prioKeys[0]}, {prioKeys[1]}, {prioKeys[2]}, {prioKeys[3]}, {prioKeys[4]}, {prioKeys[5]}");
+
 
         /*
         foreach (KeyValuePair<float, StateType> kvp in moodPriorities)
@@ -237,12 +130,16 @@ public class Planner : MonoBehaviour
     {
         List<Goal> goalChoices = new List<Goal>();
 
-        float[] prioValues = new float[moodPriorities.Count]; 
-        moodPriorities.Keys.CopyTo(prioValues, 0);
-        Array.Sort(prioValues);
+        // PrioKeys is sorted from low to high, start with highest prio
+        int goalPrioIndex = prioKeys.Length-1-prioIndex;
 
-        int goalPrioIndex = prioValues.Length-1-prioIndex;
-        currentPrioKey = prioValues[goalPrioIndex];
+        if (goalPrioIndex < 0)
+        {
+            Debug.LogError("goalPrioIndex was <0");
+            return defaultGoal;
+        }
+
+        currentPrioKey = prioKeys[goalPrioIndex];
 
         while (goalChoices.Count < 1 && goalPrioIndex >= 0)
         {
@@ -250,7 +147,7 @@ public class Planner : MonoBehaviour
             {
                 foreach (MoodState mood in g.Target)
                 {
-                    if (mood.MoodType == moodPriorities[prioValues[goalPrioIndex]])
+                    if (mood.MoodType == moodPriorities[prioKeys[goalPrioIndex]])
                     {
                         goalChoices.Add(g);
                     }
@@ -276,6 +173,11 @@ public class Planner : MonoBehaviour
         {
             plan.Add(defaultAction);
             return false;
+        } 
+        else if (goal.Target.Length <= 0)
+        {
+            plan.Add(defaultAction);
+            return true;
         }
 
         List<Plan> possiblePlans = new List<Plan>();
@@ -313,7 +215,6 @@ public class Planner : MonoBehaviour
 
         for (int x = viableActions.Count-1; x >= 0; x--)
         {
-            //moodPriorities[currentPrioKey]
             viableActions[x].CalculateCostAndReward(currentStats, goal.Target[0], currentPrioKey);
             possiblePlans.Add(new Plan(viableActions[x], worldState));
         }

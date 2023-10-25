@@ -337,7 +337,7 @@ public class Creature : MonoBehaviour
     /// </summary>
     protected void CheckForFood()
     {
-        Food f = new Food();
+        Food f = null;
         int foodcount = LookForObjects<Food>.CheckForObjects(f, transform.position, hearingSensitivity).Count;
 
         currentCreatureState.AddValue(foodcount, StateType.Hunger);

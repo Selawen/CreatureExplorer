@@ -7,6 +7,7 @@ public class Attack : Action
     [SerializeField] private float speedMultiplier = 4;
 
     private NavMeshAgent moveAgent;
+    private Transform targetTransform;
 
     private float originalSpeed, originalRotationSpeed, originalAcceleration;
 
@@ -20,16 +21,26 @@ public class Attack : Action
 
     public override GameObject PerformAction(Creature creature, GameObject target)
     {
-        moveAgent = gameObject.GetComponentInParent<NavMeshAgent>();
-        originalSpeed = moveAgent.speed;
-        originalRotationSpeed = moveAgent.angularSpeed;
-        originalAcceleration = moveAgent.acceleration;
+        if (target != null)
+        {
+            moveAgent = gameObject.GetComponentInParent<NavMeshAgent>();
+            originalSpeed = moveAgent.speed;
+            originalRotationSpeed = moveAgent.angularSpeed;
+            originalAcceleration = moveAgent.acceleration;
 
-        moveAgent.speed *= speedMultiplier;
-        moveAgent.angularSpeed *= speedMultiplier;
-        moveAgent.acceleration *= speedMultiplier;
-        moveAgent.autoBraking = false;
-        moveAgent.SetDestination(target.transform.position);
+            moveAgent.speed *= speedMultiplier;
+            moveAgent.angularSpeed *= speedMultiplier;
+            moveAgent.acceleration *= speedMultiplier;
+            moveAgent.autoBraking = false;
+
+            targetTransform = target.transform;
+            moveAgent.SetDestination(targetTransform.position);
+        }
+        else
+        {
+            failed = true;
+            return target;
+        }
 
         DoAction(target);
         FailCheck(failToken);
@@ -55,7 +66,17 @@ public class Attack : Action
 
     protected override async void DoAction(GameObject target = null)
     {
-        await CheckDistanceToDestination();
+        Task check = CheckDistanceToDestination();
+
+        while (!check.IsCompletedSuccessfully)
+        {
+            if ((moveAgent.destination - targetTransform.position).sqrMagnitude > 1f)
+            {
+                moveAgent.SetDestination(targetTransform.position);
+            }
+            // wait half a second before updating again
+            await Task.Delay(500);
+        }
 
         moveAgent.speed = originalSpeed;
         moveAgent.angularSpeed = originalRotationSpeed;
@@ -63,7 +84,7 @@ public class Attack : Action
         moveAgent.autoBraking = true;
 
         moveAgent.ResetPath();
-        moveAgent.SetDestination(moveAgent.transform.position);
+        //moveAgent.SetDestination(moveAgent.transform.position);
 
         // TODO: implement attack on player
         if (target.TryGetComponent(out Creature targetCreature))

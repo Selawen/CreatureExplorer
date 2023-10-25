@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Plan : ScriptableObject
+public class Plan
 {
     public bool PlanComplete { get; private set; }
     public float Cost { get; private set; }
