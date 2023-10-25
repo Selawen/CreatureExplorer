@@ -29,15 +29,15 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _AlbedoTex:
-        m_Texture: {fileID: 2800000, guid: 2aacf509b290fde45ae711260cc773e5, type: 3}
+        m_Texture: {fileID: 2800000, guid: c55a7d4bd9cc1384ab0e48a5a5e777c5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BlendTexture:
-        m_Texture: {fileID: 2800000, guid: 8d609c758549550499a37eada8b10558, type: 3}
+        m_Texture: {fileID: 2800000, guid: ff1bbed02ad84f64aa776779ab81d703, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMapTex:
-        m_Texture: {fileID: 2800000, guid: 887f54c186f99c149a2614dceaaae707, type: 3}
+        m_Texture: {fileID: 2800000, guid: 4db199d5a356ce943a7da13182b307ac, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TerrainHeightMap:
@@ -64,7 +64,7 @@ Material:
     - _AlphaSrcBlend: 1
     - _AlphaToMask: 0
     - _AlphaToMaskInspectorValue: 0
-    - _BlendDistance: 0.044
+    - _BlendDistance: 0.313
     - _BlendMode: 0
     - _BlendTiling: 0.488
     - _ConservativeDepthOffsetEnable: 0
@@ -78,7 +78,7 @@ Material:
     - _EnableBlendModePreserveSpecularLighting: 1
     - _EnableFogOnTransparent: 1
     - _Metalic: 0
-    - _NormalStrength: 0
+    - _NormalStrength: 0.4
     - _OpaqueCullMode: 2
     - _RayTracing: 0
     - _ReceivesSSR: 1
@@ -100,7 +100,7 @@ Material:
     - _StencilWriteMaskMV: 40
     - _SupportDecals: 1
     - _SurfaceType: 0
-    - _TerrainHeight: 0.001
+    - _TerrainHeight: -0.06
     - _TransparentBackfaceEnable: 0
     - _TransparentCullMode: 2
     - _TransparentDepthPostpassEnable: 0
