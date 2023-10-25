@@ -69,13 +69,13 @@ abstract public class Action: MonoBehaviour
         failSource.Cancel();
         source.Cancel();
 
+        finished = false;
+        failed = false;
+
         failSource = new CancellationTokenSource();
         failToken = failSource.Token;
         source = new CancellationTokenSource();
         token = failSource.Token;
-
-        finished = false;
-        failed = false;
     }
 
     public virtual void CalculateCostAndReward(CreatureState currentState, MoodState targetMood, float targetMoodPrio)
@@ -185,8 +185,11 @@ abstract public class Action: MonoBehaviour
         {
             await Task.Delay((int)((actionDuration * 1.5f) * 1000), cancelToken);
             {
-                failed = true;
-                source.Cancel();
+                if (!cancelToken.IsCancellationRequested)
+                {
+                    failed = true;
+                    source.Cancel();
+                }
             }
         } catch (TaskCanceledException)
         {

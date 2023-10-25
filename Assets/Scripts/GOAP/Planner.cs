@@ -189,6 +189,13 @@ public class Planner : MonoBehaviour
             mood.SetValue(currentStats.Find(mood.MoodType).StateValue);
         }
 
+        MoodState mainMood = goal.Target[0];
+        foreach (MoodState mood in goal.Target)
+        {
+            if (mood.MoodType == moodPriorities[currentPrioKey])
+                mainMood = mood;
+        }
+
         Condition planWorldState = worldState;
         
         MoodState[] goalPrerequisites = goal.Target;
@@ -216,7 +223,7 @@ public class Planner : MonoBehaviour
         for (int x = viableActions.Count-1; x >= 0; x--)
         {
             viableActions[x].CalculateCostAndReward(currentStats, goal.Target[0], currentPrioKey);
-            possiblePlans.Add(new Plan(viableActions[x], worldState));
+            possiblePlans.Add(new Plan(viableActions[x], planWorldState));
         }
 
         int failsafe = 0;
@@ -263,14 +270,6 @@ public class Planner : MonoBehaviour
 
                         Plan newPlan = new Plan(p);
                         extraPlans.Add(newPlan);
-
-                        //moodPriorities[currentPrioKey]
-                        MoodState mainMood = goal.Target[0];
-                        foreach (MoodState mood in goal.Target)
-                        {
-                            if (mood.MoodType == moodPriorities[currentPrioKey])
-                                mainMood = mood;
-                        }
 
                         a.CalculateCostAndReward(currentStats, mainMood, currentPrioKey);
                         newPlan.AddAction(a);

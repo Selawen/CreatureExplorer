@@ -169,6 +169,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7210352520341627486, guid: c4d537d1eccf6d84da8c18f49b4831be,
         type: 3}
+      propertyPath: possibleGoals.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: a5fc0da0c1e499948a74fa144a615cf0,
+        type: 2}
+    - target: {fileID: 7210352520341627486, guid: c4d537d1eccf6d84da8c18f49b4831be,
+        type: 3}
+      propertyPath: possibleGoals.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 60f21d4aea509184685cacb6b7102d95,
+        type: 2}
+    - target: {fileID: 7210352520341627486, guid: c4d537d1eccf6d84da8c18f49b4831be,
+        type: 3}
       propertyPath: possibleActions.Array.data[7]
       value: 
       objectReference: {fileID: 2665654189728594812}
@@ -348,6 +360,7 @@ MonoBehaviour:
   hearingSensitivity: 5
   <FoodSource>k__BackingField: Charger
   checkSurroundingsTimer: 0.5
+  decayTimer: 10
   showThoughts: 1
   <LogDebugs>k__BackingField: 0
   goalText: {fileID: 7521121882960059789}

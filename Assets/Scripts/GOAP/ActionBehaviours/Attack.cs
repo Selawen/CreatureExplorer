@@ -97,7 +97,9 @@ public class Attack : Action
                 }
             } else
             {
-                Debug.Log("Attack failed");
+                if (GetComponentInParent<Creature>().LogDebugs)
+                    Debug.Log("Attack failed");
+
                 failed = true;
                 failSource.Cancel();
                 return;

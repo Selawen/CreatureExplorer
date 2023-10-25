@@ -14,6 +14,8 @@ public class Creature : MonoBehaviour
     [SerializeField] protected float checkSurroundingsTimer = 0.5f;
     public Vector3 WaryOff { get; protected set; }
 
+    [SerializeField] protected float decayTimer = 10;
+
     [Header("Debugging")]
     [SerializeField] private bool showThoughts;
     [field: SerializeField] public bool LogDebugs { get; private set; }
@@ -93,6 +95,7 @@ public class Creature : MonoBehaviour
     {
         StopAllCoroutines();
         currentAction.enabled = false;
+        Destroy(gameObject, decayTimer);
     }
 
     private void OnEnable()
@@ -160,6 +163,8 @@ public class Creature : MonoBehaviour
             Debug.Log("Failed in generating plan, resorting to deault action");
         }
 
+        // reset values on last before starting new plan
+        currentAction?.Reset();
         currentTarget = null;
 
         StartAction();
@@ -190,6 +195,20 @@ public class Creature : MonoBehaviour
 
         UpdateCreatureState();
     }
+
+    /// <summary>
+    /// Add given parameters to creaturestate 
+    /// </summary>
+    protected void UpdateValues(StateType changeState, float amount, StateOperant operant)
+    {
+        if (operant == StateOperant.Add)
+            currentCreatureState.AddValue(amount * Time.deltaTime, changeState);
+        else if (operant == StateOperant.Subtract)
+            currentCreatureState.AddValue(-amount * Time.deltaTime, changeState);
+
+        UpdateCreatureState();
+    }
+
     /// <summary>
     /// Update creatureState with effects of finished action
     /// </summary>
