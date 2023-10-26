@@ -537,7 +537,31 @@ MonoBehaviour:
     m_ActionId: 33653ce3-c408-43d3-a368-49baee3e2efe
     m_ActionName: Scrapbook/Turn[/Mouse/rightButton]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 8723811626375387891}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: GetCloseScrapbookInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: ab7f8bfa-d246-4093-9d5c-9afd402d0ea2
     m_ActionName: Scrapbook/QuickCloseBook[/Keyboard/space]
   - m_PersistentCalls:
@@ -656,6 +680,74 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: a7e651ee-5c8e-4241-b546-2d9e566fa6b9
     m_ActionName: Camera/Look[/Mouse/delta]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4733703374740454852}
+        m_TargetAssemblyTypeName: WalkingState, Assembly-CSharp
+        m_MethodName: GetMoveInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5220420252872243190}
+        m_TargetAssemblyTypeName: CrouchingState, Assembly-CSharp
+        m_MethodName: GetMoveInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 9190787582883160938}
+        m_TargetAssemblyTypeName: HurtState, Assembly-CSharp
+        m_MethodName: GetMoveInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4853092522908900813}
+        m_TargetAssemblyTypeName: CrippledState, Assembly-CSharp
+        m_MethodName: GetMoveInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 54722e8c-3162-45eb-a20a-06fb8599fe73
+    m_ActionName: Camera/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5220420252872243190}
+        m_TargetAssemblyTypeName: CrouchingState, Assembly-CSharp
+        m_MethodName: GetCrouchInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 47b1a844-80df-4577-b0f1-52a0729042f5
+    m_ActionName: Camera/Crouch[/Keyboard/ctrl]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Overworld
@@ -674,8 +766,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maximumViewAngle: 55
-  interactionDistance: 2
-  interactionRadius: 1.25
+  interactionDistance: 4
+  interactionRadius: 3
   gameSettings: {fileID: 11400000, guid: 0e36501920850ee48a198c6521c2d486, type: 2}
   interactionLayers:
     serializedVersion: 2
@@ -741,12 +833,14 @@ MonoBehaviour:
   pictureCamera: {fileID: 8039731687057702383}
   picturePrefab: {fileID: 1099497629079080459, guid: 62a69665ffa767549a3ee2178569ccc7,
     type: 3}
-  boxSize: 5
   maximumScanDistance: 20
   ignoredPhotoLayers:
     serializedVersion: 2
     m_Bits: 100
+  exceptionText: {fileID: 0}
   photoAccuracy: 10
+  shutterTop: {fileID: 0}
+  shutterBottom: {fileID: 0}
 --- !u!114 &4733703374740454852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -761,6 +855,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 3.5
   sprintSpeed: 7
+  strafeSprintSpeed: 5
+  maxSprintAngle: 15
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -809,9 +905,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11fe5c6b3164c2a46b9564a51315e656, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  painfulVelocity: 10
-  cripplingVelocity: 15
-  lethalVelocity: 20
+  painfulVelocity: 18
+  cripplingVelocity: 22
+  lethalVelocity: 30
   aerialSpeed: 5
   maxHorizontalVelocity: 8
   dbg_SharedSource: {fileID: 5861372465537932847}
@@ -834,9 +930,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58272e08cf23681428cbdf3c2b378f33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hurtTime: 5
+  hurtTime: 3
   hurtMoveSpeed: 2.5
-  vignetteStrength: 0.3
+  vignetteStrength: 0.4
   sharedPlayerSource: {fileID: 5861372465537932847}
   hurtSound: {fileID: 8300000, guid: 6d8140b87acd220499955e8ee610ae7c, type: 3}
   volume: {fileID: 0}
@@ -852,9 +948,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f47763a9c7f92ad4991fbe1cc0de8b06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  crippleTime: 10
+  crippleTime: 6
   crippleMoveSpeed: 1.5
-  vignetteStrength: 0.5
+  vignetteStrength: 0.6
   sharedPlayerSource: {fileID: 5861372465537932847}
   painSound: {fileID: 8300000, guid: 6235c4b569fe9b448a6361810f53627f, type: 3}
   boneCrackSound: {fileID: 8300000, guid: 019a61ec6cd40b548b5f5e0c3879c577, type: 3}
@@ -901,3 +997,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b2abf6878f951d4b96662a52477d891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  frequentInvokeTimer: 0.2
+  standardInvokeTimer: 0.5
+  slowInvokeTimer: 1

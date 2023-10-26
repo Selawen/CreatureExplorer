@@ -1,51 +1,48 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ScrapbookPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
-{
+public class ScrapbookPanel : MonoBehaviour 
+{ 
+    //public static ScrapbookPanel Instance { get; private set; }
+
+    [SerializeField] private RectTransform panel;
+
     [SerializeField] private float dockedXValue;
-    [SerializeField] private float hoverXValue;
     [SerializeField] private float extendedXValue;
 
-    //[SerializeField] private Scrapbook scrapbook;
+    [SerializeField] private float dockedYValue;
+    [SerializeField] private float extendedYValue;
 
-    private RectTransform rect;
     private bool extended;
 
     private void Awake()
     {
-        rect = GetComponent<RectTransform>();
-        if (!rect)
-        {
-            throw new System.NullReferenceException("There's no Rect Transform on the scrapbook panel! This is not allowed!");
-        }
+        //Instance = this;
+        DockPanel();
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    public void OpenPanel()
     {
-        rect.anchoredPosition = new Vector2(extended ? dockedXValue : extendedXValue, rect.anchoredPosition.y);
-        extended = !extended;
-    }
-
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        if (!extended)
-        {
-            rect.anchoredPosition = new Vector2(hoverXValue, rect.anchoredPosition.y);
-        }
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        if (!extended)
-        {
-            rect.anchoredPosition = new Vector2(dockedXValue, rect.anchoredPosition.y);
-        }
+        panel.anchoredPosition = new Vector2(extendedXValue, extendedYValue);
+        extended = true;
     }
 
     public void DockPanel()
     {
-        rect.anchoredPosition = new Vector2(dockedXValue, rect.anchoredPosition.y);
+        panel.anchoredPosition = new Vector2(dockedXValue, dockedYValue);
+        extended = false;
+    }
+
+    public void TogglePanel()
+    {
+        if (extended)
+        {
+            extended = false;
+            DockPanel();
+            return;
+        }
+        extended = true;
+        OpenPanel();
     }
 
 }
