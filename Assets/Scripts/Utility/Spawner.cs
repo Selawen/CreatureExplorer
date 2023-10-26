@@ -12,6 +12,9 @@ public class Spawner : MonoBehaviour
     [SerializeField] private int maxSpawnAmount = 10;
     [SerializeField] private bool continous;
 
+    [Header("Gizmos")]
+    [SerializeField] private Color gizmoColour;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -43,5 +46,14 @@ public class Spawner : MonoBehaviour
 
         if (continous)
             StartCoroutine(SpawnTimer());
+    }
+
+    private void OnDrawGizmos()
+    {
+        Color originalColour = Gizmos.color;
+        Gizmos.color = gizmoColour;
+        Gizmos.DrawWireSphere(transform.position, spawnrange); 
+        Gizmos.color = originalColour;
+
     }
 }
