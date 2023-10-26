@@ -11,6 +11,8 @@ public class Creature : MonoBehaviour
     [field: SerializeField] protected float hearingSensitivity = 1;
     [Tooltip("The name of the script that is on this creature's foodsource")]
     [field: SerializeField] public string FoodSource { get; protected set; }
+    [Tooltip("The name of the script that is on this creature's sleeping spots")]
+    [field: SerializeField] public string SleepSpot { get; protected set; }
     [SerializeField] protected float checkSurroundingsTimer = 0.5f;
     public Vector3 WaryOff { get; protected set; }
 
@@ -259,7 +261,7 @@ public class Creature : MonoBehaviour
             {
                 Interrupt(associatedAction, interruptionText);
             }
-            else if (moodOperator.Operator == StateOperant.Add)
+            else if (moodOperator.Operator != StateOperant.Subtract)
             {
                 Interrupt(associatedAction, interruptionText);
             }
@@ -363,7 +365,7 @@ public class Creature : MonoBehaviour
 
         if (LogDebugs)
         {
-            Debug.Log($"found {foodcount} {FoodSource}, hunger is now {currentCreatureState.Find(StateType.Hunger).StateValue}");
+            //Debug.Log($"found {foodcount} {FoodSource}, hunger is now {currentCreatureState.Find(StateType.Hunger).StateValue}");
         }
     }
 

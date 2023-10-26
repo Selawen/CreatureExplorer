@@ -787,7 +787,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hearingSensitivity: 1
   <FoodSource>k__BackingField: 
+  <SleepSpot>k__BackingField: 
   checkSurroundingsTimer: 0.5
+  decayTimer: 10
   showThoughts: 1
   <LogDebugs>k__BackingField: 0
   goalText: {fileID: 7210352519244847641}
@@ -882,9 +884,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 100
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 2
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -901,13 +903,22 @@ AudioSource:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
+      time: 0.16033693
+      value: 0.24454474
+      inSlope: -0.9406635
+      outSlope: -0.9406635
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0.02144432
+      outSlope: 0.02144432
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.6130952
       outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2

@@ -46,6 +46,17 @@ public class Search : Action
                     return tempTransform.gameObject;
                 }
                 break;
+            case (SearchTarget.SleepingSpot):
+
+                foreach (Collider c in Physics.OverlapSphere(creature.transform.position, searchRadius))
+                {
+                    if ((c.gameObject.GetComponent(creature.SleepSpot) != null) && (c.transform.position - creature.transform.position).sqrMagnitude < distance)
+                    {
+                        distance = (c.transform.position - creature.transform.position).sqrMagnitude;
+                        nearest = c;
+                    }
+                }
+                break;
         }
         
         if (nearest != null)
@@ -73,6 +84,7 @@ public class Search : Action
     {
         Food,
         Tree,
-        Anything
+        Anything,
+        SleepingSpot
     }
 }

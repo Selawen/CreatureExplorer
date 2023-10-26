@@ -9,11 +9,14 @@ public class Tree : MonoBehaviour
     [ExecuteAlways]
     private void OnValidate()
     {
-        if (Physics.Raycast(transform.position + Vector3.up * 200, Vector3.down, out RaycastHit hit, 500, raycastMask))
+        if (!(raycastMask.value == 0))
         {
-            transform.position = hit.point;
-            transform.up = hit.normal;
-            transform.Rotate(new Vector3(0, Random.Range(0, 360), 0));
+            if (Physics.Raycast(transform.position + Vector3.up * 200, Vector3.down, out RaycastHit hit, 500, raycastMask))
+            {
+                transform.position = hit.point;
+                transform.up = hit.normal;
+                transform.Rotate(new Vector3(0, Random.Range(0, 360), 0));
+            }
         }
     }
 

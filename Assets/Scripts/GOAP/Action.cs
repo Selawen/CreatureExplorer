@@ -188,6 +188,12 @@ abstract public class Action: MonoBehaviour
                 if (!cancelToken.IsCancellationRequested)
                 {
                     failed = true;
+
+                    if (GetComponentInParent<SoundPlayer>() != null)
+                    {
+                        GetComponentInParent<SoundPlayer>().StopSounds();
+                    }
+
                     source.Cancel();
                 }
             }
@@ -204,6 +210,12 @@ abstract public class Action: MonoBehaviour
         if (!failed)
         {
             finished = true;
+
+            if (GetComponentInParent<SoundPlayer>() != null)
+            {
+                GetComponentInParent<SoundPlayer>().StopSounds();
+            }
+
             failSource.Cancel();
         }
     }

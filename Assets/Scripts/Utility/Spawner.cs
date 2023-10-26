@@ -24,7 +24,6 @@ public class Spawner : MonoBehaviour
 
     private void Spawn()
     {
-
         Vector3 spawnpos = transform.position + new Vector3(Random.Range(-spawnrange, spawnrange), 0, Random.Range(-spawnrange, spawnrange));
 
         if (Physics.Raycast(spawnpos + Vector3.up * 200, Vector3.down, out RaycastHit hit, 500, canspawnOn))
