@@ -12,6 +12,9 @@ public class Spawner : MonoBehaviour
     [SerializeField] private int maxSpawnAmount = 10;
     [SerializeField] private bool continous;
 
+    [Header("Gizmos")]
+    [SerializeField] private Color gizmoColour;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -21,7 +24,6 @@ public class Spawner : MonoBehaviour
 
     private void Spawn()
     {
-
         Vector3 spawnpos = transform.position + new Vector3(Random.Range(-spawnrange, spawnrange), 0, Random.Range(-spawnrange, spawnrange));
 
         if (Physics.Raycast(spawnpos + Vector3.up * 200, Vector3.down, out RaycastHit hit, 500, canspawnOn))
@@ -43,5 +45,14 @@ public class Spawner : MonoBehaviour
 
         if (continous)
             StartCoroutine(SpawnTimer());
+    }
+
+    private void OnDrawGizmos()
+    {
+        Color originalColour = Gizmos.color;
+        Gizmos.color = gizmoColour;
+        Gizmos.DrawWireSphere(transform.position, spawnrange); 
+        Gizmos.color = originalColour;
+
     }
 }

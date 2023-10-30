@@ -6,6 +6,10 @@ abstract public class Action: MonoBehaviour
 {
     [field: SerializeField] public string Name { get; private set; }
     [field: SerializeField] public string Onomatopea { get; private set; }
+
+    [field: SerializeField] private AudioClip sound;
+    [field: SerializeField] private bool oneShot;
+
     // TODO: have cost be calculated based on situation?
     [field: SerializeField] public float Cost { get; protected set; }
     [field: SerializeField] public float BaseReward { get; private set; }
@@ -42,6 +46,16 @@ abstract public class Action: MonoBehaviour
         source.Dispose();
     }
 
+    public GameObject ActivateAction(Creature creature, GameObject target)
+    {
+        if (GetComponentInParent<SoundPlayer>() != null)
+        {
+            GetComponentInParent<SoundPlayer>().PlaySound(sound, oneShot);
+        }
+
+        return PerformAction(creature, target);
+    }
+
     /// <summary>
     /// called to perform the behaviour associated witn an action
     /// </summary>
@@ -55,13 +69,13 @@ abstract public class Action: MonoBehaviour
         failSource.Cancel();
         source.Cancel();
 
+        finished = false;
+        failed = false;
+
         failSource = new CancellationTokenSource();
         failToken = failSource.Token;
         source = new CancellationTokenSource();
         token = failSource.Token;
-
-        finished = false;
-        failed = false;
     }
 
     public virtual void CalculateCostAndReward(CreatureState currentState, MoodState targetMood, float targetMoodPrio)
@@ -171,10 +185,19 @@ abstract public class Action: MonoBehaviour
         {
             await Task.Delay((int)((actionDuration * 1.5f) * 1000), cancelToken);
             {
-                failed = true;
-                source.Cancel();
+                if (!cancelToken.IsCancellationRequested)
+                {
+                    failed = true;
+
+                    if (GetComponentInParent<SoundPlayer>() != null)
+                    {
+                        GetComponentInParent<SoundPlayer>().StopSounds();
+                    }
+
+                    source.Cancel();
+                }
             }
-        } catch (TaskCanceledException e)
+        } catch (TaskCanceledException)
         {
             //Debug.Log($"{this.name} has finished");
         }
@@ -187,6 +210,12 @@ abstract public class Action: MonoBehaviour
         if (!failed)
         {
             finished = true;
+
+            if (GetComponentInParent<SoundPlayer>() != null)
+            {
+                GetComponentInParent<SoundPlayer>().StopSounds();
+            }
+
             failSource.Cancel();
         }
     }

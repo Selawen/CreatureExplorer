@@ -13,5 +13,7 @@ public enum Condition
     IsNearDanger = 1 << 7,
     FoodIsReadyToEat = 1 << 8,
     SeesTarget = 1 << 9,
-    IsHappy = 1 << 10
+    IsHappy = 1 << 10,
+    SeesSleepingSpot = 1 << 11,
+    NearSleepingSpot = 1 << 12
 }

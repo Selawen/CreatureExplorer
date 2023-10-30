@@ -1,15 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Prey : Creature
 {
+    [Header("Prey")]
     [SerializeField] private CreatureState reactionToPredator;
 
     protected override void Start()
     {
         surroundCheck += CheckForPredators;
         base.Start();
+    }
+
+    protected override void UpdateCreatureState()
+    {
+        CheckForInterruptions(StateType.Tiredness, GetComponentInChildren<Flee>(), "Terrified", 90);
+        base.UpdateCreatureState();
     }
 
     protected void ReactToThreat(Vector3 threatPosition)
@@ -32,20 +37,12 @@ public class Prey : Creature
 
     private void CheckForPredators()
     {
-        float distance = hearingSensitivity;
-        Collider nearest = null;
+        Torca predator = null;
 
-        foreach (Collider c in Physics.OverlapSphere(transform.position, 40))
+        if (LookForObjects<Torca>.TryGetClosestObject(predator, transform.position, 40, out predator))
         {
-               if (c.gameObject.TryGetComponent(out Torca predator) && (c.transform.position - transform.position).sqrMagnitude < distance)
-               {
-                   distance = (c.transform.position - transform.position).sqrMagnitude;
-                   nearest = c;
-               }
+            ReactToThreat(predator);
         }
-
-        if (nearest != null)
-            ReactToThreat(nearest.gameObject.GetComponent<Torca>());
     }
 
 }

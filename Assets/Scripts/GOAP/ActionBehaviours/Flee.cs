@@ -28,7 +28,14 @@ public class Flee : Action
         moveAgent.speed *= speedMultiplier;
         moveAgent.angularSpeed *= speedMultiplier;
         moveAgent.acceleration *= speedMultiplier;
-        moveAgent.SetDestination(creature.transform.position +(creature.transform.position - creature.GetComponent<Creature>().WaryOff).normalized*10);
+
+        Vector3 fearsource = creature.GetComponent<Creature>().WaryOff;
+        if (fearsource == null)
+        {
+            fearsource = transform.position - transform.forward;
+        }
+
+        moveAgent.SetDestination(creature.transform.position +(creature.transform.position - fearsource).normalized*10);
 
         //Task.Run(() => DoAction(), failToken);
         // Navmeshagent doesn't play nice with threading

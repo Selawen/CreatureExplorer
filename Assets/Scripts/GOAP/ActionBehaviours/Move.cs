@@ -15,10 +15,16 @@ public class Move : Action
     public override GameObject PerformAction(Creature creature, GameObject target)
     {
         moveAgent = gameObject.GetComponentInParent<NavMeshAgent>();
-        targetTransform = target.transform;
 
-        moveAgent.SetDestination(targetTransform.position);
-
+        if (target != null) { 
+            targetTransform = target.transform;
+            moveAgent.SetDestination(targetTransform.position);
+        }
+        else
+        {
+            failed = true;
+            return target;
+        }
         //Task.Run(() => DoAction(), failToken);
 
         // Navmeshagent doesn't play nice with threading

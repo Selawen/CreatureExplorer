@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class PlayerCamera : MonoBehaviour
 {
     [SerializeField] private Camera pictureCamera;
+    [SerializeField] private float zoomSensitivity;
 
     [SerializeField] private PagePicture picturePrefab;
 
@@ -19,14 +20,26 @@ public class PlayerCamera : MonoBehaviour
 
     [SerializeField] private Animator shutterTop, shutterBottom;
 
+    private float originalZoom;
+
     private PlayerInput input;
 
     private bool snapping;
 
     private string path;
 
+    private void OnValidate()
+    {
+        if (pictureCamera == null)
+        {
+            pictureCamera = Camera.main;
+        }
+    }
+
     private void Awake()
     {
+        originalZoom = pictureCamera.fieldOfView;
+
         input = GetComponent<PlayerInput>();
         if (Application.isEditor)
         {
@@ -35,14 +48,29 @@ public class PlayerCamera : MonoBehaviour
         }
         path = Application.persistentDataPath;
     }
+
+    private void OnDisable()
+    {
+        pictureCamera.fieldOfView = originalZoom;
+    }
+
+    public void ZoomCamera(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.started)
+        {
+            pictureCamera.fieldOfView -= callbackContext.ReadValue<Vector2>().y * zoomSensitivity;
+            pictureCamera.fieldOfView = Mathf.Clamp(pictureCamera.fieldOfView, 0, 60);
+        }
+    }
+
     public void SnapPicture(InputAction.CallbackContext callbackContext)
     {
         if (callbackContext.started)
         {
             if (!Scrapbook.Instance.CollectionIsFull && !snapping)
             {
-                shutterTop.SetTrigger("Snap");
-                shutterBottom.SetTrigger("Snap");
+                //shutterTop.SetTrigger("Snap");
+                //shutterBottom.SetTrigger("Snap");
                 StartCoroutine(Snap());
             }
         }
@@ -50,7 +78,8 @@ public class PlayerCamera : MonoBehaviour
 
     private IEnumerator Snap()
     {
-        pictureCamera.gameObject.SetActive(true);
+        if (pictureCamera != Camera.main)
+            pictureCamera.gameObject.SetActive(true);
         snapping = true;
 
         yield return new WaitForEndOfFrame();
@@ -88,7 +117,11 @@ public class PlayerCamera : MonoBehaviour
             }
         }
 
-        pictureCamera.gameObject.SetActive(false);
+        if (pictureCamera != Camera.main)
+            pictureCamera.gameObject.SetActive(false);
+        else
+            pictureCamera.targetTexture = null;
+
         snapping = false;
 
     }

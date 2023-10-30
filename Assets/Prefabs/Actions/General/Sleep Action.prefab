@@ -46,6 +46,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Name>k__BackingField: Sleeping
   <Onomatopea>k__BackingField: zzzzzzzzzzzzzzzzzzz
+  sound: {fileID: 0}
+  oneShot: 0
   <Cost>k__BackingField: 5
   <BaseReward>k__BackingField: 6
   <Reward>k__BackingField: 6
@@ -59,6 +61,10 @@ MonoBehaviour:
       <StateValue>k__BackingField: 20
   <ActionEffects>k__BackingField:
   - <EffectType>k__BackingField: 2
+    <StateValue>k__BackingField: 0
+  - <EffectType>k__BackingField: 2048
+    <StateValue>k__BackingField: 0
+  - <EffectType>k__BackingField: 4096
     <StateValue>k__BackingField: 0
   <Prerequisites>k__BackingField:
   - <EffectType>k__BackingField: 2

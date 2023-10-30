@@ -11,8 +11,12 @@ public class Creature : MonoBehaviour
     [field: SerializeField] protected float hearingSensitivity = 1;
     [Tooltip("The name of the script that is on this creature's foodsource")]
     [field: SerializeField] public string FoodSource { get; protected set; }
+    [Tooltip("The name of the script that is on this creature's sleeping spots")]
+    [field: SerializeField] public string SleepSpot { get; protected set; }
     [SerializeField] protected float checkSurroundingsTimer = 0.5f;
     public Vector3 WaryOff { get; protected set; }
+
+    [SerializeField] protected float decayTimer = 10;
 
     [Header("Debugging")]
     [SerializeField] private bool showThoughts;
@@ -93,6 +97,7 @@ public class Creature : MonoBehaviour
     {
         StopAllCoroutines();
         currentAction.enabled = false;
+        Destroy(gameObject, decayTimer);
     }
 
     private void OnEnable()
@@ -111,7 +116,7 @@ public class Creature : MonoBehaviour
         // reset values on action before running it
         currentAction?.Reset();
 
-        currentTarget = currentAction.PerformAction(this, currentTarget);
+        currentTarget = currentAction.ActivateAction(this, currentTarget);
 
         if (showThoughts)
         {
@@ -160,6 +165,8 @@ public class Creature : MonoBehaviour
             Debug.Log("Failed in generating plan, resorting to deault action");
         }
 
+        // reset values on last before starting new plan
+        currentAction?.Reset();
         currentTarget = null;
 
         StartAction();
@@ -190,11 +197,25 @@ public class Creature : MonoBehaviour
 
         UpdateCreatureState();
     }
+
+    /// <summary>
+    /// Add given parameters to creaturestate 
+    /// </summary>
+    protected void UpdateValues(StateType changeState, float amount, StateOperant operant)
+    {
+        if (operant == StateOperant.Add)
+            currentCreatureState.AddValue(amount * Time.deltaTime, changeState);
+        else if (operant == StateOperant.Subtract)
+            currentCreatureState.AddValue(-amount * Time.deltaTime, changeState);
+
+        UpdateCreatureState();
+    }
+
     /// <summary>
     /// Update creatureState with effects of finished action
     /// </summary>
     /// <param name="updateWith">the CreatureState containing the Moodstates to update with</param>
-    protected void UpdateValues(CreatureState updateWith)
+    public void UpdateValues(CreatureState updateWith)
     {        
         foreach (MoodState change in updateWith.CreatureStates)
         {
@@ -207,47 +228,56 @@ public class Creature : MonoBehaviour
         }
 
         UpdateCreatureState();
-
     }
 
     /// <summary>
     /// set the worldstate to reflect mood values
     /// </summary>
-    private void UpdateCreatureState()
+    protected virtual void UpdateCreatureState()
     {
-        // TODO: refactor
-        // stop action to fall asleep if tiredness = 100
-        if (currentCreatureState.Find(StateType.Tiredness).StateValue >= 99)
-        {
-            MoodState tirednessAdjustment = currentAction.GoalEffects.Find(StateType.Tiredness);
-            // if this action doen not impact tiredness or makes creature more tired
-            if (tirednessAdjustment == null)
-            {
-                currentAction.Reset();
-                GetComponent<UnityEngine.AI.NavMeshAgent>().SetDestination(transform.position);
-
-                goalText.text = "Fell asleep";
-                currentPlan.Clear();
-                currentPlan.Add(GetComponentInChildren<Sleep>());
-                StartAction();
-            }
-            else if (tirednessAdjustment?.Operator == StateOperant.Add)
-            {
-                currentAction.Reset();
-                GetComponent<UnityEngine.AI.NavMeshAgent>().SetDestination(transform.position);
-
-                goalText.text = "Fell asleep";
-                currentPlan.Clear();
-                currentPlan.Add(GetComponentInChildren<Sleep>());
-                StartAction();
-            }
-        }
+        CheckForInterruptions(StateType.Tiredness, GetComponentInChildren<Sleep>(), "Fell asleep");
 
         worldState = (currentCreatureState.Find(StateType.Hunger).StateValue > 50) ? SetConditionTrue(worldState, Condition.IsHungry) : SetConditionFalse(worldState, Condition.IsHungry);
         worldState = (currentCreatureState.Find(StateType.Tiredness).StateValue > 50) ? SetConditionTrue(worldState, Condition.IsSleepy) : SetConditionFalse(worldState, Condition.IsSleepy);
         worldState = (currentCreatureState.Find(StateType.Annoyance).StateValue > 50) ? SetConditionTrue(worldState, Condition.IsAnnoyed) : SetConditionFalse(worldState, Condition.IsAnnoyed);
         worldState = (currentCreatureState.Find(StateType.Fear).StateValue > 50) ? SetConditionTrue(worldState, Condition.IsFrightened) : SetConditionFalse(worldState, Condition.IsFrightened);
         worldState = (currentCreatureState.Find(StateType.Happiness).StateValue > 50) ? SetConditionTrue(worldState, Condition.IsHappy) : SetConditionFalse(worldState, Condition.IsHappy);
+    }
+
+    /// <summary>
+    /// interrupt the current action if a creaturestate value is higher than the threshold
+    /// </summary>
+    /// <param name="interruptionSource"></param>
+    /// <param name="threshold"></param>
+    protected void CheckForInterruptions(StateType interruptionSource, Action associatedAction, string interruptionText = "", float threshold = 99)
+    {
+        // TODO: refactor
+        // stop action to fall asleep if tiredness = 100
+        if (currentCreatureState.Find(interruptionSource).StateValue >= threshold)
+        {
+            MoodState moodOperator = currentAction.GoalEffects.Find(interruptionSource);
+            // if this action doen not impact tiredness or makes creature more tired
+            if (moodOperator == null)
+            {
+                Interrupt(associatedAction, interruptionText);
+            }
+            else if (moodOperator.Operator != StateOperant.Subtract)
+            {
+                Interrupt(associatedAction, interruptionText);
+            }
+        }
+    }
+
+    protected void Interrupt(Action associatedAction, string debugText = "")
+    {
+        Debug.Log($"interruption source: {associatedAction.Name}");
+        currentAction.Reset();
+        GetComponent<UnityEngine.AI.NavMeshAgent>().SetDestination(transform.position);
+
+        goalText.text = debugText;
+        currentPlan.Clear();
+        currentPlan.Add(associatedAction);
+        StartAction();
     }
     #endregion
 
@@ -328,14 +358,14 @@ public class Creature : MonoBehaviour
     /// </summary>
     protected void CheckForFood()
     {
-        Food f = new Food();
+        Food f = null;
         int foodcount = LookForObjects<Food>.CheckForObjects(f, transform.position, hearingSensitivity).Count;
 
         currentCreatureState.AddValue(foodcount, StateType.Hunger);
 
         if (LogDebugs)
         {
-            Debug.Log($"found {foodcount} {FoodSource}, hunger is now {currentCreatureState.Find(StateType.Hunger).StateValue}");
+            //Debug.Log($"found {foodcount} {FoodSource}, hunger is now {currentCreatureState.Find(StateType.Hunger).StateValue}");
         }
     }
 
