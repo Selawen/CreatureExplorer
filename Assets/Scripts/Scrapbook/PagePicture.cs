@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -10,6 +11,17 @@ public class PagePicture : MoveablePageComponent, IPointerEnterHandler, IPointer
     [SerializeField] private Image pictureGraphic;
     [SerializeField] private float pageScaleFactor = 2.5f;
 
+    private Image pictureBackground;
+    private Vector3 startPosition;
+    private Transform startParent;
+
+    private void Awake()
+    {
+        pictureBackground = GetComponent<Image>();
+
+        _componentTransform = GetComponent<RectTransform>();
+        _componentGraphic = pictureBackground;
+    }
     private void Start()
     {
         SetHalfSizes();
@@ -28,6 +40,8 @@ public class PagePicture : MoveablePageComponent, IPointerEnterHandler, IPointer
 
     public override void OnPointerClick(PointerEventData eventData)
     {
+        return;
+
         if (eventData.button == PointerEventData.InputButton.Left && !PlacedOnPage)
         {
             OnPictureClicked?.Invoke();
@@ -44,21 +58,60 @@ public class PagePicture : MoveablePageComponent, IPointerEnterHandler, IPointer
             Destroy(gameObject);
         }
     }
-
+    public override void OnBeginDrag(PointerEventData eventData)
+    {
+        base.OnBeginDrag(eventData);
+        if(eventData.button == PointerEventData.InputButton.Left)
+        {
+            pictureBackground.raycastTarget = false;
+            startParent = _componentTransform.parent;
+            startPosition = _componentTransform.position;
+            _componentTransform.SetParent(null);
+        }
+    }
     public override void OnDrag(PointerEventData eventData)
     {
-        if (!PlacedOnPage)
-            return;
+        //if (!PlacedOnPage)
+        //    return;
 
         if (eventData.button == PointerEventData.InputButton.Left)
         {
-            float componentX = Mathf.Clamp(_componentTransform.anchoredPosition.x + eventData.delta.x, halfWidth * _componentTransform.localScale.x, _parentTransform.rect.xMax * 2 - halfWidth * _componentTransform.localScale.x);
-            float componentY = Mathf.Clamp(_componentTransform.anchoredPosition.y + eventData.delta.y, _parentTransform.rect.yMax * -2 + halfHeight * _componentTransform.localScale.y, -halfHeight * _componentTransform.localScale.y);
+            float x = Input.mousePosition.x;
+            float y = Input.mousePosition.y;
+            //float componentX = Mathf.Clamp(_componentTransform.anchoredPosition.x + eventData.delta.x, halfWidth * _componentTransform.localScale.x, _parentTransform.rect.xMax * 2 - halfWidth * _componentTransform.localScale.x);
+            //float componentY = Mathf.Clamp(_componentTransform.anchoredPosition.y + eventData.delta.y, _parentTransform.rect.yMax * -2 + halfHeight * _componentTransform.localScale.y, -halfHeight * _componentTransform.localScale.y);
 
-            _componentTransform.anchoredPosition = new Vector2(componentX, componentY);
+            _componentTransform.position = new Vector2(x, y);
         }
     }
 
+    public override void OnEndDrag(PointerEventData eventData)
+    {
+        base.OnEndDrag(eventData);
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            List<RaycastResult> results = new();
+            Scrapbook.Instance.Raycaster.Raycast(eventData, results);
+
+            pictureBackground.raycastTarget = true;
+
+            if (results.Count == 0 || !results[0].gameObject.CompareTag("PictureKeeper"))
+            {
+                _componentTransform.SetParent(startParent, true);
+                _componentTransform.position = startPosition;
+                return;
+            }
+            RaycastResult firstResult = results[0];
+            Debug.Log(firstResult.gameObject.name);
+            if(firstResult.gameObject.TryGetComponent(out ScrapbookPage page))
+            {
+                Debug.Log("Placing picture on the page");
+                page.AddComponentToPage(this);
+                return;
+            }
+            _componentTransform.SetParent(firstResult.gameObject.transform, true);
+        }
+    }
     public void SelectForPlacement()
     {
         ScrapbookPage page = Scrapbook.Instance.CurrentPage;

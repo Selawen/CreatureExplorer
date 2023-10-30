@@ -187,7 +187,7 @@ GameObject:
   - component: {fileID: 5136323729310042846}
   m_Layer: 5
   m_Name: ScrapbookPage
-  m_TagString: Untagged
+  m_TagString: PictureKeeper
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -237,7 +237,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 0
+  m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -266,6 +266,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pageNumberText: {fileID: 6862800024684434087}
+  defaultLayer: {fileID: 7584162485948274356}
+  overlayLayer: {fileID: 4909837124865132735}
 --- !u!1 &8899922064027970481
 GameObject:
   m_ObjectHideFlags: 0

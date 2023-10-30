@@ -20,10 +20,10 @@ public class ScrapbookPage : MonoBehaviour
         pageComponents.Add(addedComponent);
         if(addedComponent.GetType() == typeof(ScrapbookSticker))
         {
-            addedComponent.transform.SetParent(overlayLayer);
+            addedComponent.transform.SetParent(overlayLayer, true);
             return;
         }
-        addedComponent.transform.SetParent(defaultLayer);
+        addedComponent.transform.SetParent(defaultLayer, true);
     }
 
     public void RemoveComponentFromPage(MoveablePageComponent removedComponent)

@@ -76,4 +76,6 @@ public abstract class MoveablePageComponent : MonoBehaviour, IDragHandler, IBegi
     {
         Scrapbook.Instance.SwapTargetComponent(this);
     }
+
+    //protected abstract void OnTrash();
 }

@@ -362,6 +362,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16bc3559ebc27fa418bc92234ca877c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Raycaster: {fileID: 0}
   scrapbookPageCount: 6
   maximumUnplacedPictureCount: 10
   rotationRate: 5
@@ -836,7 +837,7 @@ GameObject:
   - component: {fileID: 3356874705778163796}
   m_Layer: 5
   m_Name: PicturePanel
-  m_TagString: Untagged
+  m_TagString: PictureKeeper
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class Scrapbook : MonoBehaviour, IPointerUpHandler
 {
     public static Scrapbook Instance { get; private set; }
+
+    public GraphicRaycaster Raycaster;
     public ScrapbookPage CurrentPage { get { return allPages[currentPageIndex]; } }
     public bool CollectionIsFull { get { return collectedPictures.InventoryIsFull(); } }
 
@@ -24,7 +26,6 @@ public class Scrapbook : MonoBehaviour, IPointerUpHandler
 
     [SerializeField] private ScrapbookPage scrapbookPagePrefab;
     [SerializeField] private PageText textEntryPrefab;
-    [SerializeField] private PlayerInput input;
 
     private int currentPageIndex;
     private GraphicRaycaster raycaster;
@@ -57,7 +58,7 @@ public class Scrapbook : MonoBehaviour, IPointerUpHandler
         }
         previousPageButton.SetActive(false);
 
-        ClosePages();
+        //ClosePages();
     }
 
     public void GetClickInput(InputAction.CallbackContext callbackContext)
@@ -179,6 +180,8 @@ public class Scrapbook : MonoBehaviour, IPointerUpHandler
 
     private void UpdateCameraStorageText()
     {
+        if (camStorageText == null) return;
+
         ushort storageLeft = (ushort)(collectedPictures.GetCapacity() - collectedPictures.GetItemCount());
         if(storageLeft < 3)
         {
