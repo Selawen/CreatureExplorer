@@ -345,7 +345,7 @@
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Click",
@@ -357,13 +357,13 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Turn",
-                    "type": "Button",
+                    "name": "Turn/Scale",
+                    "type": "Value",
                     "id": "33653ce3-c408-43d3-a368-49baee3e2efe",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "QuickCloseBook",
@@ -430,15 +430,70 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "",
-                    "id": "176f367f-64e2-4384-9abc-00e206d61a01",
+                    "name": "KeyboardMouse",
+                    "id": "a422f210-fa03-4b04-adbe-7bdbef086e91",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Turn/Scale",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Modifier",
+                    "id": "b495af4c-c3dd-49cd-aea4-e6df8f0b797c",
                     "path": "<Mouse>/middleButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Turn",
+                    "action": "Turn/Scale",
                     "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Binding",
+                    "id": "461765e6-c568-4c4c-9121-b47fa019ff5f",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Turn/Scale",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Switch",
+                    "id": "de7d6c68-2e69-4e41-80c9-9c7790ccef61",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Turn/Scale",
+                    "isComposite": true,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "63ab696a-64b4-4a5c-be75-e9367ae59352",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "NintendoSwitch",
+                    "action": "Turn/Scale",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "0e0a4c3d-4732-4aa1-a4b3-3d379a991ee1",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "NintendoSwitch",
+                    "action": "Turn/Scale",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 },
                 {
                     "name": "",
