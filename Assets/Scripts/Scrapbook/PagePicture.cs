@@ -13,7 +13,7 @@ public class PagePicture : MoveablePageComponent, IPointerEnterHandler, IPointer
 
     private Image pictureBackground;
     private Vector3 startPosition;
-    private Transform startParent;
+
 
     private void Awake()
     {
@@ -64,9 +64,7 @@ public class PagePicture : MoveablePageComponent, IPointerEnterHandler, IPointer
         if(eventData.button == PointerEventData.InputButton.Left)
         {
             pictureBackground.raycastTarget = false;
-            startParent = _componentTransform.parent;
             startPosition = _componentTransform.position;
-            _componentTransform.SetParent(null);
         }
     }
     public override void OnDrag(PointerEventData eventData)
@@ -97,15 +95,12 @@ public class PagePicture : MoveablePageComponent, IPointerEnterHandler, IPointer
 
             if (results.Count == 0 || !results[0].gameObject.CompareTag("PictureKeeper"))
             {
-                _componentTransform.SetParent(startParent, true);
                 _componentTransform.position = startPosition;
                 return;
             }
             RaycastResult firstResult = results[0];
-            Debug.Log(firstResult.gameObject.name);
             if(firstResult.gameObject.TryGetComponent(out ScrapbookPage page))
             {
-                Debug.Log("Placing picture on the page");
                 page.AddComponentToPage(this);
                 return;
             }
