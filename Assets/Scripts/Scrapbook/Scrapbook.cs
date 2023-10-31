@@ -58,7 +58,7 @@ public class Scrapbook : MonoBehaviour, IPointerUpHandler
         }
         previousPageButton.SetActive(false);
 
-        //ClosePages();
+        ClosePages();
     }
 
     public void GetClickInput(InputAction.CallbackContext callbackContext)
