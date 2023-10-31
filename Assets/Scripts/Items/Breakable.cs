@@ -17,8 +17,10 @@ public class Breakable : MonoBehaviour
         Color originalGizmoColour = Gizmos.color;
         Gizmos.color = Color.red;
 
-        MeshFilter drawnMesh = GetComponentInChildren<MeshFilter>();
-        Gizmos.DrawWireMesh(drawnMesh.sharedMesh, drawnMesh.transform.position, drawnMesh.transform.rotation, drawnMesh.transform.lossyScale*1.1f);
+        foreach (MeshFilter drawnMesh in GetComponentsInChildren<MeshFilter>())
+        {
+            Gizmos.DrawWireMesh(drawnMesh.sharedMesh, drawnMesh.transform.position, drawnMesh.transform.rotation, drawnMesh.transform.lossyScale * 1.1f);
+        }
 
         Gizmos.color = originalGizmoColour;
     }
