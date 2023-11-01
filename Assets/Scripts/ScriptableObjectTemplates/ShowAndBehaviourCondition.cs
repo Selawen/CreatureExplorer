@@ -6,6 +6,7 @@ public class ShowAndBehaviourCondition : QuestCondition
     [SerializeField] private string requiredCreatureClassName;
     [SerializeField] private Action requiredBehaviour;
 
+
     public override bool Evaluate(PictureInfo pictureInfo)
     {
         foreach (IInteractable interactable in pictureInfo.PictureObjects)

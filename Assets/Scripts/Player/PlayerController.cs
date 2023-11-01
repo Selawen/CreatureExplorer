@@ -19,6 +19,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private UnityEvent onCameraOpened;
     [SerializeField] private UnityEvent onCameraClosed;
 
+    [SerializeField] private UnityEvent<string> onInteractableFound;
+    [SerializeField] private UnityEvent onInteractableOutOfRange;
+
     //[SerializeField] private Camera pictureCamera;
 
     private float verticalRotation;
@@ -30,6 +33,8 @@ public class PlayerController : MonoBehaviour
     private Camera firstPersonCamera;
 
     private PlayerInput playerInput;
+
+    private IInteractable interactableInRange;
 
     private void Awake()
     {
@@ -51,6 +56,20 @@ public class PlayerController : MonoBehaviour
     {
         stateMachine.OnUpdate();
         HandleRotation(rotationInput);
+
+        if (Physics.SphereCast(transform.position, interactionRadius, transform.forward, out RaycastHit hit, interactionDistance, interactionLayers))
+        {
+            if (hit.transform.TryGetComponent(out IInteractable interactable))
+            {
+                onInteractableFound.Invoke(interactable.InteractionPrompt);
+                interactableInRange = interactable;
+            }
+        }
+        else if(interactableInRange != null)
+        {
+            interactableInRange = null;
+            onInteractableOutOfRange?.Invoke();
+        }
     }
 
     private void FixedUpdate()
@@ -80,15 +99,15 @@ public class PlayerController : MonoBehaviour
 
     public void GetInteractionInput(InputAction.CallbackContext callbackContext)
     {
-        if (callbackContext.started)
+        if (callbackContext.started && interactableInRange != null)
         {
-            if (Physics.SphereCast(transform.position, interactionRadius, transform.forward, out RaycastHit hit, interactionDistance, interactionLayers))
+            if(interactableInRange.GetType() == typeof(JellyfishLadder))
             {
-                if (hit.transform.TryGetComponent(out IInteractable interactable))
-                {
-                    interactable.Interact();
-                }
+                stateMachine.SwitchState(typeof(ClimbingState));
+                return;
             }
+            interactableInRange.Interact();
+            
         }
     }
 
