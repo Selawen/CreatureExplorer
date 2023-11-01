@@ -13,6 +13,7 @@ public class PagePicture : MoveablePageComponent, IPointerEnterHandler, IPointer
 
     private Image pictureBackground;
     private Vector3 startPosition;
+    private ScrapbookPage linkedPage;
 
 
     private void Awake()
@@ -90,17 +91,37 @@ public class PagePicture : MoveablePageComponent, IPointerEnterHandler, IPointer
 
             if (results.Count == 0 || !results[0].gameObject.CompareTag("PictureKeeper"))
             {
-                _componentTransform.position = startPosition;
+                if(linkedPage != null)
+                {
+                    linkedPage.RemoveComponentFromPage(this);
+                }
+                else
+                {
+                    Scrapbook.Instance.RemovePictureFromCollection(this);
+                }
+                Destroy(gameObject);
                 return;
             }
             RaycastResult firstResult = results[0];
             if(firstResult.gameObject.TryGetComponent(out ScrapbookPage page))
             {
                 page.AddComponentToPage(this);
+                if (Scrapbook.Instance.GetCollectedPictures().Contains(this))
+                {
+                    Scrapbook.Instance.RemovePictureFromCollection(this);
+                }
+                linkedPage = page;
                 PlacedOnPage = true;
                 return;
             }
-            _componentTransform.SetParent(firstResult.gameObject.transform, true);
+            if (Scrapbook.Instance.AddPictureToCollection(this))
+            {
+                _componentTransform.SetParent(firstResult.gameObject.transform, true);
+            }
+            else
+            {
+                _componentTransform.position = startPosition;
+            }
         }
     }
     public void SelectForPlacement()

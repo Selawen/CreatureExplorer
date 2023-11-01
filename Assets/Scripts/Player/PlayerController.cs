@@ -61,7 +61,7 @@ public class PlayerController : MonoBehaviour
         {
             if (hit.transform.TryGetComponent(out IInteractable interactable))
             {
-                onInteractableFound.Invoke(interactable.InteractionPrompt);
+                onInteractableFound?.Invoke(interactable.InteractionPrompt);
                 interactableInRange = interactable;
             }
         }
@@ -101,11 +101,11 @@ public class PlayerController : MonoBehaviour
     {
         if (callbackContext.started && interactableInRange != null)
         {
-            if(interactableInRange.GetType() == typeof(JellyfishLadder))
-            {
-                stateMachine.SwitchState(typeof(ClimbingState));
-                return;
-            }
+            //if(interactableInRange.GetType() == typeof(JellyfishLadder))
+            //{
+            //    stateMachine.SwitchState(typeof(ClimbingState));
+            //    return;
+            //}
             interactableInRange.Interact();
             
         }

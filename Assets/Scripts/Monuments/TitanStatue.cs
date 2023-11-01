@@ -29,8 +29,7 @@ public class TitanStatue : MonoBehaviour, IInteractable
     //      Show a picture of a specific behaviour on a specific creature.
     private void Awake()
     {
-        questInfoText.text = condition.DebugDescription;
-        questShowButton.onClick.AddListener(OpenQuest);
+
         questInfoText.gameObject.SetActive(false);
         questShowButton.gameObject.SetActive(false);
     }
@@ -38,6 +37,10 @@ public class TitanStatue : MonoBehaviour, IInteractable
     public void Interact()
     {
         if (questFinished) return;
+
+        questInfoText.text = condition.DebugDescription;
+        questShowButton.onClick.RemoveAllListeners();
+        questShowButton.onClick.AddListener(OpenQuest);
 
         Cursor.lockState = CursorLockMode.Confined;
         input.SwitchCurrentActionMap("Scrapbook");
@@ -51,16 +54,19 @@ public class TitanStatue : MonoBehaviour, IInteractable
         // Also check if there are additional conditions and evaluate these too.
         if (condition.Evaluate(picture.PictureInfo))
         {
-            Debug.Log("Something very cool happens");
             onQuestFinished?.Invoke();
+            if (Scrapbook.Instance.GetCollectedPictures().Contains(picture))
+            {
+                Scrapbook.Instance.RemovePictureFromCollection(picture);
+            }
             Destroy(picture.gameObject);
             InteractionPrompt = "";
+            Cursor.lockState = CursorLockMode.Locked;
             questFinished = true;
         }
         else
         {
             onWrongPicturePresented?.Invoke();
-            Debug.Log("That wasn't the droid, uh... answer I was looking for");
         }
     }
     public void DebugChangeMaterialVisuals()
@@ -81,13 +87,13 @@ public class TitanStatue : MonoBehaviour, IInteractable
     private void PrepareScrapbookForPictureDisplaying()
     {
         Scrapbook.Instance.OpenPages();
-        Cursor.lockState = CursorLockMode.Confined;
-        input.SwitchCurrentActionMap("Scrapbook");
+        //Cursor.lockState = CursorLockMode.Confined;
+        //input.SwitchCurrentActionMap("Scrapbook");
 
         foreach (PagePicture picture in Scrapbook.Instance.GetCollectedPictures())
         {
             //picture.OnPictureClicked -= picture.SelectForPlacement;
-            picture.OnPictureClicked = () => { ShowPicture(picture); Debug.Log("Clicked on a picture that has to be shown now"); };
+            picture.OnPictureClicked = () => { ShowPicture(picture); };
             //picture.OnPictureClicked = () => { ShowPicture(picture.PictureInfo); Debug.Log("Clicked on a picture that has to be shown now"); };
         }
 

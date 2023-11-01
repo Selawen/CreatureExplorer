@@ -536,6 +536,7 @@ GameObject:
   - component: {fileID: 8328608412579240069}
   - component: {fileID: 4154447022537511806}
   - component: {fileID: 3844555122404518609}
+  - component: {fileID: 6309793511680294937}
   m_Layer: 0
   m_Name: Creature Template
   m_TagString: Untagged
@@ -980,6 +981,21 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6309793511680294937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7210352520341627480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d61bc7dc05c0ce44b9240530be9c6aa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <QuestObjectID>k__BackingField: 
+  <GivenName>k__BackingField: 
+  <GivenDescription>k__BackingField: 
 --- !u!1 &7210352520757950096
 GameObject:
   m_ObjectHideFlags: 0
