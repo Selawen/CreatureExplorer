@@ -17,6 +17,8 @@ public class ScrapbookPage : MonoBehaviour
 
     public void AddComponentToPage(MoveablePageComponent addedComponent)
     {
+        if (pageComponents.Contains(addedComponent)) return;
+
         pageComponents.Add(addedComponent);
         if(addedComponent.GetType() == typeof(ScrapbookSticker))
         {
