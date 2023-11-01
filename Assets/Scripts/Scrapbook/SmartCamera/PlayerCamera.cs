@@ -46,7 +46,7 @@ public class PlayerCamera : MonoBehaviour
             path = Application.dataPath;
             return;
         }
-        path = Application.persistentDataPath;
+        path = Application.dataPath;
     }
 
     private void OnDisable()
@@ -97,7 +97,8 @@ public class PlayerCamera : MonoBehaviour
 
         try
         {
-            string savingPath = path + "/Resources/Pictures/snap" + System.DateTime.UtcNow.Day + System.DateTime.UtcNow.Minute + System.DateTime.UtcNow.Second + ".png";
+            string savingPath = path + "/Resources/snap" + System.DateTime.UtcNow.Day + System.DateTime.UtcNow.Minute + System.DateTime.UtcNow.Second + ".png";
+
             byte[] byteArray = renderedTexture.EncodeToPNG();
             File.WriteAllBytes(savingPath, byteArray);
 
@@ -111,7 +112,7 @@ public class PlayerCamera : MonoBehaviour
         }
         catch (System.Exception exception)
         {
-            if(exceptionText != null)
+            if (exceptionText != null)
             {
                 exceptionText.text = exception.ToString();
             }
