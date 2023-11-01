@@ -97,7 +97,7 @@ public class PlayerCamera : MonoBehaviour
 
         try
         {
-            string savingPath = path + "/Pictures/snap" + System.DateTime.UtcNow.Day + System.DateTime.UtcNow.Minute + System.DateTime.UtcNow.Second + ".png";
+            string savingPath = path + "/Resources/Pictures/snap" + System.DateTime.UtcNow.Day + System.DateTime.UtcNow.Minute + System.DateTime.UtcNow.Second + ".png";
             byte[] byteArray = renderedTexture.EncodeToPNG();
             File.WriteAllBytes(savingPath, byteArray);
 
