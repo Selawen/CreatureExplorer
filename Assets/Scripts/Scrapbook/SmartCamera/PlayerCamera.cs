@@ -18,6 +18,8 @@ public class PlayerCamera : MonoBehaviour
 
     [SerializeField, Range(1, 100)] private int photoAccuracy = 50;
 
+    [Header("Effects")]
+    [SerializeField] private AudioClip shutterSound;
     [SerializeField] private Animator shutterTop, shutterBottom;
 
     private float originalZoom;
@@ -78,6 +80,11 @@ public class PlayerCamera : MonoBehaviour
 
     private IEnumerator Snap()
     {
+        if (TryGetComponent(out SoundPlayer player))
+        {
+            player.PlaySound(shutterSound, true);
+        }
+
         if (pictureCamera != Camera.main)
             pictureCamera.gameObject.SetActive(true);
         snapping = true;
