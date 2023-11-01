@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Scrapbook : MonoBehaviour, IPointerUpHandler
+public class Scrapbook : MonoBehaviour
 {
     public static Scrapbook Instance { get; private set; }
 
@@ -28,7 +28,6 @@ public class Scrapbook : MonoBehaviour, IPointerUpHandler
     [SerializeField] private PageText textEntryPrefab;
 
     private int currentPageIndex;
-    private GraphicRaycaster raycaster;
 
     private MoveablePageComponent targetComponent;
     private Inventory<PagePicture> collectedPictures;
@@ -45,7 +44,6 @@ public class Scrapbook : MonoBehaviour, IPointerUpHandler
 
         allPages = new ScrapbookPage[scrapbookPageCount];
         collectedPictures = new Inventory<PagePicture>(maximumUnplacedPictureCount);
-        raycaster = GetComponentInParent<GraphicRaycaster>();
 
         UpdateCameraStorageText();
 
@@ -93,16 +91,6 @@ public class Scrapbook : MonoBehaviour, IPointerUpHandler
             {
                 targetComponent.transform.localScale = Mathf.Clamp(targetComponent.transform.localScale.x + 0.1f * callbackContext.ReadValue<Vector2>().y, 1, 3) * Vector3.one;
             }
-        }
-    }
-
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        List<RaycastResult> results = new();
-        raycaster.Raycast(eventData, results);
-        foreach(RaycastResult r in results)
-        {
-            Debug.Log(r.gameObject.name);
         }
     }
 

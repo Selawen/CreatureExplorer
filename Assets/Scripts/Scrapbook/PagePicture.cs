@@ -25,7 +25,7 @@ public class PagePicture : MoveablePageComponent, IPointerEnterHandler, IPointer
     private void Start()
     {
         SetHalfSizes();
-        OnPictureClicked += SelectForPlacement;
+        //OnPictureClicked += SelectForPlacement;
     }
 
     public void SetPicture(Sprite pictureSprite)
@@ -40,9 +40,9 @@ public class PagePicture : MoveablePageComponent, IPointerEnterHandler, IPointer
 
     public override void OnPointerClick(PointerEventData eventData)
     {
-        return;
+        //return;
 
-        if (eventData.button == PointerEventData.InputButton.Left && !PlacedOnPage)
+        if (eventData.button == PointerEventData.InputButton.Left)
         {
             OnPictureClicked?.Invoke();
             return;
@@ -69,15 +69,10 @@ public class PagePicture : MoveablePageComponent, IPointerEnterHandler, IPointer
     }
     public override void OnDrag(PointerEventData eventData)
     {
-        //if (!PlacedOnPage)
-        //    return;
-
         if (eventData.button == PointerEventData.InputButton.Left)
         {
             float x = Input.mousePosition.x;
             float y = Input.mousePosition.y;
-            //float componentX = Mathf.Clamp(_componentTransform.anchoredPosition.x + eventData.delta.x, halfWidth * _componentTransform.localScale.x, _parentTransform.rect.xMax * 2 - halfWidth * _componentTransform.localScale.x);
-            //float componentY = Mathf.Clamp(_componentTransform.anchoredPosition.y + eventData.delta.y, _parentTransform.rect.yMax * -2 + halfHeight * _componentTransform.localScale.y, -halfHeight * _componentTransform.localScale.y);
 
             _componentTransform.position = new Vector2(x, y);
         }
@@ -102,6 +97,7 @@ public class PagePicture : MoveablePageComponent, IPointerEnterHandler, IPointer
             if(firstResult.gameObject.TryGetComponent(out ScrapbookPage page))
             {
                 page.AddComponentToPage(this);
+                PlacedOnPage = true;
                 return;
             }
             _componentTransform.SetParent(firstResult.gameObject.transform, true);

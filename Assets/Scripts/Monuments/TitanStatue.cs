@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 
 public class TitanStatue : MonoBehaviour, IInteractable
 {
+    [field:SerializeField] public string InteractionPrompt { get; private set; } = "Interact";
+
     // To do: predetermine quests per instance of TitanStatue in the inspector
     [SerializeField] private QuestCondition condition;
     [SerializeField] private PlayerInput input;
@@ -14,10 +16,11 @@ public class TitanStatue : MonoBehaviour, IInteractable
     [SerializeField] private UnityEvent onWrongPicturePresented;
 
     [SerializeField] private Material debugSwapMaterial;
-    [SerializeField] private UnityEngine.UI.Text questInfoText;
+    [SerializeField] private TMPro.TMP_Text questInfoText;
     [SerializeField] private UnityEngine.UI.Button questShowButton;
 
     private bool questFinished = false;
+
 
 
     // Possible quests:
@@ -36,7 +39,8 @@ public class TitanStatue : MonoBehaviour, IInteractable
     {
         if (questFinished) return;
 
-        Debug.Log("Interacting with " + name);
+        Cursor.lockState = CursorLockMode.Confined;
+        input.SwitchCurrentActionMap("Scrapbook");
         questInfoText.gameObject.SetActive(true);
         questShowButton.gameObject.SetActive(true);
 
@@ -50,6 +54,7 @@ public class TitanStatue : MonoBehaviour, IInteractable
             Debug.Log("Something very cool happens");
             onQuestFinished?.Invoke();
             Destroy(picture.gameObject);
+            InteractionPrompt = "";
             questFinished = true;
         }
         else
@@ -81,8 +86,8 @@ public class TitanStatue : MonoBehaviour, IInteractable
 
         foreach (PagePicture picture in Scrapbook.Instance.GetCollectedPictures())
         {
-            picture.OnPictureClicked -= picture.SelectForPlacement;
-            picture.OnPictureClicked += () => { ShowPicture(picture); };
+            //picture.OnPictureClicked -= picture.SelectForPlacement;
+            picture.OnPictureClicked = () => { ShowPicture(picture); Debug.Log("Clicked on a picture that has to be shown now"); };
             //picture.OnPictureClicked = () => { ShowPicture(picture.PictureInfo); Debug.Log("Clicked on a picture that has to be shown now"); };
         }
 

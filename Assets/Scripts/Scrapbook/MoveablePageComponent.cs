@@ -40,13 +40,14 @@ public abstract class MoveablePageComponent : MonoBehaviour, IDragHandler, IBegi
 
     public virtual void OnDrag(PointerEventData eventData)
     {
-        if(eventData.button == PointerEventData.InputButton.Left)
+        if (eventData.button == PointerEventData.InputButton.Left)
         {
-            float componentX = Mathf.Clamp(eventData.position.x, _parentTransform.rect.xMin + halfWidth * _componentTransform.localScale.x, _parentTransform.rect.xMax - halfWidth * _componentTransform.localScale.x);
-            float componentY = Mathf.Clamp(eventData.position.y, _parentTransform.rect.yMin + halfHeight * _componentTransform.localScale.y, _parentTransform.rect.yMax - halfHeight * _componentTransform.localScale.y);
+            float x = Input.mousePosition.x;
+            float y = Input.mousePosition.y;
 
-            _componentTransform.localPosition = new Vector2(componentX, componentY);
-        }else if(eventData.button == PointerEventData.InputButton.Middle)
+            _componentTransform.position = new Vector2(x, y);
+        }
+        else if(eventData.button == PointerEventData.InputButton.Middle)
         {
             _componentTransform.Rotate(new Vector3(0, 0, eventData.delta.y));
         }
