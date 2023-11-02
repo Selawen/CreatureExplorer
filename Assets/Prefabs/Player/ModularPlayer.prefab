@@ -812,7 +812,7 @@ MonoBehaviour:
     m_Bits: 100
   exceptionText: {fileID: 0}
   photoAccuracy: 10
-  shutterSound: {fileID: 0}
+  shutterSound: {fileID: 8300000, guid: 11873e27ee4e7cd4684d028a070dcb70, type: 3}
   shutterTop: {fileID: 0}
   shutterBottom: {fileID: 0}
 --- !u!114 &4733703374740454852
@@ -827,9 +827,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 474a8fb2e002a824a94656d69c4caff2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 3.5
-  sprintSpeed: 7
-  strafeSprintSpeed: 5
+  walkSpeed: 5
+  sprintSpeed: 10
+  strafeSprintSpeed: 7
   maxSprintAngle: 15
   playerLayer:
     serializedVersion: 2
