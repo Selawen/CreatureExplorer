@@ -51,7 +51,7 @@ public class PlayerCamera : MonoBehaviour
         path = Application.dataPath;
     }
 
-    private void OnDisable()
+    public void CameraClose()
     {
         pictureCamera.fieldOfView = originalZoom;
     }
