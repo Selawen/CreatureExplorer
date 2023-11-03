@@ -10,15 +10,15 @@ public class Scrapbook : MonoBehaviour
 
     public GraphicRaycaster Raycaster;
     public ScrapbookPage CurrentPage { get { return allPages[currentPageIndex]; } }
-    public bool CollectionIsFull { get { return collectedPictures.InventoryIsFull(); } }
+    //public bool CollectionIsFull { get { return collectedPictures.InventoryIsFull(); } }
 
     [SerializeField] private int scrapbookPageCount = 6;
-    [SerializeField] private ushort maximumUnplacedPictureCount = 10;
-    [SerializeField] private float rotationRate = 5f;
+    //[SerializeField] private ushort maximumUnplacedPictureCount = 10;
+    //[SerializeField] private float rotationRate = 5f;
 
     [SerializeField] private GameObject elementsPanel;
     [SerializeField] private RectTransform pagesParent;
-    [SerializeField] private LayoutGroup picturePanel;
+    //[SerializeField] private LayoutGroup picturePanel;
     [SerializeField] private TMPro.TMP_Text camStorageText;
 
     [SerializeField] private GameObject previousPageButton;
@@ -29,8 +29,8 @@ public class Scrapbook : MonoBehaviour
 
     private int currentPageIndex;
 
-    private MoveablePageComponent targetComponent;
-    private Inventory<PagePicture> collectedPictures;
+    //private MoveablePageComponent targetComponent;
+    //private Inventory<PagePicture> collectedPictures;
 
     private ScrapbookPage[] allPages;
 
@@ -43,9 +43,9 @@ public class Scrapbook : MonoBehaviour
         Instance = this;
 
         allPages = new ScrapbookPage[scrapbookPageCount];
-        collectedPictures = new Inventory<PagePicture>(maximumUnplacedPictureCount);
+        //collectedPictures = new Inventory<PagePicture>(maximumUnplacedPictureCount);
 
-        UpdateCameraStorageText();
+        //UpdateCameraStorageText();
 
         for (int i = 0; i < scrapbookPageCount; i++)
         {
@@ -59,40 +59,40 @@ public class Scrapbook : MonoBehaviour
         ClosePages();
     }
 
-    public void GetClickInput(InputAction.CallbackContext callbackContext)
-    {
-        if(callbackContext.started && targetComponent == null)
-        {
-            // Begin drawing a group selection rectangle (to be implemented)
-            return;
-        }
-        if(callbackContext.performed && targetComponent != null)
-        {
-            // Can now start dragging the element
-        }
-        if (callbackContext.canceled)
-        {
-            if (targetComponent == null)
-            {
-                // End drawing a group selection rectangle (to be implemented) and create a group of all elements within that rectangle
-                return;
-            }
-        }
-    }
+    //public void GetClickInput(InputAction.CallbackContext callbackContext)
+    //{
+    //    if(callbackContext.started && targetComponent == null)
+    //    {
+    //        // Begin drawing a group selection rectangle (to be implemented)
+    //        return;
+    //    }
+    //    if(callbackContext.performed && targetComponent != null)
+    //    {
+    //        // Can now start dragging the element
+    //    }
+    //    if (callbackContext.canceled)
+    //    {
+    //        if (targetComponent == null)
+    //        {
+    //            // End drawing a group selection rectangle (to be implemented) and create a group of all elements within that rectangle
+    //            return;
+    //        }
+    //    }
+    //}
 
-    public void GetTurnAndScaleInput(InputAction.CallbackContext callbackContext)
-    {
-        if (targetComponent == null || !targetComponent.PlacedOnPage) return;
+    //public void GetTurnAndScaleInput(InputAction.CallbackContext callbackContext)
+    //{
+    //    if (targetComponent == null || !targetComponent.PlacedOnPage) return;
 
-        if (callbackContext.performed)
-        {
-            targetComponent.transform.Rotate(new(0, 0, rotationRate * callbackContext.ReadValue<Vector2>().x));
-            if (targetComponent.GetType() == typeof(PagePicture) || targetComponent.GetType() == typeof(ScrapbookSticker))
-            {
-                targetComponent.transform.localScale = Mathf.Clamp(targetComponent.transform.localScale.x + 0.1f * callbackContext.ReadValue<Vector2>().y, 1, 3) * Vector3.one;
-            }
-        }
-    }
+    //    if (callbackContext.performed)
+    //    {
+    //        targetComponent.transform.Rotate(new(0, 0, rotationRate * callbackContext.ReadValue<Vector2>().x));
+    //        if (targetComponent.GetType() == typeof(PagePicture) || targetComponent.GetType() == typeof(ScrapbookSticker))
+    //        {
+    //            targetComponent.transform.localScale = Mathf.Clamp(targetComponent.transform.localScale.x + 0.1f * callbackContext.ReadValue<Vector2>().y, 1, 3) * Vector3.one;
+    //        }
+    //    }
+    //}
 
     public void ClosePages()
     {
@@ -135,52 +135,52 @@ public class Scrapbook : MonoBehaviour
         }
     }
 
-    public bool AddPictureToCollection(PagePicture snappedPicture)
-    {
-        if (collectedPictures.AddItemToInventory(snappedPicture))
-        {
-            snappedPicture.transform.SetParent(picturePanel.transform, false);
-            UpdateCameraStorageText();
-            return true;
-        }
-        return false;
-        // To do: send out a message that the scrapbook's picture storage is full.
-    }
+    //public bool AddPictureToCollection(PagePicture snappedPicture)
+    //{
+    //    if (collectedPictures.AddItemToInventory(snappedPicture))
+    //    {
+    //        snappedPicture.transform.SetParent(picturePanel.transform, false);
+    //        UpdateCameraStorageText();
+    //        return true;
+    //    }
+    //    return false;
+    //    To do: send out a message that the scrapbook's picture storage is full.
+    //}
 
-    public bool RemovePictureFromCollection(PagePicture removedPicture)
-    {
-        if (collectedPictures.RemoveItemFromInventory(removedPicture))
-        {
-            UpdateCameraStorageText();
-            return true;
-        }
-        return false;
-    }
-    
-    public List<PagePicture> GetCollectedPictures()
-    {
-        return collectedPictures.GetContents();
-    }
+    //public bool RemovePictureFromCollection(PagePicture removedPicture)
+    //{
+    //    if (collectedPictures.RemoveItemFromInventory(removedPicture))
+    //    {
+    //        UpdateCameraStorageText();
+    //        return true;
+    //    }
+    //    return false;
+    //}
+
+    //public List<PagePicture> GetCollectedPictures()
+    //{
+    //    return collectedPictures.GetContents();
+    //}
 
     public void CreateNewTextEntry() => Instantiate(textEntryPrefab, CurrentPage.transform);
 
-    public void SwapTargetComponent(MoveablePageComponent newComponent) => targetComponent = newComponent;
+    //public void SwapTargetComponent(MoveablePageComponent newComponent) => targetComponent = newComponent;
 
-    private void UpdateCameraStorageText()
-    {
-        if (camStorageText == null) return;
+    //private void UpdateCameraStorageText()
+    //{
+    //    if (camStorageText == null) return;
 
-        ushort storageLeft = (ushort)(collectedPictures.GetCapacity() - collectedPictures.GetItemCount());
-        if(storageLeft < 3)
-        {
-            camStorageText.color = Color.red;
-        }
-        else
-        {
-            camStorageText.color = Color.white;
-        }
-        camStorageText.text = "Storage left: " + storageLeft.ToString();
+    //    ushort storageLeft = (ushort)(collectedPictures.GetCapacity() - collectedPictures.GetItemCount());
+    //    if(storageLeft < 3)
+    //    {
+    //        camStorageText.color = Color.red;
+    //    }
+    //    else
+    //    {
+    //        camStorageText.color = Color.white;
+    //    }
+    //    camStorageText.text = "Storage left: " + storageLeft.ToString();
 
-    }
+    //}
 
 }
