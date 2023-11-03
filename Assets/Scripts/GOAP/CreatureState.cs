@@ -153,6 +153,22 @@ public class MoodState
         }
         catch (NullReferenceException)
         {
+            try
+            {
+                a.AddValue(0);
+            }
+            catch (NullReferenceException)
+            {
+                try
+                {
+                    b.AddValue(0);
+                }
+                catch (NullReferenceException)
+                {
+                    return true;
+                }
+                return false;
+            }
             return false;
         }
     }

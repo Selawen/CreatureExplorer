@@ -5,6 +5,7 @@ using UnityEngine.AI;
 public class Flee : Action
 {
     [SerializeField] private float speedMultiplier = 4;
+    [SerializeField] private float runDistance= 10;
 
     private NavMeshAgent moveAgent;
     private float originalSpeed, originalRotationSpeed, originalAcceleration;
@@ -35,7 +36,7 @@ public class Flee : Action
             fearsource = transform.position - transform.forward;
         }
 
-        moveAgent.SetDestination(creature.transform.position +(creature.transform.position - fearsource).normalized*10);
+        moveAgent.SetDestination(creature.transform.position +(creature.transform.position - fearsource).normalized*runDistance);
 
         //Task.Run(() => DoAction(), failToken);
         // Navmeshagent doesn't play nice with threading

@@ -13,11 +13,11 @@ public class Charger : Prey
         surroundCheck += CheckForChargers;
     }
 
-    protected override void ReactToPlayer(Vector3 playerPos)
+    protected override void ReactToPlayer(Vector3 playerPos, float playerLoudness)
     {
-        base.ReactToPlayer(playerPos);
+        base.ReactToPlayer(playerPos, playerLoudness);
 
-        ReactToThreat(playerPos);
+        ReactToThreat(playerPos, playerLoudness);
     }
 
     protected override void ReactToPlayerLeaving(Vector3 playerPos)
@@ -25,7 +25,7 @@ public class Charger : Prey
         base.ReactToPlayerLeaving(playerPos);
 
         //WaryOff = playerPos;
-        SetConditionFalse(worldState, Condition.IsNearDanger);
+        worldState = SetConditionFalse(worldState, Condition.IsNearDanger);
     }
 
 

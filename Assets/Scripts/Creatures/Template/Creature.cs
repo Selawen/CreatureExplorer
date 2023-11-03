@@ -16,6 +16,7 @@ public class Creature : MonoBehaviour
     [field: SerializeField] public string SleepSpot { get; protected set; }
     [SerializeField] protected float checkSurroundingsTimer = 0.5f;
     public Vector3 WaryOff { get; protected set; }
+    protected float waryLoudness = 1;
 
     [SerializeField] protected float decayTimer = 10;
 
@@ -277,7 +278,9 @@ public class Creature : MonoBehaviour
 
     protected void Interrupt(Action associatedAction, string debugText = "")
     {
-        Debug.Log($"interruption source: {associatedAction.Name}");
+        if (LogDebugs)
+            Debug.Log($"interruption source: {associatedAction.Name}");
+        
         currentAction.Reset();
         GetComponent<UnityEngine.AI.NavMeshAgent>().SetDestination(transform.position);
 
@@ -324,17 +327,18 @@ public class Creature : MonoBehaviour
         } 
     }
 
+    // TODO: factor in loudness
     public void HearPlayer(Vector3 playerPos, float playerLoudness)
     {
         if ((transform.position - playerPos).sqrMagnitude < playerLoudness * hearingSensitivity)
-            ReactToPlayer(playerPos);
+            ReactToPlayer(playerPos, playerLoudness);
         else if (sawPlayer)
         {
             ReactToPlayerLeaving(playerPos);
         }
     }
 
-    protected virtual void ReactToPlayer(Vector3 playerPos)
+    protected virtual void ReactToPlayer(Vector3 playerPos, float playerLoudness)
     {
         sawPlayer = true;
         UpdateValues(reactionToPlayer);
