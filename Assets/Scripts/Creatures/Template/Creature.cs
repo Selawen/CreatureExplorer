@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -255,13 +256,19 @@ public class Creature : MonoBehaviour
         // stop action to fall asleep if tiredness = 100
         if (currentCreatureState.Find(interruptionSource).StateValue >= threshold)
         {
-            MoodState moodOperator = currentAction.GoalEffects.Find(interruptionSource);
-            // if this action doen not impact tiredness or makes creature more tired
-            if (moodOperator == null)
+            try
             {
-                Interrupt(associatedAction, interruptionText);
-            }
-            else if (moodOperator.Operator != StateOperant.Subtract)
+                MoodState moodOperator = currentAction.GoalEffects.Find(interruptionSource);
+                // if this action doen not impact tiredness or makes creature more tired
+                if (moodOperator == null)
+                {
+                    Interrupt(associatedAction, interruptionText);
+                }
+                else if (moodOperator.Operator != StateOperant.Subtract)
+                {
+                    Interrupt(associatedAction, interruptionText);
+                }
+            } catch (NullReferenceException)
             {
                 Interrupt(associatedAction, interruptionText);
             }
@@ -290,7 +297,7 @@ public class Creature : MonoBehaviour
         // TODO: think about what to set the value to beat to
         ReactToAttack(attackSource);
 
-        if (Random.Range(0, currentCreatureState.Find(StateType.Tiredness).StateValue) > 20)
+        if (UnityEngine.Random.Range(0, currentCreatureState.Find(StateType.Tiredness).StateValue) > 20)
         {
             currentAction.Reset();
 

@@ -28,7 +28,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5600526825763947021}
+  - {fileID: 8644765146290450692}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -43,6 +43,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LODs.Array.data[2].screenRelativeHeight
       value: 0.002
+      objectReference: {fileID: 0}
+    - target: {fileID: 2748799738509045840, guid: dd57de8473802184d908afab260c4da4,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 171b1263763697c43b9b4cdd07653330, type: 2}
+    - target: {fileID: 3286868612308452375, guid: dd57de8473802184d908afab260c4da4,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 171b1263763697c43b9b4cdd07653330, type: 2}
+    - target: {fileID: 3627371521992283811, guid: dd57de8473802184d908afab260c4da4,
+        type: 3}
+      propertyPath: m_LODs.Array.data[1].screenRelativeHeight
+      value: 0.001
       objectReference: {fileID: 0}
     - target: {fileID: 7354418056865653740, guid: dd57de8473802184d908afab260c4da4,
         type: 3}
@@ -106,9 +121,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dd57de8473802184d908afab260c4da4, type: 3}
---- !u!4 &5600526825763947021 stripped
+--- !u!4 &8644765146290450692 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 7880161273831389526, guid: dd57de8473802184d908afab260c4da4,
+  m_CorrespondingSourceObject: {fileID: 6276475875095956063, guid: dd57de8473802184d908afab260c4da4,
     type: 3}
   m_PrefabInstance: {fileID: 2369708781513128795}
   m_PrefabAsset: {fileID: 0}

@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class PlayerCamera : MonoBehaviour
 {
     [SerializeField] private Camera pictureCamera;
+    [SerializeField] private float zoomSensitivity;
 
     [SerializeField] private PagePicture picturePrefab;
 
@@ -17,7 +18,11 @@ public class PlayerCamera : MonoBehaviour
 
     [SerializeField, Range(1, 100)] private int photoAccuracy = 50;
 
+    [Header("Effects")]
+    [SerializeField] private AudioClip shutterSound;
     [SerializeField] private Animator shutterTop, shutterBottom;
+
+    private float originalZoom;
 
     private PlayerInput input;
 
@@ -25,24 +30,49 @@ public class PlayerCamera : MonoBehaviour
 
     private string path;
 
+    private void OnValidate()
+    {
+        if (pictureCamera == null)
+        {
+            pictureCamera = Camera.main;
+        }
+    }
+
     private void Awake()
     {
+        originalZoom = pictureCamera.fieldOfView;
+
         input = GetComponent<PlayerInput>();
         if (Application.isEditor)
         {
             path = Application.dataPath;
             return;
         }
-        path = Application.persistentDataPath;
+        path = Application.dataPath;
     }
+
+    public void CameraClose()
+    {
+        pictureCamera.fieldOfView = originalZoom;
+    }
+
+    public void ZoomCamera(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.started)
+        {
+            pictureCamera.fieldOfView -= callbackContext.ReadValue<Vector2>().y * zoomSensitivity;
+            pictureCamera.fieldOfView = Mathf.Clamp(pictureCamera.fieldOfView, 0, 60);
+        }
+    }
+
     public void SnapPicture(InputAction.CallbackContext callbackContext)
     {
         if (callbackContext.started)
         {
             if (!Scrapbook.Instance.CollectionIsFull && !snapping)
             {
-                shutterTop.SetTrigger("Snap");
-                shutterBottom.SetTrigger("Snap");
+                //shutterTop.SetTrigger("Snap");
+                //shutterBottom.SetTrigger("Snap");
                 StartCoroutine(Snap());
             }
         }
@@ -50,7 +80,13 @@ public class PlayerCamera : MonoBehaviour
 
     private IEnumerator Snap()
     {
-        pictureCamera.gameObject.SetActive(true);
+        if (TryGetComponent(out SoundPlayer player))
+        {
+            player.PlaySound(shutterSound, true);
+        }
+
+        if (pictureCamera != Camera.main)
+            pictureCamera.gameObject.SetActive(true);
         snapping = true;
 
         yield return new WaitForEndOfFrame();
@@ -68,7 +104,8 @@ public class PlayerCamera : MonoBehaviour
 
         try
         {
-            string savingPath = path + "/Pictures/snap" + System.DateTime.UtcNow.Day + System.DateTime.UtcNow.Minute + System.DateTime.UtcNow.Second + ".png";
+            string savingPath = path + "/Resources/snap" + System.DateTime.UtcNow.Day + System.DateTime.UtcNow.Minute + System.DateTime.UtcNow.Second + ".png";
+
             byte[] byteArray = renderedTexture.EncodeToPNG();
             File.WriteAllBytes(savingPath, byteArray);
 
@@ -82,13 +119,17 @@ public class PlayerCamera : MonoBehaviour
         }
         catch (System.Exception exception)
         {
-            if(exceptionText != null)
+            if (exceptionText != null)
             {
                 exceptionText.text = exception.ToString();
             }
         }
 
-        pictureCamera.gameObject.SetActive(false);
+        if (pictureCamera != Camera.main)
+            pictureCamera.gameObject.SetActive(false);
+        else
+            pictureCamera.targetTexture = null;
+
         snapping = false;
 
     }

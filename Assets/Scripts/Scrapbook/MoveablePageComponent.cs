@@ -2,8 +2,10 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public abstract class MoveablePageComponent : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerClickHandler
+public abstract class MoveablePageComponent : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
+    public bool PlacedOnPage { get; protected set; }
+
     protected float _scaleFactor = 1.2f;
 
     protected RectTransform _componentTransform;
@@ -38,13 +40,14 @@ public abstract class MoveablePageComponent : MonoBehaviour, IDragHandler, IBegi
 
     public virtual void OnDrag(PointerEventData eventData)
     {
-        if(eventData.button == PointerEventData.InputButton.Left)
+        if (eventData.button == PointerEventData.InputButton.Left)
         {
-            float componentX = Mathf.Clamp(_componentTransform.anchoredPosition.x + eventData.delta.x, _parentTransform.rect.xMin + halfWidth * _componentTransform.localScale.x, _parentTransform.rect.xMax - halfWidth * _componentTransform.localScale.x);
-            float componentY = Mathf.Clamp(_componentTransform.anchoredPosition.y + eventData.delta.y, _parentTransform.rect.yMin + halfHeight * _componentTransform.localScale.y, _parentTransform.rect.yMax - halfHeight * _componentTransform.localScale.y);
+            float x = Input.mousePosition.x;
+            float y = Input.mousePosition.y;
 
-            _componentTransform.anchoredPosition = new Vector2(componentX, componentY);
-        }else if(eventData.button == PointerEventData.InputButton.Middle)
+            _componentTransform.position = new Vector2(x, y);
+        }
+        else if(eventData.button == PointerEventData.InputButton.Middle)
         {
             _componentTransform.Rotate(new Vector3(0, 0, eventData.delta.y));
         }
@@ -64,4 +67,16 @@ public abstract class MoveablePageComponent : MonoBehaviour, IDragHandler, IBegi
             Destroy(gameObject);
         }
     }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        Scrapbook.Instance.SwapTargetComponent(null);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        Scrapbook.Instance.SwapTargetComponent(this);
+    }
+
+    //protected abstract void OnTrash();
 }

@@ -28,7 +28,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1524483524549565375}
+  - {fileID: 58308519771127291}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -99,11 +99,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: HeathLow
       objectReference: {fileID: 0}
+    - target: {fileID: 1425559846064047629, guid: 25f926e6727f937458a17793df5ee33c,
+        type: 3}
+      propertyPath: m_LODs.Array.data[1].screenRelativeHeight
+      value: 0.001
+      objectReference: {fileID: 0}
+    - target: {fileID: 6672324104253209509, guid: 25f926e6727f937458a17793df5ee33c,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 171b1263763697c43b9b4cdd07653330, type: 2}
+    - target: {fileID: 7964803102301280849, guid: 25f926e6727f937458a17793df5ee33c,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 171b1263763697c43b9b4cdd07653330, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 25f926e6727f937458a17793df5ee33c, type: 3}
---- !u!4 &1524483524549565375 stripped
+--- !u!4 &58308519771127291 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 373937709193633819, guid: 25f926e6727f937458a17793df5ee33c,
+  m_CorrespondingSourceObject: {fileID: 1213531704971249247, guid: 25f926e6727f937458a17793df5ee33c,
     type: 3}
   m_PrefabInstance: {fileID: 1159804369117019044}
   m_PrefabAsset: {fileID: 0}

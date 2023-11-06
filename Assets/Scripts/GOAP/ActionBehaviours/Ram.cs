@@ -33,7 +33,7 @@ public class Ram : Action
         moveAgent.SetDestination(target.transform.position);
 
         //Task.Run(() => DoAction(), token);
-        DoAction();
+        DoAction(target);
         FailCheck(failToken);
 
         return target;
@@ -59,6 +59,11 @@ public class Ram : Action
     protected override async void DoAction(GameObject target = null)
     {
         await CheckDistanceToDestination();
+
+        if (target.TryGetComponent(out Breakable broken))
+        {
+            broken.Break();
+        }
 
         moveAgent.speed = originalSpeed;
         moveAgent.angularSpeed = originalRotationSpeed;

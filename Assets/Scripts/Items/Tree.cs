@@ -9,7 +9,7 @@ public class Tree : MonoBehaviour
     [ExecuteAlways]
     private void OnValidate()
     {
-        if (!(raycastMask.value == 0))
+        if (!(raycastMask.value == 0) && gameObject.activeInHierarchy)
         {
             if (Physics.Raycast(transform.position + Vector3.up * 200, Vector3.down, out RaycastHit hit, 500, raycastMask))
             {

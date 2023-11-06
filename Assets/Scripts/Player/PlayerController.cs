@@ -19,7 +19,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private UnityEvent onCameraOpened;
     [SerializeField] private UnityEvent onCameraClosed;
 
-    [SerializeField] private Camera pictureCamera;
+    [SerializeField] private UnityEvent<string> onInteractableFound;
+    [SerializeField] private UnityEvent onInteractableOutOfRange;
+
+    //[SerializeField] private Camera pictureCamera;
 
     private float verticalRotation;
 
@@ -30,6 +33,8 @@ public class PlayerController : MonoBehaviour
     private Camera firstPersonCamera;
 
     private PlayerInput playerInput;
+
+    private IInteractable interactableInRange;
 
     private void Awake()
     {
@@ -51,13 +56,27 @@ public class PlayerController : MonoBehaviour
     {
         stateMachine.OnUpdate();
         HandleRotation(rotationInput);
+
+        if (Physics.SphereCast(transform.position, interactionRadius, transform.forward, out RaycastHit hit, interactionDistance, interactionLayers))
+        {
+            if (hit.transform.TryGetComponent(out IInteractable interactable))
+            {
+                onInteractableFound?.Invoke(interactable.InteractionPrompt);
+                interactableInRange = interactable;
+            }
+        }
+        else if(interactableInRange != null)
+        {
+            interactableInRange = null;
+            onInteractableOutOfRange?.Invoke();
+        }
     }
 
     private void FixedUpdate()
     {
         stateMachine.OnFixedUpdate();
         firstPersonCamera.transform.rotation = Quaternion.Euler(new Vector3(verticalRotation, transform.eulerAngles.y, 0));
-        pictureCamera.transform.rotation = Quaternion.Euler(new Vector3(verticalRotation, transform.eulerAngles.y, 0));
+        //pictureCamera.transform.rotation = Quaternion.Euler(new Vector3(verticalRotation, transform.eulerAngles.y, 0));
     }
 
     public void SwapToCamera(InputAction.CallbackContext callbackContext)
@@ -80,15 +99,15 @@ public class PlayerController : MonoBehaviour
 
     public void GetInteractionInput(InputAction.CallbackContext callbackContext)
     {
-        if (callbackContext.started)
+        if (callbackContext.started && interactableInRange != null)
         {
-            if (Physics.SphereCast(transform.position, interactionRadius, transform.forward, out RaycastHit hit, interactionDistance, interactionLayers))
-            {
-                if (hit.transform.TryGetComponent(out IInteractable interactable))
-                {
-                    interactable.Interact();
-                }
-            }
+            //if(interactableInRange.GetType() == typeof(JellyfishLadder))
+            //{
+            //    stateMachine.SwitchState(typeof(ClimbingState));
+            //    return;
+            //}
+            interactableInRange.Interact();
+            
         }
     }
 

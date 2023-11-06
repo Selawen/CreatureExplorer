@@ -102,6 +102,26 @@ PrefabInstance:
       propertyPath: <Cost>k__BackingField
       value: 200
       objectReference: {fileID: 0}
+    - target: {fileID: 6309793511680294937, guid: c4d537d1eccf6d84da8c18f49b4831be,
+        type: 3}
+      propertyPath: <QuestObjectID>k__BackingField
+      value: torca
+      objectReference: {fileID: 0}
+    - target: {fileID: 6799428552790998717, guid: c4d537d1eccf6d84da8c18f49b4831be,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.285
+      objectReference: {fileID: 0}
+    - target: {fileID: 6799428552790998717, guid: c4d537d1eccf6d84da8c18f49b4831be,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.581
+      objectReference: {fileID: 0}
+    - target: {fileID: 6799428552790998717, guid: c4d537d1eccf6d84da8c18f49b4831be,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.003
+      objectReference: {fileID: 0}
     - target: {fileID: 6799428552790998717, guid: c4d537d1eccf6d84da8c18f49b4831be,
         type: 3}
       propertyPath: m_LocalRotation.w
@@ -349,6 +369,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &3283053662547457826 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2449828465151668406, guid: c4d537d1eccf6d84da8c18f49b4831be,
+    type: 3}
+  m_PrefabInstance: {fileID: 896275609358878612}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &6188077721638965820
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3283053662547457826}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -1329669548703926588, guid: fc3e654425d974b43a89bc786b909d50, type: 3}
 --- !u!4 &5921206383200418089 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6799428552790998717, guid: c4d537d1eccf6d84da8c18f49b4831be,
@@ -400,7 +440,7 @@ MonoBehaviour:
   hearingSensitivity: 5
   <FoodSource>k__BackingField: Charger
   <SleepSpot>k__BackingField: TorcaNest
-  checkSurroundingsTimer: 0.5
+  checkSurroundingsTimer: 1
   decayTimer: 10
   showThoughts: 1
   <LogDebugs>k__BackingField: 0
@@ -556,6 +596,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8766355791077564230}
     m_Modifications:
+    - target: {fileID: -2308584347529280133, guid: cc61f7d7a1298d2419790cef1924dbfe,
+        type: 3}
+      propertyPath: actionDuration
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 487287046908700329, guid: cc61f7d7a1298d2419790cef1924dbfe,
         type: 3}
       propertyPath: m_Name
@@ -948,17 +993,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: fc3e654425d974b43a89bc786b909d50,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.285
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fc3e654425d974b43a89bc786b909d50,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.581
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fc3e654425d974b43a89bc786b909d50,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.003
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fc3e654425d974b43a89bc786b909d50,
         type: 3}
