@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Pillar
+  m_Name: Wall 1
   m_Shader: {fileID: -6465566751694194690, guid: 6371870ec874b854bb7d54f7c33b0ac5,
     type: 3}
   m_ValidKeywords:
@@ -29,7 +29,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _AlbedoTex:
-        m_Texture: {fileID: 2800000, guid: c55a7d4bd9cc1384ab0e48a5a5e777c5, type: 3}
+        m_Texture: {fileID: 2800000, guid: 01ade85ec29780d4ebf183bcace74f9b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BlendTexture:
@@ -37,7 +37,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMapTex:
-        m_Texture: {fileID: 2800000, guid: 4db199d5a356ce943a7da13182b307ac, type: 3}
+        m_Texture: {fileID: 2800000, guid: 11e8ce52e77d106449ce041b6da0c774, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TerrainHeightMap:
@@ -64,9 +64,9 @@ Material:
     - _AlphaSrcBlend: 1
     - _AlphaToMask: 0
     - _AlphaToMaskInspectorValue: 0
-    - _BlendDistance: 0.03
+    - _BlendDistance: 0.043
     - _BlendMode: 0
-    - _BlendTiling: 0.488
+    - _BlendTiling: 0.11
     - _ConservativeDepthOffsetEnable: 0
     - _CullMode: 2
     - _CullModeForward: 2
@@ -78,7 +78,7 @@ Material:
     - _EnableBlendModePreserveSpecularLighting: 1
     - _EnableFogOnTransparent: 1
     - _Metalic: 0
-    - _NormalStrength: 0.347
+    - _NormalStrength: 1
     - _OpaqueCullMode: 2
     - _RayTracing: 0
     - _ReceivesSSR: 1
@@ -100,7 +100,7 @@ Material:
     - _StencilWriteMaskMV: 40
     - _SupportDecals: 1
     - _SurfaceType: 0
-    - _TerrainHeight: 0.015
+    - _TerrainHeight: 0.01
     - _TransparentBackfaceEnable: 0
     - _TransparentCullMode: 2
     - _TransparentDepthPostpassEnable: 0
@@ -118,7 +118,7 @@ Material:
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _TerrainSizeOffset: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &6113016981083949151
+--- !u!114 &3291282577448583448
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
