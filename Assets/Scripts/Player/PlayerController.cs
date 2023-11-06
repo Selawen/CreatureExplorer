@@ -43,12 +43,12 @@ public class PlayerController : MonoBehaviour
 
         playerInput = GetComponent<PlayerInput>();
         Cursor.lockState = CursorLockMode.Locked;
-        onCameraClosed?.Invoke();
     }
 
     private void Start()
     {
         stateMachine = new FiniteStateMachine(typeof(WalkingState), GetComponents<IState>());
+        onCameraClosed?.Invoke();
     }
 
     // Update is called once per frame

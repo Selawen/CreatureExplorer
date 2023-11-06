@@ -358,9 +358,9 @@
                 },
                 {
                     "name": "Turn/Scale",
-                    "type": "Value",
+                    "type": "Button",
                     "id": "33653ce3-c408-43d3-a368-49baee3e2efe",
-                    "expectedControlType": "Vector2",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -430,37 +430,15 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "KeyboardMouse",
-                    "id": "a422f210-fa03-4b04-adbe-7bdbef086e91",
-                    "path": "OneModifier",
+                    "name": "",
+                    "id": "ab11c87b-b7f1-40f0-b85e-293fb4c1788b",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Turn/Scale",
-                    "isComposite": true,
+                    "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "Modifier",
-                    "id": "b495af4c-c3dd-49cd-aea4-e6df8f0b797c",
-                    "path": "<Mouse>/middleButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Turn/Scale",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Binding",
-                    "id": "461765e6-c568-4c4c-9121-b47fa019ff5f",
-                    "path": "<Mouse>/delta",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Turn/Scale",
-                    "isComposite": false,
-                    "isPartOfComposite": true
                 },
                 {
                     "name": "Switch",
@@ -651,7 +629,7 @@
                     "path": "<Keyboard>/c",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard&Mouse",
                     "action": "Exit",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -823,11 +801,11 @@
                 },
                 {
                     "name": "",
-                    "id": "ae9fb04a-9bbc-40c3-ade2-ae70bfaba5be",
+                    "id": "f7656393-ce6d-42f5-9f22-fb0a63628855",
                     "path": "",
                     "interactions": "",
                     "processors": "",
-                    "groups": "NintendoSwitch",
+                    "groups": "",
                     "action": "Zoom",
                     "isComposite": false,
                     "isPartOfComposite": false

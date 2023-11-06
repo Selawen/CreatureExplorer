@@ -12,6 +12,7 @@ public class PlayerCamera : MonoBehaviour
 
     [SerializeField] private PagePicture picturePrefab;
 
+    [SerializeField] private PictureStorage storage;
     [SerializeField] private float maximumScanDistance = 20f;
     [SerializeField] private LayerMask ignoredPhotoLayers;
     [SerializeField] private TMPro.TMP_Text exceptionText;
@@ -69,7 +70,7 @@ public class PlayerCamera : MonoBehaviour
     {
         if (callbackContext.started)
         {
-            if (!Scrapbook.Instance.CollectionIsFull && !snapping)
+            if (!storage.StorageIsFull() && !snapping)
             {
                 //shutterTop.SetTrigger("Snap");
                 //shutterBottom.SetTrigger("Snap");
@@ -115,7 +116,7 @@ public class PlayerCamera : MonoBehaviour
             PagePicture newPagePicture = Instantiate(picturePrefab);
             newPagePicture.SetPicture(spr);
             newPagePicture.LinkPictureInformation(pictureInfo);
-            Scrapbook.Instance.AddPictureToCollection(newPagePicture);
+            storage.OnComponentDroppedOn(newPagePicture);
         }
         catch (System.Exception exception)
         {

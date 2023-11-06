@@ -55,10 +55,12 @@ public class TitanStatue : MonoBehaviour, IInteractable
         if (condition.Evaluate(picture.PictureInfo))
         {
             onQuestFinished?.Invoke();
-            if (Scrapbook.Instance.GetCollectedPictures().Contains(picture))
-            {
-                Scrapbook.Instance.RemovePictureFromCollection(picture);
-            }
+            picture.Remove();
+
+            //if (Scrapbook.Instance.GetCollectedPictures().Contains(picture))
+            //{
+            //    Scrapbook.Instance.RemovePictureFromCollection(picture);
+            //}
             Destroy(picture.gameObject);
             InteractionPrompt = "";
             Cursor.lockState = CursorLockMode.Locked;
@@ -68,6 +70,9 @@ public class TitanStatue : MonoBehaviour, IInteractable
         {
             onWrongPicturePresented?.Invoke();
         }
+
+        PagePicture.OnPictureClicked = null;
+
     }
     public void DebugChangeMaterialVisuals()
     {
@@ -90,16 +95,11 @@ public class TitanStatue : MonoBehaviour, IInteractable
         //Cursor.lockState = CursorLockMode.Confined;
         //input.SwitchCurrentActionMap("Scrapbook");
 
-        foreach (PagePicture picture in Scrapbook.Instance.GetCollectedPictures())
-        {
-            //picture.OnPictureClicked -= picture.SelectForPlacement;
-            picture.OnPictureClicked = () => { ShowPicture(picture); };
-            //picture.OnPictureClicked = () => { ShowPicture(picture.PictureInfo); Debug.Log("Clicked on a picture that has to be shown now"); };
-        }
+        PagePicture.OnPictureClicked = ShowPicture;
 
         // To do: Open the picture collection and let the player pick a picture to show to the statue
-        // Question: Do we want to be able to pick pictures that have been placed in the scrapbook?
-        // Question: Does showing the picture consume it?
+        // Question: Do we want to be able to pick pictures that have been placed in the scrapbook? => We do (currently in testing fase)
+        // Question: Does showing the picture consume it? => It does
     }
 
 }
