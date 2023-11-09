@@ -6,8 +6,11 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(CharacterController))]
 public class CC_PlayerController : MonoBehaviour
 {
+    public float Loudness { get; private set; }
+
     [Header("Physical Stats")]
     [SerializeField] private float walkSpeed = 5f;
+    [SerializeField] private float sneakSpeed = 3f;
     [SerializeField] private float climbSpeed = 3f;
     [SerializeField] private float sprintSpeed = 10f;
     [SerializeField] private float airSpeed = 4f;
@@ -17,6 +20,7 @@ public class CC_PlayerController : MonoBehaviour
     [SerializeField] private float jumpForce = 10f;
 
     [Header("Settings")]
+    [SerializeField] private float crouchHeight = 1.2f;
     [SerializeField] private float maxSprintAngle = 15f;
     [SerializeField] private float maxViewAngle = 70f;
     [SerializeField] private float groundCheckRadius = 0.2f;
@@ -27,6 +31,11 @@ public class CC_PlayerController : MonoBehaviour
 
     [SerializeField] private GameSettings gameSettings;
 
+    private float defaultPlayerHeight;
+    private float defaultCameraHeight;
+    private float crouchEyeOffset;
+
+    private FollowTarget cameraFollow;
     private CharacterController controller;
     private Vector2 moveInput;
 
@@ -49,6 +58,10 @@ public class CC_PlayerController : MonoBehaviour
         verticalRotation = firstPersonCamera.transform.eulerAngles.x;
         Cursor.lockState = CursorLockMode.Locked;
         controller = GetComponent<CharacterController>();
+        defaultPlayerHeight = controller.height;
+        defaultCameraHeight = firstPersonCamera.transform.localPosition.y;
+        crouchEyeOffset = defaultPlayerHeight - crouchHeight;
+        cameraFollow = firstPersonCamera.GetComponent<FollowTarget>();
     }
 
     // Update is called once per frame
@@ -86,12 +99,22 @@ public class CC_PlayerController : MonoBehaviour
         if(sprinting && crouching)
         {
             crouching = false;
+            controller.height = defaultPlayerHeight;
+            controller.center = controller.height * 0.5f * Vector3.up;
+            cameraFollow.ChangeOffset(Vector3.up * defaultCameraHeight);
         }
     }
 
     public void GetCrouchInput(InputAction.CallbackContext context)
     {
-        crouching = context.performed;
+        if (context.started)
+        {
+            crouching = !crouching;
+            controller.height = crouching ? crouchHeight : defaultPlayerHeight;
+            controller.center = controller.height * 0.5f * Vector3.up;
+            cameraFollow.ChangeOffset(crouching ? Vector3.up * (defaultCameraHeight - crouchEyeOffset) : Vector3.up * defaultCameraHeight);
+        
+        }
         if(sprinting && crouching)
         {
             sprinting = false;
@@ -123,6 +146,10 @@ public class CC_PlayerController : MonoBehaviour
             if (sprinting)
             {
                 speed = Mathf.Abs(inputAngle) <= maxSprintAngle ? sprintSpeed : strafeSprintSpeed;
+            }
+            if (crouching)
+            {
+                speed = sneakSpeed;
             }
 
             moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward * speed;
