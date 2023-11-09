@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController))]
@@ -15,19 +16,29 @@ public class CC_PlayerController : MonoBehaviour
     [SerializeField] private float sprintSpeed = 10f;
     [SerializeField] private float airSpeed = 4f;
     [SerializeField] private float strafeSprintSpeed = 7f;
-
-    //[SerializeField] private float mass = 68f;
     [SerializeField] private float jumpForce = 10f;
+
+    [SerializeField] private float walkingLoudness = 1f;
+    [SerializeField] private float sneakingLoudness = 0.5f;
+    [SerializeField] private float sprintingLoudness = 2.5f;
 
     [Header("Settings")]
     [SerializeField] private float crouchHeight = 1.2f;
     [SerializeField] private float maxSprintAngle = 15f;
     [SerializeField] private float maxViewAngle = 70f;
+
+    [SerializeField] private float interactDistance = 2f;
+    [SerializeField] private float interactRadius = 5f;
+    [SerializeField] private float interactHeight = 0.875f;
+
+    [SerializeField] private float minimumClimbDistance = 1f;
+
     [SerializeField] private float groundCheckRadius = 0.2f;
     [SerializeField] private float groundCheckDistance = 0.3f;
 
     [SerializeField] private Camera firstPersonCamera;
     [SerializeField] private LayerMask playerLayer;
+    [SerializeField] private UnityEvent<string> onInteractPromptChanged;
 
     [SerializeField] private GameSettings gameSettings;
 
@@ -36,6 +47,7 @@ public class CC_PlayerController : MonoBehaviour
     private float crouchEyeOffset;
 
     private FollowTarget cameraFollow;
+    private PlayerInput playerInput;
     private CharacterController controller;
     private Vector2 moveInput;
 
@@ -45,6 +57,8 @@ public class CC_PlayerController : MonoBehaviour
 
     private bool sprinting;
     private bool crouching;
+
+    private IInteractable closestInteractable;
 
     private enum CharacterState { Grounded, Aerial, Climbing }
     private CharacterState currentState;
@@ -62,6 +76,13 @@ public class CC_PlayerController : MonoBehaviour
         defaultCameraHeight = firstPersonCamera.transform.localPosition.y;
         crouchEyeOffset = defaultPlayerHeight - crouchHeight;
         cameraFollow = firstPersonCamera.GetComponent<FollowTarget>();
+        playerInput = GetComponent<PlayerInput>();
+    }
+
+    private void Start()
+    {
+        Scrapbook.OnBeginType += () => playerInput.SwitchCurrentActionMap("Await");
+        Scrapbook.OnEndType += () => playerInput.SwitchCurrentActionMap("Scrapbook");
     }
 
     // Update is called once per frame
@@ -71,6 +92,7 @@ public class CC_PlayerController : MonoBehaviour
         {
             case CharacterState.Grounded:
                 Move();
+                HandleInteract();
                 break;
             case CharacterState.Aerial:
                 Fall();
@@ -96,6 +118,7 @@ public class CC_PlayerController : MonoBehaviour
     public void GetSprintInput(InputAction.CallbackContext context)
     {
         sprinting = context.performed;
+        Loudness = sprinting ? sprintingLoudness : walkingLoudness;
         if(sprinting && crouching)
         {
             crouching = false;
@@ -103,6 +126,7 @@ public class CC_PlayerController : MonoBehaviour
             controller.center = controller.height * 0.5f * Vector3.up;
             cameraFollow.ChangeOffset(Vector3.up * defaultCameraHeight);
         }
+
     }
 
     public void GetCrouchInput(InputAction.CallbackContext context)
@@ -110,6 +134,7 @@ public class CC_PlayerController : MonoBehaviour
         if (context.started)
         {
             crouching = !crouching;
+            Loudness = crouching ? sneakingLoudness : walkingLoudness;
             controller.height = crouching ? crouchHeight : defaultPlayerHeight;
             controller.center = controller.height * 0.5f * Vector3.up;
             cameraFollow.ChangeOffset(crouching ? Vector3.up * (defaultCameraHeight - crouchEyeOffset) : Vector3.up * defaultCameraHeight);
@@ -126,6 +151,14 @@ public class CC_PlayerController : MonoBehaviour
         if(currentState == CharacterState.Grounded && context.started)
         {
             Jump();
+        }
+    }
+
+    public void GetInteractInput(InputAction.CallbackContext context)
+    {
+        if (context.started && closestInteractable != null)
+        {
+            closestInteractable.Interact();
         }
     }
 
@@ -164,6 +197,9 @@ public class CC_PlayerController : MonoBehaviour
     {
         if (moveInput.sqrMagnitude > 0.1f)
         {
+            //float inputAngle = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg;
+            //float targetAngle = inputAngle + transform.eulerAngles.y;
+
             moveDirection = transform.up * climbSpeed * Time.deltaTime;
             //controller.Move(transform.up * climbSpeed * Time.deltaTime);
         }
@@ -201,6 +237,33 @@ public class CC_PlayerController : MonoBehaviour
     {
         verticalSpeed = jumpForce;
     }
+    private void HandleInteract()
+    {
+        closestInteractable = null;
+
+        Collider[] collisions = Physics.OverlapSphere(transform.position + transform.forward * interactDistance + Vector3.up * interactHeight, interactRadius, ~playerLayer);
+        if(collisions.Length > 0)
+        {
+            Collider closest = null;
+            foreach(Collider c in collisions)
+            {
+                if(c.TryGetComponent(out IInteractable interactable))
+                {
+                    if(closest == null || Vector3.Distance(c.transform.position, transform.position) < Vector3.Distance(closest.transform.position, transform.position))
+                    {
+                        closest = c;
+                        closestInteractable = interactable;
+                    }
+                }
+            }
+        }
+        if(closestInteractable != null)
+        {
+            onInteractPromptChanged?.Invoke(closestInteractable.InteractionPrompt);
+            return;
+        }
+        onInteractPromptChanged?.Invoke("");
+    }
 
     private bool GroundCheck()
     {
@@ -231,5 +294,7 @@ public class CC_PlayerController : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position - transform.forward * groundCheckDistance, groundCheckRadius);
         Gizmos.DrawWireSphere(transform.position + transform.right * groundCheckDistance, groundCheckRadius);
         Gizmos.DrawWireSphere(transform.position - transform.right * groundCheckDistance, groundCheckRadius);
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireSphere(transform.position + Vector3.up * interactHeight + interactDistance * transform.forward, interactRadius);
     }
 }
