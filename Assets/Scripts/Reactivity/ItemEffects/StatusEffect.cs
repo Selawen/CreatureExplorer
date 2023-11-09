@@ -56,7 +56,7 @@ public class StatusEffect : MonoBehaviour
             affectedCreature.UpdateValues(statusEffect);
             timer += Time.deltaTime;
 
-            yield return null;
+            yield return new WaitForFixedUpdate();
         } while (timer < effectDuration);
 
         DestroyImmediate(this);
