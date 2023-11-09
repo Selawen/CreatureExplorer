@@ -6,17 +6,19 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(CharacterController))]
 public class CC_PlayerController : MonoBehaviour
 {
-
+    [Header("Physical Stats")]
     [SerializeField] private float walkSpeed = 5f;
     [SerializeField] private float climbSpeed = 3f;
     [SerializeField] private float sprintSpeed = 10f;
+    [SerializeField] private float airSpeed = 4f;
     [SerializeField] private float strafeSprintSpeed = 7f;
 
+    //[SerializeField] private float mass = 68f;
     [SerializeField] private float jumpForce = 10f;
 
+    [Header("Settings")]
     [SerializeField] private float maxSprintAngle = 15f;
     [SerializeField] private float maxViewAngle = 70f;
-
     [SerializeField] private float groundCheckRadius = 0.2f;
     [SerializeField] private float groundCheckDistance = 0.3f;
 
@@ -28,7 +30,9 @@ public class CC_PlayerController : MonoBehaviour
     private CharacterController controller;
     private Vector2 moveInput;
 
+    private Vector3 moveDirection;
     private float verticalRotation;
+    private float verticalSpeed;
 
     private bool sprinting;
     private bool crouching;
@@ -62,6 +66,7 @@ public class CC_PlayerController : MonoBehaviour
                 Climb();
                 break;
         }
+        controller.Move((moveDirection + Vector3.up * verticalSpeed) * Time.deltaTime );
     }
 
     public void GetMoveInput(InputAction.CallbackContext context) => moveInput = context.ReadValue<Vector2>();
@@ -106,6 +111,7 @@ public class CC_PlayerController : MonoBehaviour
         if (!GroundCheck())
         {
             currentState = CharacterState.Aerial;
+            moveDirection = Vector3.zero;
             return;
         }
         if (moveInput.sqrMagnitude > 0.1f)
@@ -119,15 +125,11 @@ public class CC_PlayerController : MonoBehaviour
                 speed = Mathf.Abs(inputAngle) <= maxSprintAngle ? sprintSpeed : strafeSprintSpeed;
             }
 
-            Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-
-            //float verticalVelocity = controller.velocity.y;
-
-            //Vector3 newVelocity = moveDirection.normalized * speed * Time.deltaTime;
-
-            //newVelocity.y = verticalVelocity;
-
-            controller.Move(moveDirection.normalized * speed * Time.deltaTime);
+            moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward * speed;
+        }
+        else
+        { 
+            moveDirection = Vector3.zero;
         }
     }
 
@@ -135,18 +137,32 @@ public class CC_PlayerController : MonoBehaviour
     {
         if (moveInput.sqrMagnitude > 0.1f)
         {
-            controller.Move(transform.up * climbSpeed * Time.deltaTime);
+            moveDirection = transform.up * climbSpeed * Time.deltaTime;
+            //controller.Move(transform.up * climbSpeed * Time.deltaTime);
         }
     }
 
     private void Fall()
     {
-        controller.Move(Vector3.down * 9.81f * Time.deltaTime);
+        if (moveInput.sqrMagnitude > 0.1f)
+        {
+            float inputAngle = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg;
+            float targetAngle = inputAngle + transform.eulerAngles.y;
+
+            moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward * airSpeed;
+        }
+        if (controller.velocity.y > 0)
+        {
+            verticalSpeed -= 9.81f * Time.deltaTime;
+            return;
+        }
+        verticalSpeed -= 9.81f * Time.deltaTime;
         if (GroundCheck())
         {
             Physics.Raycast(transform.position, transform.up * -1, out RaycastHit hit, 2f, ~playerLayer);
-            transform.position = hit.point;
+            verticalSpeed = 0;
 
+            transform.position = hit.point;
             currentState = CharacterState.Grounded;
             return;
         }
@@ -156,14 +172,13 @@ public class CC_PlayerController : MonoBehaviour
 
     private void Jump()
     {
-        currentState = CharacterState.Aerial;
-        controller.Move(transform.up * jumpForce);
+        verticalSpeed = jumpForce;
     }
 
     private bool GroundCheck()
     {
         // We're doing a front and back ground check for additional accuracy without making the radius too big.
-        if(Physics.CheckSphere(transform.position + transform.forward * groundCheckDistance, groundCheckRadius, ~playerLayer))
+        if (Physics.CheckSphere(transform.position + transform.forward * groundCheckDistance, groundCheckRadius, ~playerLayer))
         {
             return true;
         }
