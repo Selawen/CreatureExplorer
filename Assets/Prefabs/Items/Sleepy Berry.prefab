@@ -13,8 +13,9 @@ GameObject:
   - component: {fileID: 1326022870166508822}
   - component: {fileID: 6385998300761024218}
   - component: {fileID: 4399107587592367450}
+  - component: {fileID: 4458115600300750904}
   m_Layer: 0
-  m_Name: Sticky Berry
+  m_Name: Sleepy Berry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -63,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 366bbe0a7d895cb4db6f46af3a4bf82e, type: 2}
+  - {fileID: 2100000, guid: a79830090833d5d479b321f0f08b802b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -110,12 +111,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e35b46d6a1d76840b89ed7c5286d520, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StatusEffectName: Sticky
-  oneShot: 0
-  effectDuration: 3
+  StatusEffectName: Sleepy
+  oneShot: 1
+  effectDuration: 0
   statusEffect:
     <CreatureStates>k__BackingField:
-    - <MoodType>k__BackingField: 0
+    - <MoodType>k__BackingField: 1
       <Operator>k__BackingField: 3
-      <StateValue>k__BackingField: 0.5
+      <StateValue>k__BackingField: 30
   splatVelocity: 2
+--- !u!114 &4458115600300750904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3931060569965942598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e13380418ff44ee4980b23007d552bde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StatusEffectName: Sleepy
+  oneShot: 1
+  effectDuration: 0
+  statusEffect:
+    <CreatureStates>k__BackingField:
+    - <MoodType>k__BackingField: 1
+      <Operator>k__BackingField: 2
+      <StateValue>k__BackingField: 95
