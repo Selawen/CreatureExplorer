@@ -7,6 +7,12 @@ public class Eat : Action
     {
         //Task.Run(() => DoAction(target), token);
         // destroy doen't play nice with async
+
+        if (target != null && target.TryGetComponent(out Edible edible))
+        {
+            edible.StartEating(creature);
+        }
+
         DoAction(target);
         FailCheck(failToken);
 

@@ -7,7 +7,6 @@ public class Breakable : MonoBehaviour
     public void Break()
     {
         // TODO: make object break properly
-        Debug.Log($"dot is {Vector3.Dot(transform.up, Vector3.up)}");
         if (Vector3.Dot(transform.up, Vector3.up) > 0.5f)
             StartCoroutine(FallOver(2));
     }

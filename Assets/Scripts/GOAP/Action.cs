@@ -66,11 +66,11 @@ abstract public class Action: MonoBehaviour
 
     public virtual void Reset()
     {
-        failSource.Cancel();
-        source.Cancel();
-
         finished = false;
         failed = false;
+
+        failSource.Cancel();
+        source.Cancel();
 
         failSource = new CancellationTokenSource();
         failToken = failSource.Token;

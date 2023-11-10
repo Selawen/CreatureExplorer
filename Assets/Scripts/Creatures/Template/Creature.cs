@@ -34,12 +34,12 @@ public class Creature : MonoBehaviour
     [SerializeField] private CreatureState reactionToAttack;
     [SerializeField] private CreatureState reactionToPlayer;
     [SerializeField] private List<Action> currentPlan;
+    public Action CurrentAction { get; private set; }
 
     protected delegate void CheckSurroundings();
     protected CheckSurroundings surroundCheck;
 
     private Goal currentGoal;
-    private Action currentAction;
     private GameObject currentTarget = null;
 
     private Planner planner;
@@ -73,17 +73,17 @@ public class Creature : MonoBehaviour
         // TODO: make it possible to interrupt actions
 
         UpdateValues();
-        if (currentAction != null)
+        if (CurrentAction != null)
         {
             // if an action has failed try and generate a new goal
-            if (currentAction.failed)
+            if (CurrentAction.failed)
             {
                 if (LogDebugs)
-                    Debug.Log("Action failed! " + currentAction.Name);
+                    Debug.Log("Action failed! " + CurrentAction.Name);
 
                 GenerateNewGoal();
             }
-            else if (currentAction.finished)
+            else if (CurrentAction.finished)
             {
                 FinishAction();
             }
@@ -98,27 +98,27 @@ public class Creature : MonoBehaviour
     private void OnDisable()
     {
         StopAllCoroutines();
-        currentAction.enabled = false;
+        CurrentAction.enabled = false;
         Destroy(gameObject, decayTimer);
     }
 
     private void OnEnable()
     {
         StartCoroutines();
-        if (currentAction!= null)
-            currentAction.enabled = true;
+        if (CurrentAction!= null)
+            CurrentAction.enabled = true;
     }
 
 
     #region GOAP
     private void StartAction()
     {
-        currentAction = currentPlan[0];
+        CurrentAction = currentPlan[0];
 
         // reset values on action before running it
-        currentAction?.Reset();
+        CurrentAction.Reset();
 
-        currentTarget = currentAction.ActivateAction(this, currentTarget);
+        currentTarget = CurrentAction.ActivateAction(this, currentTarget);
 
         if (showThoughts)
         {
@@ -132,7 +132,7 @@ public class Creature : MonoBehaviour
     private void FinishAction()
     {
         // Update creatureState with effects of finished action
-        foreach (MoodState effect in currentAction.GoalEffects.CreatureStates)
+        foreach (MoodState effect in CurrentAction.GoalEffects.CreatureStates)
         {
             if (effect.Operator == StateOperant.Set)
                 currentCreatureState.SetValue(effect.StateValue, effect.MoodType);
@@ -167,8 +167,10 @@ public class Creature : MonoBehaviour
             Debug.Log("Failed in generating plan, resorting to deault action");
         }
 
-        // reset values on last before starting new plan
-        currentAction?.Reset();
+        // reset values on last action before starting new plan
+        if (CurrentAction != null)
+            CurrentAction.Reset();
+
         currentTarget = null;
 
         StartAction();
@@ -259,7 +261,7 @@ public class Creature : MonoBehaviour
         {
             try
             {
-                MoodState moodOperator = currentAction.GoalEffects.Find(interruptionSource);
+                MoodState moodOperator = CurrentAction.GoalEffects.Find(interruptionSource);
                 // if this action doen not impact tiredness or makes creature more tired
                 if (moodOperator == null)
                 {
@@ -281,7 +283,7 @@ public class Creature : MonoBehaviour
         if (LogDebugs)
             Debug.Log($"interruption source: {associatedAction.Name}");
         
-        currentAction.Reset();
+        CurrentAction.Reset();
         GetComponent<UnityEngine.AI.NavMeshAgent>().SetDestination(transform.position);
 
         goalText.text = debugText;
@@ -302,7 +304,7 @@ public class Creature : MonoBehaviour
 
         if (UnityEngine.Random.Range(0, currentCreatureState.Find(StateType.Tiredness).StateValue) > 20)
         {
-            currentAction.Reset();
+            CurrentAction.Reset();
 
             // TODO: implement proper reaction
             goalText.text = "DEAD";

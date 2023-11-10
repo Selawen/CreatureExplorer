@@ -98,6 +98,7 @@ Material:
     - _DoubleSidedGIMode: 0
     - _DoubleSidedNormalMode: 2
     - _DstBlend: 0
+    - _EdgeNoise: 10
     - _Edge_noise: 34.76
     - _EnableBlendModePreserveSpecularLighting: 1
     - _EnableFogOnTransparent: 1
@@ -146,7 +147,7 @@ Material:
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _GrassColor: {r: 0.5058824, g: 0.27058825, b: 0.29803923, a: 1}
-    - _RotationOffset: {r: 0, g: 1, b: 0, a: 0}
+    - _RotationOffset: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &3318458509918332547
 MonoBehaviour:
