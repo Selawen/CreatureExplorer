@@ -167,7 +167,7 @@ public class Creature : MonoBehaviour
             Debug.Log("Failed in generating plan, resorting to deault action");
         }
 
-        // reset values on last before starting new plan
+        // reset values on last action before starting new plan
         if (CurrentAction != null)
             CurrentAction.Reset();
 
