@@ -4,25 +4,27 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] private LayerMask canspawnOn;
-    [SerializeField] private GameObject spawnedObject;
-
-    [SerializeField] private float spawnrange;
-    [SerializeField] private float spawnDelay;
-    [SerializeField] private int maxSpawnAmount = 10;
-    [SerializeField] private bool continous;
-
     [Header("Gizmos")]
-    [SerializeField] private Color gizmoColour;
+    [SerializeField] protected Color gizmoColour;
+
+    [Header("Spawning")]
+    [SerializeField] protected LayerMask canspawnOn;
+    [SerializeField] protected GameObject spawnedObject;
+
+    [SerializeField] protected float spawnrange;
+    [SerializeField] protected float spawnDelay;
+    [SerializeField] protected int maxSpawnAmount = 10;
+    [SerializeField] protected bool continous;
+
 
     // Start is called before the first frame update
-    void Awake()
+    private void Awake()
     {
         Spawn();
         StartCoroutine(SpawnTimer());
     }
 
-    private void Spawn()
+    protected virtual void Spawn()
     {
         Vector3 spawnpos = transform.position + new Vector3(Random.Range(-spawnrange, spawnrange), 0, Random.Range(-spawnrange, spawnrange));
 
@@ -47,12 +49,11 @@ public class Spawner : MonoBehaviour
             StartCoroutine(SpawnTimer());
     }
 
-    private void OnDrawGizmos()
+    protected virtual void OnDrawGizmos()
     {
         Color originalColour = Gizmos.color;
         Gizmos.color = gizmoColour;
         Gizmos.DrawWireSphere(transform.position, (spawnrange+1)); 
         Gizmos.color = originalColour;
-
     }
 }
