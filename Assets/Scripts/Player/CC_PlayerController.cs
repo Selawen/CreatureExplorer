@@ -60,12 +60,12 @@ public class CC_PlayerController : MonoBehaviour
 
     private IInteractable closestInteractable;
 
-    private enum CharacterState { Grounded, Aerial, Climbing }
+    private enum CharacterState { Grounded, Aerial, Climbing, Awaiting }
     private CharacterState currentState;
 
     private void Awake()
     {
-        if(firstPersonCamera == null)
+        if (firstPersonCamera == null)
         {
             firstPersonCamera = Camera.main;
         }
@@ -101,16 +101,22 @@ public class CC_PlayerController : MonoBehaviour
                 Climb();
                 break;
         }
-        controller.Move((moveDirection + Vector3.up * verticalSpeed) * Time.deltaTime );
+        controller.Move((moveDirection + Vector3.up * verticalSpeed) * Time.deltaTime);
     }
 
     public void GetMoveInput(InputAction.CallbackContext context) => moveInput = context.ReadValue<Vector2>();
-    
+
     public void GetRotationInput(InputAction.CallbackContext context)
     {
+        if (currentState == CharacterState.Awaiting) 
+            return;
+
         Vector2 lookInput = context.ReadValue<Vector2>();
         verticalRotation = Mathf.Clamp(verticalRotation - (lookInput.y * gameSettings.LookSensitivity), -maxViewAngle, maxViewAngle);
-        transform.Rotate(new Vector3(0, lookInput.x * gameSettings.LookSensitivity, 0));
+        if(currentState != CharacterState.Climbing)
+        {
+            transform.Rotate(new Vector3(0, lookInput.x * gameSettings.LookSensitivity, 0));
+        }
 
         firstPersonCamera.transform.rotation = Quaternion.Euler(new Vector3(verticalRotation, transform.eulerAngles.y, 0));
     }
@@ -158,6 +164,11 @@ public class CC_PlayerController : MonoBehaviour
     {
         if (context.started && closestInteractable != null)
         {
+            if(closestInteractable.GetType() == typeof(JellyfishLadder))
+            {
+                StartCoroutine(PrepareClimb(closestInteractable as JellyfishLadder));
+                return;
+            }
             closestInteractable.Interact();
         }
     }
@@ -197,11 +208,18 @@ public class CC_PlayerController : MonoBehaviour
     {
         if (moveInput.sqrMagnitude > 0.1f)
         {
-            //float inputAngle = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg;
-            //float targetAngle = inputAngle + transform.eulerAngles.y;
-
-            moveDirection = transform.up * climbSpeed * Time.deltaTime;
-            //controller.Move(transform.up * climbSpeed * Time.deltaTime);
+            if (!Physics.Raycast(transform.position + Vector3.up * interactDistance, transform.forward, minimumClimbDistance + 0.5f, ~playerLayer) && 
+                !Physics.Raycast(transform.position, transform.forward, minimumClimbDistance + 0.5f, ~playerLayer))
+            {
+                moveDirection = transform.forward * walkSpeed;
+                currentState = CharacterState.Aerial;
+                return;
+            }
+            moveDirection = transform.up * moveInput.y * climbSpeed;
+        }
+        else
+        {
+            moveDirection = Vector3.zero;
         }
     }
 
@@ -214,11 +232,7 @@ public class CC_PlayerController : MonoBehaviour
 
             moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward * airSpeed;
         }
-        if (controller.velocity.y > 0)
-        {
-            verticalSpeed -= 9.81f * Time.deltaTime;
-            return;
-        }
+
         verticalSpeed -= 9.81f * Time.deltaTime;
         if (GroundCheck())
         {
@@ -247,12 +261,26 @@ public class CC_PlayerController : MonoBehaviour
             Collider closest = null;
             foreach(Collider c in collisions)
             {
+                Vector3 interactOrigin = transform.position + Vector3.up * interactHeight;
+                if (Physics.Raycast(interactOrigin, c.transform.position - interactOrigin, out RaycastHit hit, interactDistance, ~playerLayer))
+                {
+                    if (hit.transform.gameObject != c.gameObject)
+                    {
+                        continue;
+                    }
+                }
                 if(c.TryGetComponent(out IInteractable interactable))
                 {
                     if(closest == null || Vector3.Distance(c.transform.position, transform.position) < Vector3.Distance(closest.transform.position, transform.position))
                     {
                         closest = c;
                         closestInteractable = interactable;
+                        if(closestInteractable.GetType() == typeof(JellyfishLadder))
+                        {
+                            JellyfishLadder climbable = closestInteractable as JellyfishLadder;
+                            Physics.Raycast(transform.position + Vector3.up * interactHeight, transform.forward, out RaycastHit contact, interactDistance * 2 , ~playerLayer);
+                            climbable.ContactPoint = contact.point;
+                        }
                     }
                 }
             }
@@ -285,6 +313,19 @@ public class CC_PlayerController : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    private IEnumerator PrepareClimb(JellyfishLadder ladder)
+    {
+        currentState = CharacterState.Awaiting;
+        while(Vector3.Distance(transform.position + Vector3.up * interactHeight, ladder.ContactPoint) > minimumClimbDistance)
+        {
+            moveDirection = transform.forward * walkSpeed;
+            yield return null;
+        }
+        verticalSpeed = 0;
+        moveDirection = Vector3.zero;
+        currentState = CharacterState.Climbing;
     }
 
     private void OnDrawGizmos()
