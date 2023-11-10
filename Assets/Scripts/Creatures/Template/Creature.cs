@@ -116,7 +116,7 @@ public class Creature : MonoBehaviour
         CurrentAction = currentPlan[0];
 
         // reset values on action before running it
-        CurrentAction?.Reset();
+        CurrentAction.Reset();
 
         currentTarget = CurrentAction.ActivateAction(this, currentTarget);
 
@@ -168,7 +168,9 @@ public class Creature : MonoBehaviour
         }
 
         // reset values on last before starting new plan
-        CurrentAction?.Reset();
+        if (CurrentAction != null)
+            CurrentAction.Reset();
+
         currentTarget = null;
 
         StartAction();

@@ -14,6 +14,7 @@ public class Edible : StatusEffect
 
     private void OnDestroy()
     {
-        TriggerStatusEffect(eatenBy);
+        if (eatenBy != null)
+            TriggerStatusEffect(eatenBy);
     }
 }

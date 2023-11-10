@@ -27,7 +27,8 @@ public class StatusEffect : MonoBehaviour
         if (oneShot)
         {
             affectedCreature.UpdateValues(statusEffect);
-            DestroyImmediate(this);
+            if (gameObject.activeInHierarchy)
+                DestroyImmediate(this.gameObject);
         }
         else
             StartCoroutine(TriggerEffect());
