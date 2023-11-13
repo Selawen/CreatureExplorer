@@ -1,8 +1,7 @@
 using System.Collections;
-using UnityEngine.AI;
 using UnityEngine;
 
-public class Breakable : MonoBehaviour
+public class Brittle : MonoBehaviour, IBreakable
 {
     public void Break()
     {

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 436402294522400392}
   - component: {fileID: 7367047770965212473}
-  - component: {fileID: 6917394683121218956}
+  - component: {fileID: 7232552175177679375}
   m_Layer: 0
   m_Name: Test Berry Tree
   m_TagString: Untagged
@@ -25,8 +25,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3171934193617622812}
-  m_LocalRotation: {x: 0, y: 0.9862856, z: 0, w: -0.16504754}
-  m_LocalPosition: {x: -0.019531727, y: -9.6548786e-20, z: 0.043481704}
+  m_LocalRotation: {x: 0, y: 0.97437006, z: 0, w: 0.22495104}
+  m_LocalPosition: {x: -0.019531727, y: -9.6546136e-20, z: 0.04348051}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -49,7 +49,7 @@ CapsuleCollider:
   m_Height: 7
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 2.5, z: -0.00000008940697}
---- !u!114 &6917394683121218956
+--- !u!114 &7232552175177679375
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -58,7 +58,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3171934193617622812}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 020387ff2122ae3479385c71d07ca37c, type: 3}
+  m_Script: {fileID: 11500000, guid: dbb3a009765309549a9c59bf78e191c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   raycastMask:
@@ -90,7 +90,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8333561885472221612}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.92375094, y: 5.4384465, z: -0.38185918}
+  m_LocalPosition: {x: 0.9237507, y: 5.4384465, z: -0.3818592}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -116,7 +116,7 @@ MonoBehaviour:
   spawnedObject: {fileID: 3931060569965942598, guid: 1de3a1135350aed49876d016a711521a,
     type: 3}
   spawnrange: 4
-  spawnDelay: 2
+  spawnDelay: 3
   maxSpawnAmount: 15
   continous: 1
   spawnOn: {fileID: 108292898880767347}

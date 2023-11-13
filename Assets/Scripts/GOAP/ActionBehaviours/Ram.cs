@@ -60,7 +60,7 @@ public class Ram : Action
     {
         await CheckDistanceToDestination();
 
-        if (target.TryGetComponent(out Breakable broken))
+        if (target.TryGetComponent(out IBreakable broken))
         {
             broken.Break();
         }
