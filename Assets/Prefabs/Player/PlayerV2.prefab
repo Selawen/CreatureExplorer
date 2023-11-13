@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5104014566567447017}
   - component: {fileID: 5104014566567447014}
   - component: {fileID: 5584154710332234837}
+  - component: {fileID: 727551173418048151}
   m_Layer: 6
   m_Name: PlayerV2
   m_TagString: Untagged
@@ -408,9 +409,9 @@ MonoBehaviour:
   airSpeed: 3
   strafeSprintSpeed: 6
   jumpForce: 4
-  walkingLoudness: 1
-  sneakingLoudness: 0.5
-  sprintingLoudness: 2.5
+  walkingLoudness: 5
+  sneakingLoudness: 1
+  sprintingLoudness: 15
   crouchHeight: 1.35
   maxSprintAngle: 15
   maxViewAngle: 70
@@ -466,6 +467,21 @@ MonoBehaviour:
   shutterSound: {fileID: 8300000, guid: 11873e27ee4e7cd4684d028a070dcb70, type: 3}
   shutterTop: {fileID: 0}
   shutterBottom: {fileID: 0}
+--- !u!114 &727551173418048151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5104014566567447015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b2abf6878f951d4b96662a52477d891, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frequentInvokeTimer: 0.2
+  standardInvokeTimer: 0.5
+  slowInvokeTimer: 1
 --- !u!1 &5252828307869409587
 GameObject:
   m_ObjectHideFlags: 0

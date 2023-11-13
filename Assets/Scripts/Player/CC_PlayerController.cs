@@ -73,7 +73,7 @@ public class CC_PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         controller = GetComponent<CharacterController>();
         defaultPlayerHeight = controller.height;
-        defaultCameraHeight = firstPersonCamera.transform.localPosition.y;
+        defaultCameraHeight = defaultPlayerHeight;
         crouchEyeOffset = defaultPlayerHeight - crouchHeight;
         cameraFollow = firstPersonCamera.GetComponent<FollowTarget>();
         playerInput = GetComponent<PlayerInput>();
@@ -83,6 +83,8 @@ public class CC_PlayerController : MonoBehaviour
     {
         Scrapbook.OnBeginType += () => playerInput.SwitchCurrentActionMap("Await");
         Scrapbook.OnEndType += () => playerInput.SwitchCurrentActionMap("Scrapbook");
+
+        cameraFollow.ChangeOffset(Vector3.up * defaultCameraHeight);
     }
 
     // Update is called once per frame
