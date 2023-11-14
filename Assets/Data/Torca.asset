@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Torca
   m_EditorClassIdentifier: 
   <FoodSource>k__BackingField: Prey
-  <SleepSpot>k__BackingField: 
-  <HearingSensitivity>k__BackingField: 1
-  <CheckSurroundingsTimer>k__BackingField: 0.2
+  <SleepSpot>k__BackingField: TorcaNest
+  <HearingSensitivity>k__BackingField: 5
+  <CheckSurroundingsTimer>k__BackingField: 1
   <DecayTimer>k__BackingField: 10
   <ChangesEverySecond>k__BackingField:
     <CreatureStates>k__BackingField:
@@ -40,4 +40,4 @@ MonoBehaviour:
     <CreatureStates>k__BackingField:
     - <MoodType>k__BackingField: 0
       <Operator>k__BackingField: 3
-      <StateValue>k__BackingField: 10
+      <StateValue>k__BackingField: 15
