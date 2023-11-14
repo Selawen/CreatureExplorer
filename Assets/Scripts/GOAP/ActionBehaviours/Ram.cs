@@ -4,6 +4,7 @@ using UnityEngine.AI;
 
 public class Ram : Action
 {
+    [Header("Ram")]
     [SerializeField] private float speedMultiplier = 4;
 
     private NavMeshAgent moveAgent;

@@ -7,13 +7,12 @@ using TMPro;
 [RequireComponent(typeof(Planner))]
 public class Creature : MonoBehaviour
 {
-    [Header("Events")]
-    // Protected and public switched around to appease header
-    [field: SerializeField] protected float hearingSensitivity = 1;
+    [field:Header("Reaction To Surroundings")]
     [Tooltip("The name of the script that is on this creature's foodsource")]
     [field: SerializeField] public string FoodSource { get; protected set; }
     [Tooltip("The name of the script that is on this creature's sleeping spots")]
     [field: SerializeField] public string SleepSpot { get; protected set; }
+    [field: SerializeField] protected float hearingSensitivity = 1;
     [SerializeField] protected float checkSurroundingsTimer = 0.5f;
     public Vector3 WaryOff { get; protected set; }
     protected float waryLoudness = 1;

@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Search : Action
 {
+    [Header("Search")]
     [SerializeField] private SearchTarget searchTarget;
     [SerializeField] private float searchRadius = 1000;
 
