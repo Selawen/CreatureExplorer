@@ -7,17 +7,10 @@ using TMPro;
 [RequireComponent(typeof(Planner))]
 public class Creature : MonoBehaviour
 {
-    [field:Header("Reaction To Surroundings")]
-    [Tooltip("The name of the script that is on this creature's foodsource")]
-    [field: SerializeField] public string FoodSource { get; protected set; }
-    [Tooltip("The name of the script that is on this creature's sleeping spots")]
-    [field: SerializeField] public string SleepSpot { get; protected set; }
-    [field: SerializeField] protected float hearingSensitivity = 1;
-    [SerializeField] protected float checkSurroundingsTimer = 0.5f;
+    [field: Header("Creature data")]
+    [field: SerializeField] public CreatureData data;
     public Vector3 WaryOff { get; protected set; }
     protected float waryLoudness = 1;
-
-    [SerializeField] protected float decayTimer = 10;
 
     [Header("Debugging")]
     [SerializeField] private bool showThoughts;
@@ -29,9 +22,6 @@ public class Creature : MonoBehaviour
     [Header("GOAP")]
     [SerializeField] protected Condition worldState;
     [SerializeField] private CreatureState currentCreatureState;
-    [SerializeField] private CreatureState changesEverySecond;
-    [SerializeField] private CreatureState reactionToAttack;
-    [SerializeField] private CreatureState reactionToPlayer;
     [SerializeField] private List<Action> currentPlan;
     public Action CurrentAction { get; private set; }
 
@@ -97,7 +87,7 @@ public class Creature : MonoBehaviour
     {
         StopAllCoroutines();
         CurrentAction.enabled = false;
-        Destroy(gameObject, decayTimer);
+        Destroy(gameObject, data.DecayTimer);
     }
 
     private void OnEnable()
@@ -189,7 +179,7 @@ public class Creature : MonoBehaviour
     /// </summary>
     private void UpdateValues()
     {
-        foreach (MoodState change in changesEverySecond.CreatureStates)
+        foreach (MoodState change in data.ChangesEverySecond.CreatureStates)
         {
             if (change.Operator == StateOperant.Add)
                 currentCreatureState.AddValue(change.StateValue * Time.deltaTime, change.MoodType);
@@ -318,7 +308,7 @@ public class Creature : MonoBehaviour
     protected virtual void ReactToAttack(Vector3 attackPos)
     {
         WaryOff = attackPos;
-        UpdateValues(reactionToAttack);
+        UpdateValues(data.ReactionToAttack);
         worldState = SetConditionTrue(worldState, Condition.IsNearDanger);
 
         DebugMessage("Was Attacked");
@@ -327,7 +317,7 @@ public class Creature : MonoBehaviour
     // TODO: factor in loudness
     public void HearPlayer(Vector3 playerPos, float playerLoudness)
     {
-        if ((transform.position - playerPos).sqrMagnitude < playerLoudness * hearingSensitivity * CurrentAction.Awareness)
+        if ((transform.position - playerPos).sqrMagnitude < playerLoudness * data.HearingSensitivity * CurrentAction.Awareness)
             ReactToPlayer(playerPos, playerLoudness);
         else if (sawPlayer)
         {
@@ -338,7 +328,7 @@ public class Creature : MonoBehaviour
     protected virtual void ReactToPlayer(Vector3 playerPos, float playerLoudness)
     {
         sawPlayer = true;
-        UpdateValues(reactionToPlayer);
+        UpdateValues(data.ReactionToPlayer);
 
         DebugMessage("Noticed Player");
     }
@@ -352,7 +342,7 @@ public class Creature : MonoBehaviour
 
     protected IEnumerator LookAtSurroundings()
     {
-        yield return new WaitForSeconds(checkSurroundingsTimer);
+        yield return new WaitForSeconds(data.CheckSurroundingsTimer);
         StartCoroutine(LookAtSurroundings());
         surroundCheck.Invoke();
     }
@@ -363,7 +353,7 @@ public class Creature : MonoBehaviour
     protected void CheckForFood()
     {
         Food f = null;
-        int foodcount = LookForObjects<Food>.CheckForObjects(f, transform.position, hearingSensitivity).Count;
+        int foodcount = LookForObjects<Food>.CheckForObjects(f, transform.position, data.HearingSensitivity).Count;
 
         currentCreatureState.AddValue(foodcount, StateType.Hunger);
 
