@@ -78,8 +78,7 @@ public class Creature : MonoBehaviour
             // if an action has failed try and generate a new goal
             if (CurrentAction.failed)
             {
-                if (LogDebugs)
-                    Debug.Log("Action failed! " + CurrentAction.Name);
+                DebugMessage("Action failed! " + CurrentAction.Name);
 
                 GenerateNewGoal();
             }
@@ -323,16 +322,13 @@ public class Creature : MonoBehaviour
         UpdateValues(reactionToAttack);
         worldState = SetConditionTrue(worldState, Condition.IsNearDanger);
 
-        if (LogDebugs)
-        {
-            Debug.Log("Was Attacked");
-        } 
+        DebugMessage("Was Attacked");
     }
 
     // TODO: factor in loudness
     public void HearPlayer(Vector3 playerPos, float playerLoudness)
     {
-        if ((transform.position - playerPos).sqrMagnitude < playerLoudness * hearingSensitivity)
+        if ((transform.position - playerPos).sqrMagnitude < playerLoudness * hearingSensitivity * CurrentAction.Awareness)
             ReactToPlayer(playerPos, playerLoudness);
         else if (sawPlayer)
         {
@@ -344,19 +340,15 @@ public class Creature : MonoBehaviour
     {
         sawPlayer = true;
         UpdateValues(reactionToPlayer);
-        if (LogDebugs)
-        {
-            Debug.Log("Noticed Player");
-        } 
+
+        DebugMessage("Noticed Player");
     }
 
     protected virtual void ReactToPlayerLeaving(Vector3 playerPos)
     {
         sawPlayer = false;
-        if (LogDebugs)
-        {
-            Debug.Log("Lost sight of Player");
-        } 
+
+        DebugMessage("Lost sight of Player");
     }
 
     protected IEnumerator LookAtSurroundings()
@@ -376,10 +368,7 @@ public class Creature : MonoBehaviour
 
         currentCreatureState.AddValue(foodcount, StateType.Hunger);
 
-        if (LogDebugs)
-        {
-            //Debug.Log($"found {foodcount} {FoodSource}, hunger is now {currentCreatureState.Find(StateType.Hunger).StateValue}");
-        }
+        //DebugMessage($"found {foodcount} {FoodSource}, hunger is now {currentCreatureState.Find(StateType.Hunger).StateValue}");
     }
 
     protected Condition SetConditionTrue(Condition currentState, Condition flagToSet)
@@ -390,5 +379,11 @@ public class Creature : MonoBehaviour
     protected Condition SetConditionFalse(Condition currentState, Condition flagToSet)
     {
         return currentState &= ~flagToSet;
+    }
+
+    protected void DebugMessage(string message)
+    {
+        if (LogDebugs)
+            Debug.Log(message);
     }
 }

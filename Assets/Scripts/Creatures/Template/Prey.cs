@@ -4,6 +4,7 @@ public class Prey : Creature
 {
     [Header("Prey")]
     [SerializeField] private CreatureState reactionToPredator;
+    [SerializeField] private float predatorAwarenessRange = 40;
 
     protected override void Start()
     {
@@ -42,7 +43,7 @@ public class Prey : Creature
     {
         Torca predator = null;
 
-        if (LookForObjects<Torca>.TryGetClosestObject(predator, transform.position, 40, out predator))
+        if (LookForObjects<Torca>.TryGetClosestObject(predator, transform.position, predatorAwarenessRange*CurrentAction.Awareness, out predator))
         {
             ReactToThreat(predator, 1);
         }

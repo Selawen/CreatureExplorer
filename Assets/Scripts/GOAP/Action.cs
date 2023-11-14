@@ -2,19 +2,24 @@ using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
-abstract public class Action: MonoBehaviour
+abstract public class Action : MonoBehaviour
 {
+    [field:Header("Debugging")]
     [field: SerializeField] public string Name { get; private set; }
     [field: SerializeField] public string Onomatopea { get; private set; }
 
+    [field: Header("Sound")]
     [field: SerializeField] private AudioClip sound;
     [field: SerializeField] private bool oneShot;
 
+    [field: Header("Action stats")]
+    [field:Range(0, 2)][field: SerializeField] public float Awareness { get; protected set; }
     // TODO: have cost be calculated based on situation?
     [field: SerializeField] public float Cost { get; protected set; }
     [field: SerializeField] public float BaseReward { get; private set; }
     [field: SerializeField] public float Reward { get; protected set; }
 
+    [field: Header("GOAP")]
     [field: SerializeField] public CreatureState GoalEffects { get; private set; }
     [field: SerializeField] public ActionKey[] ActionEffects { get; private set; }
     [field: SerializeField] public ActionKey[] Prerequisites { get; private set; }
