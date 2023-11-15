@@ -9,7 +9,7 @@ public class TimeKeeper : MonoBehaviour
     [SerializeField] private int secondsPerHour = 60;
     [SerializeField] private int hoursPerDay = 24;
 
-    private float clock;
+    private float clock = 10;
 
     private void Awake()
     {
@@ -35,6 +35,11 @@ public class TimeKeeper : MonoBehaviour
     public float GetTime()
     {
         return clock;
+    }
+
+    public float GetDayProgression()
+    {
+        return clock/hoursPerDay;
     }
 
     public bool IsRightTime(float startTime, float endTime)
