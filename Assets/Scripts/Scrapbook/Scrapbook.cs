@@ -7,6 +7,10 @@ using UnityEngine.UI;
 public class Scrapbook : MonoBehaviour
 {
     public static Scrapbook Instance { get; private set; }
+    public delegate void TextTypingHandler();
+
+    public static TextTypingHandler OnBeginType;
+    public static TextTypingHandler OnEndType;
 
     public GraphicRaycaster Raycaster;
     public ScrapbookPage CurrentPage { get { return allPages[currentPageIndex]; } }
@@ -19,7 +23,6 @@ public class Scrapbook : MonoBehaviour
     [SerializeField] private GameObject elementsPanel;
     [SerializeField] private RectTransform pagesParent;
     //[SerializeField] private LayoutGroup picturePanel;
-    [SerializeField] private TMPro.TMP_Text camStorageText;
 
     [SerializeField] private GameObject previousPageButton;
     [SerializeField] private GameObject nextPageButton;
@@ -55,7 +58,9 @@ public class Scrapbook : MonoBehaviour
             allPages[i] = newPage;
         }
         previousPageButton.SetActive(false);
-
+    }
+    private void Start()
+    {
         ClosePages();
     }
 
@@ -96,11 +101,13 @@ public class Scrapbook : MonoBehaviour
 
     public void ClosePages()
     {
+        Cursor.lockState = CursorLockMode.Locked;
         elementsPanel.SetActive(false);
     }
 
     public void OpenPages()
     {
+        Cursor.lockState = CursorLockMode.Confined;
         elementsPanel.SetActive(true);
     }
 
@@ -162,8 +169,13 @@ public class Scrapbook : MonoBehaviour
     //    return collectedPictures.GetContents();
     //}
 
-    public void CreateNewTextEntry() => Instantiate(textEntryPrefab, CurrentPage.transform);
+    public void CreateNewTextEntry()
+    {
 
+        PageText newText = Instantiate(textEntryPrefab, CurrentPage.transform);
+        newText.TextField.onSelect.AddListener((string s) => { OnBeginType?.Invoke(); });
+        newText.TextField.onDeselect.AddListener((string s) => { OnEndType?.Invoke(); });
+    }
     //public void SwapTargetComponent(MoveablePageComponent newComponent) => targetComponent = newComponent;
 
     //private void UpdateCameraStorageText()

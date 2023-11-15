@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Search : Action
 {
+    [Header("Search")]
     [SerializeField] private SearchTarget searchTarget;
     [SerializeField] private float searchRadius = 1000;
 
@@ -19,7 +20,7 @@ public class Search : Action
 
                 foreach (Collider c in Physics.OverlapSphere(creature.transform.position, searchRadius))
                 {
-                    if ((c.gameObject.GetComponent(creature.FoodSource) != null) && (c.transform.position - creature.transform.position).sqrMagnitude < distance)
+                    if ((c.gameObject.GetComponent(creature.data.FoodSource) != null) && (c.transform.position - creature.transform.position).sqrMagnitude < distance)
                     {
                         distance = (c.transform.position - creature.transform.position).sqrMagnitude;
                         nearest = c;
@@ -50,7 +51,7 @@ public class Search : Action
 
                 foreach (Collider c in Physics.OverlapSphere(creature.transform.position, searchRadius))
                 {
-                    if ((c.gameObject.GetComponent(creature.SleepSpot) != null) && (c.transform.position - creature.transform.position).sqrMagnitude < distance)
+                    if ((c.gameObject.GetComponent(creature.data.SleepSpot) != null) && (c.transform.position - creature.transform.position).sqrMagnitude < distance)
                     {
                         distance = (c.transform.position - creature.transform.position).sqrMagnitude;
                         nearest = c;

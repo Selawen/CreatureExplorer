@@ -4,6 +4,7 @@ using UnityEngine.AI;
 
 public class Roam : Action
 {
+    [Header("Roam")]
     [SerializeField] private float roamRange;
     private NavMeshAgent moveAgent;
     private void Start()
