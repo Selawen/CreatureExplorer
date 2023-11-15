@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <FoodSource>k__BackingField: Prey
   <SleepSpot>k__BackingField: TorcaNest
+  <Bedtime>k__BackingField: 8
+  <WakeTime>k__BackingField: 16
   <HearingSensitivity>k__BackingField: 5
   <CheckSurroundingsTimer>k__BackingField: 1
   <DecayTimer>k__BackingField: 10
@@ -32,7 +34,7 @@ MonoBehaviour:
     <CreatureStates>k__BackingField:
     - <MoodType>k__BackingField: 0
       <Operator>k__BackingField: 3
-      <StateValue>k__BackingField: 50
+      <StateValue>k__BackingField: 40
     - <MoodType>k__BackingField: 2
       <Operator>k__BackingField: 3
       <StateValue>k__BackingField: 10

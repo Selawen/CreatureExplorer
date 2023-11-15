@@ -179,6 +179,10 @@ public class Creature : MonoBehaviour
     /// </summary>
     private void UpdateValues()
     {
+        // Make creature tire faster when it's bedtime
+        if (TimeKeeper.Instance.IsRightTime(data.Bedtime, data.WakeTime))
+            currentCreatureState.AddValue(0.5f * Time.deltaTime, StateType.Tiredness);
+
         foreach (MoodState change in data.ChangesEverySecond.CreatureStates)
         {
             if (change.Operator == StateOperant.Add)
@@ -228,6 +232,8 @@ public class Creature : MonoBehaviour
     protected virtual void UpdateCreatureState()
     {
         CheckForInterruptions(StateType.Tiredness, GetComponentInChildren<Sleep>(), "Fell asleep");
+
+        worldState = TimeKeeper.Instance.IsRightTime(data.Bedtime, data.WakeTime) ? SetConditionTrue(worldState, Condition.ShouldBeSleeping) : SetConditionFalse(worldState, Condition.ShouldBeSleeping);
 
         worldState = (currentCreatureState.Find(StateType.Hunger).StateValue > 50) ? SetConditionTrue(worldState, Condition.IsHungry) : SetConditionFalse(worldState, Condition.IsHungry);
         worldState = (currentCreatureState.Find(StateType.Tiredness).StateValue > 50) ? SetConditionTrue(worldState, Condition.IsSleepy) : SetConditionFalse(worldState, Condition.IsSleepy);
