@@ -4,6 +4,7 @@ public class Prey : Creature
 {
     [Header("Prey")]
     [SerializeField] private CreatureState reactionToPredator;
+    [SerializeField] private float predatorAwarenessRange = 40;
 
     protected override void Start()
     {
@@ -13,7 +14,7 @@ public class Prey : Creature
 
     protected override void UpdateCreatureState()
     {
-        bool nearDanger = (WaryOff - transform.position).sqrMagnitude < (waryLoudness + hearingSensitivity);
+        bool nearDanger = (WaryOff - transform.position).sqrMagnitude < (waryLoudness + data.HearingSensitivity);
         worldState =  nearDanger? SetConditionTrue(worldState, Condition.IsNearDanger) : SetConditionFalse(worldState, Condition.IsNearDanger);
         CheckForInterruptions(StateType.Fear, GetComponentInChildren<Flee>(), "Terrified", 90);
         base.UpdateCreatureState();
@@ -42,7 +43,7 @@ public class Prey : Creature
     {
         Torca predator = null;
 
-        if (LookForObjects<Torca>.TryGetClosestObject(predator, transform.position, 40, out predator))
+        if (LookForObjects<Torca>.TryGetClosestObject(predator, transform.position, predatorAwarenessRange*CurrentAction.Awareness, out predator))
         {
             ReactToThreat(predator, 1);
         }

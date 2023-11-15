@@ -4,6 +4,7 @@ using UnityEngine.AI;
 
 public class Flee : Action
 {
+    [Header("Flee")]
     [SerializeField] private float speedMultiplier = 4;
     [SerializeField] private float runDistance= 10;
 

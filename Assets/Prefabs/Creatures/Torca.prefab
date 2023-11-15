@@ -437,11 +437,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed8b96312a57eec47b29426e8be670fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hearingSensitivity: 5
-  <FoodSource>k__BackingField: Charger
-  <SleepSpot>k__BackingField: TorcaNest
-  checkSurroundingsTimer: 1
-  decayTimer: 10
+  data: {fileID: 11400000, guid: b06f410fae4cd9445bc9dc8f3f0698d9, type: 2}
   showThoughts: 1
   <LogDebugs>k__BackingField: 0
   goalText: {fileID: 7521121882960059789}
@@ -468,27 +464,6 @@ MonoBehaviour:
     - <MoodType>k__BackingField: 5
       <Operator>k__BackingField: 2
       <StateValue>k__BackingField: 50
-  changesEverySecond:
-    <CreatureStates>k__BackingField:
-    - <MoodType>k__BackingField: 1
-      <Operator>k__BackingField: 3
-      <StateValue>k__BackingField: 0.5
-    - <MoodType>k__BackingField: 3
-      <Operator>k__BackingField: 3
-      <StateValue>k__BackingField: 0.5
-  reactionToAttack:
-    <CreatureStates>k__BackingField:
-    - <MoodType>k__BackingField: 0
-      <Operator>k__BackingField: 3
-      <StateValue>k__BackingField: 40
-    - <MoodType>k__BackingField: 2
-      <Operator>k__BackingField: 3
-      <StateValue>k__BackingField: 10
-  reactionToPlayer:
-    <CreatureStates>k__BackingField:
-    - <MoodType>k__BackingField: 0
-      <Operator>k__BackingField: 3
-      <StateValue>k__BackingField: 15
   currentPlan: []
 --- !u!114 &7521121885061991486 stripped
 MonoBehaviour:

@@ -4,6 +4,7 @@ using UnityEngine.AI;
 
 public class Attack : Action
 {
+    [Header("Attack")]
     [SerializeField] private float speedMultiplier = 4;
 
     private NavMeshAgent moveAgent;

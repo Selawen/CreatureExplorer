@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FindHerdCenter : Action
 {
-    [Header("Warning: only made for Chargers")]
+    [Header("Find Herd\nWarning: only made for Chargers")]
     [SerializeField] private float searchRadius = 1000;
 
     public override GameObject PerformAction(Creature creature, GameObject target)

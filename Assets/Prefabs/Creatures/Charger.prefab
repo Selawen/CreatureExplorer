@@ -1189,11 +1189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 879ce6e2a3de90649b4fe65100d98580, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hearingSensitivity: 10
-  <FoodSource>k__BackingField: Food
-  <SleepSpot>k__BackingField: 
-  checkSurroundingsTimer: 1
-  decayTimer: 10
+  data: {fileID: 11400000, guid: 737114a551e613c429624394a2a5dd56, type: 2}
   showThoughts: 1
   <LogDebugs>k__BackingField: 0
   goalText: {fileID: 530009448259105565}
@@ -1220,36 +1216,13 @@ MonoBehaviour:
     - <MoodType>k__BackingField: 5
       <Operator>k__BackingField: 2
       <StateValue>k__BackingField: 31.6
-  changesEverySecond:
-    <CreatureStates>k__BackingField:
-    - <MoodType>k__BackingField: 1
-      <Operator>k__BackingField: 3
-      <StateValue>k__BackingField: 0.5
-    - <MoodType>k__BackingField: 3
-      <Operator>k__BackingField: 3
-      <StateValue>k__BackingField: 0.5
-    - <MoodType>k__BackingField: 2
-      <Operator>k__BackingField: 4
-      <StateValue>k__BackingField: 0.3
-  reactionToAttack:
-    <CreatureStates>k__BackingField:
-    - <MoodType>k__BackingField: 2
-      <Operator>k__BackingField: 3
-      <StateValue>k__BackingField: 80
-  reactionToPlayer:
-    <CreatureStates>k__BackingField:
-    - <MoodType>k__BackingField: 0
-      <Operator>k__BackingField: 3
-      <StateValue>k__BackingField: 0.5
-    - <MoodType>k__BackingField: 2
-      <Operator>k__BackingField: 3
-      <StateValue>k__BackingField: 20
   currentPlan: []
   reactionToPredator:
     <CreatureStates>k__BackingField:
     - <MoodType>k__BackingField: 2
       <Operator>k__BackingField: 3
       <StateValue>k__BackingField: 20
+  predatorAwarenessRange: 40
   reactionToOtherChargers:
     <MoodType>k__BackingField: 2
     <Operator>k__BackingField: 4

@@ -4,6 +4,7 @@ using UnityEngine.AI;
 
 public class Ram : Action
 {
+    [Header("Ram")]
     [SerializeField] private float speedMultiplier = 4;
 
     private NavMeshAgent moveAgent;
@@ -60,7 +61,7 @@ public class Ram : Action
     {
         await CheckDistanceToDestination();
 
-        if (target.TryGetComponent(out Breakable broken))
+        if (target.TryGetComponent(out IBreakable broken))
         {
             broken.Break();
         }
