@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -25,26 +23,11 @@ public class TitanStatue : MonoBehaviour, IInteractable
 
     private bool questFinished = false;
 
-
-
-    // Possible quests:
-    //      Show a picture of a specific object.
-    //      Show a picture of a specific behaviour.
-    //      Show a picture of a specific behaviour on a specific creature.
-    private void Awake()
-    {
-        //debugPictureInterfaceContainer.gameObject.SetActive(false);
-        //questInfoText.gameObject.SetActive(false);
-        //questShowButton.gameObject.SetActive(false);
-    }
-
     public void Interact()
     {
         if (questFinished) return;
 
         //questInfoText.text = TitanQuest.QuestDescription;
-        //questShowButton.onClick.RemoveAllListeners();
-        //questShowButton.onClick.AddListener(OpenQuest);
 
         Cursor.lockState = CursorLockMode.Confined;
 
@@ -56,6 +39,10 @@ public class TitanStatue : MonoBehaviour, IInteractable
 
         StaticQuestHandler.OnPictureDisplayed = ShowPicture;
         StaticQuestHandler.CurrentQuestStatue = this;
+
+        PagePicture.OnPictureClicked = StaticQuestHandler.OnPictureClicked.Invoke;
+
+        StaticQuestHandler.OnQuestOpened?.Invoke();
     }
     public void ShowPicture(PagePicture picture)
     {
@@ -64,6 +51,8 @@ public class TitanStatue : MonoBehaviour, IInteractable
         if (TitanQuest.EvaluateQuestStatus(picture.PictureInfo))
         {
             StaticQuestHandler.OnQuestCompleted?.Invoke();
+            
+            DebugChangeMaterialVisuals();
 
             onQuestFinished?.Invoke();
             picture.Remove();
@@ -75,6 +64,9 @@ public class TitanStatue : MonoBehaviour, IInteractable
             //Destroy(picture.gameObject);
             Cursor.lockState = CursorLockMode.Locked;
             questFinished = true;
+
+            PagePicture.OnPictureClicked = null;
+
         }
         else
         {
@@ -83,7 +75,6 @@ public class TitanStatue : MonoBehaviour, IInteractable
             onWrongPicturePresented?.Invoke();
         }
 
-        PagePicture.OnPictureClicked = null;
 
     }
     public void DebugChangeMaterialVisuals()
@@ -94,28 +85,9 @@ public class TitanStatue : MonoBehaviour, IInteractable
         }
     }
 
-    private void OpenQuest()
-    {
-        //questShowButton.gameObject.SetActive(false);
-        //questInfoText.gameObject.SetActive(false);
-        PrepareScrapbookForPictureDisplaying();
-    }
-
-    private void PrepareScrapbookForPictureDisplaying()
-    {
-        Scrapbook.Instance.OpenPages();
-        //debugPictureInterfaceContainer.SetActive(true);
-
-        StaticQuestHandler.OnQuestOpened?.Invoke();
-
-        //Cursor.lockState = CursorLockMode.Confined;
-        //input.SwitchCurrentActionMap("Scrapbook");
-
-        PagePicture.OnPictureClicked = StaticQuestHandler.OnPictureClicked.Invoke;
-
         // To do: Open the picture collection and let the player pick a picture to show to the statue
         // Question: Do we want to be able to pick pictures that have been placed in the scrapbook? => We do (currently in testing fase)
         // Question: Does showing the picture consume it? => It doesn't, but it stays slotted in the statue
-    }
+    
 
 }

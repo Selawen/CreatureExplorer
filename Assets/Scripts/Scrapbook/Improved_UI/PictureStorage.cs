@@ -2,12 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class PictureStorage : PageComponentInteractor
 {
     [SerializeField] private Transform[] photoSpots;
+
     [SerializeField] private TMP_Text camStorageText;
     [SerializeField] private TMP_Text maxStorageText;
+
+    [SerializeField] private Image storageBackgroundImage;
+    [SerializeField] private Sprite storageBackgroundDefault;
+    [SerializeField] private Sprite storageBackgroundFull;
 
     //private ushort currentPictureIndex;
     private Inventory<PagePicture> pictureInventory;
@@ -63,10 +69,12 @@ public class PictureStorage : PageComponentInteractor
         if (pictureInventory.InventoryIsFull())
         {
             camStorageText.color = Color.red;
+            storageBackgroundImage.sprite = storageBackgroundFull;
         }
         else
         {
             camStorageText.color = Color.black;
+            storageBackgroundImage.sprite = storageBackgroundDefault;
         }
         camStorageText.text = pictureInventory.GetItemCount().ToString();
 
