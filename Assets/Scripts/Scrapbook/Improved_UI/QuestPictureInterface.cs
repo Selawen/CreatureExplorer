@@ -4,36 +4,48 @@ using UnityEngine;
 
 public class QuestPictureInterface : PageComponentInteractor
 {
+    [SerializeField] private Transform pictureSlot;
+
     private PagePicture slottedPicture;
-    private TitanStatue currentQuestStatue;
+
+    private void Awake()
+    {
+        StaticQuestHandler.OnQuestOpened += () => gameObject.SetActive(true);
+        StaticQuestHandler.OnQuestCompleted += () => gameObject.SetActive(false);
+        StaticQuestHandler.OnPictureClicked += SlotPicture;
+
+        gameObject.SetActive(false);
+    }
 
     public void EvaluatePicture()
     {
-        if(slottedPicture != null && currentQuestStatue != null)
+        if(slottedPicture != null)
         {
             // Evaluate the slottedPicture to the current quest statue;
-            currentQuestStatue.ShowPicture(slottedPicture);
+            StaticQuestHandler.OnPictureDisplayed?.Invoke(slottedPicture);
         }
     }
 
     public void SlotPicture(PagePicture picture)
     {
-        if (slottedPicture != null) return;
+        if (slottedPicture != null) 
+            return;
 
-        picture.transform.position = transform.position;
+        picture.transform.position = pictureSlot.position;
         picture.transform.rotation = Quaternion.identity;
-        picture.transform.SetParent(transform);
+        picture.transform.localScale = Vector3.one;
+
+        picture.transform.SetParent(pictureSlot);
+        
         slottedPicture = picture;
     }
 
-    public void DBG_LinkStatue(TitanStatue statue) => currentQuestStatue = statue;
-
     public override bool OnComponentDroppedOn(PageComponent component)
     {
-        if (component.GetType() != typeof(PagePicture) || slottedPicture != null) return false;
+        if (component.GetType() != typeof(PagePicture) || slottedPicture != null) 
+            return false;
 
-        PagePicture picture = component as PagePicture;
-        SlotPicture(picture);
+        SlotPicture(component as PagePicture);
 
         return true;
     }
