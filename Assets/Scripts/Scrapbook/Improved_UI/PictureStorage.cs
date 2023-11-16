@@ -52,6 +52,16 @@ public class PictureStorage : PageComponentInteractor
     public void DeleteStorage()
     {
         pictureInventory.EmptyInventory();
+
+
+        foreach (Transform t in photoSpots)
+        {
+            for (int i = t.childCount; i>0; i--)
+            {
+                DestroyImmediate(t.GetChild(i-1).gameObject);
+            }
+        }
+
         UpdateCameraStorageText();
     }
 

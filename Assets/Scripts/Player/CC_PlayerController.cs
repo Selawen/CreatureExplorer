@@ -45,7 +45,9 @@ public class CC_PlayerController : MonoBehaviour
     [Header("Death")]
     [SerializeField] private Transform respawnTransform;
     [SerializeField] private float respawnDuration = 0.5f;
-    [SerializeField] private MeshRenderer respawnFadeRenderer;
+    [SerializeField] private GameObject respawnOccluder;
+    [SerializeField] private UnityEvent exitCamera;
+    [SerializeField] private UnityEvent closeScrapbook;
 
     [SerializeField] private Camera firstPersonCamera;
 
@@ -67,6 +69,7 @@ public class CC_PlayerController : MonoBehaviour
     private bool sprinting;
     private bool crouching;
     private bool died = false;
+    private MeshRenderer respawnFadeRenderer;
 
     private IInteractable closestInteractable;
 
@@ -82,11 +85,15 @@ public class CC_PlayerController : MonoBehaviour
         verticalRotation = firstPersonCamera.transform.eulerAngles.x;
         Cursor.lockState = CursorLockMode.Locked;
         controller = GetComponent<CharacterController>();
+
         defaultPlayerHeight = controller.height;
         defaultCameraHeight = defaultPlayerHeight;
         crouchEyeOffset = defaultPlayerHeight - crouchHeight;
         cameraFollow = firstPersonCamera.GetComponent<FollowTarget>();
+
         playerInput = GetComponent<PlayerInput>();
+
+        respawnFadeRenderer = Instantiate(respawnOccluder, firstPersonCamera.transform).GetComponent<MeshRenderer>();
     }
 
     private void Start()
@@ -360,19 +367,20 @@ public class CC_PlayerController : MonoBehaviour
         verticalRotation = 0;
         verticalSpeed = 0;
 
+        GameObject canvas = GetComponentInChildren<Canvas>().gameObject;
+        canvas.SetActive(false);
         controller.enabled = false;
         float timer = 0.001f;
 
         Material fadeMaterial = respawnFadeRenderer.material;
         Color fadeColor = fadeMaterial.color;
-        // TODO: disable player input
 
         GetComponent<PlayerCamera>().DeleteCameraRoll();
 
         // Fade in vision obscurer, move player, then fade it out again
-        while (timer < respawnDuration*0.5f)
+        while (timer < respawnDuration*0.3f)
         {
-            fadeColor.a = timer/respawnDuration * 0.5f;
+            fadeColor.a = Mathf.InverseLerp(0, 0.3f * respawnDuration, timer);
             fadeMaterial.color = fadeColor;
             timer += Time.deltaTime;
             yield return null;
@@ -380,15 +388,22 @@ public class CC_PlayerController : MonoBehaviour
 
         transform.position = respawnTransform.position;
 
+        // TODO: refactor
+        if (playerInput.currentActionMap.name == "Camera")
+            exitCamera.Invoke();
+        else if (playerInput.currentActionMap.name == "Scrapbook")
+            closeScrapbook.Invoke();
+
         while (timer < respawnDuration)
         {
-            fadeColor.a = respawnDuration / timer;
+            fadeColor.a = Mathf.InverseLerp(respawnDuration, 0.6f* respawnDuration,timer);
             fadeMaterial.color = fadeColor;
 
             timer += Time.deltaTime;
             yield return null;
         }
 
+        canvas.SetActive(true);
         controller.enabled = true;
         died = false;
     }
