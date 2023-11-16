@@ -49,6 +49,12 @@ public class PictureStorage : PageComponentInteractor
         return false;
     }
 
+    public void DeleteStorage()
+    {
+        pictureInventory.EmptyInventory();
+        UpdateCameraStorageText();
+    }
+
     public override void RemoveFromInteractor(PageComponent component)
     {
         if (component.GetType() != typeof(PagePicture)) return;
@@ -56,6 +62,7 @@ public class PictureStorage : PageComponentInteractor
         pictureInventory.RemoveItemFromInventory(component as PagePicture);
         UpdateCameraStorageText();
     }
+
     private void UpdateCameraStorageText()
     {
         ushort storageLeft = (ushort)(pictureInventory.GetCapacity() - pictureInventory.GetItemCount());
