@@ -18,6 +18,8 @@ public class TitanStatue : MonoBehaviour, IInteractable
     [SerializeField] private Material debugSwapMaterial;
     [SerializeField] private TMPro.TMP_Text questInfoText;
     [SerializeField] private UnityEngine.UI.Button questShowButton;
+    [SerializeField] private QuestPictureInterface debugPictureInterface;
+    [SerializeField] private GameObject debugPictureInterfaceContainer;
 
     private bool questFinished = false;
 
@@ -29,7 +31,7 @@ public class TitanStatue : MonoBehaviour, IInteractable
     //      Show a picture of a specific behaviour on a specific creature.
     private void Awake()
     {
-
+        debugPictureInterfaceContainer.gameObject.SetActive(false);
         questInfoText.gameObject.SetActive(false);
         questShowButton.gameObject.SetActive(false);
     }
@@ -61,8 +63,7 @@ public class TitanStatue : MonoBehaviour, IInteractable
             //{
             //    Scrapbook.Instance.RemovePictureFromCollection(picture);
             //}
-            Destroy(picture.gameObject);
-            InteractionPrompt = "";
+            //Destroy(picture.gameObject);
             Cursor.lockState = CursorLockMode.Locked;
             questFinished = true;
         }
@@ -92,10 +93,12 @@ public class TitanStatue : MonoBehaviour, IInteractable
     private void PrepareScrapbookForPictureDisplaying()
     {
         Scrapbook.Instance.OpenPages();
+        debugPictureInterfaceContainer.SetActive(true);
+        debugPictureInterface.DBG_LinkStatue(this);
         //Cursor.lockState = CursorLockMode.Confined;
         //input.SwitchCurrentActionMap("Scrapbook");
 
-        PagePicture.OnPictureClicked = ShowPicture;
+        PagePicture.OnPictureClicked = debugPictureInterface.SlotPicture;
 
         // To do: Open the picture collection and let the player pick a picture to show to the statue
         // Question: Do we want to be able to pick pictures that have been placed in the scrapbook? => We do (currently in testing fase)

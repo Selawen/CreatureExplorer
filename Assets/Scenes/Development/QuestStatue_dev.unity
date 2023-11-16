@@ -198,6 +198,30 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 246ab7580a5d3f0469e2f6bf461ad9b4, type: 3}
+--- !u!114 &109391561 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2931630019153670802, guid: 160da9564367dd24499d3039da0e3dbf,
+    type: 3}
+  m_PrefabInstance: {fileID: 2931630018191737061}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dc70a33754fd5f4e89147661b323642, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &206777817 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2785547352694312234, guid: 66426cf5097a71540a340409520fad9b,
+    type: 3}
+  m_PrefabInstance: {fileID: 336003169}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ab4be46c0a485d42954f86631499027, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &293418045 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5736999475427735147, guid: 66426cf5097a71540a340409520fad9b,
@@ -211,6 +235,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1091146200095155151, guid: 66426cf5097a71540a340409520fad9b,
+        type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1310373100559079289, guid: 66426cf5097a71540a340409520fad9b,
         type: 3}
       propertyPath: pictureCamera
@@ -226,10 +255,20 @@ PrefabInstance:
       propertyPath: Raycaster
       value: 
       objectReference: {fileID: 477189080}
+    - target: {fileID: 4770495539313831569, guid: 66426cf5097a71540a340409520fad9b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5033068786082270703, guid: 66426cf5097a71540a340409520fad9b,
         type: 3}
       propertyPath: m_RootOrder
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5379033532449779979, guid: 66426cf5097a71540a340409520fad9b,
+        type: 3}
+      propertyPath: m_PreserveAspect
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5736999475427735147, guid: 66426cf5097a71540a340409520fad9b,
         type: 3}
@@ -254,7 +293,7 @@ PrefabInstance:
     - target: {fileID: 6913138222579561620, guid: 66426cf5097a71540a340409520fad9b,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7807978120469739682, guid: 66426cf5097a71540a340409520fad9b,
         type: 3}
@@ -345,7 +384,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ActionEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[6].m_Target
       value: 
-      objectReference: {fileID: 1684300716}
+      objectReference: {fileID: 0}
     - target: {fileID: 7807978120469739686, guid: 66426cf5097a71540a340409520fad9b,
         type: 3}
       propertyPath: m_ActionEvents.Array.data[7].m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -580,6 +619,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 9009891763946751360, guid: 66426cf5097a71540a340409520fad9b,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 66426cf5097a71540a340409520fad9b, type: 3}
@@ -1154,7 +1198,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 336003169}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1684300704}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
@@ -1163,6 +1207,12 @@ MonoBehaviour:
 --- !u!4 &1086513342 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7807978120469739683, guid: 66426cf5097a71540a340409520fad9b,
+    type: 3}
+  m_PrefabInstance: {fileID: 336003169}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1128464405 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1532826688383274771, guid: 66426cf5097a71540a340409520fad9b,
     type: 3}
   m_PrefabInstance: {fileID: 336003169}
   m_PrefabAsset: {fileID: 0}
@@ -1177,9 +1227,9 @@ GameObject:
   - component: {fileID: 1306873234}
   - component: {fileID: 1306873233}
   - component: {fileID: 1306873232}
-  - component: {fileID: 1306873235}
   - component: {fileID: 1306873236}
   - component: {fileID: 1306873237}
+  - component: {fileID: 1306873238}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1253,141 +1303,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1306873235
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1306873231}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23c1ce4fb46143f46bc5cb5224c934f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Camera: {fileID: 1306873233}
-  clearColorMode: 0
-  backgroundColorHDR:
-    r: 0.025
-    g: 0.07
-    b: 0.19
-    a: 0
-  clearDepth: 1
-  volumeLayerMask:
-    m_Bits: 1
-  volumeAnchorOverride: {fileID: 0}
-  antialiasing: 0
-  SMAAQuality: 2
-  dithering: 0
-  stopNaNs: 0
-  taaSharpenStrength: 0.5
-  TAAQuality: 1
-  taaHistorySharpening: 0.35
-  taaAntiFlicker: 0.5
-  taaMotionVectorRejection: 0
-  taaAntiHistoryRinging: 0
-  taaBaseBlendFactor: 0.875
-  taaJitterScale: 1
-  physicalParameters:
-    m_Iso: 200
-    m_ShutterSpeed: 0.005
-    m_Aperture: 16
-    m_FocusDistance: 10
-    m_BladeCount: 5
-    m_Curvature: {x: 2, y: 11}
-    m_BarrelClipping: 0.25
-    m_Anamorphism: 0
-  flipYMode: 0
-  xrRendering: 1
-  fullscreenPassthrough: 0
-  allowDynamicResolution: 0
-  customRenderingSettings: 0
-  invertFaceCulling: 0
-  probeLayerMask:
-    m_Bits: 4294967295
-  hasPersistentHistory: 0
-  allowDeepLearningSuperSampling: 1
-  deepLearningSuperSamplingUseCustomQualitySettings: 0
-  deepLearningSuperSamplingQuality: 0
-  deepLearningSuperSamplingUseCustomAttributes: 0
-  deepLearningSuperSamplingUseOptimalSettings: 1
-  deepLearningSuperSamplingSharpening: 0
-  cameraCanRenderDLSS: 0
-  exposureTarget: {fileID: 0}
-  materialMipBias: 0
-  probeCustomFixedExposure: 1
-  deExposureMultiplier: 1
-  m_RenderingPathCustomFrameSettings:
-    bitDatas:
-      data1: 72198260625768269
-      data2: 13763000477350330392
-    lodBias: 1
-    lodBiasMode: 0
-    lodBiasQualityLevel: 0
-    maximumLODLevel: 0
-    maximumLODLevelMode: 0
-    maximumLODLevelQualityLevel: 0
-    sssQualityMode: 0
-    sssQualityLevel: 0
-    sssCustomSampleBudget: 20
-    msaaMode: 1
-    sssResolvedSampleBudget: 0
-    materialQuality: 0
-  renderingPathCustomFrameSettingsOverrideMask:
-    mask:
-      data1: 0
-      data2: 0
-  defaultFrameSettings: 0
-  m_IsDebugRegistered: 0
-  m_CameraRegisterName: Main Camera
-  <isEditorCameraPreview>k__BackingField: 0
-  m_Version: 8
-  m_ObsoleteRenderingPath: 0
-  m_ObsoleteFrameSettings:
-    overrides: 0
-    enableShadow: 0
-    enableContactShadows: 0
-    enableShadowMask: 0
-    enableSSR: 0
-    enableSSAO: 0
-    enableSubsurfaceScattering: 0
-    enableTransmission: 0
-    enableAtmosphericScattering: 0
-    enableVolumetrics: 0
-    enableReprojectionForVolumetrics: 0
-    enableLightLayers: 0
-    enableExposureControl: 1
-    diffuseGlobalDimmer: 0
-    specularGlobalDimmer: 0
-    shaderLitMode: 0
-    enableDepthPrepassWithDeferredRendering: 0
-    enableTransparentPrepass: 0
-    enableMotionVectors: 0
-    enableObjectMotionVectors: 0
-    enableDecals: 0
-    enableRoughRefraction: 0
-    enableTransparentPostpass: 0
-    enableDistortion: 0
-    enablePostprocess: 0
-    enableOpaqueObjects: 0
-    enableTransparentObjects: 0
-    enableRealtimePlanarReflection: 0
-    enableMSAA: 0
-    enableAsyncCompute: 0
-    runLightListAsync: 0
-    runSSRAsync: 0
-    runSSAOAsync: 0
-    runContactShadowsAsync: 0
-    runVolumeVoxelizationAsync: 0
-    lightLoopSettings:
-      overrides: 0
-      enableDeferredTileAndCluster: 0
-      enableComputeLightEvaluation: 0
-      enableComputeLightVariants: 0
-      enableComputeMaterialVariants: 0
-      enableFptlForForwardOpaque: 0
-      enableBigTilePrepass: 0
-      isFptlEnabled: 0
 --- !u!114 &1306873236
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1420,7 +1335,40 @@ MonoBehaviour:
   priority: 0
   blendDistance: 0
   weight: 1
-  sharedProfile: {fileID: 11400000, guid: 6ec7a4d352ae97c4d809d52fedac8874, type: 2}
+  sharedProfile: {fileID: 11400000, guid: 0116d649962193d40b20474144b6cdc0, type: 2}
+--- !u!114 &1306873238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1306873231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
 --- !u!1 &1484125627
 GameObject:
   m_ObjectHideFlags: 0
@@ -1549,7 +1497,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1550414511
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1676,7 +1624,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1675336468}
-  - component: {fileID: 1675336467}
   m_Layer: 0
   m_Name: StaticLightingSky
   m_TagString: Untagged
@@ -1684,34 +1631,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1675336467
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1675336466}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 441482e8936e35048a1dffac814e3ef8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Profile: {fileID: 0}
-  m_NeedUpdateStaticLightingSky: 0
-  m_StaticLightingSkyUniqueID: 0
-  m_LastComputedHash: 0
-  m_StaticLightingCloudsUniqueID: 0
-  m_LastComputedCloudHash: 0
-  m_SkySettings: {fileID: 0}
-  m_SkySettingsFromProfile: {fileID: 0}
-  m_CloudSettings: {fileID: 0}
-  m_CloudSettingsFromProfile: {fileID: 0}
-  m_StaticLightingVolumetricClouds: 0
-  m_LastComputedVolumetricCloudHash: 0
-  m_VolumetricClouds: {fileID: 0}
-  m_VolumetricCloudSettingsFromProfile: {fileID: 0}
-  m_VolumeSkyList: []
-  m_VolumeCloudsList: []
 --- !u!4 &1675336468
 Transform:
   m_ObjectHideFlags: 1
@@ -1727,28 +1646,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1684300704 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7807978120469739682, guid: 66426cf5097a71540a340409520fad9b,
-    type: 3}
-  m_PrefabInstance: {fileID: 336003169}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1684300716
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1684300704}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9335d5bf00f8732419f943fc3030c1bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  climbSpeed: 3
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!114 &1696603677 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4082664168751158631, guid: 66426cf5097a71540a340409520fad9b,
@@ -1988,14 +1885,124 @@ PrefabInstance:
       objectReference: {fileID: 1055106106}
     - target: {fileID: 2931630019153670802, guid: 160da9564367dd24499d3039da0e3dbf,
         type: 3}
+      propertyPath: debugPictureInterface
+      value: 
+      objectReference: {fileID: 206777817}
+    - target: {fileID: 2931630019153670802, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: debugPictureInterfaceContainer
+      value: 
+      objectReference: {fileID: 1128464405}
+    - target: {fileID: 2931630019153670802, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: onQuestFinished.m_PersistentCalls.m_Calls.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931630019153670802, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: onQuestFinished.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931630019153670802, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: onQuestFinished.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931630019153670802, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: onQuestFinished.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931630019153670802, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: onQuestFinished.m_PersistentCalls.m_Calls.Array.data[3].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931630019153670802, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
       propertyPath: onQuestFinished.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1696603677}
+      objectReference: {fileID: 1128464405}
     - target: {fileID: 2931630019153670802, guid: 160da9564367dd24499d3039da0e3dbf,
         type: 3}
       propertyPath: onQuestFinished.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
+      objectReference: {fileID: 1696603677}
+    - target: {fileID: 2931630019153670802, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: onQuestFinished.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
       objectReference: {fileID: 1086513341}
+    - target: {fileID: 2931630019153670802, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: onQuestFinished.m_PersistentCalls.m_Calls.Array.data[3].m_Target
+      value: 
+      objectReference: {fileID: 109391561}
+    - target: {fileID: 2931630019153670802, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: onQuestFinished.m_PersistentCalls.m_Calls.Array.data[3].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931630019153670802, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: onQuestFinished.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931630019153670802, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: onQuestFinished.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: ClosePages
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931630019153670802, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: onQuestFinished.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: SwitchCurrentActionMap
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931630019153670802, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: onQuestFinished.m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
+      value: DebugChangeMaterialVisuals
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931630019153670802, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: onQuestFinished.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931630019153670802, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: onQuestFinished.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: Scrapbook, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931630019153670802, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: onQuestFinished.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      value: UnityEngine.InputSystem.PlayerInput, Unity.InputSystem
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931630019153670802, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: onQuestFinished.m_PersistentCalls.m_Calls.Array.data[3].m_TargetAssemblyTypeName
+      value: TitanStatue, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931630019153670802, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: onQuestFinished.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_StringArgument
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931630019153670802, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: onQuestFinished.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_StringArgument
+      value: Overworld
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931630019153670802, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: onQuestFinished.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931630019153670802, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: onQuestFinished.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 2931630019153670803, guid: 160da9564367dd24499d3039da0e3dbf,
         type: 3}
       propertyPath: m_RootOrder
