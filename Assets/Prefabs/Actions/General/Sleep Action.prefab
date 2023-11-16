@@ -48,14 +48,15 @@ MonoBehaviour:
   <Onomatopea>k__BackingField: zzzzzzzzzzzzzzzzzzz
   sound: {fileID: 0}
   oneShot: 0
+  <Awareness>k__BackingField: 0.1
   <Cost>k__BackingField: 5
-  <BaseReward>k__BackingField: 6
-  <Reward>k__BackingField: 6
+  <BaseReward>k__BackingField: 20
+  <Reward>k__BackingField: 20
   <GoalEffects>k__BackingField:
     <CreatureStates>k__BackingField:
     - <MoodType>k__BackingField: 1
       <Operator>k__BackingField: 4
-      <StateValue>k__BackingField: 60
+      <StateValue>k__BackingField: 80
     - <MoodType>k__BackingField: 3
       <Operator>k__BackingField: 3
       <StateValue>k__BackingField: 20
@@ -71,6 +72,8 @@ MonoBehaviour:
     <StateValue>k__BackingField: 1
   - <EffectType>k__BackingField: 128
     <StateValue>k__BackingField: 0
+  - <EffectType>k__BackingField: 8192
+    <StateValue>k__BackingField: 1
   finished: 0
   failed: 0
-  actionDuration: 10
+  actionDuration: 50
