@@ -59,8 +59,6 @@ public class Creature : MonoBehaviour
 
     protected virtual void FixedUpdate()
     {
-        // TODO: make it possible to interrupt actions
-
         UpdateValues();
         if (CurrentAction != null)
         {
@@ -320,7 +318,6 @@ public class Creature : MonoBehaviour
         DebugMessage("Was Attacked");
     }
 
-    // TODO: factor in loudness
     public void HearPlayer(Vector3 playerPos, float playerLoudness)
     {
         if ((transform.position - playerPos).sqrMagnitude < playerLoudness * data.HearingSensitivity * CurrentAction.Awareness)
