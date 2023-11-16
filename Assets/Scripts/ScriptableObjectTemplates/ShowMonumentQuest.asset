@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e62f4e4ed19d36747a5ec4812cf5ae54, type: 3}
+  m_Script: {fileID: 11500000, guid: 9eb38f3d9b35bfb4ea6b0692b779d235, type: 3}
   m_Name: ShowMonumentQuest
   m_EditorClassIdentifier: 
-  DebugDescription: Please show me a structure of great significance, that isn't
-    this temple
-  requiredObject: {fileID: 5947042879099359757, guid: 246ab7580a5d3f0469e2f6bf461ad9b4,
-    type: 3}
+  questDescription: Please show me a structure of great significance, that isn't
+    this temple.
+  requiredConditions:
+  - {fileID: 11400000, guid: 3e3bf2f907d8fd345ac578425f620203, type: 2}

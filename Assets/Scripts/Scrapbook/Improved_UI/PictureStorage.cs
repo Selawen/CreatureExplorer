@@ -7,13 +7,15 @@ public class PictureStorage : PageComponentInteractor
 {
     [SerializeField] private Transform[] photoSpots;
     [SerializeField] private TMP_Text camStorageText;
+    [SerializeField] private TMP_Text maxStorageText;
 
-    private ushort currentPictureIndex;
+    //private ushort currentPictureIndex;
     private Inventory<PagePicture> pictureInventory;
 
     private void Awake()
     {
         pictureInventory = new Inventory<PagePicture>((ushort)photoSpots.Length);
+        maxStorageText.text = pictureInventory.GetCapacity().ToString();
         UpdateCameraStorageText();
     }
 
@@ -58,16 +60,15 @@ public class PictureStorage : PageComponentInteractor
     }
     private void UpdateCameraStorageText()
     {
-        ushort storageLeft = (ushort)(pictureInventory.GetCapacity() - pictureInventory.GetItemCount());
-        if (storageLeft < 3)
+        if (pictureInventory.InventoryIsFull())
         {
             camStorageText.color = Color.red;
         }
         else
         {
-            camStorageText.color = Color.white;
+            camStorageText.color = Color.black;
         }
-        camStorageText.text = "Storage left: " + storageLeft.ToString();
+        camStorageText.text = pictureInventory.GetItemCount().ToString();
 
     }
 }

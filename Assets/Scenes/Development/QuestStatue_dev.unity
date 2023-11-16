@@ -263,6 +263,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6033686893058067597, guid: 66426cf5097a71540a340409520fad9b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6390482719293157701, guid: 66426cf5097a71540a340409520fad9b,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -281,7 +286,7 @@ PrefabInstance:
     - target: {fileID: 6913138222579561620, guid: 66426cf5097a71540a340409520fad9b,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6913138222579561620, guid: 66426cf5097a71540a340409520fad9b,
         type: 3}
@@ -453,6 +458,16 @@ PrefabInstance:
       propertyPath: m_ActionEvents.Array.data[7].m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 8312708412217506718, guid: 66426cf5097a71540a340409520fad9b,
+        type: 3}
+      propertyPath: feedbackText
+      value: 
+      objectReference: {fileID: 336003171}
+    - target: {fileID: 8312708412217506718, guid: 66426cf5097a71540a340409520fad9b,
+        type: 3}
+      propertyPath: descriptionText
+      value: 
+      objectReference: {fileID: 336003172}
     - target: {fileID: 8723811626375387891, guid: 66426cf5097a71540a340409520fad9b,
         type: 3}
       propertyPath: interactionDistance
@@ -621,22 +636,12 @@ PrefabInstance:
     - target: {fileID: 9009891763946751360, guid: 66426cf5097a71540a340409520fad9b,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 250
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 9009891763946751360, guid: 66426cf5097a71540a340409520fad9b,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 600
-      objectReference: {fileID: 0}
-    - target: {fileID: 9009891763946751360, guid: 66426cf5097a71540a340409520fad9b,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 400
-      objectReference: {fileID: 0}
-    - target: {fileID: 9009891763946751360, guid: 66426cf5097a71540a340409520fad9b,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 100
+      value: 300
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 66426cf5097a71540a340409520fad9b, type: 3}
@@ -646,6 +651,30 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 336003169}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &336003171 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3500850516060872967, guid: 66426cf5097a71540a340409520fad9b,
+    type: 3}
+  m_PrefabInstance: {fileID: 336003169}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &336003172 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3615300389622677923, guid: 66426cf5097a71540a340409520fad9b,
+    type: 3}
+  m_PrefabInstance: {fileID: 336003169}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &477189080 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 803647358881310836, guid: 66426cf5097a71540a340409520fad9b,
@@ -1901,6 +1930,12 @@ PrefabInstance:
       propertyPath: debugPictureInterface
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 2931630019153670802, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: <TitanQuest>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: a80d9292956ee80418394be68c668640,
+        type: 2}
     - target: {fileID: 2931630019153670802, guid: 160da9564367dd24499d3039da0e3dbf,
         type: 3}
       propertyPath: debugPictureInterfaceContainer

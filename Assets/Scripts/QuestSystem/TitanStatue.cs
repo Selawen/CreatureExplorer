@@ -9,15 +9,17 @@ public class TitanStatue : MonoBehaviour, IInteractable
     [field:SerializeField] public string InteractionPrompt { get; private set; } = "Interact";
 
     // To do: predetermine quests per instance of TitanStatue in the inspector
-    [SerializeField] private QuestCondition condition;
+    [field: SerializeField] public Quest TitanQuest { get; private set; }
+
+    //[SerializeField] private QuestCondition condition;
     [SerializeField] private PlayerInput input;
 
     [SerializeField] private UnityEvent onQuestFinished;
     [SerializeField] private UnityEvent onWrongPicturePresented;
 
     [SerializeField] private Material debugSwapMaterial;
-    [SerializeField] private TMPro.TMP_Text questInfoText;
-    [SerializeField] private UnityEngine.UI.Button questShowButton;
+    //[SerializeField] private TMPro.TMP_Text questInfoText;
+    //[SerializeField] private UnityEngine.UI.Button questShowButton;
     [SerializeField] private QuestPictureInterface debugPictureInterface;
     //[SerializeField] private GameObject debugPictureInterfaceContainer;
 
@@ -32,30 +34,34 @@ public class TitanStatue : MonoBehaviour, IInteractable
     private void Awake()
     {
         //debugPictureInterfaceContainer.gameObject.SetActive(false);
-        questInfoText.gameObject.SetActive(false);
-        questShowButton.gameObject.SetActive(false);
+        //questInfoText.gameObject.SetActive(false);
+        //questShowButton.gameObject.SetActive(false);
     }
 
     public void Interact()
     {
         if (questFinished) return;
 
-        questInfoText.text = condition.DebugDescription;
-        questShowButton.onClick.RemoveAllListeners();
-        questShowButton.onClick.AddListener(OpenQuest);
+        //questInfoText.text = TitanQuest.QuestDescription;
+        //questShowButton.onClick.RemoveAllListeners();
+        //questShowButton.onClick.AddListener(OpenQuest);
 
         Cursor.lockState = CursorLockMode.Confined;
+
+        // Move this to the player and subscribe to the QuestHandler's event there.
         input.SwitchCurrentActionMap("Scrapbook");
-        questInfoText.gameObject.SetActive(true);
-        questShowButton.gameObject.SetActive(true);
+
+        //questInfoText.gameObject.SetActive(true);
+        //questShowButton.gameObject.SetActive(true);
 
         StaticQuestHandler.OnPictureDisplayed = ShowPicture;
+        StaticQuestHandler.CurrentQuestStatue = this;
     }
     public void ShowPicture(PagePicture picture)
     {
         // To do: Evaluate whether any of the objects in the picture info is the object that we're looking for/
         // Also check if there are additional conditions and evaluate these too.
-        if (condition.Evaluate(picture.PictureInfo))
+        if (TitanQuest.EvaluateQuestStatus(picture.PictureInfo))
         {
             StaticQuestHandler.OnQuestCompleted?.Invoke();
 
@@ -90,8 +96,8 @@ public class TitanStatue : MonoBehaviour, IInteractable
 
     private void OpenQuest()
     {
-        questShowButton.gameObject.SetActive(false);
-        questInfoText.gameObject.SetActive(false);
+        //questShowButton.gameObject.SetActive(false);
+        //questInfoText.gameObject.SetActive(false);
         PrepareScrapbookForPictureDisplaying();
     }
 

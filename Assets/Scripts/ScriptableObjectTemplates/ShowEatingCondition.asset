@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9eb38f3d9b35bfb4ea6b0692b779d235, type: 3}
-  m_Name: ShowEatingQuest
+  m_Script: {fileID: 11500000, guid: a88fa97b6b5d3db48a4123c58640ae41, type: 3}
+  m_Name: ShowEatingCondition
   m_EditorClassIdentifier: 
-  questDescription: Please show me a creature eating
-  requiredConditions:
-  - {fileID: 11400000, guid: f998021cdb1ceef4aac444f1c39670ce, type: 2}
+  DebugDescription: Show me a creature eating
+  requiredBehaviour: {fileID: 2435853527441941368, guid: c5c7731c9dbb0904dbe581c876c741c8,
+    type: 3}

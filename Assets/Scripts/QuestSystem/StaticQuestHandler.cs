@@ -15,4 +15,7 @@ public static class StaticQuestHandler
 
     public static QuestPictureHandler OnPictureClicked;
     public static QuestPictureHandler OnPictureDisplayed;
+
+    public static TitanStatue CurrentQuestStatue;
+
 }
