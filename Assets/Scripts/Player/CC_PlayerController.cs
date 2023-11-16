@@ -347,6 +347,8 @@ public class CC_PlayerController : MonoBehaviour
         return false;
     }
 
+    public void GoDie() => StartCoroutine(Die());
+
     private IEnumerator PrepareClimb(JellyfishLadder ladder)
     {
         currentState = CharacterState.Awaiting;
