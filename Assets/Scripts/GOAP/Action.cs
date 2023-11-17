@@ -8,7 +8,8 @@ abstract public class Action : MonoBehaviour
     [field: SerializeField] public string Name { get; private set; }
     [field: SerializeField] public string Onomatopea { get; private set; }
 
-    [field: Header("Sound")]
+    [field: Header("Player Feedback")]
+    [field: SerializeField] private Animation startAnimation, duringAnimation, finishAnimation;
     [field: SerializeField] private AudioClip sound;
     [field: SerializeField] private bool oneShot;
 
