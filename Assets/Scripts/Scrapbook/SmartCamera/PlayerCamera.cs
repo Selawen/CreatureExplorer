@@ -79,6 +79,8 @@ public class PlayerCamera : MonoBehaviour
         }
     }
 
+    public void DeleteCameraRoll() => storage.DeleteStorage();
+    
     private IEnumerator Snap()
     {
         if (TryGetComponent(out SoundPlayer player))

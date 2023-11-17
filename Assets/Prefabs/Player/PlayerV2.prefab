@@ -409,6 +409,7 @@ MonoBehaviour:
   airSpeed: 3
   strafeSprintSpeed: 6
   jumpForce: 4
+  deadlyFallVelocity: 10
   walkingLoudness: 5
   sneakingLoudness: 1
   sprintingLoudness: 15
@@ -418,13 +419,6 @@ MonoBehaviour:
   interactDistance: 2
   interactRadius: 2
   interactHeight: 0.875
-  minimumClimbDistance: 1
-  groundCheckRadius: 0.2
-  groundCheckDistance: 0.3
-  firstPersonCamera: {fileID: 0}
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 64
   onInteractPromptChanged:
     m_PersistentCalls:
       m_Calls:
@@ -440,6 +434,71 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  minimumClimbDistance: 1
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  groundCheckRadius: 0.2
+  groundCheckDistance: 0.3
+  respawnTransform: {fileID: 0}
+  respawnDuration: 2
+  respawnOccluder: {fileID: 919132149155446097, guid: 011f046753e882848b1beffb3ae199e3,
+    type: 3}
+  exitCamera:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6081784524243860598}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5104014566567447019}
+        m_TargetAssemblyTypeName: UnityEngine.InputSystem.PlayerInput, Unity.InputSystem
+        m_MethodName: SwitchCurrentActionMap
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Overworld
+          m_BoolArgument: 0
+        m_CallState: 2
+  closeScrapbook:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4655411627462837039}
+        m_TargetAssemblyTypeName: Scrapbook, Assembly-CSharp
+        m_MethodName: ClosePages
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5104014566567447019}
+        m_TargetAssemblyTypeName: UnityEngine.InputSystem.PlayerInput, Unity.InputSystem
+        m_MethodName: SwitchCurrentActionMap
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Overworld
+          m_BoolArgument: 0
+        m_CallState: 2
+  firstPersonCamera: {fileID: 0}
   gameSettings: {fileID: 11400000, guid: 0e36501920850ee48a198c6521c2d486, type: 2}
 --- !u!114 &5584154710332234837
 MonoBehaviour:
