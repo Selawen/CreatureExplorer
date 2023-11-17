@@ -81,8 +81,8 @@ public class CC_PlayerController : MonoBehaviour
 
     private void Start()
     {
-        Scrapbook.OnBeginType += () => playerInput.SwitchCurrentActionMap("Await");
-        Scrapbook.OnEndType += () => playerInput.SwitchCurrentActionMap("Scrapbook");
+        Scrapbook.OnBeginType += StartTyping;
+        Scrapbook.OnEndType += StopTyping;
 
         cameraFollow.ChangeOffset(Vector3.up * defaultCameraHeight);
     }
@@ -328,6 +328,18 @@ public class CC_PlayerController : MonoBehaviour
         verticalSpeed = 0;
         moveDirection = Vector3.zero;
         currentState = CharacterState.Climbing;
+    }
+
+    private void StartTyping()
+    {
+        playerInput.SwitchCurrentActionMap("Await"); 
+        Debug.Log("Should swap to 'Await' action map");
+    }
+
+    private void StopTyping()
+    {
+        playerInput.SwitchCurrentActionMap("Scrapbook"); 
+        Debug.Log("Should swap to 'Scrapbook' action map");
     }
 
     private void OnDrawGizmos()

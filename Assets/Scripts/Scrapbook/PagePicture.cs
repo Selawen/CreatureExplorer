@@ -14,7 +14,7 @@ public class PagePicture : PageComponent, IPointerClickHandler
     [SerializeField] private float pageScaleFactor = 2.5f;
 
     private bool dragging;
-    private Image pictureBackground;
+    private Canvas parentCanvas;
 
     private void Awake()
     {
@@ -22,7 +22,7 @@ public class PagePicture : PageComponent, IPointerClickHandler
         {
             _rectTransform = GetComponent<RectTransform>();
         }
-        pictureBackground = GetComponent<Image>();
+        parentCanvas = GetComponentInParent<Canvas>();
     }
 
     public void SetPicture(Sprite pictureSprite)
@@ -37,13 +37,19 @@ public class PagePicture : PageComponent, IPointerClickHandler
 
     public override void OnBeginDrag(PointerEventData eventData)
     {
-        OnBeginPictureDrag?.Invoke();
         dragging = true;
         base.OnBeginDrag(eventData);
+        OnBeginPictureDrag?.Invoke();
+        if(parentCanvas == null)
+        {
+            parentCanvas = GetComponentInParent<Canvas>();
+        }
+        transform.SetParent(parentCanvas.transform);
     }
 
-    private void OnMouseUp()
+    public override void OnEndDrag(PointerEventData eventData)
     {
+        base.OnEndDrag(eventData);
         dragging = false;
     }
 

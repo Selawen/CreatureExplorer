@@ -14,7 +14,7 @@ public class QuestPictureInterface : PageComponentInteractor
 
     private void Awake()
     {
-        StaticQuestHandler.OnQuestOpened = () => 
+        StaticQuestHandler.OnQuestOpened += () => 
         {
             pictureSlot.SetActive(true);
             
@@ -31,46 +31,38 @@ public class QuestPictureInterface : PageComponentInteractor
 
         StaticQuestHandler.OnPictureClicked += (PagePicture picture) => OnComponentDroppedOn(picture);
 
-        StaticQuestHandler.OnQuestClosed += () => { feedbackText.gameObject.SetActive(false); descriptionText.gameObject.SetActive(false); };
+        StaticQuestHandler.OnQuestClosed += () => 
+        { 
+            feedbackText.gameObject.SetActive(false); 
+            descriptionText.gameObject.SetActive(false); 
+            pictureSlot.SetActive(false); 
+        };
 
         pictureSlot.SetActive(false);
         feedbackText.gameObject.SetActive(false);
         descriptionText.gameObject.SetActive(false);
     }
 
-    //public void EvaluatePicture()
-    //{
-    //    if(slottedPicture != null)
-    //    {
-    //        // Evaluate the slottedPicture to the current quest statue;
-    //        StaticQuestHandler.OnPictureDisplayed?.Invoke(slottedPicture);
-    //    }
-    //}
 
     public override bool OnComponentDroppedOn(PageComponent component)
     {
         if (component.GetType() != typeof(PagePicture) || slottedPicture != null) 
             return false;
 
-        Debug.Log("Passed the dropping check, now slotting picture in the UI!");
-        SlotPicture(component as PagePicture);
-
-        return true;
+        return SlotPicture(component as PagePicture);
     }
 
     public override void RemoveFromInteractor(PageComponent component)
     {
-        Debug.Log("Removing picture from slot");
         slottedPicture = null;
     }
 
-    private void SlotPicture(PagePicture picture)
+    private bool SlotPicture(PagePicture picture)
     {
-        if (slottedPicture != null) 
-            return;
+        if (slottedPicture != null)
+            return false;
 
-        picture.transform.position = pictureSlot.transform.position;
-        picture.transform.rotation = Quaternion.identity;
+        picture.transform.SetPositionAndRotation(pictureSlot.transform.position, Quaternion.identity);
         picture.transform.localScale = Vector3.one;
 
         picture.transform.SetParent(pictureSlot.transform, true);
@@ -78,7 +70,11 @@ public class QuestPictureInterface : PageComponentInteractor
         picture.SetInteractor(this);
         slottedPicture = picture;
 
+        Debug.Log("Slotted new picture in the quest interface");
+
         StaticQuestHandler.OnPictureDisplayed?.Invoke(slottedPicture);
+
+        return true;
     }
 
 }

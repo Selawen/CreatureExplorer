@@ -107,10 +107,9 @@ public class Scrapbook : MonoBehaviour
 
     public void CreateNewTextEntry()
     {
-
         PageText newText = Instantiate(textEntryPrefab, CurrentPage.transform);
-        newText.TextField.onSelect.AddListener((string s) => { OnBeginType?.Invoke(); });
-        newText.TextField.onDeselect.AddListener((string s) => { OnEndType?.Invoke(); });
+        newText.TextField.onSelect.AddListener((string s) => { OnBeginType?.Invoke(); Debug.Log("Selected field"); });
+        newText.TextField.onDeselect.AddListener((string s) => { OnEndType?.Invoke(); Debug.Log("Deselected field"); });
     }
 
     private void OpenBookForQuest()

@@ -6,20 +6,15 @@ public class TitanStatue : MonoBehaviour, IInteractable
 {
     [field:SerializeField] public string InteractionPrompt { get; private set; } = "Interact";
 
-    // To do: predetermine quests per instance of TitanStatue in the inspector
     [field: SerializeField] public Quest TitanQuest { get; private set; }
 
-    //[SerializeField] private QuestCondition condition;
+    // Remove this later
     [SerializeField] private PlayerInput input;
 
     [SerializeField] private UnityEvent onQuestFinished;
     [SerializeField] private UnityEvent onWrongPicturePresented;
 
     [SerializeField] private Material debugSwapMaterial;
-    //[SerializeField] private TMPro.TMP_Text questInfoText;
-    //[SerializeField] private UnityEngine.UI.Button questShowButton;
-    [SerializeField] private QuestPictureInterface debugPictureInterface;
-    //[SerializeField] private GameObject debugPictureInterfaceContainer;
 
     private bool questFinished = false;
 
@@ -37,10 +32,11 @@ public class TitanStatue : MonoBehaviour, IInteractable
         //questInfoText.gameObject.SetActive(true);
         //questShowButton.gameObject.SetActive(true);
 
-        StaticQuestHandler.OnPictureDisplayed = ShowPicture;
+        StaticQuestHandler.OnPictureDisplayed += ShowPicture;
         StaticQuestHandler.CurrentQuestStatue = this;
+        StaticQuestHandler.OnQuestClosed += () => PagePicture.OnPictureClicked -= StaticQuestHandler.OnPictureClicked.Invoke;
 
-        PagePicture.OnPictureClicked = StaticQuestHandler.OnPictureClicked.Invoke;
+        PagePicture.OnPictureClicked += StaticQuestHandler.OnPictureClicked.Invoke;
 
         StaticQuestHandler.OnQuestOpened?.Invoke();
     }
@@ -55,7 +51,7 @@ public class TitanStatue : MonoBehaviour, IInteractable
             DebugChangeMaterialVisuals();
 
             onQuestFinished?.Invoke();
-            picture.Remove();
+            //picture.Remove();
 
             //if (Scrapbook.Instance.GetCollectedPictures().Contains(picture))
             //{

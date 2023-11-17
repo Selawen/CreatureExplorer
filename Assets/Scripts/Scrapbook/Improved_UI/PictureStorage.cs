@@ -29,8 +29,10 @@ public class PictureStorage : PageComponentInteractor
 
     public override bool OnComponentDroppedOn(PageComponent component)
     {
+        Debug.Log("A component has been dropped on the storage");
         if (component.GetType() != typeof(PagePicture)) return false;
 
+        Debug.Log("Component has been id'ed as a picture");
         PagePicture picture = component as PagePicture;
         if (!pictureInventory.GetContents().Contains(picture))
         {
@@ -40,13 +42,13 @@ public class PictureStorage : PageComponentInteractor
             {
                 if(t.childCount == 0)
                 {
+                    Debug.Log("Should now set picture as a parent of photo spot");
                     pictureInventory.AddItemToInventory(picture);
 
-                    component.transform.position = t.position;
-                    component.transform.rotation = t.rotation;
+                    component.transform.SetPositionAndRotation(t.position, t.rotation);
                     component.transform.SetParent(t, true);
 
-                    picture.SetInteractor(this);
+                    //picture.SetInteractor(this);
 
                     UpdateCameraStorageText();
                     return true;
