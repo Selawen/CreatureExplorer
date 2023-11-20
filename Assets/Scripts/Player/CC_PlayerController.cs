@@ -48,6 +48,7 @@ public class CC_PlayerController : MonoBehaviour
 
     private FollowTarget cameraFollow;
     private PlayerInput playerInput;
+
     private CharacterController controller;
     private Vector2 moveInput;
 
@@ -80,11 +81,11 @@ public class CC_PlayerController : MonoBehaviour
     }
 
     private void Start()
-    {
+    { 
+        cameraFollow.ChangeOffset(Vector3.up * defaultCameraHeight);
+
         Scrapbook.OnBeginType += StartTyping;
         Scrapbook.OnEndType += StopTyping;
-
-        cameraFollow.ChangeOffset(Vector3.up * defaultCameraHeight);
     }
 
     // Update is called once per frame
@@ -330,16 +331,14 @@ public class CC_PlayerController : MonoBehaviour
         currentState = CharacterState.Climbing;
     }
 
-    private void StartTyping()
+    public void StartTyping()
     {
-        playerInput.SwitchCurrentActionMap("Await"); 
-        Debug.Log("Should swap to 'Await' action map");
+        playerInput.actions.FindAction("QuickCloseBook").Disable();
     }
 
-    private void StopTyping()
+    public void StopTyping()
     {
-        playerInput.SwitchCurrentActionMap("Scrapbook"); 
-        Debug.Log("Should swap to 'Scrapbook' action map");
+        playerInput.actions.FindAction("QuickCloseBook").Enable();
     }
 
     private void OnDrawGizmos()

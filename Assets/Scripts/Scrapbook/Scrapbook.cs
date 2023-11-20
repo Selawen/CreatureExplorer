@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class Scrapbook : MonoBehaviour
 {
     public static Scrapbook Instance { get; private set; }
+
     public delegate void TextTypingHandler();
 
     public static TextTypingHandler OnBeginType;
@@ -108,8 +109,8 @@ public class Scrapbook : MonoBehaviour
     public void CreateNewTextEntry()
     {
         PageText newText = Instantiate(textEntryPrefab, CurrentPage.transform);
-        newText.TextField.onSelect.AddListener((string s) => { OnBeginType?.Invoke(); Debug.Log("Selected field"); });
-        newText.TextField.onDeselect.AddListener((string s) => { OnEndType?.Invoke(); Debug.Log("Deselected field"); });
+        newText.TextField.onSelect.AddListener((string s) => OnBeginType?.Invoke());
+        newText.TextField.onDeselect.AddListener((string s) => OnEndType?.Invoke());
     }
 
     private void OpenBookForQuest()
