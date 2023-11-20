@@ -14,18 +14,16 @@ public class Prey : Creature
 
     protected override void UpdateCreatureState()
     {
-        bool nearDanger = (WaryOff - transform.position).sqrMagnitude < (waryLoudness + data.HearingSensitivity);
+        bool nearDanger = (WaryOff - transform.position).sqrMagnitude < (waryLoudness + data.HearingSensitivity * CurrentAction.Awareness);
         worldState =  nearDanger? SetConditionTrue(worldState, Condition.IsNearDanger) : SetConditionFalse(worldState, Condition.IsNearDanger);
         CheckForInterruptions(StateType.Fear, GetComponentInChildren<Flee>(), "Terrified", 90);
         base.UpdateCreatureState();
     }
 
-    // TODO: factor in loudness
     protected void ReactToThreat(Vector3 threatPosition, float threatLoudness)
     {
         WaryOff = threatPosition;
         waryLoudness = threatLoudness;
-        //worldState = SetConditionTrue(worldState, Condition.IsNearDanger);
     }
 
     protected void ReactToThreat(Vector3 threatPosition, CreatureState reaction, float threatLoudness)
@@ -34,10 +32,7 @@ public class Prey : Creature
         ReactToThreat(threatPosition, threatLoudness);
     }
     
-    protected void ReactToThreat(Torca predator, float predatorLoudness)
-    {
-        ReactToThreat(predator.transform.position, reactionToPredator, predatorLoudness);
-    }
+    protected void ReactToThreat(Torca predator, float predatorLoudness) => ReactToThreat(predator.transform.position, reactionToPredator, predatorLoudness);
 
     private void CheckForPredators()
     {
