@@ -9,7 +9,8 @@ abstract public class Action : MonoBehaviour
     [field: SerializeField] public string Onomatopea { get; private set; }
 
     [field: Header("Player Feedback")]
-    [field: SerializeField] private Animation startAnimation, duringAnimation, finishAnimation;
+    [field: SerializeField] protected string startAnimationTrigger, duringAnimationTrigger;
+    [field: SerializeField] private string finishAnimationTrigger;
     [field: SerializeField] private AudioClip sound;
     [field: SerializeField] private bool oneShot;
 
@@ -31,6 +32,9 @@ abstract public class Action : MonoBehaviour
 
     [SerializeField] protected float actionDuration = 2;
 
+    protected Animator animator;
+    protected SoundPlayer soundPlayer;
+
     protected CancellationTokenSource failSource;
     protected CancellationToken failToken;
     protected CancellationTokenSource source;
@@ -38,6 +42,9 @@ abstract public class Action : MonoBehaviour
 
     protected virtual void Awake()
     {
+        animator = GetComponentInParent<Animator>();
+        soundPlayer = GetComponentInParent<SoundPlayer>();
+
         failSource = new CancellationTokenSource();
         failToken = failSource.Token;
         source = new CancellationTokenSource();
@@ -54,9 +61,19 @@ abstract public class Action : MonoBehaviour
 
     public GameObject ActivateAction(Creature creature, GameObject target)
     {
-        if (GetComponentInParent<SoundPlayer>() != null)
+        if (soundPlayer != null)
         {
-            GetComponentInParent<SoundPlayer>().PlaySound(sound, oneShot);
+            soundPlayer.PlaySound(sound, oneShot);
+        }
+
+
+        if (startAnimationTrigger != null)
+        {
+            animator.SetTrigger(startAnimationTrigger);
+        }
+        else if (duringAnimationTrigger != null)
+        {
+            animator.SetTrigger(duringAnimationTrigger);
         }
 
         return PerformAction(creature, target);
@@ -193,14 +210,16 @@ abstract public class Action : MonoBehaviour
             {
                 if (!cancelToken.IsCancellationRequested)
                 {
-                    failed = true;
-
                     if (GetComponentInParent<SoundPlayer>() != null)
                     {
                         GetComponentInParent<SoundPlayer>().StopSounds();
                     }
 
                     source.Cancel();
+
+                    await EndAnimation();
+
+                    failed = true;
                 }
             }
         } catch (TaskCanceledException)
@@ -215,7 +234,6 @@ abstract public class Action : MonoBehaviour
         // standard end of DoAction method, set to finished and cancel the failcheck if not failed already
         if (!failed)
         {
-            finished = true;
 
             if (GetComponentInParent<SoundPlayer>() != null)
             {
@@ -223,6 +241,26 @@ abstract public class Action : MonoBehaviour
             }
 
             failSource.Cancel();
+
+            Debug.Log("check if animation ended");
+
+            await EndAnimation();
+
+            Debug.Log("animation ended"); 
+            finished = true;
+        }
+    }
+
+    protected async Task EndAnimation()
+    {
+        animator.SetTrigger(finishAnimationTrigger);
+
+        int maxLoops = 100;
+        // wait for previous animation to finish       
+        while (!animator.GetCurrentAnimatorStateInfo(0).loop && !animator.GetCurrentAnimatorStateInfo(0).IsName("Idle") &&  maxLoops > 0)
+        {
+            maxLoops--;
+            await Task.Delay(100);
         }
     }
 }

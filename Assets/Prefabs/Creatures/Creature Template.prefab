@@ -530,12 +530,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7210352520341627484}
+  - component: {fileID: 3844555122404518609}
   - component: {fileID: 7210352520341627553}
   - component: {fileID: 7210352520341627486}
   - component: {fileID: 7210352520341627487}
+  - component: {fileID: 4053986677663393030}
   - component: {fileID: 8328608412579240069}
   - component: {fileID: 4154447022537511806}
-  - component: {fileID: 3844555122404518609}
   - component: {fileID: 6309793511680294937}
   m_Layer: 0
   m_Name: Creature Template
@@ -562,6 +563,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &3844555122404518609
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7210352520341627480}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!195 &7210352520341627553
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -763,6 +777,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 257df11a7aea81c44af1c18f343eceb5, type: 2}
   - {fileID: 11400000, guid: 60f21d4aea509184685cacb6b7102d95, type: 2}
   - {fileID: 11400000, guid: a5fc0da0c1e499948a74fa144a615cf0, type: 2}
+  defaultGoal: {fileID: 11400000, guid: 5da59843664f7ac40b46f28d93efc212, type: 2}
+  defaultAction: {fileID: 3382483449189430853}
   possibleActions:
   - {fileID: 3703513111590520603}
   - {fileID: 6207920478717732856}
@@ -772,8 +788,6 @@ MonoBehaviour:
   - {fileID: 3382483449189430853}
   - {fileID: 8171172386000687396}
   - {fileID: 6371122712087528273}
-  defaultGoal: {fileID: 11400000, guid: 5da59843664f7ac40b46f28d93efc212, type: 2}
-  defaultAction: {fileID: 3382483449189430853}
 --- !u!114 &7210352520341627487
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -786,11 +800,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e3a84701072da54d8079d63ac8029bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hearingSensitivity: 1
-  <FoodSource>k__BackingField: 
-  <SleepSpot>k__BackingField: 
-  checkSurroundingsTimer: 0.5
-  decayTimer: 10
+  data: {fileID: 0}
   showThoughts: 1
   <LogDebugs>k__BackingField: 0
   goalText: {fileID: 7210352519244847641}
@@ -817,40 +827,28 @@ MonoBehaviour:
     - <MoodType>k__BackingField: 5
       <Operator>k__BackingField: 2
       <StateValue>k__BackingField: 50
-  changesEverySecond:
-    <CreatureStates>k__BackingField:
-    - <MoodType>k__BackingField: 1
-      <Operator>k__BackingField: 3
-      <StateValue>k__BackingField: 0.5
-    - <MoodType>k__BackingField: 3
-      <Operator>k__BackingField: 3
-      <StateValue>k__BackingField: 0.5
-  reactionToAttack:
-    <CreatureStates>k__BackingField:
-    - <MoodType>k__BackingField: 0
-      <Operator>k__BackingField: 0
-      <StateValue>k__BackingField: 0.5
-    - <MoodType>k__BackingField: 1
-      <Operator>k__BackingField: 0
-      <StateValue>k__BackingField: 0.5
-    - <MoodType>k__BackingField: 2
-      <Operator>k__BackingField: 0
-      <StateValue>k__BackingField: 0.5
-    - <MoodType>k__BackingField: 3
-      <Operator>k__BackingField: 0
-      <StateValue>k__BackingField: 0.5
-    - <MoodType>k__BackingField: 4
-      <Operator>k__BackingField: 0
-      <StateValue>k__BackingField: 0.5
-    - <MoodType>k__BackingField: 5
-      <Operator>k__BackingField: 0
-      <StateValue>k__BackingField: 0.5
-  reactionToPlayer:
-    <CreatureStates>k__BackingField:
-    - <MoodType>k__BackingField: 0
-      <Operator>k__BackingField: 3
-      <StateValue>k__BackingField: 12.5
   currentPlan: []
+--- !u!95 &4053986677663393030
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7210352520341627480}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6aa19fdab732a3e4883a9a256da3d908, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!82 &8328608412579240069
 AudioSource:
   m_ObjectHideFlags: 0
@@ -968,19 +966,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3094374b87aa17941be79d4af5a87893, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!135 &3844555122404518609
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7210352520341627480}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &6309793511680294937
 MonoBehaviour:
   m_ObjectHideFlags: 0
