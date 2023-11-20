@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
@@ -9,11 +10,18 @@ public class PlayerCamera : MonoBehaviour
 {
     [SerializeField] private Camera pictureCamera;
     [SerializeField] private float zoomSensitivity;
+    [SerializeField, Range(5, 20)] private float minimumFieldOfView = 5f;
+    [SerializeField, Range(40, 80)] private float maximumFieldOfView = 60f;
+    [SerializeField, Range(0.05f, 1f)] private float zoomScanStrengthMultiplier = 0.5f;
+
+    [Tooltip("Event that carries the edited sensitivity based on the original zoom and current zoom")]
+    [SerializeField] private UnityEvent<float> onZoomLevelChanged;
+    [SerializeField] private Slider camZoomSlider;
 
     [SerializeField] private PagePicture picturePrefab;
 
     [SerializeField] private PictureStorage storage;
-    [SerializeField] private float maximumScanDistance = 20f;
+    [SerializeField] private float defaultMaxScanDistance = 20f;
     [SerializeField] private LayerMask ignoredPhotoLayers;
     [SerializeField] private TMPro.TMP_Text exceptionText;
 
@@ -24,6 +32,8 @@ public class PlayerCamera : MonoBehaviour
     [SerializeField] private Animator shutterTop, shutterBottom;
 
     private float originalZoom;
+
+    private float effectiveScanDistance;
 
     private PlayerInput input;
 
@@ -42,6 +52,10 @@ public class PlayerCamera : MonoBehaviour
     private void Awake()
     {
         originalZoom = pictureCamera.fieldOfView;
+
+        camZoomSlider.minValue = minimumFieldOfView;
+        camZoomSlider.maxValue = maximumFieldOfView;
+        camZoomSlider.value = originalZoom;
 
         input = GetComponent<PlayerInput>();
         if (Application.isEditor)
@@ -62,7 +76,11 @@ public class PlayerCamera : MonoBehaviour
         if (callbackContext.started)
         {
             pictureCamera.fieldOfView -= callbackContext.ReadValue<Vector2>().y * zoomSensitivity;
-            pictureCamera.fieldOfView = Mathf.Clamp(pictureCamera.fieldOfView, 0, 60);
+            pictureCamera.fieldOfView = Mathf.Clamp(pictureCamera.fieldOfView, minimumFieldOfView, maximumFieldOfView);
+            camZoomSlider.value = pictureCamera.fieldOfView;
+
+            effectiveScanDistance = maximumFieldOfView / pictureCamera.fieldOfView * defaultMaxScanDistance * zoomScanStrengthMultiplier;
+            onZoomLevelChanged?.Invoke(pictureCamera.fieldOfView / originalZoom);
         }
     }
 
@@ -152,7 +170,7 @@ public class PlayerCamera : MonoBehaviour
             for (int y = 0; y <= photoAccuracy; y++)
             {
                 Ray ray = pictureCamera.ScreenPointToRay(new Vector3(xStart + x * camStep, y * camStep));
-                Gizmos.DrawRay(ray.origin, ray.direction * maximumScanDistance);
+                Gizmos.DrawRay(ray.origin, ray.direction * effectiveScanDistance);
             }
         }
 
@@ -171,7 +189,7 @@ public class PlayerCamera : MonoBehaviour
             for (int y = 0; y <= photoAccuracy; y++)
             {
                 Ray ray = pictureCamera.ScreenPointToRay(new Vector3(xStart + x * camStep, y * camStep));
-                if(Physics.Raycast(ray, out RaycastHit hit, maximumScanDistance, ~ignoredPhotoLayers))
+                if(Physics.Raycast(ray, out RaycastHit hit, effectiveScanDistance, ~ignoredPhotoLayers))
                 {
                     if (hit.transform.TryGetComponent(out QuestableObject questableObject))
                     {

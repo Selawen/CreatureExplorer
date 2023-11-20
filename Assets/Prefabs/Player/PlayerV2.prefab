@@ -514,10 +514,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pictureCamera: {fileID: 0}
   zoomSensitivity: 0.1
+  minimumFieldOfView: 5
+  maximumFieldOfView: 60
+  zoomScanStrengthMultiplier: 0.25
+  onZoomLevelChanged:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5104014566567447014}
+        m_TargetAssemblyTypeName: CC_PlayerController, Assembly-CSharp
+        m_MethodName: SetRotationSpeed
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  camZoomSlider: {fileID: 5422074286683954239}
   picturePrefab: {fileID: 1099497629079080459, guid: 62a69665ffa767549a3ee2178569ccc7,
     type: 3}
   storage: {fileID: 1123464909592804214}
-  maximumScanDistance: 20
+  defaultMaxScanDistance: 20
   ignoredPhotoLayers:
     serializedVersion: 2
     m_Bits: 32
@@ -926,6 +945,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5422074286683954239 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6650344678186190594, guid: 0d2f87619a5029e4fb22c409a092efc3,
+    type: 3}
+  m_PrefabInstance: {fileID: 1690493535299640125}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &5906613782325048993 stripped

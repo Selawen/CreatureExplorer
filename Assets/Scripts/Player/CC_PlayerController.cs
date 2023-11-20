@@ -66,6 +66,7 @@ public class CC_PlayerController : MonoBehaviour
     private Vector3 moveDirection;
     private float verticalRotation;
     private float verticalSpeed;
+    private float rotationSpeed = 1f;
 
     private bool sprinting;
     private bool crouching;
@@ -133,6 +134,8 @@ public class CC_PlayerController : MonoBehaviour
             controller.Move((moveDirection + Vector3.up * verticalSpeed) * Time.deltaTime);
     }
 
+    public void SetRotationSpeed(float newSpeed) => rotationSpeed = newSpeed;
+
     public void GetMoveInput(InputAction.CallbackContext context) => moveInput = context.ReadValue<Vector2>();
 
     public void GetRotationInput(InputAction.CallbackContext context)
@@ -141,10 +144,10 @@ public class CC_PlayerController : MonoBehaviour
             return;
 
         Vector2 lookInput = context.ReadValue<Vector2>();
-        verticalRotation = Mathf.Clamp(verticalRotation - (lookInput.y * gameSettings.LookSensitivity), -maxViewAngle, maxViewAngle);
+        verticalRotation = Mathf.Clamp(verticalRotation - (lookInput.y * gameSettings.LookSensitivity * rotationSpeed), -maxViewAngle, maxViewAngle);
         if(currentState != CharacterState.Climbing)
         {
-            transform.Rotate(new Vector3(0, lookInput.x * gameSettings.LookSensitivity, 0));
+            transform.Rotate(new Vector3(0, lookInput.x * gameSettings.LookSensitivity * rotationSpeed, 0));
         }
 
         firstPersonCamera.transform.rotation = Quaternion.Euler(new Vector3(verticalRotation, transform.eulerAngles.y, 0));
@@ -438,6 +441,9 @@ public class CC_PlayerController : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position + Vector3.up * interactHeight + interactDistance * transform.forward, interactRadius);
         // Respawn
         Gizmos.color = Color.yellow;
-        Gizmos.DrawSphere(respawnTransform.position, groundCheckRadius);
+        if (respawnTransform)
+        {
+            Gizmos.DrawSphere(respawnTransform.position, groundCheckRadius);
+        }
     }
 }
