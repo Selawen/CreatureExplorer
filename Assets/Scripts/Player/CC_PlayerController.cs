@@ -240,6 +240,10 @@ public class CC_PlayerController : MonoBehaviour
     {
         if (moveInput.sqrMagnitude > 0.1f)
         {
+            if(GroundCheck() && moveInput.y < 0)
+            {
+                currentState = CharacterState.Grounded;
+            }
             if (!Physics.Raycast(transform.position + Vector3.up * interactDistance, transform.forward, minimumClimbDistance + 0.5f, ~playerLayer) && 
                 !Physics.Raycast(transform.position, transform.forward, minimumClimbDistance + 0.5f, ~playerLayer))
             {
