@@ -9,7 +9,8 @@ abstract public class Action : MonoBehaviour
     [field: SerializeField] public string Onomatopea { get; private set; }
 
     [field: Header("Player Feedback")]
-    [field: SerializeField] protected string startAnimationTrigger, duringAnimationTrigger;
+    [field: SerializeField] protected string startAnimationTrigger;
+    [field: SerializeField] protected string duringAnimationTrigger;
     [field: SerializeField] private string finishAnimationTrigger;
     [field: SerializeField] private AudioClip sound;
     [field: SerializeField] private bool oneShot;
@@ -42,7 +43,7 @@ abstract public class Action : MonoBehaviour
 
     protected virtual void Awake()
     {
-        animator = GetComponentInParent<Animator>();
+        animator = transform.root.GetComponentInChildren<Animator>();
         soundPlayer = GetComponentInParent<SoundPlayer>();
 
         failSource = new CancellationTokenSource();
@@ -67,13 +68,13 @@ abstract public class Action : MonoBehaviour
         }
 
 
-        if (startAnimationTrigger != null)
+        if (startAnimationTrigger != "")
         {
-            animator.SetTrigger(startAnimationTrigger);
+            animator?.SetTrigger(startAnimationTrigger);
         }
-        else if (duringAnimationTrigger != null)
+        else if (duringAnimationTrigger != "")
         {
-            animator.SetTrigger(duringAnimationTrigger);
+            animator?.SetTrigger(duringAnimationTrigger);
         }
 
         return PerformAction(creature, target);
@@ -242,17 +243,15 @@ abstract public class Action : MonoBehaviour
 
             failSource.Cancel();
 
-            Debug.Log("check if animation ended");
-
             await EndAnimation();
-
-            Debug.Log("animation ended"); 
             finished = true;
         }
     }
 
     protected async Task EndAnimation()
     {
+        if (animator == null) return;
+
         animator.SetTrigger(finishAnimationTrigger);
 
         int maxLoops = 100;
