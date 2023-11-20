@@ -2,22 +2,52 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class PictureStorage : PageComponentInteractor
 {
     [SerializeField] private Transform[] photoSpots;
-    [SerializeField] private TMP_Text camStorageText;
 
-    private ushort currentPictureIndex;
+    [SerializeField] private TMP_Text camStorageText;
+    [SerializeField] private TMP_Text maxStorageText;
+
+    [SerializeField] private Image storageBackgroundImage;
+    [SerializeField] private Sprite storageBackgroundDefault;
+    [SerializeField] private Sprite storageBackgroundFull;
+
+    //private ushort currentPictureIndex;
     private Inventory<PagePicture> pictureInventory;
 
     private void Awake()
     {
         pictureInventory = new Inventory<PagePicture>((ushort)photoSpots.Length);
+        maxStorageText.text = pictureInventory.GetCapacity().ToString();
         UpdateCameraStorageText();
     }
 
     public bool StorageIsFull() => pictureInventory.InventoryIsFull();
+
+    public void CreatePictureFromCamera(PagePicture picture)
+    {
+        for (int i = 0; i < photoSpots.Length; i++)
+        {
+            Transform t = photoSpots[i];
+            if (t.childCount == 0)
+            {
+                pictureInventory.AddItemToInventory(picture);
+
+                picture.transform.SetPositionAndRotation(t.position, t.rotation);
+                picture.transform.SetParent(t, true);
+
+                picture.SetInteractor(this);
+
+                UpdateCameraStorageText();
+
+                return;
+            }
+        }
+        Debug.LogWarning("An attempt to add a picture while there are no available photo spots has been made! This should be impossible!");
+    }
 
     public override bool OnComponentDroppedOn(PageComponent component)
     {
@@ -34,11 +64,8 @@ public class PictureStorage : PageComponentInteractor
                 {
                     pictureInventory.AddItemToInventory(picture);
 
-                    component.transform.position = t.position;
-                    component.transform.rotation = t.rotation;
+                    component.transform.SetPositionAndRotation(t.position, t.rotation);
                     component.transform.SetParent(t, true);
-
-                    picture.SetInteractor(this);
 
                     UpdateCameraStorageText();
                     return true;
@@ -75,16 +102,17 @@ public class PictureStorage : PageComponentInteractor
 
     private void UpdateCameraStorageText()
     {
-        ushort storageLeft = (ushort)(pictureInventory.GetCapacity() - pictureInventory.GetItemCount());
-        if (storageLeft < 3)
+        if (pictureInventory.InventoryIsFull())
         {
             camStorageText.color = Color.red;
+            storageBackgroundImage.sprite = storageBackgroundFull;
         }
         else
         {
-            camStorageText.color = Color.white;
+            camStorageText.color = Color.black;
+            storageBackgroundImage.sprite = storageBackgroundDefault;
         }
-        camStorageText.text = "Storage left: " + storageLeft.ToString();
+        camStorageText.text = pictureInventory.GetItemCount().ToString();
 
     }
 }

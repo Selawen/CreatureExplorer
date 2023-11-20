@@ -59,6 +59,7 @@ public class CC_PlayerController : MonoBehaviour
 
     private FollowTarget cameraFollow;
     private PlayerInput playerInput;
+
     private CharacterController controller;
     private Vector2 moveInput;
 
@@ -94,14 +95,18 @@ public class CC_PlayerController : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
 
         respawnFadeRenderer = Instantiate(respawnOccluder, firstPersonCamera.transform).GetComponent<MeshRenderer>();
+
+        StaticQuestHandler.OnQuestOpened += () => playerInput.SwitchCurrentActionMap("Scrapbook");
+        StaticQuestHandler.OnQuestClosed += () => playerInput.SwitchCurrentActionMap("Overworld");
+
     }
 
     private void Start()
-    {
-        Scrapbook.OnBeginType += () => playerInput.SwitchCurrentActionMap("Await");
-        Scrapbook.OnEndType += () => playerInput.SwitchCurrentActionMap("Scrapbook");
-
+    { 
         cameraFollow.ChangeOffset(Vector3.up * defaultCameraHeight);
+
+        Scrapbook.OnBeginType += StartTyping;
+        Scrapbook.OnEndType += StopTyping;
     }
 
     // Update is called once per frame
@@ -408,6 +413,16 @@ public class CC_PlayerController : MonoBehaviour
         canvas.SetActive(true);
         controller.enabled = true;
         died = false;
+    }
+
+    public void StartTyping()
+    {
+        playerInput.actions.FindAction("QuickCloseBook").Disable();
+    }
+
+    public void StopTyping()
+    {
+        playerInput.actions.FindAction("QuickCloseBook").Enable();
     }
 
     private void OnDrawGizmos()
