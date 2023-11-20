@@ -69,6 +69,8 @@ public class PlayerCamera : MonoBehaviour
     public void CameraClose()
     {
         pictureCamera.fieldOfView = originalZoom;
+        camZoomSlider.value = originalZoom;
+        onZoomLevelChanged?.Invoke(1);
     }
 
     public void ZoomCamera(InputAction.CallbackContext callbackContext)
