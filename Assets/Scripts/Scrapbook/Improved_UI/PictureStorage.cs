@@ -27,12 +27,32 @@ public class PictureStorage : PageComponentInteractor
 
     public bool StorageIsFull() => pictureInventory.InventoryIsFull();
 
+    public void CreatePictureFromCamera(PagePicture picture)
+    {
+        for (int i = 0; i < photoSpots.Length; i++)
+        {
+            Transform t = photoSpots[i];
+            if (t.childCount == 0)
+            {
+                pictureInventory.AddItemToInventory(picture);
+
+                picture.transform.SetPositionAndRotation(t.position, t.rotation);
+                picture.transform.SetParent(t, true);
+
+                picture.SetInteractor(this);
+
+                UpdateCameraStorageText();
+
+                return;
+            }
+        }
+        Debug.LogWarning("An attempt to add a picture while there are no available photo spots has been made! This should be impossible!");
+    }
+
     public override bool OnComponentDroppedOn(PageComponent component)
     {
-        Debug.Log("A component has been dropped on the storage");
         if (component.GetType() != typeof(PagePicture)) return false;
 
-        Debug.Log("Component has been id'ed as a picture");
         PagePicture picture = component as PagePicture;
         if (!pictureInventory.GetContents().Contains(picture))
         {
@@ -42,13 +62,10 @@ public class PictureStorage : PageComponentInteractor
             {
                 if(t.childCount == 0)
                 {
-                    Debug.Log("Should now set picture as a parent of photo spot");
                     pictureInventory.AddItemToInventory(picture);
 
                     component.transform.SetPositionAndRotation(t.position, t.rotation);
                     component.transform.SetParent(t, true);
-
-                    //picture.SetInteractor(this);
 
                     UpdateCameraStorageText();
                     return true;

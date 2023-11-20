@@ -9,9 +9,9 @@ public class TitanStatue : MonoBehaviour, IInteractable
     [field: SerializeField] public Quest TitanQuest { get; private set; }
 
     // Remove this later
-    [SerializeField] private PlayerInput input;
+    //[SerializeField] private PlayerInput input;
 
-    [SerializeField] private UnityEvent onQuestFinished;
+    //[SerializeField] private UnityEvent onQuestFinished;
     [SerializeField] private UnityEvent onWrongPicturePresented;
 
     [SerializeField] private Material debugSwapMaterial;
@@ -27,7 +27,7 @@ public class TitanStatue : MonoBehaviour, IInteractable
         Cursor.lockState = CursorLockMode.Confined;
 
         // Move this to the player and subscribe to the QuestHandler's event there.
-        input.SwitchCurrentActionMap("Scrapbook");
+        //input.SwitchCurrentActionMap("Scrapbook");
 
         //questInfoText.gameObject.SetActive(true);
         //questShowButton.gameObject.SetActive(true);
@@ -50,7 +50,7 @@ public class TitanStatue : MonoBehaviour, IInteractable
             
             DebugChangeMaterialVisuals();
 
-            onQuestFinished?.Invoke();
+            //onQuestFinished?.Invoke();
             //picture.Remove();
 
             //if (Scrapbook.Instance.GetCollectedPictures().Contains(picture))

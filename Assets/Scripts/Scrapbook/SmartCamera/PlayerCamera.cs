@@ -116,7 +116,8 @@ public class PlayerCamera : MonoBehaviour
             PagePicture newPagePicture = Instantiate(picturePrefab);
             newPagePicture.SetPicture(spr);
             newPagePicture.LinkPictureInformation(pictureInfo);
-            storage.OnComponentDroppedOn(newPagePicture);
+
+            storage.CreatePictureFromCamera(newPagePicture);
         }
         catch (System.Exception exception)
         {

@@ -78,6 +78,10 @@ public class CC_PlayerController : MonoBehaviour
         crouchEyeOffset = defaultPlayerHeight - crouchHeight;
         cameraFollow = firstPersonCamera.GetComponent<FollowTarget>();
         playerInput = GetComponent<PlayerInput>();
+
+        StaticQuestHandler.OnQuestOpened += () => playerInput.SwitchCurrentActionMap("Scrapbook");
+        StaticQuestHandler.OnQuestClosed += () => playerInput.SwitchCurrentActionMap("Overworld");
+
     }
 
     private void Start()

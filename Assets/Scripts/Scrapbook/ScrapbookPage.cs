@@ -8,29 +8,29 @@ public class ScrapbookPage : PageComponentInteractor
     [SerializeField] private RectTransform defaultLayer;
     [SerializeField] private RectTransform overlayLayer;
 
-    private List<PageComponent> newPageComponents = new();
+    private List<PageComponent> pageComponents = new();
 
     public void SetPageNumber(int pageNumber) => pageNumberText.text = pageNumber.ToString();
 
-    public bool AddComponentToPage(PageComponent addedComponent)
+    public void AddComponentToPage(PageComponent addedComponent)
     {
-        if (newPageComponents.Contains(addedComponent)) return false;
+        if (!pageComponents.Contains(addedComponent))
+        {
+            pageComponents.Add(addedComponent);
+        }
 
-        newPageComponents.Add(addedComponent);
         if (addedComponent.GetType() == typeof(ScrapbookSticker))
         {
             addedComponent.transform.SetParent(overlayLayer, true);
-            return true;
         }
         addedComponent.transform.SetParent(defaultLayer, true);
-        return true;
     }
 
     public void RemoveComponentFromPage(PageComponent removedComponent)
     {
-        if (newPageComponents.Contains(removedComponent))
+        if (pageComponents.Contains(removedComponent))
         {
-            newPageComponents.Remove(removedComponent);
+            pageComponents.Remove(removedComponent);
         }
     }
 
