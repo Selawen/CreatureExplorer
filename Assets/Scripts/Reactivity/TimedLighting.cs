@@ -10,6 +10,7 @@ public class TimedLighting : MonoBehaviour
 
     private Skybox sky;
     private int currentTimeIndex = 0;
+    private int nextTimeIndex = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -20,10 +21,12 @@ public class TimedLighting : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (TimeSettings[currentTimeIndex+1].Start < TimeKeeper.Instance.GetTime())
+        float time = TimeKeeper.Instance.GetTime();
+        if ((nextTimeIndex > currentTimeIndex && TimeSettings[nextTimeIndex].Start < time) || (nextTimeIndex < currentTimeIndex && TimeSettings[nextTimeIndex].Start < time && TimeSettings[currentTimeIndex].Start > time))
         {
-            currentTimeIndex++;
-            currentTimeIndex %= TimeSettings.Length;
+            currentTimeIndex = nextTimeIndex;
+            nextTimeIndex++;
+            nextTimeIndex %= TimeSettings.Length;
 
 
             sky.material = TimeSettings[currentTimeIndex].SkyMaterial;
