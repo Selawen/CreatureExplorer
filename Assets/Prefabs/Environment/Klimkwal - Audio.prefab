@@ -295,6 +295,76 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: ebc2e1c3e16f907448978eee1457098e, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79a2176eece974747a779fcaa557036e, type: 3}
+--- !u!1 &2303332585225511557 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7638104345217537351, guid: 79a2176eece974747a779fcaa557036e,
+    type: 3}
+  m_PrefabInstance: {fileID: 8505306997237610434}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &8371299125433350018
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2303332585225511557}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 3365645382605875686, guid: 79a2176eece974747a779fcaa557036e, type: 3}
+--- !u!114 &2048553673824520539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2303332585225511557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea90c68946df2d04189c534a866766a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minimumEntryForce: 2
+  defaultExitForce: 4
+  bounceModifier: 1
+  minimumExitForce: 4
+  maximumExitForce: 8
+--- !u!1 &4914777379864930949 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -5603568263708238521, guid: 79a2176eece974747a779fcaa557036e,
+    type: 3}
+  m_PrefabInstance: {fileID: 8505306997237610434}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2125145654837823816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4914777379864930949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31b9394595fb5cd418df492f982adff8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <InteractionPrompt>k__BackingField: Climb
+--- !u!136 &2359503653397769026
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4914777379864930949}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 116.31308
+  m_Height: 592.48285
+  m_Direction: 1
+  m_Center: {x: -0.12050867, y: 183.98447, z: 0}
 --- !u!4 &8179190977521553449 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 79a2176eece974747a779fcaa557036e,

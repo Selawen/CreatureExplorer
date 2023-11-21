@@ -1,12 +1,10 @@
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class Scrapbook : MonoBehaviour
 {
     public static Scrapbook Instance { get; private set; }
+
     public delegate void TextTypingHandler();
 
     public static TextTypingHandler OnBeginType;
@@ -14,15 +12,20 @@ public class Scrapbook : MonoBehaviour
 
     public GraphicRaycaster Raycaster;
     public ScrapbookPage CurrentPage { get { return allPages[currentPageIndex]; } }
-    //public bool CollectionIsFull { get { return collectedPictures.InventoryIsFull(); } }
 
     [SerializeField] private int scrapbookPageCount = 6;
-    //[SerializeField] private ushort maximumUnplacedPictureCount = 10;
-    //[SerializeField] private float rotationRate = 5f;
+
+    [SerializeField] private RectTransform book;
+    [SerializeField] private Button bookQuestButton;
+
+    [SerializeField] private Vector2 menuPosition;
+    [SerializeField] private Vector2 questDockPosition;
+    [SerializeField] private Vector2 questExtendPosition;
 
     [SerializeField] private GameObject elementsPanel;
+    [SerializeField] private GameObject extrasGroup;
+
     [SerializeField] private RectTransform pagesParent;
-    //[SerializeField] private LayoutGroup picturePanel;
 
     [SerializeField] private GameObject previousPageButton;
     [SerializeField] private GameObject nextPageButton;
@@ -32,8 +35,6 @@ public class Scrapbook : MonoBehaviour
 
     private int currentPageIndex;
 
-    //private MoveablePageComponent targetComponent;
-    //private Inventory<PagePicture> collectedPictures;
 
     private ScrapbookPage[] allPages;
 
@@ -45,18 +46,11 @@ public class Scrapbook : MonoBehaviour
         }
         Instance = this;
 
-        allPages = new ScrapbookPage[scrapbookPageCount];
-        //collectedPictures = new Inventory<PagePicture>(maximumUnplacedPictureCount);
+        StaticQuestHandler.OnQuestOpened += OpenBookForQuest;
+        StaticQuestHandler.OnQuestClosed += CloseBookForQuest;
 
-        //UpdateCameraStorageText();
+        SetupScrapbook();
 
-        for (int i = 0; i < scrapbookPageCount; i++)
-        {
-            ScrapbookPage newPage = Instantiate(scrapbookPagePrefab, pagesParent);
-            newPage.SetPageNumber(i + 1);
-            newPage.gameObject.SetActive(i == 0);
-            allPages[i] = newPage;
-        }
         previousPageButton.SetActive(false);
     }
     private void Start()
@@ -64,51 +58,21 @@ public class Scrapbook : MonoBehaviour
         ClosePages();
     }
 
-    //public void GetClickInput(InputAction.CallbackContext callbackContext)
-    //{
-    //    if(callbackContext.started && targetComponent == null)
-    //    {
-    //        // Begin drawing a group selection rectangle (to be implemented)
-    //        return;
-    //    }
-    //    if(callbackContext.performed && targetComponent != null)
-    //    {
-    //        // Can now start dragging the element
-    //    }
-    //    if (callbackContext.canceled)
-    //    {
-    //        if (targetComponent == null)
-    //        {
-    //            // End drawing a group selection rectangle (to be implemented) and create a group of all elements within that rectangle
-    //            return;
-    //        }
-    //    }
-    //}
-
-    //public void GetTurnAndScaleInput(InputAction.CallbackContext callbackContext)
-    //{
-    //    if (targetComponent == null || !targetComponent.PlacedOnPage) return;
-
-    //    if (callbackContext.performed)
-    //    {
-    //        targetComponent.transform.Rotate(new(0, 0, rotationRate * callbackContext.ReadValue<Vector2>().x));
-    //        if (targetComponent.GetType() == typeof(PagePicture) || targetComponent.GetType() == typeof(ScrapbookSticker))
-    //        {
-    //            targetComponent.transform.localScale = Mathf.Clamp(targetComponent.transform.localScale.x + 0.1f * callbackContext.ReadValue<Vector2>().y, 1, 3) * Vector3.one;
-    //        }
-    //    }
-    //}
-
     public void ClosePages()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        extrasGroup.SetActive(false);
         elementsPanel.SetActive(false);
+
+        StaticQuestHandler.OnQuestClosed?.Invoke();
+
     }
 
     public void OpenPages()
     {
         Cursor.lockState = CursorLockMode.Confined;
         elementsPanel.SetActive(true);
+        extrasGroup.SetActive(true);
     }
 
     public void GoToNextPage()
@@ -142,57 +106,69 @@ public class Scrapbook : MonoBehaviour
         }
     }
 
-    //public bool AddPictureToCollection(PagePicture snappedPicture)
-    //{
-    //    if (collectedPictures.AddItemToInventory(snappedPicture))
-    //    {
-    //        snappedPicture.transform.SetParent(picturePanel.transform, false);
-    //        UpdateCameraStorageText();
-    //        return true;
-    //    }
-    //    return false;
-    //    To do: send out a message that the scrapbook's picture storage is full.
-    //}
-
-    //public bool RemovePictureFromCollection(PagePicture removedPicture)
-    //{
-    //    if (collectedPictures.RemoveItemFromInventory(removedPicture))
-    //    {
-    //        UpdateCameraStorageText();
-    //        return true;
-    //    }
-    //    return false;
-    //}
-
-    //public List<PagePicture> GetCollectedPictures()
-    //{
-    //    return collectedPictures.GetContents();
-    //}
-
     public void CreateNewTextEntry()
     {
-
         PageText newText = Instantiate(textEntryPrefab, CurrentPage.transform);
-        newText.TextField.onSelect.AddListener((string s) => { OnBeginType?.Invoke(); });
-        newText.TextField.onDeselect.AddListener((string s) => { OnEndType?.Invoke(); });
+        newText.TextField.onSelect.AddListener((string s) => OnBeginType?.Invoke());
+        newText.TextField.onDeselect.AddListener((string s) => OnEndType?.Invoke());
     }
-    //public void SwapTargetComponent(MoveablePageComponent newComponent) => targetComponent = newComponent;
 
-    //private void UpdateCameraStorageText()
-    //{
-    //    if (camStorageText == null) return;
+    private void OpenBookForQuest()
+    {
+        elementsPanel.SetActive(true);
+        book.transform.localPosition = questDockPosition;
+        bookQuestButton.gameObject.SetActive(true);
+        bookQuestButton.onClick.AddListener(UndockBook);
+        bookQuestButton.transform.rotation = Quaternion.Euler(Vector3.forward * -90);
 
-    //    ushort storageLeft = (ushort)(collectedPictures.GetCapacity() - collectedPictures.GetItemCount());
-    //    if(storageLeft < 3)
-    //    {
-    //        camStorageText.color = Color.red;
-    //    }
-    //    else
-    //    {
-    //        camStorageText.color = Color.white;
-    //    }
-    //    camStorageText.text = "Storage left: " + storageLeft.ToString();
+        PagePicture.OnPictureClicked += DockDelegate;
+        PagePicture.OnBeginPictureDrag += DockBook;
+    }
 
-    //}
+    private void CloseBookForQuest()
+    {
+        bookQuestButton.onClick.RemoveAllListeners();
+        bookQuestButton.gameObject.SetActive(false);
+        book.transform.localPosition = menuPosition;
+        elementsPanel.SetActive(false);
+
+        PagePicture.OnPictureClicked -= DockDelegate;
+        PagePicture.OnBeginPictureDrag -= DockBook;
+    }
+
+    private void UndockBook()
+    {
+        book.transform.localPosition = questExtendPosition;
+        bookQuestButton.onClick.RemoveListener(UndockBook);
+        bookQuestButton.onClick.AddListener(DockBook);
+        bookQuestButton.transform.rotation = Quaternion.Euler(Vector3.forward * 90);
+    }
+
+    private void DockDelegate(PagePicture pict)
+    {
+        DockBook();
+    }
+
+    private void DockBook()
+    {
+        book.transform.localPosition = questDockPosition;
+        bookQuestButton.onClick.RemoveListener(DockBook);
+        bookQuestButton.onClick.AddListener(UndockBook);
+        bookQuestButton.transform.rotation = Quaternion.Euler(Vector3.forward * -90);
+    }
+
+    private void SetupScrapbook()
+    {
+
+        allPages = new ScrapbookPage[scrapbookPageCount];
+
+        for (int i = 0; i < scrapbookPageCount; i++)
+        {
+            ScrapbookPage newPage = Instantiate(scrapbookPagePrefab, pagesParent);
+            newPage.SetPageNumber(i + 1);
+            newPage.gameObject.SetActive(i == 0);
+            allPages[i] = newPage;
+        }
+    }
 
 }

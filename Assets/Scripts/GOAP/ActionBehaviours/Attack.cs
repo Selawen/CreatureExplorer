@@ -87,7 +87,6 @@ public class Attack : Action
         moveAgent.ResetPath();
         //moveAgent.SetDestination(moveAgent.transform.position);
 
-        // TODO: implement attack on player
         if (target.TryGetComponent(out Creature targetCreature))
         {
             if (targetCreature.AttackSuccess(moveAgent.transform.position))
@@ -101,11 +100,19 @@ public class Attack : Action
                 if (GetComponentInParent<Creature>().LogDebugs)
                     Debug.Log("Attack failed");
 
-                failed = true;
                 failSource.Cancel();
+
+                await EndAnimation();
+
+                failed = true;
                 return;
             }
         }
+        else if (target.TryGetComponent(out CC_PlayerController player))
+        {
+            player.GoDie();
+        }
+            
         base.DoAction();
     }
     private async Task CheckDistanceToDestination()

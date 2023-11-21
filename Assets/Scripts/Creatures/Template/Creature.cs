@@ -59,8 +59,6 @@ public class Creature : MonoBehaviour
 
     protected virtual void FixedUpdate()
     {
-        // TODO: make it possible to interrupt actions
-
         UpdateValues();
         if (CurrentAction != null)
         {
@@ -181,7 +179,7 @@ public class Creature : MonoBehaviour
     {
         // Make creature tire faster when it's bedtime
         if (TimeKeeper.Instance.IsRightTime(data.Bedtime, data.WakeTime))
-            currentCreatureState.AddValue(0.5f * Time.deltaTime, StateType.Tiredness);
+            currentCreatureState.AddValue(2f * Time.deltaTime, StateType.Tiredness);
 
         foreach (MoodState change in data.ChangesEverySecond.CreatureStates)
         {
@@ -304,6 +302,7 @@ public class Creature : MonoBehaviour
             goalText.text = "DEAD";
             soundText.text = "DEAD";
             actionText.text = "";
+            GetComponentInChildren<Animator>().SetTrigger("Die");
             this.enabled = false;
 
             return true;
@@ -320,7 +319,6 @@ public class Creature : MonoBehaviour
         DebugMessage("Was Attacked");
     }
 
-    // TODO: factor in loudness
     public void HearPlayer(Vector3 playerPos, float playerLoudness)
     {
         if ((transform.position - playerPos).sqrMagnitude < playerLoudness * data.HearingSensitivity * CurrentAction.Awareness)

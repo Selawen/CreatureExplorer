@@ -17,7 +17,9 @@ public class CC_PlayerController : MonoBehaviour
     [SerializeField] private float airSpeed = 4f;
     [SerializeField] private float strafeSprintSpeed = 7f;
     [SerializeField] private float jumpForce = 10f;
+    [SerializeField] private float deadlyFallVelocity = 10f;
 
+    [Header("Loudness")]
     [SerializeField] private float walkingLoudness = 1f;
     [SerializeField] private float sneakingLoudness = 0.5f;
     [SerializeField] private float sprintingLoudness = 2.5f;
@@ -27,18 +29,28 @@ public class CC_PlayerController : MonoBehaviour
     [SerializeField] private float maxSprintAngle = 15f;
     [SerializeField] private float maxViewAngle = 70f;
 
+    [Header("Interaction")]
+    [SerializeField] private float climbDistance = 0.25f;
     [SerializeField] private float interactDistance = 2f;
     [SerializeField] private float interactRadius = 5f;
     [SerializeField] private float interactHeight = 0.875f;
+    [SerializeField] private UnityEvent<string> onInteractPromptChanged;
 
     [SerializeField] private float minimumClimbDistance = 1f;
+    [SerializeField] private LayerMask playerLayer;
 
+    [Header("GroundCheck")]
     [SerializeField] private float groundCheckRadius = 0.2f;
     [SerializeField] private float groundCheckDistance = 0.3f;
 
+    [Header("Death")]
+    [SerializeField] private Transform respawnTransform;
+    [SerializeField] private float respawnDuration = 0.5f;
+    [SerializeField] private GameObject respawnOccluder;
+    [SerializeField] private UnityEvent exitCamera;
+    [SerializeField] private UnityEvent closeScrapbook;
+
     [SerializeField] private Camera firstPersonCamera;
-    [SerializeField] private LayerMask playerLayer;
-    [SerializeField] private UnityEvent<string> onInteractPromptChanged;
 
     [SerializeField] private GameSettings gameSettings;
 
@@ -48,15 +60,19 @@ public class CC_PlayerController : MonoBehaviour
 
     private FollowTarget cameraFollow;
     private PlayerInput playerInput;
+
     private CharacterController controller;
     private Vector2 moveInput;
 
     private Vector3 moveDirection;
     private float verticalRotation;
     private float verticalSpeed;
+    private float rotationSpeed = 1f;
 
     private bool sprinting;
     private bool crouching;
+    private bool died = false;
+    private MeshRenderer respawnFadeRenderer;
 
     private IInteractable closestInteractable;
 
@@ -72,24 +88,36 @@ public class CC_PlayerController : MonoBehaviour
         verticalRotation = firstPersonCamera.transform.eulerAngles.x;
         Cursor.lockState = CursorLockMode.Locked;
         controller = GetComponent<CharacterController>();
-        defaultPlayerHeight = controller.height;
-        defaultCameraHeight = defaultPlayerHeight;
-        crouchEyeOffset = defaultPlayerHeight - crouchHeight;
+
         cameraFollow = firstPersonCamera.GetComponent<FollowTarget>();
+
+        defaultPlayerHeight = controller.height;
+        
+        crouchEyeOffset = defaultPlayerHeight - crouchHeight;
+
         playerInput = GetComponent<PlayerInput>();
+
+        respawnFadeRenderer = Instantiate(respawnOccluder, firstPersonCamera.transform).GetComponent<MeshRenderer>();
+
+        StaticQuestHandler.OnQuestOpened += () => playerInput.SwitchCurrentActionMap("Scrapbook");
+        StaticQuestHandler.OnQuestClosed += () => playerInput.SwitchCurrentActionMap("Overworld");
+
     }
 
     private void Start()
     {
-        Scrapbook.OnBeginType += () => playerInput.SwitchCurrentActionMap("Await");
-        Scrapbook.OnEndType += () => playerInput.SwitchCurrentActionMap("Scrapbook");
+        defaultCameraHeight = cameraFollow.TrueOffset.y;
 
-        cameraFollow.ChangeOffset(Vector3.up * defaultCameraHeight);
+        Scrapbook.OnBeginType += StartTyping;
+        Scrapbook.OnEndType += StopTyping;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (died)
+            return;
+
         switch (currentState)
         {
             case CharacterState.Grounded:
@@ -98,13 +126,18 @@ public class CC_PlayerController : MonoBehaviour
                 break;
             case CharacterState.Aerial:
                 Fall();
+                HandleInteract();
                 break;
             case CharacterState.Climbing:
                 Climb();
                 break;
         }
-        controller.Move((moveDirection + Vector3.up * verticalSpeed) * Time.deltaTime);
+        
+        if (!died)
+            controller.Move((moveDirection + Vector3.up * verticalSpeed) * Time.deltaTime);
     }
+
+    public void SetRotationSpeed(float newSpeed) => rotationSpeed = newSpeed;
 
     public void GetMoveInput(InputAction.CallbackContext context) => moveInput = context.ReadValue<Vector2>();
 
@@ -114,10 +147,10 @@ public class CC_PlayerController : MonoBehaviour
             return;
 
         Vector2 lookInput = context.ReadValue<Vector2>();
-        verticalRotation = Mathf.Clamp(verticalRotation - (lookInput.y * gameSettings.LookSensitivity), -maxViewAngle, maxViewAngle);
+        verticalRotation = Mathf.Clamp(verticalRotation - (lookInput.y * gameSettings.LookSensitivity * rotationSpeed), -maxViewAngle, maxViewAngle);
         if(currentState != CharacterState.Climbing)
         {
-            transform.Rotate(new Vector3(0, lookInput.x * gameSettings.LookSensitivity, 0));
+            transform.Rotate(new Vector3(0, lookInput.x * gameSettings.LookSensitivity * rotationSpeed, 0));
         }
 
         firstPersonCamera.transform.rotation = Quaternion.Euler(new Vector3(verticalRotation, transform.eulerAngles.y, 0));
@@ -164,11 +197,14 @@ public class CC_PlayerController : MonoBehaviour
 
     public void GetInteractInput(InputAction.CallbackContext context)
     {
+        if (currentState == CharacterState.Climbing || currentState == CharacterState.Awaiting) return;
+
         if (context.started && closestInteractable != null)
         {
             if(closestInteractable.GetType() == typeof(JellyfishLadder))
             {
-                StartCoroutine(PrepareClimb(closestInteractable as JellyfishLadder));
+                StartClimb();
+                //StartCoroutine(PrepareClimb(closestInteractable as JellyfishLadder));
                 return;
             }
             closestInteractable.Interact();
@@ -210,6 +246,10 @@ public class CC_PlayerController : MonoBehaviour
     {
         if (moveInput.sqrMagnitude > 0.1f)
         {
+            if(GroundCheck() && moveInput.y < 0)
+            {
+                currentState = CharacterState.Grounded;
+            }
             if (!Physics.Raycast(transform.position + Vector3.up * interactDistance, transform.forward, minimumClimbDistance + 0.5f, ~playerLayer) && 
                 !Physics.Raycast(transform.position, transform.forward, minimumClimbDistance + 0.5f, ~playerLayer))
             {
@@ -238,12 +278,28 @@ public class CC_PlayerController : MonoBehaviour
         verticalSpeed -= 9.81f * Time.deltaTime;
         if (GroundCheck())
         {
-            Physics.Raycast(transform.position, transform.up * -1, out RaycastHit hit, 2f, ~playerLayer);
-            verticalSpeed = 0;
-
-            transform.position = hit.point;
-            currentState = CharacterState.Grounded;
-            return;
+            if(Physics.Raycast(transform.position, transform.up * -1, out RaycastHit hit, 1f, ~playerLayer))
+            {
+                if(hit.transform.TryGetComponent(out BounceSurface surface))
+                {
+                    if(surface.Bounce(verticalSpeed * -1, out float exitForce))
+                    {
+                        verticalSpeed = exitForce;
+                        return;
+                    }
+                }
+            }
+            if (verticalSpeed < -deadlyFallVelocity)
+            {
+                StartCoroutine(Die());
+            }
+            else
+            {
+                Physics.Raycast(transform.position, transform.up * -1, out RaycastHit floorHit, 2f, ~playerLayer);
+                transform.position = floorHit.point;
+                currentState = CharacterState.Grounded;
+                return;
+            }
         }
         //Vector3 fallingSpeed = new(controller.velocity.x, controller.velocity.y - (9.81f * Time.deltaTime), controller.velocity.z);
 
@@ -253,35 +309,50 @@ public class CC_PlayerController : MonoBehaviour
     {
         verticalSpeed = jumpForce;
     }
+
     private void HandleInteract()
     {
         closestInteractable = null;
 
-        Collider[] collisions = Physics.OverlapSphere(transform.position + transform.forward * interactDistance + Vector3.up * interactHeight, interactRadius, ~playerLayer);
-        if(collisions.Length > 0)
+        if(Physics.Raycast(transform.position + Vector3.up * interactHeight, transform.forward, out RaycastHit climb, climbDistance, ~playerLayer))
         {
-            Collider closest = null;
-            foreach(Collider c in collisions)
+            if(climb.transform.TryGetComponent(out JellyfishLadder ladder))
             {
-                Vector3 interactOrigin = transform.position + Vector3.up * interactHeight;
-                if (Physics.Raycast(interactOrigin, c.transform.position - interactOrigin, out RaycastHit hit, interactDistance, ~playerLayer))
+                ladder.ContactPoint = climb.point;
+                closestInteractable = ladder;
+            }
+        }
+        else
+        {
+            Collider[] collisions = Physics.OverlapSphere(transform.position + transform.forward * interactDistance + Vector3.up * interactHeight, interactRadius, ~playerLayer);
+            if(collisions.Length > 0)
+            {
+                Collider closest = null;
+                foreach(Collider c in collisions)
                 {
-                    if (hit.transform.gameObject != c.gameObject)
+                    // First, we check if the collisions we found can actually be seen from the player's perspective and aren't obscured by another object
+                    Vector3 interactOrigin = transform.position + Vector3.up * interactHeight;
+                    if (Physics.Raycast(interactOrigin, c.transform.position - interactOrigin, out RaycastHit hit, interactDistance, ~playerLayer))
                     {
-                        continue;
-                    }
-                }
-                if(c.TryGetComponent(out IInteractable interactable))
-                {
-                    if(closest == null || Vector3.Distance(c.transform.position, transform.position) < Vector3.Distance(closest.transform.position, transform.position))
-                    {
-                        closest = c;
-                        closestInteractable = interactable;
-                        if(closestInteractable.GetType() == typeof(JellyfishLadder))
+                        if (hit.transform.gameObject != c.gameObject)
                         {
-                            JellyfishLadder climbable = closestInteractable as JellyfishLadder;
-                            Physics.Raycast(transform.position + Vector3.up * interactHeight, transform.forward, out RaycastHit contact, interactDistance * 2 , ~playerLayer);
-                            climbable.ContactPoint = contact.point;
+                            continue;
+                        }
+                    }
+                    if(c.TryGetComponent(out IInteractable interactable))
+                    {
+                        if (interactable.GetType() == typeof(JellyfishLadder)) continue;
+
+                        if(closest == null || Vector3.Distance(c.transform.position, transform.position) < Vector3.Distance(closest.transform.position, transform.position))
+                        {
+                            closest = c;
+                            closestInteractable = interactable;
+                            //if(closestInteractable.GetType() == typeof(JellyfishLadder))
+                            //{
+                            //    JellyfishLadder climbable = closestInteractable as JellyfishLadder;
+                            //    Physics.Raycast(transform.position + Vector3.up * interactHeight, transform.forward, out RaycastHit contact, interactDistance * 2 , ~playerLayer);
+                            //    climbable.ContactPoint = contact.point;
+                            //}
                         }
                     }
                 }
@@ -292,7 +363,7 @@ public class CC_PlayerController : MonoBehaviour
             onInteractPromptChanged?.Invoke(closestInteractable.InteractionPrompt);
             return;
         }
-        onInteractPromptChanged?.Invoke("");
+        onInteractPromptChanged?.Invoke(string.Empty);
     }
 
     private bool GroundCheck()
@@ -317,9 +388,20 @@ public class CC_PlayerController : MonoBehaviour
         return false;
     }
 
+    public void GoDie() => StartCoroutine(Die());
+
+    private void StartClimb()
+    {
+        onInteractPromptChanged?.Invoke("");
+        verticalSpeed = 0;
+        moveDirection = Vector3.zero;
+        currentState = CharacterState.Climbing;
+    }
+
     private IEnumerator PrepareClimb(JellyfishLadder ladder)
     {
         currentState = CharacterState.Awaiting;
+        onInteractPromptChanged?.Invoke("");
         while(Vector3.Distance(transform.position + Vector3.up * interactHeight, ladder.ContactPoint) > minimumClimbDistance)
         {
             moveDirection = transform.forward * walkSpeed;
@@ -330,14 +412,80 @@ public class CC_PlayerController : MonoBehaviour
         currentState = CharacterState.Climbing;
     }
 
+    private IEnumerator Die()
+    {
+        died = true;
+        moveDirection = Vector3.zero;
+        verticalRotation = 0;
+        verticalSpeed = 0;
+
+        GameObject canvas = GetComponentInChildren<Canvas>().gameObject;
+        canvas.SetActive(false);
+        controller.enabled = false;
+        float timer = 0.001f;
+
+        Material fadeMaterial = respawnFadeRenderer.material;
+        Color fadeColor = fadeMaterial.color;
+
+        GetComponent<PlayerCamera>().DeleteCameraRoll();
+
+        // Fade in vision obscurer, move player, then fade it out again
+        while (timer < respawnDuration*0.3f)
+        {
+            fadeColor.a = Mathf.InverseLerp(0, 0.3f * respawnDuration, timer);
+            fadeMaterial.color = fadeColor;
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.position = respawnTransform.position;
+
+        // TODO: refactor
+        if (playerInput.currentActionMap.name == "Camera")
+            exitCamera.Invoke();
+        else if (playerInput.currentActionMap.name == "Scrapbook")
+            closeScrapbook.Invoke();
+
+        while (timer < respawnDuration)
+        {
+            fadeColor.a = Mathf.InverseLerp(respawnDuration, 0.6f* respawnDuration,timer);
+            fadeMaterial.color = fadeColor;
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        canvas.SetActive(true);
+        controller.enabled = true;
+        died = false;
+    }
+
+    public void StartTyping()
+    {
+        playerInput.actions.FindAction("QuickCloseBook").Disable();
+    }
+
+    public void StopTyping()
+    {
+        playerInput.actions.FindAction("QuickCloseBook").Enable();
+    }
+
     private void OnDrawGizmos()
     {
+        // Groundcheck
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position + transform.forward * groundCheckDistance, groundCheckRadius);
         Gizmos.DrawWireSphere(transform.position - transform.forward * groundCheckDistance, groundCheckRadius);
         Gizmos.DrawWireSphere(transform.position + transform.right * groundCheckDistance, groundCheckRadius);
         Gizmos.DrawWireSphere(transform.position - transform.right * groundCheckDistance, groundCheckRadius);
+        // Interaction
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(transform.position + Vector3.up * interactHeight + interactDistance * transform.forward, interactRadius);
+        // Respawn
+        Gizmos.color = Color.yellow;
+        if (respawnTransform)
+        {
+            Gizmos.DrawSphere(respawnTransform.position, groundCheckRadius);
+        }
     }
 }

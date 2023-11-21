@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e62f4e4ed19d36747a5ec4812cf5ae54, type: 3}
+  m_Script: {fileID: 11500000, guid: 9eb38f3d9b35bfb4ea6b0692b779d235, type: 3}
   m_Name: ShowChargerQuest
   m_EditorClassIdentifier: 
-  DebugDescription: Please show me the creature that can fell nature with it's powerful
+  questDescription: Please show me the creature that can fell nature with it's powerful
     charge
-  requiredObject: {fileID: 3808438238322878749, guid: e34132a6dc9d16d419298730646672cc,
-    type: 3}
+  requiredConditions:
+  - {fileID: 11400000, guid: ad3c682eb08ca2c458d9b9d6d1c01f63, type: 2}

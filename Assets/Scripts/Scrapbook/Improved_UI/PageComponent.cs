@@ -16,7 +16,14 @@ public abstract class PageComponent : MonoBehaviour, IBeginDragHandler, IDragHan
     {
         _rectTransform = GetComponent<RectTransform>();
     }
-    public void SetInteractor(PageComponentInteractor interactor) => currentInteractor = interactor;
+    public void SetInteractor(PageComponentInteractor interactor)
+    {
+        if(currentInteractor != null)
+        {
+            currentInteractor.RemoveFromInteractor(this);
+        }
+        currentInteractor = interactor;
+    }
 
     public virtual void OnBeginDrag(PointerEventData eventData)
     {
@@ -31,7 +38,6 @@ public abstract class PageComponent : MonoBehaviour, IBeginDragHandler, IDragHan
         }
         if(eventData.button == PointerEventData.InputButton.Right)
         {
-            Debug.Log("Received drag right input");
             TurnAndScale(eventData.delta);
         }
     }
@@ -44,26 +50,17 @@ public abstract class PageComponent : MonoBehaviour, IBeginDragHandler, IDragHan
         {
             if(rayResult.gameObject.TryGetComponent(out PageComponentInteractor pageComponentInteractor))
             {
-                if(currentInteractor != null && currentInteractor != pageComponentInteractor)
-                {
-                    currentInteractor.RemoveFromInteractor(this);
-                }
                 if (pageComponentInteractor.OnComponentDroppedOn(this))
                 {
+                    if(currentInteractor != pageComponentInteractor)
+                    {
+                        SetInteractor(pageComponentInteractor);
+                    }
                     return;
-                } 
+                }
             }
         }
         _rectTransform.position = startPosition;
-    }
-
-    public void Remove()
-    {
-        if(currentInteractor != null)
-        {
-            currentInteractor.RemoveFromInteractor(this);
-        }
-        currentInteractor = null;
     }
 
     private void Move(Vector2 position)

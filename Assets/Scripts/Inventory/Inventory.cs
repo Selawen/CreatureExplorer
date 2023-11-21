@@ -44,6 +44,8 @@ public class Inventory<T>
         return false;
     }
 
+    public void EmptyInventory() => inventoryItems.Clear();
+
     public bool InventoryIsFull() => inventoryItems.Count == capacity;
 
     // Get the item at a certain index, if it exists. Otherwise, return the default.
