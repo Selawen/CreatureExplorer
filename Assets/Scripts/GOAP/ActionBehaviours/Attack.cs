@@ -100,8 +100,11 @@ public class Attack : Action
                 if (GetComponentInParent<Creature>().LogDebugs)
                     Debug.Log("Attack failed");
 
-                failed = true;
                 failSource.Cancel();
+
+                await EndAnimation();
+
+                failed = true;
                 return;
             }
         }

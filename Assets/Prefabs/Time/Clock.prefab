@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3853389856594002757}
   - component: {fileID: 3853389856594002756}
+  - component: {fileID: 2302481093676262954}
   m_Layer: 0
   m_Name: Clock
   m_TagString: Untagged
@@ -46,3 +47,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   secondsPerHour: 60
   hoursPerDay: 24
+--- !u!114 &2302481093676262954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3853389856594002759}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cb3e91ec8bc2514686ad888b082e96f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <TimeSettings>k__BackingField:
+  - SkyMaterial: {fileID: 2100000, guid: 55e64e617a8bfff4ba846574e2651eb9, type: 2}
+    LightFilter: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+    LightTemperature: 6570
+    Start: 6
+  - SkyMaterial: {fileID: 2100000, guid: 33e64bce6d199674c96d5349b0183630, type: 2}
+    LightFilter: {r: 0.25587398, g: 0.25587398, b: 0.4339623, a: 1}
+    LightTemperature: 6570
+    Start: 20
+  mainLight: {fileID: 0}

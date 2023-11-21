@@ -302,6 +302,7 @@ public class Creature : MonoBehaviour
             goalText.text = "DEAD";
             soundText.text = "DEAD";
             actionText.text = "";
+            GetComponentInChildren<Animator>().SetTrigger("Die");
             this.enabled = false;
 
             return true;
