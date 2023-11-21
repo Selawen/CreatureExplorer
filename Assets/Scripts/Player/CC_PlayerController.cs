@@ -30,6 +30,7 @@ public class CC_PlayerController : MonoBehaviour
     [SerializeField] private float maxViewAngle = 70f;
 
     [Header("Interaction")]
+    [SerializeField] private float climbDistance = 0.25f;
     [SerializeField] private float interactDistance = 2f;
     [SerializeField] private float interactRadius = 5f;
     [SerializeField] private float interactHeight = 0.875f;
@@ -88,10 +89,11 @@ public class CC_PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         controller = GetComponent<CharacterController>();
 
-        defaultPlayerHeight = controller.height;
-        defaultCameraHeight = defaultPlayerHeight;
-        crouchEyeOffset = defaultPlayerHeight - crouchHeight;
         cameraFollow = firstPersonCamera.GetComponent<FollowTarget>();
+
+        defaultPlayerHeight = controller.height;
+        
+        crouchEyeOffset = defaultPlayerHeight - crouchHeight;
 
         playerInput = GetComponent<PlayerInput>();
 
@@ -103,8 +105,8 @@ public class CC_PlayerController : MonoBehaviour
     }
 
     private void Start()
-    { 
-        cameraFollow.ChangeOffset(Vector3.up * defaultCameraHeight);
+    {
+        defaultCameraHeight = cameraFollow.TrueOffset.y;
 
         Scrapbook.OnBeginType += StartTyping;
         Scrapbook.OnEndType += StopTyping;
@@ -124,6 +126,7 @@ public class CC_PlayerController : MonoBehaviour
                 break;
             case CharacterState.Aerial:
                 Fall();
+                HandleInteract();
                 break;
             case CharacterState.Climbing:
                 Climb();
@@ -194,11 +197,14 @@ public class CC_PlayerController : MonoBehaviour
 
     public void GetInteractInput(InputAction.CallbackContext context)
     {
+        if (currentState == CharacterState.Climbing || currentState == CharacterState.Awaiting) return;
+
         if (context.started && closestInteractable != null)
         {
             if(closestInteractable.GetType() == typeof(JellyfishLadder))
             {
-                StartCoroutine(PrepareClimb(closestInteractable as JellyfishLadder));
+                StartClimb();
+                //StartCoroutine(PrepareClimb(closestInteractable as JellyfishLadder));
                 return;
             }
             closestInteractable.Interact();
@@ -240,6 +246,10 @@ public class CC_PlayerController : MonoBehaviour
     {
         if (moveInput.sqrMagnitude > 0.1f)
         {
+            if(GroundCheck() && moveInput.y < 0)
+            {
+                currentState = CharacterState.Grounded;
+            }
             if (!Physics.Raycast(transform.position + Vector3.up * interactDistance, transform.forward, minimumClimbDistance + 0.5f, ~playerLayer) && 
                 !Physics.Raycast(transform.position, transform.forward, minimumClimbDistance + 0.5f, ~playerLayer))
             {
@@ -275,8 +285,6 @@ public class CC_PlayerController : MonoBehaviour
             else
             {
                 Physics.Raycast(transform.position, transform.up * -1, out RaycastHit hit, 2f, ~playerLayer);
-                verticalSpeed = 0;
-
                 transform.position = hit.point;
                 currentState = CharacterState.Grounded;
                 return;
@@ -295,31 +303,45 @@ public class CC_PlayerController : MonoBehaviour
     {
         closestInteractable = null;
 
-        Collider[] collisions = Physics.OverlapSphere(transform.position + transform.forward * interactDistance + Vector3.up * interactHeight, interactRadius, ~playerLayer);
-        if(collisions.Length > 0)
+        if(Physics.Raycast(transform.position + Vector3.up * interactHeight, transform.forward, out RaycastHit climb, climbDistance, ~playerLayer))
         {
-            Collider closest = null;
-            foreach(Collider c in collisions)
+            if(climb.transform.TryGetComponent(out JellyfishLadder ladder))
             {
-                Vector3 interactOrigin = transform.position + Vector3.up * interactHeight;
-                if (Physics.Raycast(interactOrigin, c.transform.position - interactOrigin, out RaycastHit hit, interactDistance, ~playerLayer))
+                ladder.ContactPoint = climb.point;
+                closestInteractable = ladder;
+            }
+        }
+        else
+        {
+            Collider[] collisions = Physics.OverlapSphere(transform.position + transform.forward * interactDistance + Vector3.up * interactHeight, interactRadius, ~playerLayer);
+            if(collisions.Length > 0)
+            {
+                Collider closest = null;
+                foreach(Collider c in collisions)
                 {
-                    if (hit.transform.gameObject != c.gameObject)
+                    // First, we check if the collisions we found can actually be seen from the player's perspective and aren't obscured by another object
+                    Vector3 interactOrigin = transform.position + Vector3.up * interactHeight;
+                    if (Physics.Raycast(interactOrigin, c.transform.position - interactOrigin, out RaycastHit hit, interactDistance, ~playerLayer))
                     {
-                        continue;
-                    }
-                }
-                if(c.TryGetComponent(out IInteractable interactable))
-                {
-                    if(closest == null || Vector3.Distance(c.transform.position, transform.position) < Vector3.Distance(closest.transform.position, transform.position))
-                    {
-                        closest = c;
-                        closestInteractable = interactable;
-                        if(closestInteractable.GetType() == typeof(JellyfishLadder))
+                        if (hit.transform.gameObject != c.gameObject)
                         {
-                            JellyfishLadder climbable = closestInteractable as JellyfishLadder;
-                            Physics.Raycast(transform.position + Vector3.up * interactHeight, transform.forward, out RaycastHit contact, interactDistance * 2 , ~playerLayer);
-                            climbable.ContactPoint = contact.point;
+                            continue;
+                        }
+                    }
+                    if(c.TryGetComponent(out IInteractable interactable))
+                    {
+                        if (interactable.GetType() == typeof(JellyfishLadder)) continue;
+
+                        if(closest == null || Vector3.Distance(c.transform.position, transform.position) < Vector3.Distance(closest.transform.position, transform.position))
+                        {
+                            closest = c;
+                            closestInteractable = interactable;
+                            //if(closestInteractable.GetType() == typeof(JellyfishLadder))
+                            //{
+                            //    JellyfishLadder climbable = closestInteractable as JellyfishLadder;
+                            //    Physics.Raycast(transform.position + Vector3.up * interactHeight, transform.forward, out RaycastHit contact, interactDistance * 2 , ~playerLayer);
+                            //    climbable.ContactPoint = contact.point;
+                            //}
                         }
                     }
                 }
@@ -330,7 +352,7 @@ public class CC_PlayerController : MonoBehaviour
             onInteractPromptChanged?.Invoke(closestInteractable.InteractionPrompt);
             return;
         }
-        onInteractPromptChanged?.Invoke("");
+        onInteractPromptChanged?.Invoke(string.Empty);
     }
 
     private bool GroundCheck()
@@ -357,9 +379,18 @@ public class CC_PlayerController : MonoBehaviour
 
     public void GoDie() => StartCoroutine(Die());
 
+    private void StartClimb()
+    {
+        onInteractPromptChanged?.Invoke("");
+        verticalSpeed = 0;
+        moveDirection = Vector3.zero;
+        currentState = CharacterState.Climbing;
+    }
+
     private IEnumerator PrepareClimb(JellyfishLadder ladder)
     {
         currentState = CharacterState.Awaiting;
+        onInteractPromptChanged?.Invoke("");
         while(Vector3.Distance(transform.position + Vector3.up * interactHeight, ladder.ContactPoint) > minimumClimbDistance)
         {
             moveDirection = transform.forward * walkSpeed;

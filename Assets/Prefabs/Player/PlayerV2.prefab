@@ -428,6 +428,7 @@ MonoBehaviour:
   crouchHeight: 1.35
   maxSprintAngle: 15
   maxViewAngle: 70
+  climbDistance: 1
   interactDistance: 2
   interactRadius: 2
   interactHeight: 0.875
@@ -446,7 +447,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  minimumClimbDistance: 1
+  minimumClimbDistance: 1.25
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -528,7 +529,6 @@ MonoBehaviour:
   zoomSensitivity: 0.1
   minimumFieldOfView: 5
   maximumFieldOfView: 60
-  zoomScanStrengthMultiplier: 0.25
   onZoomLevelChanged:
     m_PersistentCalls:
       m_Calls:
@@ -1182,11 +1182,6 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 5908380861042403951, guid: d0e481aa2c5586949a9eacb844b7c98c,
         type: 3}
-      propertyPath: m_Color.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5908380861042403951, guid: d0e481aa2c5586949a9eacb844b7c98c,
-        type: 3}
       propertyPath: m_RaycastTarget
       value: 0
       objectReference: {fileID: 0}
@@ -1344,7 +1339,7 @@ PrefabInstance:
     - target: {fileID: 2087896794633566169, guid: 6a3c4c323bba5664cb0a29f72e36c10a,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4100190365733607018, guid: 6a3c4c323bba5664cb0a29f72e36c10a,
         type: 3}
