@@ -12,7 +12,6 @@ public class TitanStatue : MonoBehaviour, IInteractable
     //[SerializeField] private PlayerInput input;
 
     //[SerializeField] private UnityEvent onQuestFinished;
-    [SerializeField] private UnityEvent onWrongPicturePresented;
 
     [SerializeField] private Material debugSwapMaterial;
 
@@ -48,28 +47,18 @@ public class TitanStatue : MonoBehaviour, IInteractable
         {
             StaticQuestHandler.OnQuestCompleted?.Invoke();
             
+            // Will be removed when correct visual feedback is implemented
             DebugChangeMaterialVisuals();
 
-            //onQuestFinished?.Invoke();
-            //picture.Remove();
-
-            //if (Scrapbook.Instance.GetCollectedPictures().Contains(picture))
-            //{
-            //    Scrapbook.Instance.RemovePictureFromCollection(picture);
-            //}
-            //Destroy(picture.gameObject);
             Cursor.lockState = CursorLockMode.Locked;
             questFinished = true;
+            InteractionPrompt = string.Empty;
 
             PagePicture.OnPictureClicked = null;
-
+            return;
         }
-        else
-        {
-            StaticQuestHandler.OnQuestFailed?.Invoke();
-
-            onWrongPicturePresented?.Invoke();
-        }
+        StaticQuestHandler.OnQuestFailed?.Invoke();
+        
 
 
     }

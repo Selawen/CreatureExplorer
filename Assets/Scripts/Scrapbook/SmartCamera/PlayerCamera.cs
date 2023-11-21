@@ -12,7 +12,6 @@ public class PlayerCamera : MonoBehaviour
     [SerializeField] private float zoomSensitivity;
     [SerializeField, Range(5, 20)] private float minimumFieldOfView = 5f;
     [SerializeField, Range(40, 80)] private float maximumFieldOfView = 60f;
-    [SerializeField, Range(0.05f, 1f)] private float zoomScanStrengthMultiplier = 0.5f;
 
     [Tooltip("Event that carries the edited sensitivity based on the original zoom and current zoom")]
     [SerializeField] private UnityEvent<float> onZoomLevelChanged;
@@ -81,7 +80,7 @@ public class PlayerCamera : MonoBehaviour
             pictureCamera.fieldOfView = Mathf.Clamp(pictureCamera.fieldOfView, minimumFieldOfView, maximumFieldOfView);
             camZoomSlider.value = pictureCamera.fieldOfView;
 
-            effectiveScanDistance = maximumFieldOfView / pictureCamera.fieldOfView * defaultMaxScanDistance * zoomScanStrengthMultiplier;
+            effectiveScanDistance = maximumFieldOfView / pictureCamera.fieldOfView * defaultMaxScanDistance;
             onZoomLevelChanged?.Invoke(pictureCamera.fieldOfView / originalZoom);
         }
     }

@@ -258,6 +258,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Monument
       objectReference: {fileID: 0}
+    - target: {fileID: 6133314299944908702, guid: 246ab7580a5d3f0469e2f6bf461ad9b4,
+        type: 3}
+      propertyPath: m_Name
+      value: MonumentGraphic
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 246ab7580a5d3f0469e2f6bf461ad9b4, type: 3}
 --- !u!1 &73246654
@@ -2400,25 +2405,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1992171571}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1992171573 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2303332585225511557, guid: 325ae4c5cd351e64f855ff567a9bbabb,
-    type: 3}
-  m_PrefabInstance: {fileID: 1992171571}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1992171574
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1992171572}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31b9394595fb5cd418df492f982adff8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <InteractionPrompt>k__BackingField: Climb
 --- !u!64 &1992171575
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2428,25 +2414,25 @@ MeshCollider:
   m_GameObject: {fileID: 1992171572}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -4411361228764603502, guid: 79a2176eece974747a779fcaa557036e, type: 3}
---- !u!64 &1992171576
-MeshCollider:
+--- !u!136 &1992171576
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1992171573}
+  m_GameObject: {fileID: 1992171572}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 3365645382605875686, guid: 79a2176eece974747a779fcaa557036e, type: 3}
+  m_Radius: 116.31308
+  m_Height: 592.48285
+  m_Direction: 1
+  m_Center: {x: -0.12050867, y: 183.98447, z: 0}
 --- !u!1 &2008209246
 GameObject:
   m_ObjectHideFlags: 0

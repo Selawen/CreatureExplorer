@@ -124,6 +124,7 @@ public class CC_PlayerController : MonoBehaviour
                 break;
             case CharacterState.Aerial:
                 Fall();
+                HandleInteract();
                 break;
             case CharacterState.Climbing:
                 Climb();
@@ -194,6 +195,8 @@ public class CC_PlayerController : MonoBehaviour
 
     public void GetInteractInput(InputAction.CallbackContext context)
     {
+        if (currentState == CharacterState.Climbing || currentState == CharacterState.Awaiting) return;
+
         if (context.started && closestInteractable != null)
         {
             if(closestInteractable.GetType() == typeof(JellyfishLadder))
@@ -364,6 +367,7 @@ public class CC_PlayerController : MonoBehaviour
     private IEnumerator PrepareClimb(JellyfishLadder ladder)
     {
         currentState = CharacterState.Awaiting;
+        onInteractPromptChanged?.Invoke("");
         while(Vector3.Distance(transform.position + Vector3.up * interactHeight, ladder.ContactPoint) > minimumClimbDistance)
         {
             moveDirection = transform.forward * walkSpeed;
