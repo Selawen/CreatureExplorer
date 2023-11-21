@@ -225,7 +225,8 @@ abstract public class Action : MonoBehaviour
             }
         } catch (TaskCanceledException)
         {
-            //Debug.Log($"{this.name} has finished");
+            if (GetComponentInParent<Creature>().LogDebugs)
+                Debug.Log($"{this.name} has finished");
         }
     }
 
