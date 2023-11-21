@@ -89,10 +89,11 @@ public class CC_PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         controller = GetComponent<CharacterController>();
 
-        defaultPlayerHeight = controller.height;
-        defaultCameraHeight = defaultPlayerHeight;
-        crouchEyeOffset = defaultPlayerHeight - crouchHeight;
         cameraFollow = firstPersonCamera.GetComponent<FollowTarget>();
+
+        defaultPlayerHeight = controller.height;
+        
+        crouchEyeOffset = defaultPlayerHeight - crouchHeight;
 
         playerInput = GetComponent<PlayerInput>();
 
@@ -104,8 +105,8 @@ public class CC_PlayerController : MonoBehaviour
     }
 
     private void Start()
-    { 
-        cameraFollow.ChangeOffset(Vector3.up * defaultCameraHeight);
+    {
+        defaultCameraHeight = cameraFollow.TrueOffset.y;
 
         Scrapbook.OnBeginType += StartTyping;
         Scrapbook.OnEndType += StopTyping;
@@ -284,8 +285,6 @@ public class CC_PlayerController : MonoBehaviour
             else
             {
                 Physics.Raycast(transform.position, transform.up * -1, out RaycastHit hit, 2f, ~playerLayer);
-                verticalSpeed = 0;
-
                 transform.position = hit.point;
                 currentState = CharacterState.Grounded;
                 return;
