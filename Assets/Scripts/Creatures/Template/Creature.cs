@@ -179,7 +179,7 @@ public class Creature : MonoBehaviour
     {
         // Make creature tire faster when it's bedtime
         if (TimeKeeper.Instance.IsRightTime(data.Bedtime, data.WakeTime))
-            currentCreatureState.AddValue(0.5f * Time.deltaTime, StateType.Tiredness);
+            currentCreatureState.AddValue(2f * Time.deltaTime, StateType.Tiredness);
 
         foreach (MoodState change in data.ChangesEverySecond.CreatureStates)
         {

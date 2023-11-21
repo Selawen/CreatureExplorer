@@ -6,7 +6,7 @@ public class Sleep : Action
     public override GameObject PerformAction(Creature creature, GameObject target)
     {
         failToken = failSource.Token;
-        Task.Run(() => DoAction(), token);
+        DoAction();
         FailCheck(failToken);
         return target;
     }

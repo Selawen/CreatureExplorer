@@ -5,7 +5,7 @@ public class Hide : Action
 {
     public override GameObject PerformAction(Creature creature, GameObject target)
     {
-        Task.Run(() => DoAction(), token);
+        DoAction();
         FailCheck(failToken);
         return target;
     }
