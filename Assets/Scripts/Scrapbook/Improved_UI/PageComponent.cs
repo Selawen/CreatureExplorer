@@ -12,6 +12,8 @@ public abstract class PageComponent : MonoBehaviour, IBeginDragHandler, IDragHan
     private Vector3 startPosition;
     private PageComponentInteractor currentInteractor;
 
+    private Transform previousParent;
+
     private void Awake()
     {
         _rectTransform = GetComponent<RectTransform>();
@@ -28,6 +30,7 @@ public abstract class PageComponent : MonoBehaviour, IBeginDragHandler, IDragHan
     public virtual void OnBeginDrag(PointerEventData eventData)
     {
         startPosition = _rectTransform.position;
+        previousParent = transform.parent;
     }
 
     public virtual void OnDrag(PointerEventData eventData)
@@ -59,6 +62,11 @@ public abstract class PageComponent : MonoBehaviour, IBeginDragHandler, IDragHan
                     return;
                 }
             }
+        }
+        // This should never be null if the player can drag the component
+        if(previousParent != null)
+        {
+            transform.SetParent(previousParent);
         }
         _rectTransform.position = startPosition;
     }
