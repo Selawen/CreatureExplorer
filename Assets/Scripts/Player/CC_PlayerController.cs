@@ -210,6 +210,7 @@ public class CC_PlayerController : MonoBehaviour
 
         if (context.started && closestInteractable != null)
         {
+            moveDirection = Vector3.zero;
             if(closestInteractable.GetType() == typeof(JellyfishLadder))
             {
                 StartClimb();
