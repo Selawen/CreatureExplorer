@@ -38,13 +38,13 @@ public class Search : Action
                 }
                 break;
 
-            case (SearchTarget.Anything):
+            case (SearchTarget.AttackTarget):
 
-                Transform tempTransform = null;
-                if (LookForObjects<Transform>.TryGetClosestObject(tempTransform, creature.transform.position, searchRadius, creature.gameObject, out tempTransform))
+                CanBeAttacked tempTarget = null;
+                if (LookForObjects<CanBeAttacked>.TryGetClosestObject(tempTarget, creature.transform.position, searchRadius, creature.gameObject, out tempTarget))
                 {
                     DoAction();
-                    return tempTransform.gameObject;
+                    return tempTarget.gameObject;
                 }
                 break;
             case (SearchTarget.SleepingSpot):
@@ -85,7 +85,7 @@ public class Search : Action
     {
         Food,
         Tree,
-        Anything,
+        AttackTarget,
         SleepingSpot
     }
 }
