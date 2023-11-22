@@ -22,7 +22,7 @@ public class Scrapbook : MonoBehaviour
     [SerializeField] private Vector2 questDockPosition;
     [SerializeField] private Vector2 questExtendPosition;
 
-    [SerializeField] private GameObject elementsPanel;
+    [SerializeField] private Image elementsPanel;
     [SerializeField] private GameObject extrasGroup;
 
     [SerializeField] private RectTransform pagesParent;
@@ -62,7 +62,7 @@ public class Scrapbook : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         extrasGroup.SetActive(false);
-        elementsPanel.SetActive(false);
+        elementsPanel.gameObject.SetActive(false);
 
         StaticQuestHandler.OnQuestClosed?.Invoke();
 
@@ -71,7 +71,7 @@ public class Scrapbook : MonoBehaviour
     public void OpenPages()
     {
         Cursor.lockState = CursorLockMode.Confined;
-        elementsPanel.SetActive(true);
+        elementsPanel.gameObject.SetActive(true);
         extrasGroup.SetActive(true);
     }
 
@@ -115,7 +115,8 @@ public class Scrapbook : MonoBehaviour
 
     private void OpenBookForQuest()
     {
-        elementsPanel.SetActive(true);
+        elementsPanel.gameObject.SetActive(true);
+        elementsPanel.color = new Color(1, 1, 1, 0);
         book.transform.localPosition = questDockPosition;
         bookQuestButton.gameObject.SetActive(true);
         bookQuestButton.onClick.AddListener(UndockBook);
@@ -130,7 +131,8 @@ public class Scrapbook : MonoBehaviour
         bookQuestButton.onClick.RemoveAllListeners();
         bookQuestButton.gameObject.SetActive(false);
         book.transform.localPosition = menuPosition;
-        elementsPanel.SetActive(false);
+        elementsPanel.gameObject.SetActive(false);
+        elementsPanel.color = new Color(0, 0, 0, 0.8f);
 
         PagePicture.OnPictureClicked -= DockDelegate;
         PagePicture.OnBeginPictureDrag -= DockBook;

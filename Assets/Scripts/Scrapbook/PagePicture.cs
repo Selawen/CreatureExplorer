@@ -16,6 +16,7 @@ public class PagePicture : PageComponent, IPointerClickHandler
     private bool dragging;
     private Canvas parentCanvas;
 
+
     private void Awake()
     {
         if(_rectTransform == null)

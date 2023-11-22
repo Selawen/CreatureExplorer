@@ -44,7 +44,13 @@ public class QuestPictureInterface : PageComponentInteractor
             handInBackground.sprite = incorrectBackground;
         };
 
-        StaticQuestHandler.OnPictureClicked += (PagePicture picture) => { OnComponentDroppedOn(picture); picture.SetInteractor(this); };
+        StaticQuestHandler.OnPictureClicked += (PagePicture picture) => 
+        { 
+            if (OnComponentDroppedOn(picture))
+            {
+                picture.SetInteractor(this);
+            }
+        };
 
         StaticQuestHandler.OnQuestClosed += () => 
         {
@@ -67,7 +73,8 @@ public class QuestPictureInterface : PageComponentInteractor
         if (component.GetType() != typeof(PagePicture) || slottedPicture != null) 
             return false;
 
-        return SlotPicture(component as PagePicture);
+        SlotPicture(component as PagePicture);
+        return true;
     }
 
     public override void RemoveFromInteractor(PageComponent component)
@@ -76,11 +83,8 @@ public class QuestPictureInterface : PageComponentInteractor
         slottedPicture = null;
     }
 
-    private bool SlotPicture(PagePicture picture)
+    private void SlotPicture(PagePicture picture)
     {
-        if (slottedPicture != null)
-            return false;
-
         picture.transform.SetPositionAndRotation(pictureSlot.transform.position, Quaternion.identity);
         picture.transform.localScale = Vector3.one * 2;
 
@@ -89,8 +93,6 @@ public class QuestPictureInterface : PageComponentInteractor
         slottedPicture = picture;
 
         StaticQuestHandler.OnPictureDisplayed?.Invoke(slottedPicture);
-
-        return true;
     }
 
     private IEnumerator CompleteQuest()

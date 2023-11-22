@@ -33,6 +33,9 @@ public class Ram : Action
         moveAgent.autoBraking = false;
         moveAgent.SetDestination(target.transform.position);
 
+        if (animator != null)
+            animator.speed = moveAgent.speed / originalSpeed;
+
         //Task.Run(() => DoAction(), token);
         DoAction(target);
         FailCheck(failToken);
@@ -54,6 +57,9 @@ public class Ram : Action
         moveAgent.acceleration = originalAcceleration;
         moveAgent.autoBraking = true;
 
+        if (animator != null)
+            animator.speed = 1;
+
         moveAgent.ResetPath();
     }
 
@@ -70,6 +76,9 @@ public class Ram : Action
         moveAgent.angularSpeed = originalRotationSpeed;
         moveAgent.acceleration = originalAcceleration;
         moveAgent.autoBraking = true;
+
+        if (animator != null)
+            animator.speed = 1;
 
         moveAgent.ResetPath();
 

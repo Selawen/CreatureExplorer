@@ -36,6 +36,10 @@ public class Attack : Action
 
             targetTransform = target.transform;
             moveAgent.SetDestination(targetTransform.position);
+
+
+            if (animator != null)
+                animator.speed = moveAgent.speed / originalSpeed;
         }
         else
         {
@@ -58,6 +62,9 @@ public class Attack : Action
         moveAgent.autoBraking = true;
 
         moveAgent.ResetPath();
+
+        if (animator != null) 
+            animator.speed = 1;
     }
 
     public override void CalculateCostAndReward(CreatureState currentState, MoodState targetMood, float targetMoodPrio)
@@ -86,6 +93,9 @@ public class Attack : Action
 
         moveAgent.ResetPath();
         //moveAgent.SetDestination(moveAgent.transform.position);
+
+        if (animator != null)
+            animator.speed = 1;
 
         if (target.TryGetComponent(out Creature targetCreature))
         {

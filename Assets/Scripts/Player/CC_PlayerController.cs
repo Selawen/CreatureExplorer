@@ -99,8 +99,17 @@ public class CC_PlayerController : MonoBehaviour
 
         respawnFadeRenderer = Instantiate(respawnOccluder, firstPersonCamera.transform).GetComponent<MeshRenderer>();
 
-        StaticQuestHandler.OnQuestOpened += () => playerInput.SwitchCurrentActionMap("Scrapbook");
-        StaticQuestHandler.OnQuestClosed += () => playerInput.SwitchCurrentActionMap("Overworld");
+        StaticQuestHandler.OnQuestOpened += () => 
+        { 
+            playerInput.SwitchCurrentActionMap("Scrapbook"); 
+            onInteractPromptChanged?.Invoke(string.Empty);
+            currentState = CharacterState.Awaiting;
+        };
+        StaticQuestHandler.OnQuestClosed += () =>
+        {
+            playerInput.SwitchCurrentActionMap("Overworld");
+            currentState = CharacterState.Grounded;
+        };
 
     }
 
@@ -320,45 +329,45 @@ public class CC_PlayerController : MonoBehaviour
             {
                 ladder.ContactPoint = climb.point;
                 closestInteractable = ladder;
+                onInteractPromptChanged?.Invoke(closestInteractable.InteractionPrompt);
+                return;
             }
         }
-        else
+        Collider[] collisions = Physics.OverlapSphere(transform.position + transform.forward * interactDistance + Vector3.up * interactHeight, interactRadius, ~playerLayer);
+        if (collisions.Length > 0)
         {
-            Collider[] collisions = Physics.OverlapSphere(transform.position + transform.forward * interactDistance + Vector3.up * interactHeight, interactRadius, ~playerLayer);
-            if(collisions.Length > 0)
+            Collider closest = null;
+            foreach (Collider c in collisions)
             {
-                Collider closest = null;
-                foreach(Collider c in collisions)
+                // First, we check if the collisions we found can actually be seen from the player's perspective and aren't obscured by another object
+                Vector3 interactOrigin = transform.position + Vector3.up * interactHeight;
+                if (Physics.Raycast(interactOrigin, c.transform.position - interactOrigin, out RaycastHit hit, interactDistance, ~playerLayer))
                 {
-                    // First, we check if the collisions we found can actually be seen from the player's perspective and aren't obscured by another object
-                    Vector3 interactOrigin = transform.position + Vector3.up * interactHeight;
-                    if (Physics.Raycast(interactOrigin, c.transform.position - interactOrigin, out RaycastHit hit, interactDistance, ~playerLayer))
+                    if (hit.transform.gameObject != c.gameObject)
                     {
-                        if (hit.transform.gameObject != c.gameObject)
-                        {
-                            continue;
-                        }
+                        continue;
                     }
-                    if(c.TryGetComponent(out IInteractable interactable))
-                    {
-                        if (interactable.GetType() == typeof(JellyfishLadder)) continue;
+                }
+                if (c.TryGetComponent(out IInteractable interactable))
+                {
+                    if (interactable.GetType() == typeof(JellyfishLadder)) continue;
 
-                        if(closest == null || Vector3.Distance(c.transform.position, transform.position) < Vector3.Distance(closest.transform.position, transform.position))
-                        {
-                            closest = c;
-                            closestInteractable = interactable;
-                            //if(closestInteractable.GetType() == typeof(JellyfishLadder))
-                            //{
-                            //    JellyfishLadder climbable = closestInteractable as JellyfishLadder;
-                            //    Physics.Raycast(transform.position + Vector3.up * interactHeight, transform.forward, out RaycastHit contact, interactDistance * 2 , ~playerLayer);
-                            //    climbable.ContactPoint = contact.point;
-                            //}
-                        }
+                    if (closest == null || Vector3.Distance(c.transform.position, transform.position) < Vector3.Distance(closest.transform.position, transform.position))
+                    {
+                        closest = c;
+                        closestInteractable = interactable;
+                        //if(closestInteractable.GetType() == typeof(JellyfishLadder))
+                        //{
+                        //    JellyfishLadder climbable = closestInteractable as JellyfishLadder;
+                        //    Physics.Raycast(transform.position + Vector3.up * interactHeight, transform.forward, out RaycastHit contact, interactDistance * 2 , ~playerLayer);
+                        //    climbable.ContactPoint = contact.point;
+                        //}
                     }
                 }
             }
         }
-        if(closestInteractable != null)
+
+        if (closestInteractable != null)
         {
             onInteractPromptChanged?.Invoke(closestInteractable.InteractionPrompt);
             return;
