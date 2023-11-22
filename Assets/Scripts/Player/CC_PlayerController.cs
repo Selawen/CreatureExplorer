@@ -278,14 +278,25 @@ public class CC_PlayerController : MonoBehaviour
         verticalSpeed -= 9.81f * Time.deltaTime;
         if (GroundCheck())
         {
+            if(Physics.Raycast(transform.position, transform.up * -1, out RaycastHit hit, 1f, ~playerLayer))
+            {
+                if(hit.transform.TryGetComponent(out BounceSurface surface))
+                {
+                    if(surface.Bounce(verticalSpeed * -1, out float exitForce))
+                    {
+                        verticalSpeed = exitForce;
+                        return;
+                    }
+                }
+            }
             if (verticalSpeed < -deadlyFallVelocity)
             {
                 StartCoroutine(Die());
             }
             else
             {
-                Physics.Raycast(transform.position, transform.up * -1, out RaycastHit hit, 2f, ~playerLayer);
-                transform.position = hit.point;
+                Physics.Raycast(transform.position, transform.up * -1, out RaycastHit floorHit, 2f, ~playerLayer);
+                transform.position = floorHit.point;
                 currentState = CharacterState.Grounded;
                 return;
             }
