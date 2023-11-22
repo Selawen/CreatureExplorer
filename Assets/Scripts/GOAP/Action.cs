@@ -112,6 +112,12 @@ abstract public class Action : MonoBehaviour
     /// <returns>returns a new target if the behaviour changes the target. Null if not</returns>
     public abstract GameObject PerformAction(Creature creature, GameObject target);
 
+    public void InterruptAction()
+    {
+        EndAnimation();
+        Reset();
+    }
+
     public virtual void Reset()
     {
         finished = false;

@@ -121,20 +121,7 @@ public class Creature : MonoBehaviour
     private void FinishAction()
     {
         // Update creatureState with effects of finished action
-        foreach (MoodState effect in CurrentAction.GoalEffects.CreatureStates)
-        {
-            if (effect.Operator == StateOperant.Set)
-                currentCreatureState.SetValue(effect.StateValue, effect.MoodType);
-            else if (effect.Operator == StateOperant.Add)
-                currentCreatureState.AddValue(effect.StateValue, effect.MoodType);
-            else if (effect.Operator == StateOperant.Subtract)
-                currentCreatureState.AddValue(-effect.StateValue, effect.MoodType);
-            
-            if (LogDebugs)
-            {
-                Debug.Log("updated worldstate of " + effect.MoodType.ToString());
-            }
-        }
+        UpdateValues(CurrentAction.GoalEffects);
 
         // check if goal has been reached
         if (currentPlan.Count <= 1)
@@ -222,6 +209,12 @@ public class Creature : MonoBehaviour
                 currentCreatureState.AddValue(change.StateValue, change.MoodType);
             else if (change.Operator == StateOperant.Subtract)
                 currentCreatureState.AddValue(-change.StateValue, change.MoodType);
+
+
+            if (LogDebugs)
+            {
+                Debug.Log("updated worldstate of " + change.MoodType.ToString());
+            }
         }
 
         UpdateCreatureState();
@@ -278,7 +271,7 @@ public class Creature : MonoBehaviour
         if (LogDebugs)
             Debug.Log($"interruption source: {associatedAction.Name}");
         
-        CurrentAction.Reset();
+        CurrentAction.InterruptAction();
         GetComponent<UnityEngine.AI.NavMeshAgent>().SetDestination(transform.position);
 
         goalText.text = debugText;
