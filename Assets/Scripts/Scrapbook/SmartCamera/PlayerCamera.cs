@@ -56,6 +56,8 @@ public class PlayerCamera : MonoBehaviour
         camZoomSlider.maxValue = maximumFieldOfView;
         camZoomSlider.value = originalZoom;
 
+        effectiveScanDistance = maximumFieldOfView / pictureCamera.fieldOfView * defaultMaxScanDistance;
+
         input = GetComponent<PlayerInput>();
         if (Application.isEditor)
         {
@@ -81,6 +83,7 @@ public class PlayerCamera : MonoBehaviour
             camZoomSlider.value = pictureCamera.fieldOfView;
 
             effectiveScanDistance = maximumFieldOfView / pictureCamera.fieldOfView * defaultMaxScanDistance;
+            Debug.Log(effectiveScanDistance);
             onZoomLevelChanged?.Invoke(pictureCamera.fieldOfView / originalZoom);
         }
     }
