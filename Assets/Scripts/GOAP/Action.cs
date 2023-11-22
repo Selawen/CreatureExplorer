@@ -79,7 +79,7 @@ abstract public class Action : MonoBehaviour
 
         if (animator == null)
         {
-            animator = transform.root.GetComponentInChildren<Animator>();
+            return PerformAction(creature, target);
         }
 
         // TODO: refactor

@@ -54,6 +54,8 @@ public class Creature : MonoBehaviour
             currentCreatureState = new CreatureState();
         }
 
+        UpdateCreatureState();
+
         GenerateNewGoal();
 
         surroundCheck += CheckForFood;

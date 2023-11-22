@@ -39,7 +39,8 @@ public class Flee : Action
 
         moveAgent.SetDestination(creature.transform.position +(creature.transform.position - fearsource).normalized*runDistance);
 
-        animator.speed = moveAgent.speed / originalSpeed;
+        if (animator != null)
+            animator.speed = moveAgent.speed / originalSpeed;
 
         //Task.Run(() => DoAction(), failToken);
         // Navmeshagent doesn't play nice with threading
@@ -57,7 +58,8 @@ public class Flee : Action
         moveAgent.angularSpeed = originalRotationSpeed;
         moveAgent.acceleration = originalAcceleration;
 
-        animator.speed = 1;
+        if (animator != null)
+            animator.speed = 1;
     }
 
     public override void CalculateCostAndReward(CreatureState currentState, MoodState targetMood, float targetMoodPrio)
@@ -75,7 +77,8 @@ public class Flee : Action
             moveAgent.angularSpeed = originalRotationSpeed;
             moveAgent.acceleration = originalAcceleration;
 
-            animator.speed = 1;
+            if (animator != null)
+                animator.speed = 1;
 
             base.DoAction();
         }
