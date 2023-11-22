@@ -28,12 +28,14 @@ abstract public class Action : MonoBehaviour
     [field: SerializeField] public ActionKey[] Prerequisites { get; private set; }
 
 
-    public bool finished = false;
-    public bool failed = false;
+    [ShowOnly] public bool finished = false;
+    [ShowOnly] public bool failed = false;
 
     [SerializeField] protected float actionDuration = 2;
 
-    protected Animator animator;
+    [field: Header("Animator")]
+    [SerializeField] private bool setAnimator;
+    [ShowOnly][field: SerializeField] protected Animator animator;
     protected SoundPlayer soundPlayer;
 
     protected CancellationTokenSource failSource;
@@ -41,9 +43,17 @@ abstract public class Action : MonoBehaviour
     protected CancellationTokenSource source;
     protected CancellationToken token;
 
+    private void OnValidate()
+    {
+        if (setAnimator)
+        {
+            animator = transform.root.GetComponentInChildren<Animator>();
+            setAnimator = false;
+        }
+    }
+
     protected virtual void Awake()
     {
-        animator = transform.root.GetComponentInChildren<Animator>();
         soundPlayer = GetComponentInParent<SoundPlayer>();
 
         failSource = new CancellationTokenSource();
@@ -67,15 +77,29 @@ abstract public class Action : MonoBehaviour
             soundPlayer.PlaySound(sound, oneShot);
         }
 
+        if (animator == null)
+        {
+            animator = transform.root.GetComponentInChildren<Animator>();
+        }
 
-        if (startAnimationTrigger != "")
+        // TODO: refactor
+        int maxLoops = 10;
+        do
         {
-            animator?.SetTrigger(startAnimationTrigger);
-        }
-        else if (duringAnimationTrigger != "")
-        {
-            animator?.SetTrigger(duringAnimationTrigger);
-        }
+            maxLoops--;
+            if (startAnimationTrigger != "")
+            {
+                animator?.SetTrigger(startAnimationTrigger);
+            }
+            else if (duringAnimationTrigger != "")
+            {
+                animator?.SetTrigger(duringAnimationTrigger);
+            }
+            else
+            {
+                break;
+            }
+        } while (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle") && maxLoops > 0);
 
         return PerformAction(creature, target);
     }

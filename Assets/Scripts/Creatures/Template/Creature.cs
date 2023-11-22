@@ -39,9 +39,12 @@ public class Creature : MonoBehaviour
     {
         if (!showThoughts)
         {
+            goalText.transform.parent.gameObject.SetActive(false);
+            /*
             goalText.gameObject.SetActive(false);
             actionText.gameObject.SetActive(false);
             soundText.gameObject.SetActive(true);
+            */
         }
 
         planner = GetComponent<Planner>();
