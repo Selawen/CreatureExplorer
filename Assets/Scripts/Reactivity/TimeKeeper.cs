@@ -9,7 +9,7 @@ public class TimeKeeper : MonoBehaviour
     [SerializeField] private int secondsPerHour = 60;
     [SerializeField] private int hoursPerDay = 24;
 
-    private float clock = 10;
+    [ShowOnly(2)][SerializeField] private float clock = 10;
 
     private void Awake()
     {
