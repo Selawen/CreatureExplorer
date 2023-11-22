@@ -46,6 +46,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Name>k__BackingField: Sleeping
   <Onomatopea>k__BackingField: zzzzzzzzzzzzzzzzzzz
+  startAnimationTrigger: FallAsleep
+  duringAnimationTrigger: 
+  finishAnimationTrigger: Wake
   sound: {fileID: 0}
   oneShot: 0
   <Awareness>k__BackingField: 0.1
@@ -77,3 +80,5 @@ MonoBehaviour:
   finished: 0
   failed: 0
   actionDuration: 50
+  setAnimator: 0
+  animator: {fileID: 0}

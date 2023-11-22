@@ -32,6 +32,7 @@ public class TimedLighting : MonoBehaviour
             sky.material = TimeSettings[currentTimeIndex].SkyMaterial;
             mainLight.color = TimeSettings[currentTimeIndex].LightFilter;
             mainLight.colorTemperature = TimeSettings[currentTimeIndex].LightTemperature;
+            mainLight.transform.rotation = TimeSettings[currentTimeIndex].lightRotation;
         }
     }
 }
@@ -42,6 +43,7 @@ public class TimeOfDay
     public Material SkyMaterial;
     public Color LightFilter;
     public int LightTemperature;
+    public Quaternion lightRotation;
 
     public float Start;
 }
