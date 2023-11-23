@@ -97,6 +97,20 @@ public class Attack : Action
         if (animator != null)
             animator.speed = 1;
 
+        // If the torca can't reach target, fail attacking
+        if ((target.transform.position - moveAgent.transform.position).magnitude > 1f)
+        {
+            if (GetComponentInParent<Creature>().LogDebugs)
+                Debug.Log("Attack failed");
+
+            failSource.Cancel();
+
+            await EndAnimation();
+
+            failed = true;
+            return;
+        }
+
         if (target.TryGetComponent(out Creature targetCreature))
         {
             if (targetCreature.AttackSuccess(moveAgent.transform.position))
