@@ -377,13 +377,10 @@ public class Creature : MonoBehaviour
     {
         Animator animator = GetComponentInChildren<Animator>();
 
-        Debug.Log("Dying");
         while (!animator.GetCurrentAnimatorStateInfo(0).IsName("Dead") || animator.IsInTransition(0))
         {
-            Debug.Log("transitioning");
             await Task.Delay(100);
         }
-        Debug.Log("done");
         animator.speed = 0;
     }
 
