@@ -46,6 +46,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Name>k__BackingField: Attack
   <Onomatopea>k__BackingField: Gotcha!
+  startAnimationTrigger: 
+  duringAnimationTrigger: 
+  finishAnimationTrigger: 
   sound: {fileID: 8300000, guid: 55f45435b2a5ad04780e8e63f96cb834, type: 3}
   oneShot: 1
   <Awareness>k__BackingField: 1
@@ -59,7 +62,7 @@ MonoBehaviour:
       <StateValue>k__BackingField: 25
     - <MoodType>k__BackingField: 1
       <Operator>k__BackingField: 3
-      <StateValue>k__BackingField: 20
+      <StateValue>k__BackingField: 10
   <ActionEffects>k__BackingField:
   - <EffectType>k__BackingField: 8
     <StateValue>k__BackingField: 0
@@ -71,4 +74,6 @@ MonoBehaviour:
   finished: 0
   failed: 0
   actionDuration: 5
+  setAnimator: 0
+  animator: {fileID: 0}
   speedMultiplier: 4

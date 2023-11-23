@@ -169,6 +169,7 @@ public class Creature : MonoBehaviour
     /// </summary>
     private void UpdateValues()
     {
+        // TODO: get rid of magic number
         // Make creature tire faster when it's bedtime
         if (TimeKeeper.Instance.IsRightTime(data.Bedtime, data.WakeTime))
             currentCreatureState.AddValue(2f * Time.deltaTime, StateType.Tiredness);

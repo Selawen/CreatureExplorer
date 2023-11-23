@@ -32,9 +32,14 @@ public class OnMeshSpawner : Spawner
 
     protected override void OnDrawGizmos()
     {
+        Matrix4x4 originalMatrix = Gizmos.matrix;
+        Gizmos.matrix = Matrix4x4.TRS(transform.position, transform.rotation, transform.lossyScale);
+
         Color originalColour = Gizmos.color;
         Gizmos.color = gizmoColour;
-        Gizmos.DrawWireMesh(spawnOn.sharedMesh, transform.position, transform.rotation, transform.lossyScale + transform.lossyScale * distanceFromMesh);
+        Gizmos.DrawWireMesh(spawnOn.sharedMesh, Vector3.zero, Quaternion.identity, Vector3.one + transform.lossyScale * distanceFromMesh);
         Gizmos.color = originalColour;
+
+        Gizmos.matrix = originalMatrix;
     }
 }
