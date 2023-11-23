@@ -69,6 +69,8 @@ public class CC_PlayerController : MonoBehaviour
     private float verticalSpeed;
     private float rotationSpeed = 1f;
 
+    private float initialMomentumOnAirtimeStart;
+
     private bool sprinting;
     private bool crouching;
     private bool died = false;
@@ -225,7 +227,8 @@ public class CC_PlayerController : MonoBehaviour
         if (!GroundCheck())
         {
             currentState = CharacterState.Aerial;
-            moveDirection = Vector3.zero;
+            initialMomentumOnAirtimeStart = controller.velocity.magnitude;
+            //moveDirection = Vector3.zero;
             return;
         }
         if (moveInput.sqrMagnitude > 0.1f)
@@ -281,7 +284,12 @@ public class CC_PlayerController : MonoBehaviour
             float inputAngle = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg;
             float targetAngle = inputAngle + transform.eulerAngles.y;
 
-            moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward * airSpeed;
+            Vector3 control = moveDirection + (Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward).normalized * airSpeed * 0.1f;
+            if (control.magnitude > initialMomentumOnAirtimeStart)
+            {
+                control = control.normalized * initialMomentumOnAirtimeStart;
+            }
+            moveDirection = control;
         }
 
         verticalSpeed -= 9.81f * Time.deltaTime;
@@ -317,6 +325,7 @@ public class CC_PlayerController : MonoBehaviour
     private void Jump()
     {
         verticalSpeed = jumpForce;
+        initialMomentumOnAirtimeStart = controller.velocity.magnitude;
     }
 
     private void HandleInteract()
@@ -407,19 +416,19 @@ public class CC_PlayerController : MonoBehaviour
         currentState = CharacterState.Climbing;
     }
 
-    private IEnumerator PrepareClimb(JellyfishLadder ladder)
-    {
-        currentState = CharacterState.Awaiting;
-        onInteractPromptChanged?.Invoke("");
-        while(Vector3.Distance(transform.position + Vector3.up * interactHeight, ladder.ContactPoint) > minimumClimbDistance)
-        {
-            moveDirection = transform.forward * walkSpeed;
-            yield return null;
-        }
-        verticalSpeed = 0;
-        moveDirection = Vector3.zero;
-        currentState = CharacterState.Climbing;
-    }
+    //private IEnumerator PrepareClimb(JellyfishLadder ladder)
+    //{
+    //    currentState = CharacterState.Awaiting;
+    //    onInteractPromptChanged?.Invoke("");
+    //    while(Vector3.Distance(transform.position + Vector3.up * interactHeight, ladder.ContactPoint) > minimumClimbDistance)
+    //    {
+    //        moveDirection = transform.forward * walkSpeed;
+    //        yield return null;
+    //    }
+    //    verticalSpeed = 0;
+    //    moveDirection = Vector3.zero;
+    //    currentState = CharacterState.Climbing;
+    //}
 
     private IEnumerator Die()
     {
