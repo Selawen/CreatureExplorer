@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 using TMPro;
 
@@ -291,22 +293,30 @@ public class Creature : MonoBehaviour
     public bool AttackSuccess(Vector3 attackSource)
     {
         // TODO: think about what to set the value to beat to
-        ReactToAttack(attackSource);
 
-        if (UnityEngine.Random.Range(0, currentCreatureState.Find(StateType.Tiredness).StateValue) > 20)
+        if (UnityEngine.Random.Range(0, currentCreatureState.Find(StateType.Tiredness).StateValue) > 10)
         {
-            CurrentAction.Reset();
+            Animator animator = GetComponentInChildren<Animator>();
+            CurrentAction.Stop();
+
+            this.enabled = false;
+            animator.speed = 1;
+
+            animator.SetBool("Die", true);
 
             // TODO: implement proper reaction
             goalText.text = "DEAD";
             soundText.text = "DEAD";
             actionText.text = "";
-            GetComponentInChildren<Animator>().SetTrigger("Die");
-            this.enabled = false;
+            OnDeath();
 
             return true;
-        } else 
+        }
+        else
+        {
+            ReactToAttack(attackSource);
             return false;
+        }
     }
 
     protected virtual void ReactToAttack(Vector3 attackPos)
@@ -361,6 +371,20 @@ public class Creature : MonoBehaviour
         currentCreatureState.AddValue(foodcount, StateType.Hunger);
 
         //DebugMessage($"found {foodcount} {FoodSource}, hunger is now {currentCreatureState.Find(StateType.Hunger).StateValue}");
+    }
+
+    private async Task OnDeath()
+    {
+        Animator animator = GetComponentInChildren<Animator>();
+
+        Debug.Log("Dying");
+        while (!animator.GetCurrentAnimatorStateInfo(0).IsName("Dead") || animator.IsInTransition(0))
+        {
+            Debug.Log("transitioning");
+            await Task.Delay(100);
+        }
+        Debug.Log("done");
+        animator.speed = 0;
     }
 
     protected Condition SetConditionTrue(Condition currentState, Condition flagToSet)

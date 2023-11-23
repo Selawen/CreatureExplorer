@@ -80,6 +80,9 @@ abstract public class Action : MonoBehaviour
         if (animator == null)
         {
             return PerformAction(creature, target);
+        } else if (animator.GetBool("Die"))
+        {
+            return null;
         }
 
         // TODO: refactor
@@ -116,6 +119,15 @@ abstract public class Action : MonoBehaviour
     {
         EndAnimation();
         Reset();
+    }
+
+    public void Stop()
+    {
+        finished = false;
+        failed = false;
+
+        failSource.Cancel();
+        source.Cancel();
     }
 
     public virtual void Reset()
@@ -264,7 +276,7 @@ abstract public class Action : MonoBehaviour
     protected virtual async void DoAction(GameObject target = null)
     {
         // standard end of DoAction method, set to finished and cancel the failcheck if not failed already
-        if (!failed)
+        if (!failed && !token.IsCancellationRequested)
         {
 
             if (GetComponentInParent<SoundPlayer>() != null)
@@ -281,7 +293,7 @@ abstract public class Action : MonoBehaviour
 
     protected async Task EndAnimation()
     {
-        if (animator == null) return;
+        if (animator == null || animator.GetBool("Die")) return;
 
         animator.SetTrigger(finishAnimationTrigger);
 
