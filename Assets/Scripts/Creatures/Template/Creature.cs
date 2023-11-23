@@ -294,7 +294,7 @@ public class Creature : MonoBehaviour
     {
         // TODO: think about what to set the value to beat to
 
-        if (UnityEngine.Random.Range(0, currentCreatureState.Find(StateType.Tiredness).StateValue) > 0)
+        if (UnityEngine.Random.Range(0, currentCreatureState.Find(StateType.Tiredness).StateValue) > 10)
         {
             Animator animator = GetComponentInChildren<Animator>();
             CurrentAction.Stop();
