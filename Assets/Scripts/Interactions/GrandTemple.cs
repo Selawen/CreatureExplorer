@@ -9,6 +9,8 @@ public class GrandTemple : MonoBehaviour
     public static System.Action OnRingExtended;
 
     [SerializeField] private Animator topRing, middleRing, bottomRing;
+    [SerializeField] private Animator stairDisk;
+
     [SerializeField] private int topRingRequirement = 2, middleRingRequirement = 3, bottomRingRequirement = 4;
 
     private int topRingClears, middleRingClears, bottomRingClears;
@@ -24,29 +26,29 @@ public class GrandTemple : MonoBehaviour
         {
             case 0:
                 topRingClears++;
-                Debug.Log(topRingClears);
                 if (topRingClears == topRingRequirement)
                 {
                     OnRingExtended?.Invoke();
                     topRing.SetTrigger("Extend");
+                    stairDisk.SetTrigger("Extend");
                 }
                 break;
             case 1:
                 middleRingClears++;
-                Debug.Log(middleRingClears);
                 if (middleRingClears == middleRingRequirement)
                 {
                     OnRingExtended?.Invoke();
                     middleRing.SetTrigger("Extend");
+                    stairDisk.SetTrigger("Extend");
                 }
                 break;
             case 2:
                 bottomRingClears++;
-                Debug.Log(bottomRingClears);
                 if (bottomRingClears == bottomRingRequirement)
                 {
                     OnRingExtended?.Invoke();
                     bottomRing.SetTrigger("Extend");
+                    Destroy(stairDisk.gameObject);
                 }
                 break;
             default:

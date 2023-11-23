@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 838779697872456906}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.0001446403, y: 43.497696, z: -0.00002370241}
+  m_LocalPosition: {x: 0.0001446403, y: 36, z: -0.00002370241}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -210,6 +210,7 @@ GameObject:
   - component: {fileID: 1650678068801759096}
   - component: {fileID: 5608925183143524651}
   - component: {fileID: 7237643753001599806}
+  - component: {fileID: 3832489973885400009}
   m_Layer: 0
   m_Name: StairDisk(Lower this into floor)
   m_TagString: Untagged
@@ -296,6 +297,27 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -6413227947411363730, guid: e0627282c44508443b0f5358c1957d11, type: 3}
+--- !u!95 &3832489973885400009
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1453326229722622272}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: cb294ab89ae354a44a9e61cc1217ce3e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &3268485759426825245
 GameObject:
   m_ObjectHideFlags: 0
@@ -344,6 +366,7 @@ MonoBehaviour:
   topRing: {fileID: 6498145687261092436}
   middleRing: {fileID: 4910960510346384524}
   bottomRing: {fileID: 4602358096270555159}
+  stairDisk: {fileID: 3832489973885400009}
   topRingRequirement: 2
   middleRingRequirement: 3
   bottomRingRequirement: 4

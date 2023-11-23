@@ -29,7 +29,11 @@ public class TitanStatue : MonoBehaviour, IInteractable
 
         StaticQuestHandler.OnPictureDisplayed += ShowPicture;
         StaticQuestHandler.CurrentQuestStatue = this;
-        StaticQuestHandler.OnQuestClosed += () => PagePicture.OnPictureClicked -= StaticQuestHandler.OnPictureClicked.Invoke;
+        StaticQuestHandler.OnQuestClosed += () => 
+        { 
+            PagePicture.OnPictureClicked -= StaticQuestHandler.OnPictureClicked.Invoke;
+            StaticQuestHandler.OnPictureDisplayed -= ShowPicture;
+        };
 
         PagePicture.OnPictureClicked += StaticQuestHandler.OnPictureClicked.Invoke;
 
