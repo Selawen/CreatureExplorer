@@ -8,10 +8,8 @@ public class TitanStatue : MonoBehaviour, IInteractable
 
     [field: SerializeField] public Quest TitanQuest { get; private set; }
 
-    // Remove this later
-    //[SerializeField] private PlayerInput input;
-
-    //[SerializeField] private UnityEvent onQuestFinished;
+    [Tooltip("To which ring does this statue belong? 0 = Top Ring")]
+    [SerializeField] private int ringIndex;
 
     [SerializeField] private Material debugSwapMaterial;
 
@@ -20,8 +18,6 @@ public class TitanStatue : MonoBehaviour, IInteractable
     public void Interact()
     {
         if (questFinished) return;
-
-        //questInfoText.text = TitanQuest.QuestDescription;
 
         Cursor.lockState = CursorLockMode.Confined;
 
@@ -33,7 +29,11 @@ public class TitanStatue : MonoBehaviour, IInteractable
 
         StaticQuestHandler.OnPictureDisplayed += ShowPicture;
         StaticQuestHandler.CurrentQuestStatue = this;
-        StaticQuestHandler.OnQuestClosed += () => PagePicture.OnPictureClicked -= StaticQuestHandler.OnPictureClicked.Invoke;
+        StaticQuestHandler.OnQuestClosed += () => 
+        { 
+            PagePicture.OnPictureClicked -= StaticQuestHandler.OnPictureClicked.Invoke;
+            StaticQuestHandler.OnPictureDisplayed -= ShowPicture;
+        };
 
         PagePicture.OnPictureClicked += StaticQuestHandler.OnPictureClicked.Invoke;
 
@@ -49,6 +49,7 @@ public class TitanStatue : MonoBehaviour, IInteractable
             
             // Will be removed when correct visual feedback is implemented
             DebugChangeMaterialVisuals();
+            GrandTemple.OnStatueCleared?.Invoke(ringIndex);
 
             Cursor.lockState = CursorLockMode.Locked;
             questFinished = true;
