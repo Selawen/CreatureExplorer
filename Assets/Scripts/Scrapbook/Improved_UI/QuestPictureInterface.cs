@@ -104,6 +104,10 @@ public class QuestPictureInterface : PageComponentInteractor
         yield return new WaitForSeconds(questCompletionWaitTime);
 
         handInBackground.color = new Color(1, 1, 1, 0);
+
+        Destroy(slottedPicture.gameObject);
+        slottedPicture = null;
+
         pictureSlot.SetActive(false);
 
         StaticQuestHandler.OnQuestClosed?.Invoke();

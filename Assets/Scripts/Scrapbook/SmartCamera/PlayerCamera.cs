@@ -83,7 +83,6 @@ public class PlayerCamera : MonoBehaviour
             camZoomSlider.value = pictureCamera.fieldOfView;
 
             effectiveScanDistance = maximumFieldOfView / pictureCamera.fieldOfView * defaultMaxScanDistance;
-            Debug.Log(effectiveScanDistance);
             onZoomLevelChanged?.Invoke(pictureCamera.fieldOfView / originalZoom);
         }
     }
