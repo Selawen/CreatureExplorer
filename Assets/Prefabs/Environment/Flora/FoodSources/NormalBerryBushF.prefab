@@ -56,7 +56,7 @@ MonoBehaviour:
   maxSpawnAmount: 15
   continous: 1
   spawnOn: {fileID: 3519949147711305936}
-  distanceFromMesh: 0.1
+  distanceFromMesh: 0.3
 --- !u!64 &7535299632497815302
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -80,8 +80,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6141207030456592747}
+  - component: {fileID: -6401515214539935367}
   m_Layer: 0
-  m_Name: NormalBerryBush
+  m_Name: NormalBerryBushF
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -94,7 +95,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6805541488476255185}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -104,6 +105,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-6401515214539935367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6805541488476255185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ddef96b92499ed41b5175d4d26e87d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  reset: 0
+  offset: {x: 0, y: 0.5, z: 0}
+  randomRotate: 0
+  raycastMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1001 &2171416026143268957
 PrefabInstance:
   m_ObjectHideFlags: 0
