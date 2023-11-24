@@ -73,7 +73,7 @@ public class Attack : NavigatedAction
 
         if (target.TryGetComponent(out Creature targetCreature))
         {
-            if (targetCreature.AttackSuccess(moveAgent.transform.position))
+            if (!targetCreature.enabled || targetCreature.AttackSuccess(moveAgent.transform.position))
             {
                 if (target.TryGetComponent(out agent))
                 {
