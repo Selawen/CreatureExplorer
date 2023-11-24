@@ -121,7 +121,7 @@ abstract public class Action : MonoBehaviour
         Reset();
     }
 
-    public void Stop()
+    public virtual void Stop()
     {
         finished = false;
         failed = false;
@@ -299,7 +299,7 @@ abstract public class Action : MonoBehaviour
 
         int maxLoops = 100;
         // wait for previous animation to finish       
-        while (!animator.GetCurrentAnimatorStateInfo(0).loop && !animator.GetCurrentAnimatorStateInfo(0).IsName("Idle") &&  maxLoops > 0)
+        while (!animator.GetCurrentAnimatorStateInfo(0).loop && !animator.GetNextAnimatorStateInfo(0).IsName("Idle") &&  maxLoops > 0)
         {
             maxLoops--;
             await Task.Delay(100);
