@@ -81,6 +81,10 @@ public class QuestPictureInterface : PageComponentInteractor
     {
         component.transform.localScale = Vector3.one;
         slottedPicture = null;
+
+        handInBackground.sprite = defaultBackground;
+        handInFrame.sprite = defaultFrame;
+        feedbackText.text = "Please hand in your photo here";
     }
 
     private void SlotPicture(PagePicture picture)
@@ -101,12 +105,17 @@ public class QuestPictureInterface : PageComponentInteractor
         handInFrame.sprite = correctFrame;
         feedbackText.text = "Ah! This is what I was looking for!";
 
+        StaticQuestHandler.OnQuestInputDisabled?.Invoke();
+
         yield return new WaitForSeconds(questCompletionWaitTime);
 
         handInBackground.color = new Color(1, 1, 1, 0);
 
         Destroy(slottedPicture.gameObject);
         slottedPicture = null;
+
+        handInBackground.sprite = defaultBackground;
+        handInFrame.sprite = defaultFrame;
 
         pictureSlot.SetActive(false);
 

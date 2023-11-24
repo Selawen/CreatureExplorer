@@ -101,6 +101,12 @@ public class CC_PlayerController : MonoBehaviour
 
         respawnFadeRenderer = Instantiate(respawnOccluder, firstPersonCamera.transform).GetComponent<MeshRenderer>();
 
+        StaticQuestHandler.OnQuestInputDisabled += () =>
+        {
+            playerInput.SwitchCurrentActionMap("Await");
+            currentState = CharacterState.Awaiting;
+        };
+
         StaticQuestHandler.OnQuestOpened += () => 
         { 
             playerInput.SwitchCurrentActionMap("Scrapbook"); 
@@ -280,6 +286,9 @@ public class CC_PlayerController : MonoBehaviour
 
     private void Fall()
     {
+        float gravity = 9.81f * Time.deltaTime;
+        verticalSpeed = controller.velocity.y - gravity;
+
         if (moveInput.sqrMagnitude > 0.1f)
         {
             float inputAngle = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg;
@@ -293,7 +302,6 @@ public class CC_PlayerController : MonoBehaviour
             moveDirection = control;
         }
 
-        verticalSpeed -= 9.81f * Time.deltaTime;
         if (GroundCheck())
         {
             if(Physics.Raycast(transform.position, transform.up * -1, out RaycastHit hit, 1f, ~playerLayer))
@@ -315,6 +323,7 @@ public class CC_PlayerController : MonoBehaviour
             {
                 Physics.Raycast(transform.position, transform.up * -1, out RaycastHit floorHit, 2f, ~playerLayer);
                 transform.position = floorHit.point;
+                verticalSpeed = 0;
                 currentState = CharacterState.Grounded;
                 return;
             }
