@@ -45,7 +45,8 @@ public class QuestPictureInterface : PageComponentInteractor
         };
 
         StaticQuestHandler.OnPictureClicked += (PagePicture picture) => 
-        { 
+        {
+            picture.SetStepBackParent();
             if (OnComponentDroppedOn(picture))
             {
                 picture.SetInteractor(this);
@@ -60,6 +61,10 @@ public class QuestPictureInterface : PageComponentInteractor
             feedbackText.gameObject.SetActive(false); 
             descriptionText.gameObject.SetActive(false); 
             pictureSlot.SetActive(false); 
+            if(slottedPicture != null)
+            {
+                slottedPicture.OnRevert();
+            }
         };
 
         pictureSlot.SetActive(false);
@@ -73,7 +78,8 @@ public class QuestPictureInterface : PageComponentInteractor
         if (component.GetType() != typeof(PagePicture) || slottedPicture != null) 
             return false;
 
-        SlotPicture(component as PagePicture);
+        PagePicture picture = component as PagePicture;
+        SlotPicture(picture);
         return true;
     }
 

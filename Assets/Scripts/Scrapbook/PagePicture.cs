@@ -14,6 +14,7 @@ public class PagePicture : PageComponent, IPointerClickHandler
     [SerializeField] private float pageScaleFactor = 2.5f;
 
     private bool dragging;
+    private Transform stepBackParent;
     private Canvas parentCanvas;
 
 
@@ -41,6 +42,9 @@ public class PagePicture : PageComponent, IPointerClickHandler
         dragging = true;
         base.OnBeginDrag(eventData);
         OnBeginPictureDrag?.Invoke();
+
+        SetStepBackParent();
+
         if(parentCanvas == null)
         {
             parentCanvas = GetComponentInParent<Canvas>();
@@ -52,6 +56,29 @@ public class PagePicture : PageComponent, IPointerClickHandler
     {
         base.OnEndDrag(eventData);
         dragging = false;
+    }
+
+    public void SetStepBackParent()
+    {
+        stepBackParent = previousParent;
+    }
+    public void OnRevert()
+    {
+        PageComponentInteractor interactor = stepBackParent.GetComponentInParent(typeof(PageComponentInteractor), true) as PageComponentInteractor;
+
+        if (interactor == null)
+        {
+            Debug.Log(stepBackParent.name);
+            throw new System.NullReferenceException("Something went wrong, in the parent transform or one of their parent's transforms, there should be a Page Component Interactor");
+        }
+        if (interactor.OnComponentDroppedOn(this))
+        {
+            SetInteractor(interactor);
+        }
+        else
+        {
+            Debug.LogError("For some reason, the picture cannot be return to it's parent, this shouldn't happen");
+        }
     }
 
     public void OnPointerClick(PointerEventData eventData)
