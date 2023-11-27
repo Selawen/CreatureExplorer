@@ -8,6 +8,15 @@ public class OnMeshSpawner : Spawner
 
     private MeshCollider spawnCollider;
 
+    private void Awake()
+    {
+        if (spawnCollider == null)
+            spawnCollider = GetComponent<MeshCollider>();
+
+        spawnCollider.convex = true;
+    }
+
+    [ExecuteAlways]
     private void OnValidate()
     {
         if (spawnOn != null) 

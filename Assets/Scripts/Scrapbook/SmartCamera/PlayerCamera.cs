@@ -160,11 +160,6 @@ public class PlayerCamera : MonoBehaviour
     }
     private void OnDrawGizmos()
     {
-        Matrix4x4 originalMatrix = Gizmos.matrix;
-        Matrix4x4 rotationMatrix = Matrix4x4.TRS(pictureCamera.transform.position - transform.position, transform.rotation, transform.lossyScale);
-
-        Gizmos.matrix = rotationMatrix;
-
         float camStep = pictureCamera.pixelHeight / photoAccuracy;
         float xStart = (pictureCamera.pixelWidth - pictureCamera.pixelHeight) * 0.5f;
 
@@ -176,8 +171,6 @@ public class PlayerCamera : MonoBehaviour
                 Gizmos.DrawRay(ray.origin, ray.direction * effectiveScanDistance);
             }
         }
-
-        Gizmos.matrix = originalMatrix;
     }
 
     private List<QuestableObject> AnalyzeSubjects()
