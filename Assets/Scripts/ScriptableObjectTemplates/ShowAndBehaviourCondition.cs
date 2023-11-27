@@ -9,17 +9,19 @@ public class ShowAndBehaviourCondition : QuestCondition
 
     public override bool Evaluate(PictureInfo pictureInfo)
     {
-        foreach (IInteractable interactable in pictureInfo.PictureObjects)
+        foreach (QuestableObject questable in pictureInfo.PictureObjects)
         {
-            if (interactable.GetType().ToString().ToLower() == requiredCreatureClassName.ToLower())
+            if (questable.TryGetComponent(out Creature creature))
             {
-                Creature c = interactable as Creature;
-                Debug.Log("This is the creature I was looking for, it's an: " + c.GetType());
-                // To do: Get the current action that the creature is doing and check if it is the required action;
-                //if ()
-                //{
-                return true;
-                //}
+                if(creature.GetType().ToString().ToLower() == requiredCreatureClassName.ToLower())
+                {
+                    Debug.Log("This is the creature I was looking for, it's an: " + creature.GetType());
+                    if(creature.CurrentAction == requiredBehaviour)
+                    {
+                        Debug.Log($"This {creature.GetType()} is showing the right behaviour, namely: {requiredBehaviour}");
+                        return true;
+                    }
+                }
             }
         }
         return false;

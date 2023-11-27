@@ -7,16 +7,14 @@ public class BehaviourCondition : QuestCondition
 
     public override bool Evaluate(PictureInfo pictureInfo)
     {
-        foreach (IInteractable interactable in pictureInfo.PictureObjects)
+        foreach (QuestableObject questable in pictureInfo.PictureObjects)
         {
-            if (interactable.GetType() == typeof(Creature))
+            if (questable.TryGetComponent(out Creature creature))
             {
-                Creature c = interactable as Creature;
-                // To do: Get the current action that the creature is doing and check if it is the required action;
-                //if ()
-                //{
-                return true;
-                //}
+                if(creature.CurrentAction == requiredBehaviour)
+                {
+                    return true;
+                }
             }
         }
         return false;
