@@ -1243,10 +1243,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pictureCamera: {fileID: 0}
   zoomSensitivity: 0.01
+  minimumFieldOfView: 5
+  maximumFieldOfView: 60
+  onZoomLevelChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  camZoomSlider: {fileID: 0}
   picturePrefab: {fileID: 1099497629079080459, guid: 62a69665ffa767549a3ee2178569ccc7,
     type: 3}
   storage: {fileID: 8621165367443631422}
-  maximumScanDistance: 20
+  defaultMaxScanDistance: 20
   ignoredPhotoLayers:
     serializedVersion: 2
     m_Bits: 100
