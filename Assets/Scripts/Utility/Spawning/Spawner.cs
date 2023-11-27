@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class Spawner : MonoBehaviour
+public abstract class Spawner : MonoBehaviour
 {
     [Header("Gizmos")]
     [SerializeField] protected Color gizmoColour;
@@ -16,22 +16,13 @@ public class Spawner : MonoBehaviour
     [SerializeField] protected bool continous;
 
 
-    // Start is called before the first frame update
-    private void Awake()
+    private void Start()
     {
         Spawn();
         StartCoroutine(SpawnTimer());
     }
 
-    protected virtual void Spawn()
-    {
-        Vector3 spawnpos = transform.position + new Vector3(Random.Range(-spawnrange, spawnrange), 0, Random.Range(-spawnrange, spawnrange));
-
-        if (Physics.Raycast(spawnpos + Vector3.up * 200, Vector3.down, out RaycastHit hit, 500, canspawnOn))
-        {
-            Instantiate(spawnedObject, hit.point + new Vector3(0, spawnedObject.transform.lossyScale.y * 0.5f, 0), transform.rotation, transform);
-        }
-    }
+    protected abstract void Spawn();
 
     private IEnumerator SpawnTimer()
     {
