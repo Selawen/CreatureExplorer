@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5209635518948837477}
   - component: {fileID: 4369389669955020832}
   - component: {fileID: 1168600495941805750}
+  - component: {fileID: 5059407979021527107}
   m_Layer: 0
   m_Name: FruitSpawner
   m_TagString: Untagged
@@ -71,6 +72,21 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 8542750323948899103, guid: 1c266fb2358aa794380e79c3a99129fb, type: 3}
+--- !u!114 &5059407979021527107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1861742737782361265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d61bc7dc05c0ce44b9240530be9c6aa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <QuestObjectID>k__BackingField: BerryPlant
+  <GivenName>k__BackingField: 
+  <GivenDescription>k__BackingField: 
 --- !u!1 &5348792695849447529
 GameObject:
   m_ObjectHideFlags: 0
@@ -96,7 +112,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5348792695849447529}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 22.911352, z: 0}
+  m_LocalPosition: {x: 0, y: 82.9445, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

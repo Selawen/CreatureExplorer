@@ -16,7 +16,7 @@ public class ShowAndBehaviourCondition : QuestCondition
                 if(creature.GetType().ToString().ToLower() == requiredCreatureClassName.ToLower())
                 {
                     Debug.Log("This is the creature I was looking for, it's an: " + creature.GetType());
-                    if(creature.CurrentAction == requiredBehaviour)
+                    if(creature.CurrentAction.GetType() == requiredBehaviour.GetType())
                     {
                         Debug.Log($"This {creature.GetType()} is showing the right behaviour, namely: {requiredBehaviour}");
                         return true;
