@@ -179,6 +179,7 @@ GameObject:
   - component: {fileID: 146013881226166247}
   - component: {fileID: 8371299125433350018}
   - component: {fileID: 2048553673824520539}
+  - component: {fileID: 1596176655118040012}
   m_Layer: 0
   m_Name: Cap
   m_TagString: Untagged
@@ -282,6 +283,21 @@ MonoBehaviour:
   bounceModifier: 1
   minimumExitForce: 4
   maximumExitForce: 8
+--- !u!114 &1596176655118040012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2303332585225511557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d61bc7dc05c0ce44b9240530be9c6aa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <QuestObjectID>k__BackingField: Kwadder
+  <GivenName>k__BackingField: 
+  <GivenDescription>k__BackingField: 
 --- !u!1 &4136148046753516547
 GameObject:
   m_ObjectHideFlags: 0
