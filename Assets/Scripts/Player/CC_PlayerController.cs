@@ -287,7 +287,10 @@ public class CC_PlayerController : MonoBehaviour
     private void Fall()
     {
         float gravity = 9.81f * Time.deltaTime;
-        verticalSpeed = controller.velocity.y - gravity;
+        if (controller.velocity.y > -0.5f)
+            verticalSpeed = controller.velocity.y - gravity;
+        else
+            verticalSpeed -= gravity;
 
         if (moveInput.sqrMagnitude > 0.1f)
         {
@@ -317,7 +320,9 @@ public class CC_PlayerController : MonoBehaviour
             }
             if (verticalSpeed < -deadlyFallVelocity)
             {
+                died = true;
                 StartCoroutine(Die());
+                return;
             }
             else
             {
