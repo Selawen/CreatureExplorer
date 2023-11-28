@@ -244,6 +244,9 @@ public class Planner : MonoBehaviour
 
             foreach (Plan p in possiblePlans)
             {
+                if (debug)
+                    Debug.Log($"looking into plan ending in {p.ActionList[0]}");
+
                 bool needNewPlan = false;
                 if (p.PlanComplete)
                 {

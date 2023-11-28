@@ -2,44 +2,16 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Attack : Action
+public class Attack : NavigatedAction
 {
     [Header("Attack")]
-    [SerializeField] private float speedMultiplier = 4;
-
-    private NavMeshAgent moveAgent;
-    private Transform targetTransform;
-
-    private float originalSpeed, originalRotationSpeed, originalAcceleration;
-
-    private void Start()
-    {
-        moveAgent = gameObject.GetComponentInParent<NavMeshAgent>();
-        originalSpeed = moveAgent.speed;
-        originalRotationSpeed = moveAgent.angularSpeed;
-        originalAcceleration = moveAgent.acceleration;
-    }
+    [SerializeField] private Transform attackOrigin;
 
     public override GameObject PerformAction(Creature creature, GameObject target)
     {
         if (target != null)
         {
-            moveAgent = gameObject.GetComponentInParent<NavMeshAgent>();
-            originalSpeed = moveAgent.speed;
-            originalRotationSpeed = moveAgent.angularSpeed;
-            originalAcceleration = moveAgent.acceleration;
-
-            moveAgent.speed *= speedMultiplier;
-            moveAgent.angularSpeed *= speedMultiplier;
-            moveAgent.acceleration *= speedMultiplier;
-            moveAgent.autoBraking = false;
-
-            targetTransform = target.transform;
-            moveAgent.SetDestination(targetTransform.position);
-
-
-            if (animator != null)
-                animator.speed = moveAgent.speed / originalSpeed;
+            base.PerformAction(creature, target);
         }
         else
         {
@@ -47,29 +19,17 @@ public class Attack : Action
             return target;
         }
 
-        DoAction(target);
-        FailCheck(failToken);
         return target;
     }
 
-    public override void Reset()
+    protected override void SetPathDestination()
     {
-        base.Reset();
-
-        moveAgent.speed = originalSpeed;
-        moveAgent.angularSpeed = originalRotationSpeed;
-        moveAgent.acceleration = originalAcceleration;
-        moveAgent.autoBraking = true;
-
-        moveAgent.ResetPath();
-
-        if (animator != null) 
-            animator.speed = 1;
+        moveAgent.SetDestination(targetTransform.position);
     }
 
-    public override void CalculateCostAndReward(CreatureState currentState, MoodState targetMood, float targetMoodPrio)
+    protected override void MoveAction(GameObject target = null)
     {
-        base.CalculateCostAndReward(currentState, targetMood, targetMoodPrio);
+        DoAction(target);
     }
 
     protected override async void DoAction(GameObject target = null)
@@ -78,33 +38,59 @@ public class Attack : Action
 
         while (!check.IsCompletedSuccessfully)
         {
+            // wait a bit before updating
+            await Task.Delay(100);
             if ((moveAgent.destination - targetTransform.position).sqrMagnitude > 1f)
             {
-                moveAgent.SetDestination(targetTransform.position);
+                SetPathDestination();
             }
-            // wait half a second before updating again
-            await Task.Delay(500);
         }
 
-        moveAgent.speed = originalSpeed;
-        moveAgent.angularSpeed = originalRotationSpeed;
-        moveAgent.acceleration = originalAcceleration;
-        moveAgent.autoBraking = true;
+        float comparison = 2f;
 
-        moveAgent.ResetPath();
-        //moveAgent.SetDestination(moveAgent.transform.position);
+        if (target.TryGetComponent(out NavMeshAgent agent))
+        {
+            comparison += agent.radius;
+        }
 
-        if (animator != null)
-            animator.speed = 1;
+        // If the torca can't reach target, fail attacking
+        if ((target.transform.position - (moveAgent.destination + attackOrigin.localPosition)).magnitude > comparison)
+        {
+            if (GetComponentInParent<Creature>().LogDebugs)
+                Debug.Log($"Attack failed, further than {comparison} away");
+
+            ResetNavigation();
+
+            failSource.Cancel();
+
+            await EndAnimation();
+
+            failed = true;
+            return;
+        }
+
+        ResetNavigation();
 
         if (target.TryGetComponent(out Creature targetCreature))
         {
-            if (targetCreature.AttackSuccess(moveAgent.transform.position))
+            if (!targetCreature.enabled || targetCreature.AttackSuccess(moveAgent.transform.position))
             {
-                if (target.TryGetComponent(out NavMeshAgent agent))
+                if (target.TryGetComponent(out agent))
                 {
                     agent.enabled = false;
                 }
+
+                SetPathDestination();
+
+                moveAgent.SetDestination(targetTransform.position - transform.TransformDirection(attackOrigin.localPosition));
+                Task lastMovecheck = CheckDistanceToDestination();
+
+                while (!lastMovecheck.IsCompletedSuccessfully)
+                {
+                    await Task.Delay(500);
+                }
+
+                ResetNavigation();
             } else
             {
                 if (GetComponentInParent<Creature>().LogDebugs)
@@ -124,12 +110,5 @@ public class Attack : Action
         }
             
         base.DoAction();
-    }
-    private async Task CheckDistanceToDestination()
-    {
-        while ((moveAgent.destination - moveAgent.transform.position).magnitude > 1f)
-        {
-            await Task.Yield();
-        }
     }
 }

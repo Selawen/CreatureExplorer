@@ -45,7 +45,8 @@ public class QuestPictureInterface : PageComponentInteractor
         };
 
         StaticQuestHandler.OnPictureClicked += (PagePicture picture) => 
-        { 
+        {
+            picture.SetStepBackParent();
             if (OnComponentDroppedOn(picture))
             {
                 picture.SetInteractor(this);
@@ -60,6 +61,10 @@ public class QuestPictureInterface : PageComponentInteractor
             feedbackText.gameObject.SetActive(false); 
             descriptionText.gameObject.SetActive(false); 
             pictureSlot.SetActive(false); 
+            if(slottedPicture != null)
+            {
+                slottedPicture.OnRevert();
+            }
         };
 
         pictureSlot.SetActive(false);
@@ -73,7 +78,8 @@ public class QuestPictureInterface : PageComponentInteractor
         if (component.GetType() != typeof(PagePicture) || slottedPicture != null) 
             return false;
 
-        SlotPicture(component as PagePicture);
+        PagePicture picture = component as PagePicture;
+        SlotPicture(picture);
         return true;
     }
 
@@ -81,6 +87,10 @@ public class QuestPictureInterface : PageComponentInteractor
     {
         component.transform.localScale = Vector3.one;
         slottedPicture = null;
+
+        handInBackground.sprite = defaultBackground;
+        handInFrame.sprite = defaultFrame;
+        feedbackText.text = "Please hand in your photo here";
     }
 
     private void SlotPicture(PagePicture picture)
@@ -101,12 +111,17 @@ public class QuestPictureInterface : PageComponentInteractor
         handInFrame.sprite = correctFrame;
         feedbackText.text = "Ah! This is what I was looking for!";
 
+        StaticQuestHandler.OnQuestInputDisabled?.Invoke();
+
         yield return new WaitForSeconds(questCompletionWaitTime);
 
         handInBackground.color = new Color(1, 1, 1, 0);
 
         Destroy(slottedPicture.gameObject);
         slottedPicture = null;
+
+        handInBackground.sprite = defaultBackground;
+        handInFrame.sprite = defaultFrame;
 
         pictureSlot.SetActive(false);
 

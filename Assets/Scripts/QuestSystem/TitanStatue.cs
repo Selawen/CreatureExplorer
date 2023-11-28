@@ -49,7 +49,7 @@ public class TitanStatue : MonoBehaviour, IInteractable
             
             // Will be removed when correct visual feedback is implemented
             DebugChangeMaterialVisuals();
-            GrandTemple.OnStatueCleared?.Invoke(ringIndex);
+            GrandTemple.OnStatueCleared?.Invoke();
 
             Cursor.lockState = CursorLockMode.Locked;
             questFinished = true;

@@ -559,6 +559,16 @@ PrefabInstance:
       objectReference: {fileID: 3327204111561387347}
     - target: {fileID: 2435853527441941368, guid: e91d3f26e7953b84484e350694b1fcbe,
         type: 3}
+      propertyPath: <Reward>k__BackingField
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2435853527441941368, guid: e91d3f26e7953b84484e350694b1fcbe,
+        type: 3}
+      propertyPath: <BaseReward>k__BackingField
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2435853527441941368, guid: e91d3f26e7953b84484e350694b1fcbe,
+        type: 3}
       propertyPath: <Prerequisites>k__BackingField.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -814,6 +824,21 @@ PrefabInstance:
       propertyPath: animator
       value: 
       objectReference: {fileID: 3327204111561387347}
+    - target: {fileID: 4337417848347193026, guid: c4d537d1eccf6d84da8c18f49b4831be,
+        type: 3}
+      propertyPath: <Prerequisites>k__BackingField.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4337417848347193026, guid: c4d537d1eccf6d84da8c18f49b4831be,
+        type: 3}
+      propertyPath: <Prerequisites>k__BackingField.Array.data[1].<EffectType>k__BackingField
+      value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 4337417848347193026, guid: c4d537d1eccf6d84da8c18f49b4831be,
+        type: 3}
+      propertyPath: <Prerequisites>k__BackingField.Array.data[1].<StateValue>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5214271807075327116, guid: c4d537d1eccf6d84da8c18f49b4831be,
         type: 3}
       propertyPath: animator
@@ -1275,7 +1300,7 @@ MonoBehaviour:
   goalText: {fileID: 530009448259105565}
   actionText: {fileID: 530009446309208750}
   soundText: {fileID: 7443840643985060226}
-  worldState: 8
+  worldState: 9
   currentCreatureState:
     <CreatureStates>k__BackingField:
     - <MoodType>k__BackingField: 0
@@ -1289,7 +1314,7 @@ MonoBehaviour:
       <StateValue>k__BackingField: 0
     - <MoodType>k__BackingField: 3
       <Operator>k__BackingField: 2
-      <StateValue>k__BackingField: 56.5
+      <StateValue>k__BackingField: 96.7
     - <MoodType>k__BackingField: 4
       <Operator>k__BackingField: 2
       <StateValue>k__BackingField: 32.2

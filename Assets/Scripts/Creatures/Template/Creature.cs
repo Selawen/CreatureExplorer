@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.AI;
 using UnityEngine;
 using TMPro;
 
@@ -35,6 +36,8 @@ public class Creature : MonoBehaviour
 
     private bool sawPlayer = false;
 
+    private NavMeshAgent agent;
+
     protected virtual void Start()
     {
         if (!showThoughts)
@@ -46,6 +49,8 @@ public class Creature : MonoBehaviour
             soundText.gameObject.SetActive(true);
             */
         }
+
+        TryGetComponent(out agent);
 
         planner = GetComponent<Planner>();
 
@@ -65,6 +70,7 @@ public class Creature : MonoBehaviour
     protected virtual void FixedUpdate()
     {
         UpdateValues();
+
         if (CurrentAction != null)
         {
             // if an action has failed try and generate a new goal
@@ -169,6 +175,7 @@ public class Creature : MonoBehaviour
     /// </summary>
     private void UpdateValues()
     {
+        // TODO: get rid of magic number
         // Make creature tire faster when it's bedtime
         if (TimeKeeper.Instance.IsRightTime(data.Bedtime, data.WakeTime))
             currentCreatureState.AddValue(2f * Time.deltaTime, StateType.Tiredness);
@@ -290,22 +297,32 @@ public class Creature : MonoBehaviour
     public bool AttackSuccess(Vector3 attackSource)
     {
         // TODO: think about what to set the value to beat to
-        ReactToAttack(attackSource);
 
-        if (UnityEngine.Random.Range(0, currentCreatureState.Find(StateType.Tiredness).StateValue) > 20)
+        if (UnityEngine.Random.Range(0, currentCreatureState.Find(StateType.Tiredness).StateValue) > 0)
         {
-            CurrentAction.Reset();
+            DebugMessage("Die");
+
+            Animator animator = GetComponentInChildren<Animator>();
+            CurrentAction.Stop();
+
+            animator.Rebind();
+            this.enabled = false;
+            animator.speed = 1;
+
+            animator.SetBool("Die", true);
 
             // TODO: implement proper reaction
             goalText.text = "DEAD";
             soundText.text = "DEAD";
             actionText.text = "";
-            GetComponentInChildren<Animator>().SetTrigger("Die");
-            this.enabled = false;
 
             return true;
-        } else 
+        }
+        else
+        {
+            ReactToAttack(attackSource);
             return false;
+        }
     }
 
     protected virtual void ReactToAttack(Vector3 attackPos)

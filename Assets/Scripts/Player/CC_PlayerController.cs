@@ -101,6 +101,12 @@ public class CC_PlayerController : MonoBehaviour
 
         respawnFadeRenderer = Instantiate(respawnOccluder, firstPersonCamera.transform).GetComponent<MeshRenderer>();
 
+        StaticQuestHandler.OnQuestInputDisabled += () =>
+        {
+            playerInput.SwitchCurrentActionMap("Await");
+            currentState = CharacterState.Awaiting;
+        };
+
         StaticQuestHandler.OnQuestOpened += () => 
         { 
             playerInput.SwitchCurrentActionMap("Scrapbook"); 
@@ -212,6 +218,7 @@ public class CC_PlayerController : MonoBehaviour
 
         if (context.started && closestInteractable != null)
         {
+            moveDirection = Vector3.zero;
             if(closestInteractable.GetType() == typeof(JellyfishLadder))
             {
                 StartClimb();
@@ -279,6 +286,12 @@ public class CC_PlayerController : MonoBehaviour
 
     private void Fall()
     {
+        float gravity = 9.81f * Time.deltaTime;
+        if (controller.velocity.y > -0.5f)
+            verticalSpeed = controller.velocity.y - gravity;
+        else
+            verticalSpeed -= gravity;
+
         if (moveInput.sqrMagnitude > 0.1f)
         {
             float inputAngle = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg;
@@ -292,7 +305,6 @@ public class CC_PlayerController : MonoBehaviour
             moveDirection = control;
         }
 
-        verticalSpeed -= 9.81f * Time.deltaTime;
         if (GroundCheck())
         {
             if(Physics.Raycast(transform.position, transform.up * -1, out RaycastHit hit, 1f, ~playerLayer))
@@ -308,12 +320,15 @@ public class CC_PlayerController : MonoBehaviour
             }
             if (verticalSpeed < -deadlyFallVelocity)
             {
+                died = true;
                 StartCoroutine(Die());
+                return;
             }
             else
             {
                 Physics.Raycast(transform.position, transform.up * -1, out RaycastHit floorHit, 2f, ~playerLayer);
                 transform.position = floorHit.point;
+                verticalSpeed = 0;
                 currentState = CharacterState.Grounded;
                 return;
             }

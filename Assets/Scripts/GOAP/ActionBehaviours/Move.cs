@@ -2,41 +2,28 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Move : Action
+public class Move : NavigatedAction
 {
-    private NavMeshAgent moveAgent;
-    private Transform targetTransform;
-
-    private void Start()
-    {
-        moveAgent = gameObject.GetComponentInParent<NavMeshAgent>();
-    }
-
     public override GameObject PerformAction(Creature creature, GameObject target)
     {
-        moveAgent = gameObject.GetComponentInParent<NavMeshAgent>();
-
-        if (target != null) { 
-            targetTransform = target.transform;
-            moveAgent.SetDestination(targetTransform.position);
-        }
-        else
+        if (target == null)
         {
             failed = true;
             return target;
         }
-        //Task.Run(() => DoAction(), failToken);
 
-        // Navmeshagent doesn't play nice with threading
-        DoAction();
-        FailCheck(failToken);
+        base.PerformAction(creature, target);
 
         return target;
     }
-
-    public override void CalculateCostAndReward(CreatureState currentState, MoodState targetMood, float targetMoodPrio)
+    protected override void SetPathDestination()
     {
-        base.CalculateCostAndReward(currentState, targetMood, targetMoodPrio);
+        moveAgent.SetDestination(targetTransform.position);
+    }
+
+    protected override void MoveAction(GameObject target = null)
+    {
+        DoAction(target);
     }
 
     protected override async void DoAction(GameObject target = null)
@@ -45,24 +32,20 @@ public class Move : Action
         
         while (!check.IsCompletedSuccessfully) 
         {
+            if (targetTransform == null)
+            {
+                failed = true;
+                return;
+            }
+
             if ((moveAgent.destination - targetTransform.position).sqrMagnitude > 1f)
             {
-                moveAgent.SetDestination(targetTransform.position);
+                SetPathDestination();
             }
             // wait half a second before updating again
             await Task.Delay(500);
         }
 
-        moveAgent.ResetPath();
-
         base.DoAction();
-    }
-
-    private async Task CheckDistanceToDestination()
-    {
-        while ((moveAgent.destination - moveAgent.transform.position).sqrMagnitude > 1f)
-        {
-            await Task.Yield();
-        }
     }
 }

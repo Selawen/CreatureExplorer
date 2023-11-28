@@ -14,6 +14,8 @@ public class Prey : Creature
 
     protected override void UpdateCreatureState()
     {
+        if (WaryOff == null || WaryOff == Vector3.zero|| waryLoudness == 0)
+            return;
         bool nearDanger = (WaryOff - transform.position).sqrMagnitude < (waryLoudness + data.HearingSensitivity * CurrentAction.Awareness);
         worldState =  nearDanger? SetConditionTrue(worldState, Condition.IsNearDanger) : SetConditionFalse(worldState, Condition.IsNearDanger);
         CheckForInterruptions(StateType.Fear, GetComponentInChildren<Flee>(), "Terrified", 90);

@@ -8,11 +8,11 @@ public abstract class PageComponent : MonoBehaviour, IBeginDragHandler, IDragHan
     //public System.Action OnComponentRemoved;
 
     protected RectTransform _rectTransform;
+    protected Transform previousParent;
 
     private Vector3 startPosition;
     private PageComponentInteractor currentInteractor;
 
-    private Transform previousParent;
 
     private void Awake()
     {
