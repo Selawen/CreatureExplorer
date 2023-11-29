@@ -152,6 +152,9 @@ public class CC_PlayerController : MonoBehaviour
         
         if (!died)
             controller.Move((moveDirection + Vector3.up * verticalSpeed) * Time.deltaTime);
+
+        Debug.Log(controller.velocity.y);
+        Debug.Log(verticalSpeed);
     }
 
     public void SetRotationSpeed(float newSpeed) => rotationSpeed = newSpeed;
@@ -291,6 +294,8 @@ public class CC_PlayerController : MonoBehaviour
             verticalSpeed = controller.velocity.y - gravity;
         else
             verticalSpeed -= gravity;
+
+        moveDirection = Vector3.zero;
 
         if (moveInput.sqrMagnitude > 0.1f)
         {
