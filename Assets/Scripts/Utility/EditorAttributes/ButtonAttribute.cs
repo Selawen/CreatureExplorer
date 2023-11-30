@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -19,11 +18,16 @@ public class ButtonAttribute : PropertyAttribute
     public float ButtonHeight
     {
         get { return buttonHeight; }
-        set { buttonHeight = value; }
+        //set { buttonHeight = value; }
     }
 
     public ButtonAttribute(string MethodName)
     {
         this.MethodName = MethodName;
+    }
+    public ButtonAttribute(string MethodName, float height)
+    {
+        this.MethodName = MethodName;
+        buttonHeight = height;
     }
 }

@@ -34,7 +34,7 @@ abstract public class Action : MonoBehaviour
     [SerializeField] protected float actionDuration = 2;
 
     [field: Header("Animator")]
-    [Button("SetAnimator", ButtonHeight = 20)]
+    [Button("SetAnimator", 30)]
     [SerializeField] private bool setAnimator;
     [ShowOnly][field: SerializeField] protected Animator animator;
     protected SoundPlayer soundPlayer;
