@@ -34,10 +34,12 @@ public class CC_PlayerController : MonoBehaviour
     [SerializeField] private float interactDistance = 2f;
     [SerializeField] private float interactRadius = 5f;
     [SerializeField] private float interactHeight = 0.875f;
+    [SerializeField] private float drowningHeight = 1.6f;
     [SerializeField] private UnityEvent<string> onInteractPromptChanged;
 
     [SerializeField] private float minimumClimbDistance = 1f;
     [SerializeField] private LayerMask playerLayer;
+    [SerializeField] private LayerMask waterLayer;
 
     [Header("GroundCheck")]
     [SerializeField] private float groundCheckRadius = 0.2f;
@@ -135,7 +137,11 @@ public class CC_PlayerController : MonoBehaviour
         if (died)
             return;
 
-        // The case of the broken player lift seems to be that Move isn't properly updated if there's no moveInput
+        if(Physics.CheckSphere(transform.position + Vector3.up * drowningHeight, 0.25f, waterLayer))
+        {
+            StartCoroutine(Die());
+            return;
+        }
         switch (currentState)
         {
             case CharacterState.Grounded:
@@ -156,7 +162,6 @@ public class CC_PlayerController : MonoBehaviour
         if (!died)
         {
             controller.Move((moveDirection + verticalSpeed * Vector3.up) * Time.deltaTime);
-            //controller.Move(Time.deltaTime * );
         }
 
     }
@@ -401,12 +406,6 @@ public class CC_PlayerController : MonoBehaviour
                     {
                         closest = c;
                         closestInteractable = interactable;
-                        //if(closestInteractable.GetType() == typeof(JellyfishLadder))
-                        //{
-                        //    JellyfishLadder climbable = closestInteractable as JellyfishLadder;
-                        //    Physics.Raycast(transform.position + Vector3.up * interactHeight, transform.forward, out RaycastHit contact, interactDistance * 2 , ~playerLayer);
-                        //    climbable.ContactPoint = contact.point;
-                        //}
                     }
                 }
             }
@@ -452,26 +451,12 @@ public class CC_PlayerController : MonoBehaviour
         currentState = CharacterState.Climbing;
     }
 
-    //private IEnumerator PrepareClimb(JellyfishLadder ladder)
-    //{
-    //    currentState = CharacterState.Awaiting;
-    //    onInteractPromptChanged?.Invoke("");
-    //    while(Vector3.Distance(transform.position + Vector3.up * interactHeight, ladder.ContactPoint) > minimumClimbDistance)
-    //    {
-    //        moveDirection = transform.forward * walkSpeed;
-    //        yield return null;
-    //    }
-    //    verticalSpeed = 0;
-    //    moveDirection = Vector3.zero;
-    //    currentState = CharacterState.Climbing;
-    //}
-
     private IEnumerator Die()
     {
         died = true;
         moveDirection = Vector3.zero;
         verticalRotation = 0;
-        verticalSpeed = 0;
+        verticalSpeed = -0.5f;
 
         GameObject canvas = GetComponentInChildren<Canvas>().gameObject;
         canvas.SetActive(false);
@@ -532,6 +517,7 @@ public class CC_PlayerController : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position - transform.forward * groundCheckDistance, groundCheckRadius);
         Gizmos.DrawWireSphere(transform.position + transform.right * groundCheckDistance, groundCheckRadius);
         Gizmos.DrawWireSphere(transform.position - transform.right * groundCheckDistance, groundCheckRadius);
+        Gizmos.DrawWireSphere(transform.position + Vector3.up * drowningHeight, 0.25f);
         // Interaction
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(transform.position + Vector3.up * interactHeight + interactDistance * transform.forward, interactRadius);
