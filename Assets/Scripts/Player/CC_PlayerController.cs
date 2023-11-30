@@ -135,26 +135,30 @@ public class CC_PlayerController : MonoBehaviour
         if (died)
             return;
 
+        // The case of the broken player lift seems to be that Move isn't properly updated if there's no moveInput
         switch (currentState)
         {
             case CharacterState.Grounded:
                 Move();
                 HandleInteract();
+                Debug.Log("A" + verticalSpeed);
                 break;
             case CharacterState.Aerial:
                 Fall();
                 HandleInteract();
+                Debug.Log("B" + verticalSpeed);
                 break;
             case CharacterState.Climbing:
                 Climb();
                 break;
         }
-        
-        if (!died)
-            controller.Move((moveDirection + Vector3.up * verticalSpeed) * Time.deltaTime);
 
-        Debug.Log(controller.velocity.y);
-        Debug.Log(verticalSpeed);
+        if (!died)
+        {
+            controller.Move((moveDirection + verticalSpeed * Vector3.up) * Time.deltaTime);
+            //controller.Move(Time.deltaTime * );
+        }
+
     }
 
     public void SetRotationSpeed(float newSpeed) => rotationSpeed = newSpeed;
@@ -259,7 +263,7 @@ public class CC_PlayerController : MonoBehaviour
             moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward * speed;
         }
         else
-        { 
+        {
             moveDirection = Vector3.zero;
         }
     }
@@ -271,6 +275,7 @@ public class CC_PlayerController : MonoBehaviour
             if(GroundCheck() && moveInput.y < 0)
             {
                 currentState = CharacterState.Grounded;
+                return;
             }
             if (!Physics.Raycast(transform.position + Vector3.up * interactDistance, transform.forward, minimumClimbDistance + 0.5f, ~playerLayer) && 
                 !Physics.Raycast(transform.position, transform.forward, minimumClimbDistance + 0.5f, ~playerLayer))
@@ -279,7 +284,7 @@ public class CC_PlayerController : MonoBehaviour
                 currentState = CharacterState.Aerial;
                 return;
             }
-            moveDirection = transform.up * moveInput.y * climbSpeed;
+            moveDirection = moveInput.y * climbSpeed * transform.up;
         }
         else
         {
@@ -295,8 +300,6 @@ public class CC_PlayerController : MonoBehaviour
         else
             verticalSpeed -= gravity;
 
-        moveDirection = Vector3.zero;
-
         if (moveInput.sqrMagnitude > 0.1f)
         {
             float inputAngle = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg;
@@ -309,10 +312,24 @@ public class CC_PlayerController : MonoBehaviour
             }
             moveDirection = control;
         }
+        else
+        {
+            // Slowly decay the speed if no input is given.
+            // Below the threshold, we set the move direction to 0.
+            if (moveDirection.magnitude > 0.2f)
+            {
+                moveDirection *= 0.95f;
+            }
+            else
+            {
+                moveDirection = Vector3.zero;
+            }
+        }
 
         if (GroundCheck())
         {
-            if(Physics.Raycast(transform.position, transform.up * -1, out RaycastHit hit, 1f, ~playerLayer))
+            currentState = CharacterState.Grounded;
+            if (Physics.Raycast(transform.position, transform.up * -1, out RaycastHit hit, 1f, ~playerLayer))
             {
                 if(hit.transform.TryGetComponent(out BounceSurface surface))
                 {
@@ -333,8 +350,7 @@ public class CC_PlayerController : MonoBehaviour
             {
                 Physics.Raycast(transform.position, transform.up * -1, out RaycastHit floorHit, 2f, ~playerLayer);
                 transform.position = floorHit.point;
-                verticalSpeed = 0;
-                currentState = CharacterState.Grounded;
+                verticalSpeed = -0.5f;
                 return;
             }
         }
