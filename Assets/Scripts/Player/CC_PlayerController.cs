@@ -147,12 +147,10 @@ public class CC_PlayerController : MonoBehaviour
             case CharacterState.Grounded:
                 Move();
                 HandleInteract();
-                Debug.Log("A" + verticalSpeed);
                 break;
             case CharacterState.Aerial:
                 Fall();
                 HandleInteract();
-                Debug.Log("B" + verticalSpeed);
                 break;
             case CharacterState.Climbing:
                 Climb();
