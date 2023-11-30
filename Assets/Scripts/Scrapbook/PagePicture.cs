@@ -9,6 +9,7 @@ public class PagePicture : PageComponent, IPointerClickHandler
 
     public static System.Action<PagePicture> OnPictureClicked;
     public static System.Action OnBeginPictureDrag;
+    public static System.Action OnEndPictureDrag;
 
     [SerializeField] private Image pictureGraphic;
     [SerializeField] private float pageScaleFactor = 2.5f;
@@ -55,6 +56,7 @@ public class PagePicture : PageComponent, IPointerClickHandler
     public override void OnEndDrag(PointerEventData eventData)
     {
         base.OnEndDrag(eventData);
+        OnEndPictureDrag?.Invoke();
         dragging = false;
     }
 
@@ -77,6 +79,7 @@ public class PagePicture : PageComponent, IPointerClickHandler
         }
         else
         {
+            Debug.Log(interactor.name);
             Debug.LogError("For some reason, the picture cannot be return to it's parent, this shouldn't happen");
         }
     }

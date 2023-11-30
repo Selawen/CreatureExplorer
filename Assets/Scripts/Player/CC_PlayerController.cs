@@ -34,10 +34,12 @@ public class CC_PlayerController : MonoBehaviour
     [SerializeField] private float interactDistance = 2f;
     [SerializeField] private float interactRadius = 5f;
     [SerializeField] private float interactHeight = 0.875f;
+    [SerializeField] private float drowningHeight = 1.6f;
     [SerializeField] private UnityEvent<string> onInteractPromptChanged;
 
     [SerializeField] private float minimumClimbDistance = 1f;
     [SerializeField] private LayerMask playerLayer;
+    [SerializeField] private LayerMask waterLayer;
 
     [Header("GroundCheck")]
     [SerializeField] private float groundCheckRadius = 0.2f;
@@ -135,23 +137,33 @@ public class CC_PlayerController : MonoBehaviour
         if (died)
             return;
 
+        if(Physics.CheckSphere(transform.position + Vector3.up * drowningHeight, 0.25f, waterLayer))
+        {
+            StartCoroutine(Die());
+            return;
+        }
         switch (currentState)
         {
             case CharacterState.Grounded:
                 Move();
                 HandleInteract();
+                Debug.Log("A" + verticalSpeed);
                 break;
             case CharacterState.Aerial:
                 Fall();
                 HandleInteract();
+                Debug.Log("B" + verticalSpeed);
                 break;
             case CharacterState.Climbing:
                 Climb();
                 break;
         }
-        
+
         if (!died)
-            controller.Move((moveDirection + Vector3.up * verticalSpeed) * Time.deltaTime);
+        {
+            controller.Move((moveDirection + verticalSpeed * Vector3.up) * Time.deltaTime);
+        }
+
     }
 
     public void SetRotationSpeed(float newSpeed) => rotationSpeed = newSpeed;
@@ -256,7 +268,7 @@ public class CC_PlayerController : MonoBehaviour
             moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward * speed;
         }
         else
-        { 
+        {
             moveDirection = Vector3.zero;
         }
     }
@@ -268,6 +280,7 @@ public class CC_PlayerController : MonoBehaviour
             if(GroundCheck() && moveInput.y < 0)
             {
                 currentState = CharacterState.Grounded;
+                return;
             }
             if (!Physics.Raycast(transform.position + Vector3.up * interactDistance, transform.forward, minimumClimbDistance + 0.5f, ~playerLayer) && 
                 !Physics.Raycast(transform.position, transform.forward, minimumClimbDistance + 0.5f, ~playerLayer))
@@ -276,7 +289,7 @@ public class CC_PlayerController : MonoBehaviour
                 currentState = CharacterState.Aerial;
                 return;
             }
-            moveDirection = transform.up * moveInput.y * climbSpeed;
+            moveDirection = moveInput.y * climbSpeed * transform.up;
         }
         else
         {
@@ -304,10 +317,24 @@ public class CC_PlayerController : MonoBehaviour
             }
             moveDirection = control;
         }
+        else
+        {
+            // Slowly decay the speed if no input is given.
+            // Below the threshold, we set the move direction to 0.
+            if (moveDirection.magnitude > 0.2f)
+            {
+                moveDirection *= 0.95f;
+            }
+            else
+            {
+                moveDirection = Vector3.zero;
+            }
+        }
 
         if (GroundCheck())
         {
-            if(Physics.Raycast(transform.position, transform.up * -1, out RaycastHit hit, 1f, ~playerLayer))
+            currentState = CharacterState.Grounded;
+            if (Physics.Raycast(transform.position, transform.up * -1, out RaycastHit hit, 1f, ~playerLayer))
             {
                 if(hit.transform.TryGetComponent(out BounceSurface surface))
                 {
@@ -328,8 +355,7 @@ public class CC_PlayerController : MonoBehaviour
             {
                 Physics.Raycast(transform.position, transform.up * -1, out RaycastHit floorHit, 2f, ~playerLayer);
                 transform.position = floorHit.point;
-                verticalSpeed = 0;
-                currentState = CharacterState.Grounded;
+                verticalSpeed = -0.5f;
                 return;
             }
         }
@@ -380,12 +406,6 @@ public class CC_PlayerController : MonoBehaviour
                     {
                         closest = c;
                         closestInteractable = interactable;
-                        //if(closestInteractable.GetType() == typeof(JellyfishLadder))
-                        //{
-                        //    JellyfishLadder climbable = closestInteractable as JellyfishLadder;
-                        //    Physics.Raycast(transform.position + Vector3.up * interactHeight, transform.forward, out RaycastHit contact, interactDistance * 2 , ~playerLayer);
-                        //    climbable.ContactPoint = contact.point;
-                        //}
                     }
                 }
             }
@@ -431,26 +451,12 @@ public class CC_PlayerController : MonoBehaviour
         currentState = CharacterState.Climbing;
     }
 
-    //private IEnumerator PrepareClimb(JellyfishLadder ladder)
-    //{
-    //    currentState = CharacterState.Awaiting;
-    //    onInteractPromptChanged?.Invoke("");
-    //    while(Vector3.Distance(transform.position + Vector3.up * interactHeight, ladder.ContactPoint) > minimumClimbDistance)
-    //    {
-    //        moveDirection = transform.forward * walkSpeed;
-    //        yield return null;
-    //    }
-    //    verticalSpeed = 0;
-    //    moveDirection = Vector3.zero;
-    //    currentState = CharacterState.Climbing;
-    //}
-
     private IEnumerator Die()
     {
         died = true;
         moveDirection = Vector3.zero;
         verticalRotation = 0;
-        verticalSpeed = 0;
+        verticalSpeed = -0.5f;
 
         GameObject canvas = GetComponentInChildren<Canvas>().gameObject;
         canvas.SetActive(false);
@@ -511,6 +517,7 @@ public class CC_PlayerController : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position - transform.forward * groundCheckDistance, groundCheckRadius);
         Gizmos.DrawWireSphere(transform.position + transform.right * groundCheckDistance, groundCheckRadius);
         Gizmos.DrawWireSphere(transform.position - transform.right * groundCheckDistance, groundCheckRadius);
+        Gizmos.DrawWireSphere(transform.position + Vector3.up * drowningHeight, 0.25f);
         // Interaction
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(transform.position + Vector3.up * interactHeight + interactDistance * transform.forward, interactRadius);
