@@ -7,8 +7,10 @@ public class Tracker : ScriptableObject
 {
     [field: SerializeField] public ProgressCategory[] ProgressCategories { get; private set; }
 
-    [ExecuteAlways]
-    public void OnValidate()
+    [Button("UpdateProgress")]
+    public bool update;
+
+    public void UpdateProgress()
     {
         foreach (ProgressCategory category in ProgressCategories)
         {

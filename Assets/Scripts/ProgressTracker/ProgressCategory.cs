@@ -9,6 +9,8 @@ public class ProgressCategory : Progress
 
     public void Initialise()
     {
+        TotalAmount = Progresses.Length;
+
         foreach (Progress p in Progresses)
         {
             p.Initialise(this);
@@ -19,15 +21,28 @@ public class ProgressCategory : Progress
 
     public void Update()
     {
+        if (completed)
+            return;
+
         float averageProgress = 0;
+        int completedCount = 0;
 
         foreach (Progress p in Progresses)
         {
             averageProgress += p.Percentage;
+
+            completedCount += p.completed ? 1 : 0;
         }
 
         averageProgress /= Progresses.Length;
 
         Percentage = averageProgress;
+
+        SetProgress(completedCount);
+
+        if (Percentage >= 1)
+        {
+            completed = true;
+        }
     }
 }
