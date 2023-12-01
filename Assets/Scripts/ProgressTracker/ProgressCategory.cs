@@ -3,24 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class ProgressCategory
+public class ProgressCategory : ProgressObject
 {
-    [field: SerializeField] public string Name { get; private set; }
     [field: ShowOnly(2)] [field: SerializeField] public float Percentage { get; protected set; }
     [field: Range(1, 100)] [field: SerializeField] public int TotalAmount { get; protected set; }
     [field: SerializeField] public int PlayerAmount { get; protected set; }
-    [field: ShowOnly] [field: SerializeField] public bool Completed { get; protected set; }
-
-    private ProgressCategory category;
 
     [field: SerializeField] public ProgressCategory[] Tracked { get; private set; }
+    [field: SerializeField] public ProgressObject[] TrackedOjects { get; private set; }
 
     public void Initialise()
     {
+        if (TrackedOjects.Length > 0)
+        {
+            foreach (ProgressObject pObj in TrackedOjects)
+            {
+                pObj.Initialise(this);
+            }
+        }
+
         if (Tracked.Length < 1)
             return;
 
-        TotalAmount = Tracked.Length;
+        TotalAmount = Tracked.Length + TrackedOjects.Length;
 
         foreach (ProgressCategory p in Tracked)
         {
@@ -30,9 +35,10 @@ public class ProgressCategory
         Update();
     }
 
-    public void Initialise(ProgressCategory parent)
+    public override void Initialise(ProgressCategory parent)
     {
-        category = parent;
+        base.Initialise(parent);
+
         if (Tracked.Length < 1)
         {
             PlayerAmount = Mathf.Clamp(PlayerAmount, 0, TotalAmount);
@@ -45,12 +51,24 @@ public class ProgressCategory
         }
     }
 
-    public void SetName(string name)
+    public override bool IsID(string id, out ProgressObject result)
     {
-        Name = name;
+        result = this;
+        if (id == ID)
+            return true;
+        else if (Tracked.Length > 0)
+        {
+            foreach (ProgressCategory progress in Tracked)
+            {
+                if (IsID(id, out result))
+                    return true;
+            }
+        }
+
+        return false;
     }
 
-    public void AddProgress(int amount = 1)
+    public override void AddProgress(int amount = 1)
     {
         PlayerAmount += 1;
         PlayerAmount = Mathf.Clamp(PlayerAmount, 0, TotalAmount);
@@ -59,7 +77,7 @@ public class ProgressCategory
         UpdateCompletion();
     }
 
-    public void SetProgress(int amount)
+    private void SetProgress(int amount)
     {
         PlayerAmount = amount;
         PlayerAmount = Mathf.Clamp(PlayerAmount, 0, TotalAmount);

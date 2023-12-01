@@ -187,11 +187,16 @@ public class PlayerCamera : MonoBehaviour
                 Ray ray = pictureCamera.ScreenPointToRay(new Vector3(xStart + x * camStep, y * camStep));
                 if(Physics.Raycast(ray, out RaycastHit hit, effectiveScanDistance, ~ignoredPhotoLayers))
                 {
-                    if (hit.transform.TryGetComponent(out QuestableObject questableObject))
+                    QuestableObject[] questables = hit.transform.GetComponents<QuestableObject>();
+                    if (questables.Length >0)
                     {
-                        if (!result.Contains(questableObject))
+                        foreach (QuestableObject questableObject in questables)
                         {
-                            result.Add(questableObject);
+                            if (!result.Contains(questableObject))
+                            {
+                                EvaluateProgress.UpdateTrackedProgress(questableObject.QuestObjectID);
+                                result.Add(questableObject);
+                            }
                         }
                     }
                 }
