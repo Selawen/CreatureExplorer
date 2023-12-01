@@ -433,6 +433,7 @@ MonoBehaviour:
   interactDistance: 1.5
   interactRadius: 1.5
   interactHeight: 0.875
+  drowningHeight: 1.6
   onInteractPromptChanged:
     m_PersistentCalls:
       m_Calls:
@@ -451,7 +452,10 @@ MonoBehaviour:
   minimumClimbDistance: 1.25
   playerLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 80
+  waterLayer:
+    serializedVersion: 2
+    m_Bits: 16
   groundCheckRadius: 0.2
   groundCheckDistance: 0.3
   respawnTransform: {fileID: 0}

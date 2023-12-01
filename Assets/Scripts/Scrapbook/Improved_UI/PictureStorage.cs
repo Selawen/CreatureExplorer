@@ -15,6 +15,7 @@ public class PictureStorage : PageComponentInteractor
     [SerializeField] private Sprite storageBackgroundDefault;
     [SerializeField] private Sprite storageBackgroundFull;
 
+    private Image storageRaycastImage;
     //private ushort currentPictureIndex;
     private Inventory<PagePicture> pictureInventory;
 
@@ -23,6 +24,11 @@ public class PictureStorage : PageComponentInteractor
         pictureInventory = new Inventory<PagePicture>((ushort)photoSpots.Length);
         maxStorageText.text = pictureInventory.GetCapacity().ToString();
         UpdateCameraStorageText();
+
+        storageRaycastImage = GetComponent<Image>();
+
+        PagePicture.OnBeginPictureDrag += () => storageRaycastImage.raycastTarget = true;
+        PagePicture.OnEndPictureDrag += () => storageRaycastImage.raycastTarget = false;
     }
 
     public bool StorageIsFull() => pictureInventory.InventoryIsFull();
