@@ -7,7 +7,7 @@ public class ProgressObject
 {
     [field: SerializeField] public string Name { get; private set; }
     [field: SerializeField] public string ID { get; private set; }
-    [field: ShowOnly] [field: SerializeField] public bool Completed { get; protected set; }
+    [field: SerializeField] public bool Completed { get; protected set; }
 
     protected ProgressCategory category;
 
@@ -17,6 +17,11 @@ public class ProgressObject
             ID = Name;
 
         category = parent;
+    }
+
+    public virtual void Reset()
+    {
+        Completed = false;
     }
 
     public virtual bool IsID(string id, out ProgressObject result)

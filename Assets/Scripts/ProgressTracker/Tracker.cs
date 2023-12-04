@@ -10,11 +10,21 @@ public class Tracker : ScriptableObject
     [Button("UpdateProgress")]
     public bool update;
 
+    [Button("DeleteProgress")]
+    public bool resetProgress;
+
     public void UpdateProgress()
     {
         foreach (ProgressCategory category in ProgressCategories)
         {
             category.Initialise();
+        }
+    }
+    public void DeleteProgress()
+    {
+        foreach (ProgressCategory category in ProgressCategories)
+        {
+            category.Reset();
         }
     }
 }

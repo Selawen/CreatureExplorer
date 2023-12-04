@@ -30,27 +30,18 @@ MonoBehaviour:
       - <Name>k__BackingField: Behaviours
         <ID>k__BackingField: Behaviours
         <Completed>k__BackingField: 0
-        <Percentage>k__BackingField: NaN
-        <TotalAmount>k__BackingField: 0
+        <Percentage>k__BackingField: 0
+        <TotalAmount>k__BackingField: 2
         <PlayerAmount>k__BackingField: 0
         <Tracked>k__BackingField: []
-        <TrackedOjects>k__BackingField:
-        - <Name>k__BackingField: Sleeping
-          <ID>k__BackingField: Sleep
-          <Completed>k__BackingField: 0
+        <TrackedObjects>k__BackingField:
         - <Name>k__BackingField: Eating
           <ID>k__BackingField: Eat
           <Completed>k__BackingField: 0
-        - <Name>k__BackingField: Searching
-          <ID>k__BackingField: Search
+        - <Name>k__BackingField: Sleeping
+          <ID>k__BackingField: Sleep
           <Completed>k__BackingField: 0
-        - <Name>k__BackingField: Moving
-          <ID>k__BackingField: Move
-          <Completed>k__BackingField: 0
-        - <Name>k__BackingField: Ramming
-          <ID>k__BackingField: Ram
-          <Completed>k__BackingField: 0
-      <TrackedOjects>k__BackingField: []
+      <TrackedObjects>k__BackingField: []
     - <Name>k__BackingField: Torca
       <ID>k__BackingField: Torca
       <Completed>k__BackingField: 0
@@ -61,28 +52,13 @@ MonoBehaviour:
       - <Name>k__BackingField: Behaviours
         <ID>k__BackingField: Behaviours
         <Completed>k__BackingField: 0
-        <Percentage>k__BackingField: NaN
+        <Percentage>k__BackingField: 0
         <TotalAmount>k__BackingField: 0
         <PlayerAmount>k__BackingField: 0
         <Tracked>k__BackingField: []
-        <TrackedOjects>k__BackingField:
-        - <Name>k__BackingField: Sleeping
-          <ID>k__BackingField: Sleep
-          <Completed>k__BackingField: 0
-        - <Name>k__BackingField: Eating
-          <ID>k__BackingField: Eat
-          <Completed>k__BackingField: 0
-        - <Name>k__BackingField: Searching
-          <ID>k__BackingField: Search
-          <Completed>k__BackingField: 0
-        - <Name>k__BackingField: Moving
-          <ID>k__BackingField: Move
-          <Completed>k__BackingField: 0
-        - <Name>k__BackingField: Attacking
-          <ID>k__BackingField: Attack
-          <Completed>k__BackingField: 0
-      <TrackedOjects>k__BackingField: []
-    <TrackedOjects>k__BackingField:
+        <TrackedObjects>k__BackingField: []
+      <TrackedObjects>k__BackingField: []
+    <TrackedObjects>k__BackingField:
     - <Name>k__BackingField: Kwadder
       <ID>k__BackingField: Kwadder
       <Completed>k__BackingField: 0
@@ -97,43 +73,41 @@ MonoBehaviour:
     <PlayerAmount>k__BackingField: 0
     <Tracked>k__BackingField:
     - <Name>k__BackingField: Berries
-      <ID>k__BackingField: 
+      <ID>k__BackingField: Berries
       <Completed>k__BackingField: 0
       <Percentage>k__BackingField: 0
-      <TotalAmount>k__BackingField: 1
+      <TotalAmount>k__BackingField: 3
       <PlayerAmount>k__BackingField: 0
       <Tracked>k__BackingField: []
-      <TrackedOjects>k__BackingField:
-      - <Name>k__BackingField: Sleeping Berry
-        <ID>k__BackingField: 
+      <TrackedObjects>k__BackingField:
+      - <Name>k__BackingField: Normal Berry
+        <ID>k__BackingField: Food
+        <Completed>k__BackingField: 0
+      - <Name>k__BackingField: Sleepy Berry
+        <ID>k__BackingField: Sleepy Berry
         <Completed>k__BackingField: 0
       - <Name>k__BackingField: Sticky Berry
-        <ID>k__BackingField: 
-        <Completed>k__BackingField: 0
-      - <Name>k__BackingField: Berry
-        <ID>k__BackingField: 
+        <ID>k__BackingField: Sticky Berry
         <Completed>k__BackingField: 0
     - <Name>k__BackingField: Flowers
-      <ID>k__BackingField: 
+      <ID>k__BackingField: Flowers
       <Completed>k__BackingField: 0
       <Percentage>k__BackingField: 0
-      <TotalAmount>k__BackingField: 1
+      <TotalAmount>k__BackingField: 0
       <PlayerAmount>k__BackingField: 0
       <Tracked>k__BackingField: []
-      <TrackedOjects>k__BackingField: []
+      <TrackedObjects>k__BackingField: []
     - <Name>k__BackingField: Mushrooms
-      <ID>k__BackingField: 
+      <ID>k__BackingField: Mushrooms
       <Completed>k__BackingField: 0
       <Percentage>k__BackingField: 0
-      <TotalAmount>k__BackingField: 1
+      <TotalAmount>k__BackingField: 0
       <PlayerAmount>k__BackingField: 0
       <Tracked>k__BackingField: []
-      <TrackedOjects>k__BackingField: []
-    <TrackedOjects>k__BackingField:
+      <TrackedObjects>k__BackingField: []
+    <TrackedObjects>k__BackingField:
     - <Name>k__BackingField: Tree
-      <ID>k__BackingField: 
-      <Completed>k__BackingField: 0
-    - <Name>k__BackingField: Bush
-      <ID>k__BackingField: 
+      <ID>k__BackingField: Tree
       <Completed>k__BackingField: 0
   update: 0
+  resetProgress: 0

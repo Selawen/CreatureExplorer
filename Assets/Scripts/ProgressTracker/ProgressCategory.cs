@@ -10,26 +10,29 @@ public class ProgressCategory : ProgressObject
     [field: SerializeField] public int PlayerAmount { get; protected set; }
 
     [field: SerializeField] public ProgressCategory[] Tracked { get; private set; }
-    [field: SerializeField] public ProgressObject[] TrackedOjects { get; private set; }
+    [field: SerializeField] public ProgressObject[] TrackedObjects { get; private set; }
+
+    protected int childCategoryCount { get => Tracked == null? 0 : Tracked.Length; }
+    protected int childProgressCount { get => TrackedObjects == null? 0 : TrackedObjects.Length; }
 
     public void Initialise()
     {
-        if (TrackedOjects.Length > 0)
+        if (childProgressCount > 0)
         {
-            foreach (ProgressObject pObj in TrackedOjects)
+            foreach (ProgressObject pObj in TrackedObjects)
             {
                 pObj.Initialise(this);
             }
         }
 
-        if (Tracked.Length < 1)
-            return;
+        TotalAmount = childCategoryCount + childProgressCount;
 
-        TotalAmount = Tracked.Length + TrackedOjects.Length;
-
-        foreach (ProgressCategory p in Tracked)
+        if (childCategoryCount > 0)
         {
-            p.Initialise(this);
+            foreach (ProgressCategory p in Tracked)
+            {
+                p.Initialise(this);
+            }
         }
 
         Update();
@@ -38,17 +41,37 @@ public class ProgressCategory : ProgressObject
     public override void Initialise(ProgressCategory parent)
     {
         base.Initialise(parent);
-
+        Initialise();
+        /*
         if (Tracked.Length < 1)
         {
+            TotalAmount = TrackedObjects.Length;
             PlayerAmount = Mathf.Clamp(PlayerAmount, 0, TotalAmount);
             Percentage = (float)PlayerAmount / TotalAmount;
-
             UpdateCompletion();
-        } else
-        {
-            Initialise();
         }
+        */
+    }
+
+    public override void Reset()
+    {
+        base.Reset();
+        PlayerAmount = 0;
+        Percentage = 0;
+
+        if (childProgressCount > 0)
+        {
+            foreach (ProgressObject pObj in TrackedObjects)
+            {
+                pObj.Reset();
+            }
+        }
+
+        foreach (ProgressCategory p in Tracked)
+        {
+            p.Reset();
+        }
+
     }
 
     public override bool IsID(string id, out ProgressObject result)
@@ -56,7 +79,7 @@ public class ProgressCategory : ProgressObject
         result = this;
         if (id == ID)
             return true;
-        else if (Tracked.Length > 0)
+        else if (childCategoryCount > 0)
         {
             foreach (ProgressCategory progress in Tracked)
             {
@@ -72,7 +95,7 @@ public class ProgressCategory : ProgressObject
     {
         PlayerAmount += 1;
         PlayerAmount = Mathf.Clamp(PlayerAmount, 0, TotalAmount);
-        Percentage = Percentage = (float)PlayerAmount / TotalAmount;
+        Percentage= (float)PlayerAmount / TotalAmount;
 
         UpdateCompletion();
     }
@@ -81,29 +104,29 @@ public class ProgressCategory : ProgressObject
     {
         PlayerAmount = amount;
         PlayerAmount = Mathf.Clamp(PlayerAmount, 0, TotalAmount);
-        Percentage = Percentage = (float)PlayerAmount / TotalAmount;
+        Percentage = (float)PlayerAmount / TotalAmount;
 
         UpdateCompletion();
     }
 
     protected void UpdateCompletion()
     {
-        if (Percentage >= 1)
-        {
+        if (float.IsNaN(Percentage))
+            Percentage = 0;
+        else if (Percentage >= 1)
             Completed = true;
-        }
 
         if (category != null)
-        {
             category.Update();
-        }
-
     }
 
     public void Update()
     {
-        if (Completed || Tracked.Length<1)
+        if (Completed || (childCategoryCount < 1 && childProgressCount < 1))
+        {
+            UpdateCompletion();
             return;
+        }
 
         float averageProgress = 0;
         int completedCount = 0;
@@ -115,11 +138,20 @@ public class ProgressCategory : ProgressObject
             completedCount += p.Completed ? 1 : 0;
         }
 
-        averageProgress /= Tracked.Length;
+        foreach (ProgressObject pO in TrackedObjects)
+        {
+            if (pO.Completed)
+            {
+                averageProgress++;
+                completedCount ++;
+            }
+        }
 
-        Percentage = averageProgress;
 
         SetProgress(completedCount);
+        averageProgress /= (childCategoryCount + childProgressCount);
+
+        Percentage = float.IsNaN(averageProgress)? 0 : averageProgress ;
 
         UpdateCompletion();
     }

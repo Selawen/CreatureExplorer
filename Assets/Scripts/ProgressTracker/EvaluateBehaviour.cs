@@ -11,13 +11,13 @@ public class EvaluateBehaviour : EvaluateProgress
             if (questable.TryGetComponent(out Creature creature))
             {
 
-                foreach (ProgressCategory progress in trackedProgress.ProgressCategories)
+                foreach (ProgressCategory progress in TrackedCategories)
                 {
                     if (progress.IsID(questable.QuestObjectID, out ProgressObject rightCategory))
                     {
                         rightCategory = (ProgressCategory)rightCategory;
                         if (rightCategory.IsID(creature.CurrentAction.GetType().ToString(), out ProgressObject rightProgress))
-                            rightProgress.AddProgress();
+                            UpdateTrackedProgress(rightProgress);
                     }
                 }
             }

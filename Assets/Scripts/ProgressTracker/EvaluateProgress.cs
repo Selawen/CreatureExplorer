@@ -4,7 +4,21 @@ using UnityEngine;
 
 public class EvaluateProgress : MonoBehaviour
 {
-    public static Tracker trackedProgress;
+    [field:SerializeField] protected Tracker trackerReference;
+    private static Tracker trackedProgress;
+
+    protected static ProgressCategory[] TrackedCategories
+    {
+        get => trackedProgress.ProgressCategories;
+    }
+
+    private void Awake()
+    {
+        if (trackedProgress == null)
+        {
+            trackedProgress = trackerReference;
+        }
+    }
 
     public static void UpdateTrackedProgress(string progressID)
     {
@@ -15,5 +29,10 @@ public class EvaluateProgress : MonoBehaviour
                 rightProgress.AddProgress();
             }
         }
+    }
+
+    protected static void UpdateTrackedProgress(ProgressObject progress)
+    {
+        progress.AddProgress();
     }
 }
