@@ -8,8 +8,8 @@ public class TitanStatue : MonoBehaviour, IInteractable
 
     [field: SerializeField] public Quest TitanQuest { get; private set; }
 
-    [Tooltip("To which ring does this statue belong? 0 = Top Ring")]
-    [SerializeField] private int ringIndex;
+    //[Tooltip("To which ring does this statue belong? 0 = Top Ring")]
+    //[SerializeField] private int ringIndex;
 
     [SerializeField] private Material debugSwapMaterial;
 
@@ -46,7 +46,7 @@ public class TitanStatue : MonoBehaviour, IInteractable
         if (TitanQuest.EvaluateQuestStatus(picture.PictureInfo))
         {
             StaticQuestHandler.OnQuestCompleted?.Invoke();
-            
+
             // Will be removed when correct visual feedback is implemented
             DebugChangeMaterialVisuals();
             GrandTemple.OnStatueCleared?.Invoke();
@@ -59,10 +59,12 @@ public class TitanStatue : MonoBehaviour, IInteractable
             return;
         }
         StaticQuestHandler.OnQuestFailed?.Invoke();
-        
+
 
 
     }
+
+    // Will be removed when correct visual feedback is implemented
     public void DebugChangeMaterialVisuals()
     {
         foreach(MeshRenderer renderer in GetComponentsInChildren<MeshRenderer>())
@@ -71,9 +73,7 @@ public class TitanStatue : MonoBehaviour, IInteractable
         }
     }
 
-        // To do: Open the picture collection and let the player pick a picture to show to the statue
-        // Question: Do we want to be able to pick pictures that have been placed in the scrapbook? => We do (currently in testing fase)
-        // Question: Does showing the picture consume it? => It doesn't, but it stays slotted in the statue
+        // Question: Does showing the picture consume it? => It shouldn't, it should stay slotted in the statue
     
 
 }

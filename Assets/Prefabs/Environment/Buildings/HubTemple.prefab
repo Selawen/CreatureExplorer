@@ -397,9 +397,9 @@ MonoBehaviour:
   middleRing: {fileID: 4910960510346384524}
   bottomRing: {fileID: 4602358096270555159}
   stairDisk: {fileID: 3832489973885400009}
-  topRingRequirement: 2
-  middleRingRequirement: 3
-  bottomRingRequirement: 4
+  firstStageRequirement: 2
+  secondStageRequirement: 5
+  thirdStageRequirement: 9
 --- !u!1 &4329520561332562399
 GameObject:
   m_ObjectHideFlags: 0
@@ -747,7 +747,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9075621781138494959}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 28.000898, y: 6478.4956, z: 19.000074}
+  m_LocalPosition: {x: 0, y: 6478.4956, z: 0}
   m_LocalScale: {x: 200, y: 5575.29, z: 200}
   m_ConstrainProportionsScale: 0
   m_Children: []
