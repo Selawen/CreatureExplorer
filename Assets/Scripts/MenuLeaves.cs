@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class MenuLeaves : MonoBehaviour
 {
+    [SerializeField] private MainMenuHandler menuHandler;
     [SerializeField] private SceneHandler sceneHandler;
 
     [SerializeField] private GameObject settingsPanel;
@@ -54,6 +55,7 @@ public class MenuLeaves : MonoBehaviour
         {
             sceneHandler.LoadSceneAsync(1, UnityEngine.SceneManagement.LoadSceneMode.Additive);
             progressBar.gameObject.SetActive(true);
+            menuHandler.ShowLoadingScreenTips();
             sceneHandler.onProgressChanged += (float progress) => progressBar.value = progress;
         };
     }

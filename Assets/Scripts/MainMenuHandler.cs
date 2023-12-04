@@ -7,14 +7,21 @@ using UnityEngine.UI;
 public class MainMenuHandler : MonoBehaviour
 {
     [SerializeField] private GameObject quitPromptPanel;
+
     [SerializeField] private TMP_Text quitPromptTitle;
     [SerializeField] private TMP_Text quitPromptMessage;
+
+    [SerializeField] private TMP_Text loadingScreenTipText;
+
     [SerializeField] private Button cancelButton;
     [SerializeField] private Button confirmButton;
+
+    [SerializeField] private string[] loadingScreenTips;
 
     private void Awake()
     {
         quitPromptPanel.SetActive(false);
+        loadingScreenTipText.gameObject.SetActive(false);
     }
 
     public void OnQuitGamePrompted()
@@ -25,6 +32,12 @@ public class MainMenuHandler : MonoBehaviour
             return;
         }
         CreateRuntimePrompt();
+    }
+
+    public void ShowLoadingScreenTips()
+    {
+        loadingScreenTipText.gameObject.SetActive(true);
+        loadingScreenTipText.text = loadingScreenTips[Random.Range(0, loadingScreenTips.Length)].ToUpper();
     }
 
     private void CreateEditorPrompt()
@@ -46,7 +59,7 @@ public class MainMenuHandler : MonoBehaviour
     private void CreateRuntimePrompt()
     {
         quitPromptTitle.text = "ARE YOU SURE?";
-        quitPromptMessage.text = "ARE YOU CERTAIN YOU WANT TO QUIT?\nALL UNSAVED PROGRESS WILL BE LOST!";
+        quitPromptMessage.text = "ARE YOU CERTAIN YOU WANT TO QUIT?";
 
         cancelButton.onClick.RemoveAllListeners();
         cancelButton.onClick.AddListener(() => quitPromptPanel.SetActive(false));
