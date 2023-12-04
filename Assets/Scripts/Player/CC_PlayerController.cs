@@ -35,8 +35,6 @@ public class CC_PlayerController : MonoBehaviour
     [SerializeField] private float interactRadius = 5f;
     [SerializeField] private float interactHeight = 0.875f;
     [SerializeField] private float drowningHeight = 1.6f;
-    [SerializeField] private float throwForce = 4f;
-    [SerializeField] private Transform throwPoint;
     [SerializeField] private UnityEvent<string> onInteractPromptChanged;
 
     [SerializeField] private float minimumClimbDistance = 1f;
@@ -80,7 +78,6 @@ public class CC_PlayerController : MonoBehaviour
     private MeshRenderer respawnFadeRenderer;
 
     private IInteractable closestInteractable;
-    private Throwable heldThrowable;
 
     private enum CharacterState { Grounded, Aerial, Climbing, Awaiting }
     private CharacterState currentState;
@@ -243,22 +240,7 @@ public class CC_PlayerController : MonoBehaviour
                 // TODO: You can't climb, as the jellyfish shocks you.
                 return;
             }
-            if(closestInteractable.GetType() == typeof(Throwable) && heldThrowable == null)
-            {
-                heldThrowable = closestInteractable as Throwable;
-                heldThrowable.transform.SetParent(throwPoint);
-                heldThrowable.transform.localPosition = Vector3.zero;
-            }
             closestInteractable.Interact();
-        }
-    }
-
-    public void GetThrowInput(InputAction.CallbackContext context)
-    {
-        if(context.started && heldThrowable != null)
-        {
-            heldThrowable.Throw(firstPersonCamera.transform.forward, throwForce);
-            heldThrowable = null;
         }
     }
 
