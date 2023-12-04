@@ -5,9 +5,9 @@ using UnityEngine;
 [Serializable]
 public class ProgressObject
 {
-    [field: SerializeField] public string Name { get; private set; }
-    [field: SerializeField] public string ID { get; private set; }
-    [field: SerializeField] public bool Completed { get; protected set; }
+    [field: FieldIndent(0.4f)] [field: SerializeField] public string Name { get; private set; }
+    [field: FieldIndent(0.4f)] [field: SerializeField] public string ID { get; private set; }
+    [field: FieldIndent(0.4f)] [field: SerializeField] public bool Completed { get; protected set; }
 
     protected ProgressCategory category;
 
@@ -24,7 +24,7 @@ public class ProgressObject
         Completed = false;
     }
 
-    public virtual bool IsID(string id, out ProgressObject result)
+    public virtual bool HasID(string id, out ProgressObject result)
     {
         result = this;
         if (id == ID)
@@ -40,6 +40,9 @@ public class ProgressObject
 
     public virtual void AddProgress(int amount = 1)
     {
+        if (Completed)
+            return;
+
         Completed = true;
 
         if (category != null)

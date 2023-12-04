@@ -5,9 +5,9 @@ using UnityEngine;
 [Serializable]
 public class ProgressCategory : ProgressObject
 {
-    [field: ShowOnly(2)] [field: SerializeField] public float Percentage { get; protected set; }
-    [field: Range(1, 100)] [field: SerializeField] public int TotalAmount { get; protected set; }
-    [field: SerializeField] public int PlayerAmount { get; protected set; }
+    [field: ShowOnly(2, 0.4f)] [field: SerializeField] public float Percentage { get; protected set; }
+    [field: FieldIndent(0.4f)] [field: SerializeField] public int TotalAmount { get; protected set; }
+    [field: FieldIndent(0.4f)] [field: SerializeField] public int PlayerAmount { get; protected set; }
 
     [field: SerializeField] public ProgressCategory[] Tracked { get; private set; }
     [field: SerializeField] public ProgressObject[] TrackedObjects { get; private set; }
@@ -74,16 +74,45 @@ public class ProgressCategory : ProgressObject
 
     }
 
-    public override bool IsID(string id, out ProgressObject result)
+    public bool IsCategory(string id, out ProgressCategory result)
     {
         result = this;
+        id = id.ToLower();
+
+        if (id == ID.ToLower())
+            return true;
+        else if (childCategoryCount > 0)
+        {
+            foreach (ProgressCategory progress in Tracked)
+            {
+                if (progress.IsCategory(id, out result))
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
+    public override bool HasID(string id, out ProgressObject result)
+    {
+        result = this;
+
         if (id == ID)
             return true;
         else if (childCategoryCount > 0)
         {
             foreach (ProgressCategory progress in Tracked)
             {
-                if (IsID(id, out result))
+                if (progress.HasID(id, out result))
+                    return true;
+            }
+        }
+
+        if (childProgressCount > 0)
+        {
+            foreach (ProgressObject progressObj in TrackedObjects)
+            {
+                if (progressObj.HasID(id, out result))
                     return true;
             }
         }

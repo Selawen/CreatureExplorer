@@ -24,7 +24,7 @@ public class EvaluateProgress : MonoBehaviour
     {
         foreach (ProgressCategory progress in trackedProgress.ProgressCategories)
         {
-            if (progress.IsID(progressID, out ProgressObject rightProgress))
+            if (progress.HasID(progressID, out ProgressObject rightProgress))
             {
                 rightProgress.AddProgress();
             }
@@ -34,5 +34,6 @@ public class EvaluateProgress : MonoBehaviour
     protected static void UpdateTrackedProgress(ProgressObject progress)
     {
         progress.AddProgress();
+        trackedProgress.UpdateProgress();
     }
 }

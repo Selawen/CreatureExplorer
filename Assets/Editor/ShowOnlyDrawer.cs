@@ -52,6 +52,15 @@ public class ShowOnlyDrawer : PropertyDrawer
                 break;
         }
 
-        EditorGUI.LabelField(position, label.text, valueStr);
+        float indent = (attribute as ShowOnlyAttribute).indent;
+        if (indent >= 0)
+        {
+            EditorGUI.LabelField(position, label.text);
+
+            Rect valuePosition = new Rect(position.x + position.width * indent, position.y, position.width * (1 - indent), position.height);
+            EditorGUI.LabelField(valuePosition, valueStr);
+        } 
+        else 
+            EditorGUI.LabelField(position, label.text, valueStr);
     }
 }

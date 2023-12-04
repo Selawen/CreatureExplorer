@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EvaluateBehaviour : EvaluateProgress
 {
+    // TODO: make async
     public static bool Evaluate(PictureInfo pictureInfo)
     {
         foreach (QuestableObject questable in pictureInfo.PictureObjects)
@@ -13,10 +14,9 @@ public class EvaluateBehaviour : EvaluateProgress
 
                 foreach (ProgressCategory progress in TrackedCategories)
                 {
-                    if (progress.IsID(questable.QuestObjectID, out ProgressObject rightCategory))
+                    if (progress.IsCategory(questable.QuestObjectID, out ProgressCategory rightCategory))
                     {
-                        rightCategory = (ProgressCategory)rightCategory;
-                        if (rightCategory.IsID(creature.CurrentAction.GetType().ToString(), out ProgressObject rightProgress))
+                        if (rightCategory.HasID(creature.CurrentAction.GetType().ToString(), out ProgressObject rightProgress))
                             UpdateTrackedProgress(rightProgress);
                     }
                 }
