@@ -34,6 +34,7 @@ abstract public class Action : MonoBehaviour
     [SerializeField] protected float actionDuration = 2;
 
     [field: Header("Animator")]
+    [Button("SetAnimator", 30)]
     [SerializeField] private bool setAnimator;
     [ShowOnly][field: SerializeField] protected Animator animator;
     protected SoundPlayer soundPlayer;
@@ -43,13 +44,9 @@ abstract public class Action : MonoBehaviour
     protected CancellationTokenSource source;
     protected CancellationToken token;
 
-    private void OnValidate()
+    public void SetAnimator()
     {
-        if (setAnimator)
-        {
-            animator = transform.root.GetComponentInChildren<Animator>();
-            setAnimator = false;
-        }
+        animator = transform.root.GetComponentInChildren<Animator>();
     }
 
     protected virtual void Awake()

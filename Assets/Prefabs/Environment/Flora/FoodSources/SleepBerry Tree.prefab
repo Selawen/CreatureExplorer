@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 436402294522400392}
   - component: {fileID: 7367047770965212473}
   - component: {fileID: 7232552175177679375}
+  - component: {fileID: 5243673597828972642}
   m_Layer: 0
   m_Name: SleepBerry Tree
   m_TagString: Untagged
@@ -25,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3171934193617622812}
-  m_LocalRotation: {x: 0, y: 0.99965733, z: 0, w: -0.026176963}
+  m_LocalRotation: {x: 0, y: 0.28401536, z: 0, w: 0.95881975}
   m_LocalPosition: {x: -0.01953125, y: 82.5445, z: 0.04347992}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -64,6 +65,21 @@ MonoBehaviour:
   raycastMask:
     serializedVersion: 2
     m_Bits: 128
+--- !u!114 &5243673597828972642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3171934193617622812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d61bc7dc05c0ce44b9240530be9c6aa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <QuestObjectID>k__BackingField: sleepyberry
+  <GivenName>k__BackingField: 
+  <GivenDescription>k__BackingField: 
 --- !u!1 &8333561885472221612
 GameObject:
   m_ObjectHideFlags: 0
@@ -91,7 +107,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8333561885472221612}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.9237508, y: 5.438446, z: -0.38185918}
+  m_LocalPosition: {x: 0.92375064, y: 5.438446, z: -0.3818591}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

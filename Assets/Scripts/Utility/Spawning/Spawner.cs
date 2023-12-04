@@ -15,7 +15,6 @@ public abstract class Spawner : MonoBehaviour
     [SerializeField] protected int maxSpawnAmount = 10;
     [SerializeField] protected bool continous;
 
-
     private void Start()
     {
         Spawn();
