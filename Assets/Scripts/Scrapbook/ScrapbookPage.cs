@@ -5,7 +5,8 @@ using UnityEngine.UI;
 public class ScrapbookPage : PageComponentInteractor
 {
     [SerializeField] private TMPro.TMP_Text pageNumberText;
-    [SerializeField] private RectTransform defaultLayer;
+    [SerializeField] private RectTransform textLayer;
+    [SerializeField] private RectTransform photoLayer;
     [SerializeField] private RectTransform overlayLayer;
 
     private List<PageComponent> pageComponents = new();
@@ -23,7 +24,14 @@ public class ScrapbookPage : PageComponentInteractor
         {
             addedComponent.transform.SetParent(overlayLayer, true);
         }
-        addedComponent.transform.SetParent(defaultLayer, true);
+        else if(addedComponent.GetType() == typeof(PageText))
+        {
+            addedComponent.transform.SetParent(textLayer, true);
+        }
+        else
+        {
+            addedComponent.transform.SetParent(photoLayer, true);
+        }
     }
 
     public void RemoveComponentFromPage(PageComponent removedComponent)

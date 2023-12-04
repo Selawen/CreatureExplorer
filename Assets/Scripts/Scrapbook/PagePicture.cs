@@ -41,8 +41,8 @@ public class PagePicture : PageComponent, IPointerClickHandler
     public override void OnBeginDrag(PointerEventData eventData)
     {
         dragging = true;
-        base.OnBeginDrag(eventData);
         OnBeginPictureDrag?.Invoke();
+        base.OnBeginDrag(eventData);
 
         SetStepBackParent();
 
