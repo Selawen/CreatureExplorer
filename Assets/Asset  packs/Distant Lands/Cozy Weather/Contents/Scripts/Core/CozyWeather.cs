@@ -2307,6 +2307,27 @@ namespace DistantLands.Cozy
             minutes = minute;
         }
 
+        public bool IsBetweenTimes(MeridiemTime startTime, MeridiemTime endTime)
+        {
+            if (startTime < endTime)
+                return (this >= startTime && this <= endTime);
+            else
+                return (this >= startTime || this <= endTime);
+        }
+
+        public static bool operator ==(MeridiemTime a, MeridiemTime b)
+        {
+            if (a.hours == b.hours && a.minutes == b.minutes)
+                return true;
+            return false;
+        }
+        public static bool operator !=(MeridiemTime a, MeridiemTime b)
+        {
+            if (a.hours == b.hours && a.minutes == b.minutes)
+                return false;
+            return true;
+        }
+
         public static bool operator >(MeridiemTime a, MeridiemTime b)
         {
             if (a.hours > b.hours)
@@ -2320,6 +2341,23 @@ namespace DistantLands.Cozy
             if (a.hours < b.hours)
                 return true;
             if (a.hours == b.hours && a.minutes < b.minutes)
+                return true;
+            return false;
+        }
+
+        public static bool operator >=(MeridiemTime a, MeridiemTime b)
+        {
+            if (a.hours > b.hours)
+                return true;
+            if (a.hours == b.hours && (a.minutes > b.minutes || a.minutes == b.minutes))
+                return true;
+            return false;
+        }
+        public static bool operator <=(MeridiemTime a, MeridiemTime b)
+        {
+            if (a.hours < b.hours)
+                return true;
+            if (a.hours == b.hours && (a.minutes < b.minutes || a.minutes == b.minutes))
                 return true;
             return false;
         }
@@ -2348,7 +2386,6 @@ namespace DistantLands.Cozy
             time.minutes = Mathf.RoundToInt(dayPercent * 1440);
             time.hours = (time.minutes - time.minutes % 60) / 60;
             time.minutes -= time.hours * 60;
-
 
         }
 

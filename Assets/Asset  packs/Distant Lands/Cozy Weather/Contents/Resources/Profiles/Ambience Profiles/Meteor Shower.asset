@@ -21,31 +21,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4d539afa69e41c24592baf151ffc2e69, type: 2}
   - {fileID: 11400000, guid: f161b3af7360fc043927736dde8f5c42, type: 2}
   chances:
-  - limitType: 0
-    curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0.040817615
-        outSlope: 0.040817615
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0.057781197
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 0
   - limitType: 3
     curve:
       serializedVersion: 2
@@ -100,7 +75,5 @@ MonoBehaviour:
       m_RotationOrder: 0
   FX:
   - {fileID: 11400000, guid: e22e8f05a9810d14788c3fa13d3087d0, type: 2}
-  particleFX: {fileID: 4143997026748898571, guid: 7553725199618b742bf12e3e6d323d49, type: 3}
-  soundFX: {fileID: 0}
   FXVolume: 1
   useVFX: 1

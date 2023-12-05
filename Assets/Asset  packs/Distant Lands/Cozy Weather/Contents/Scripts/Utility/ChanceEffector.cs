@@ -11,7 +11,7 @@ namespace DistantLands.Cozy
     public class ChanceEffector
     {
 
-        public enum LimitType { Temperature, Precipitation, YearPercentage, Time, AccumulatedWetness, AccumulatedSnow };
+        public enum LimitType { Temperature, Precipitation, YearPercentage, Time, AccumulatedWetness, AccumulatedSnow, WindSpeed };
         public LimitType limitType;
         public AnimationCurve curve;
 
@@ -60,6 +60,8 @@ namespace DistantLands.Cozy
                         return curve.Evaluate(weatherSphere.GetModule<CozyMaterialManager>().wetness);
                     else
                         return 0;
+                case (LimitType.WindSpeed):
+                    return curve.Evaluate(weatherSphere.VFX.windManager.windAmount/5);
                 default:
                     return 1;
             }

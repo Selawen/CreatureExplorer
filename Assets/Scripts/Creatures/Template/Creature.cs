@@ -177,7 +177,7 @@ public class Creature : MonoBehaviour
     {
         // TODO: get rid of magic number
         // Make creature tire faster when it's bedtime
-        if (TimeKeeper.Instance.IsRightTime(data.Bedtime, data.WakeTime))
+        if (DistantLands.Cozy.CozyWeather.instance.currentTime.IsBetweenTimes(data.Bedtime, data.WakeTime))
             currentCreatureState.AddValue(2f * Time.deltaTime, StateType.Tiredness);
 
         foreach (MoodState change in data.ChangesEverySecond.CreatureStates)
@@ -236,7 +236,7 @@ public class Creature : MonoBehaviour
     {
         CheckForInterruptions(StateType.Tiredness, GetComponentInChildren<Sleep>(), "Fell asleep");
 
-        worldState = TimeKeeper.Instance.IsRightTime(data.Bedtime, data.WakeTime) ? SetConditionTrue(worldState, Condition.ShouldBeSleeping) : SetConditionFalse(worldState, Condition.ShouldBeSleeping);
+        worldState = DistantLands.Cozy.CozyWeather.instance.currentTime.IsBetweenTimes(data.Bedtime, data.WakeTime) ? SetConditionTrue(worldState, Condition.ShouldBeSleeping) : SetConditionFalse(worldState, Condition.ShouldBeSleeping);
 
         worldState = (currentCreatureState.Find(StateType.Hunger).StateValue > 50) ? SetConditionTrue(worldState, Condition.IsHungry) : SetConditionFalse(worldState, Condition.IsHungry);
         worldState = (currentCreatureState.Find(StateType.Tiredness).StateValue > 50) ? SetConditionTrue(worldState, Condition.IsSleepy) : SetConditionFalse(worldState, Condition.IsSleepy);
