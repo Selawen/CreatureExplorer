@@ -140,7 +140,7 @@ public class PlayerCamera : MonoBehaviour
             newPagePicture.SetPicture(spr);
             newPagePicture.LinkPictureInformation(pictureInfo);
 
-            EvaluateBehaviour.Evaluate(pictureInfo);
+            EvaluateProgress.EvaluatePictureProgress(pictureInfo);
 
             storage.CreatePictureFromCamera(newPagePicture);
         }

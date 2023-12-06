@@ -19,6 +19,26 @@ public class EvaluateProgress : MonoBehaviour
             trackedProgress = trackerReference;
         }
     }
+    // TODO: make async
+    public static bool EvaluatePictureProgress(PictureInfo pictureInfo)
+    {
+        foreach (QuestableObject questable in pictureInfo.PictureObjects)
+        {
+            if (questable.TryGetComponent(out Creature creature))
+            {
+
+                foreach (ProgressCategory progress in TrackedCategories)
+                {
+                    if (progress.IsCategory(questable.QuestObjectID, out ProgressCategory rightCategory))
+                    {
+                        if (rightCategory.HasID(creature.CurrentAction.GetType().ToString(), out ProgressObject rightProgress))
+                            ProgressUIHandler.UpdateTrackedProgress(rightProgress);
+                    }
+                }
+            }
+        }
+        return false;
+    }
 
     public static void UpdateTrackedProgress(string progressID)
     {
@@ -26,14 +46,9 @@ public class EvaluateProgress : MonoBehaviour
         {
             if (progress.HasID(progressID, out ProgressObject rightProgress))
             {
-                rightProgress.AddProgress();
+                ProgressUIHandler.UpdateTrackedProgress(rightProgress);
+                //rightProgress.AddProgress();
             }
         }
-    }
-
-    protected static void UpdateTrackedProgress(ProgressObject progress)
-    {
-        progress.AddProgress();
-        trackedProgress.UpdateProgress();
     }
 }
