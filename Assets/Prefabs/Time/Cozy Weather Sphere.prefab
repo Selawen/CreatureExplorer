@@ -186,7 +186,7 @@ MonoBehaviour:
   m_CloudParticles:
   - {fileID: 5319849033329663553}
   parent: {fileID: 0}
-  hideFXInHierarchy: 1
+  hideFXInHierarchy: 0
   particleManager:
     parent: {fileID: 0}
     _IsEnabled: 1
@@ -195,8 +195,8 @@ MonoBehaviour:
     multiplier: 1
   thunderManager:
     parent: {fileID: 0}
-    _IsEnabled: 1
-    _OpenTab: 1
+    _IsEnabled: 0
+    _OpenTab: 0
     vfx: {fileID: 5319849033088618424}
     thunderTime: {x: 61, y: 61}
     thunderPrefab: {fileID: 9042205117616602755, guid: 94d052e37dff1ce498d1da48378a8e26,
@@ -15168,7 +15168,7 @@ MonoBehaviour:
   cozyCamera: {fileID: 0}
   cozyMaterials: {fileID: 5319849033088618425}
   VFX: {fileID: 5319849033088618424}
-  window: 10
+  window: 5
   icon1: {fileID: 2800000, guid: 75645812b98cbf94b9dd8d2f9401cf16, type: 3}
   icon2: {fileID: 2800000, guid: c669197bbed6f144b9740e40895f04e0, type: 3}
   icon3: {fileID: 2800000, guid: e51b7563b2e461141a757c1b77ca0217, type: 3}
