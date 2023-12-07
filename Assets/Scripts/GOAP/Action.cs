@@ -6,7 +6,6 @@ abstract public class Action : MonoBehaviour
 {
     [field:Header("Debugging")]
     [field: SerializeField] public string Name { get; private set; }
-    [field: SerializeField] public string Onomatopea { get; private set; }
 
     [field: Header("Player Feedback")]
     [field: SerializeField] protected string startAnimationTrigger;
@@ -246,7 +245,7 @@ abstract public class Action : MonoBehaviour
     {
         try
         {
-            await Task.Delay((int)((actionDuration * 1.5f) * 1000), cancelToken);
+            await Task.Delay(Mathf.FloorToInt((actionDuration * 1.5f) * 1000), cancelToken);
             {
                 if (!cancelToken.IsCancellationRequested)
                 {

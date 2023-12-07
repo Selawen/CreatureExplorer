@@ -30,27 +30,18 @@ public class Creature : MonoBehaviour
     protected CheckSurroundings surroundCheck;
 
     private Goal currentGoal;
-    private GameObject currentTarget = null;
+    protected GameObject currentTarget = null;
 
     private Planner planner;
 
     private bool sawPlayer = false;
-
-    private NavMeshAgent agent;
 
     protected virtual void Start()
     {
         if (!showThoughts)
         {
             goalText.transform.parent.gameObject.SetActive(false);
-            /*
-            goalText.gameObject.SetActive(false);
-            actionText.gameObject.SetActive(false);
-            soundText.gameObject.SetActive(true);
-            */
         }
-
-        TryGetComponent(out agent);
 
         planner = GetComponent<Planner>();
 
@@ -108,7 +99,7 @@ public class Creature : MonoBehaviour
 
 
     #region GOAP
-    private void StartAction()
+    protected void StartAction()
     {
         CurrentAction = currentPlan[0];
 
@@ -120,10 +111,7 @@ public class Creature : MonoBehaviour
         if (showThoughts)
         {
             actionText.text = currentPlan[0].Name;
-        } else
-        {
-            soundText.text = currentPlan[0].Onomatopea;
-        }
+        } 
     }
 
     private void FinishAction()
@@ -283,7 +271,11 @@ public class Creature : MonoBehaviour
         CurrentAction.InterruptAction();
         GetComponent<UnityEngine.AI.NavMeshAgent>().SetDestination(transform.position);
 
-        goalText.text = debugText;
+        if (showThoughts)
+        {
+            goalText.text = debugText;
+        }
+
         currentPlan.Clear();
         currentPlan.Add(associatedAction);
         StartAction();
@@ -298,23 +290,33 @@ public class Creature : MonoBehaviour
     {
         // TODO: think about what to set the value to beat to
 
-        if (UnityEngine.Random.Range(0, currentCreatureState.Find(StateType.Tiredness).StateValue) > 0)
+        if (UnityEngine.Random.Range(0, currentCreatureState.Find(StateType.Tiredness).StateValue) > 10)
         {
             DebugMessage("Die");
 
             Animator animator = GetComponentInChildren<Animator>();
             CurrentAction.Stop();
 
-            animator.Rebind();
-            this.enabled = false;
-            animator.speed = 1;
+            if (animator != null)
+            {
+                animator.Rebind();
+                this.enabled = false;
+                animator.speed = 1;
 
-            animator.SetBool("Die", true);
+                animator.SetBool("Die", true);
+            }
+            else
+            {
+                this.enabled = false;
+            }
 
-            // TODO: implement proper reaction
-            goalText.text = "DEAD";
-            soundText.text = "DEAD";
-            actionText.text = "";
+            if (showThoughts)
+            {
+                // TODO: implement proper reaction
+                goalText.text = "DEAD";
+                soundText.text = "DEAD";
+                actionText.text = "";
+            }
 
             return true;
         }
@@ -369,7 +371,7 @@ public class Creature : MonoBehaviour
     /// <summary>
     /// Checks for food in neighbourhood and ups the hunger value with the amount of food nearby
     /// </summary>
-    protected void CheckForFood()
+    protected virtual void CheckForFood()
     {
         Food f = null;
         int foodcount = LookForObjects<Food>.CheckForObjects(f, transform.position, data.HearingSensitivity).Count;
