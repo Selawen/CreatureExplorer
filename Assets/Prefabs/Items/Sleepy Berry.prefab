@@ -11,11 +11,11 @@ GameObject:
   - component: {fileID: 6432964128142477737}
   - component: {fileID: 468902124021878580}
   - component: {fileID: 1326022870166508822}
-  - component: {fileID: 6385998300761024218}
   - component: {fileID: 4399107587592367450}
   - component: {fileID: 4458115600300750904}
   - component: {fileID: 7453374320815687206}
   - component: {fileID: 1737242609078936821}
+  - component: {fileID: 4528330645407572024}
   m_Layer: 0
   m_Name: Sleepy Berry
   m_TagString: Untagged
@@ -32,8 +32,8 @@ Transform:
   m_GameObject: {fileID: 3931060569965942598}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -45,7 +45,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3931060569965942598}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 7857079947831556225, guid: b89461090bca3e049ba304c5a392f66b, type: 3}
 --- !u!23 &1326022870166508822
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -88,19 +88,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &6385998300761024218
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3931060569965942598}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4399107587592367450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,6 +108,7 @@ MonoBehaviour:
     - <MoodType>k__BackingField: 1
       <Operator>k__BackingField: 3
       <StateValue>k__BackingField: 30
+  <InteractionPrompt>k__BackingField: Pick up
   splatVelocity: 2
 --- !u!114 &4458115600300750904
 MonoBehaviour:
@@ -170,3 +158,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!64 &4528330645407572024
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3931060569965942598}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 7857079947831556225, guid: b89461090bca3e049ba304c5a392f66b, type: 3}
