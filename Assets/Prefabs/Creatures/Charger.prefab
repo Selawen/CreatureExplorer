@@ -877,17 +877,17 @@ PrefabInstance:
     - target: {fileID: 6799428552790998717, guid: c4d537d1eccf6d84da8c18f49b4831be,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.016
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6799428552790998717, guid: c4d537d1eccf6d84da8c18f49b4831be,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.016
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6799428552790998717, guid: c4d537d1eccf6d84da8c18f49b4831be,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.016
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6799428552790998717, guid: c4d537d1eccf6d84da8c18f49b4831be,
         type: 3}
@@ -899,6 +899,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -0.284
       objectReference: {fileID: 0}
+    - target: {fileID: 6799428552790998717, guid: c4d537d1eccf6d84da8c18f49b4831be,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7210352520341627480, guid: c4d537d1eccf6d84da8c18f49b4831be,
         type: 3}
       propertyPath: m_Name
@@ -908,6 +913,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7210352520341627484, guid: c4d537d1eccf6d84da8c18f49b4831be,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.032
+      objectReference: {fileID: 0}
+    - target: {fileID: 7210352520341627484, guid: c4d537d1eccf6d84da8c18f49b4831be,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.032
+      objectReference: {fileID: 0}
+    - target: {fileID: 7210352520341627484, guid: c4d537d1eccf6d84da8c18f49b4831be,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.0324
       objectReference: {fileID: 0}
     - target: {fileID: 7210352520341627484, guid: c4d537d1eccf6d84da8c18f49b4831be,
         type: 3}
@@ -1287,6 +1307,20 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7154717475542345988}
   m_PrefabAsset: {fileID: 0}
+--- !u!64 &1018394142083835665
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 530009447095143260}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 8604045607132181640, guid: 76bf2d8c5078b6c42afa66aa6342a6cc, type: 3}
 --- !u!114 &1509665200547473177
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1412,7 +1446,7 @@ MeshCollider:
   m_GameObject: {fileID: 4806787350073596338}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
@@ -1541,6 +1575,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6ba70db5b0a53eb4db0b033ddac4b8a9,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.625
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6ba70db5b0a53eb4db0b033ddac4b8a9,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.625
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6ba70db5b0a53eb4db0b033ddac4b8a9,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.625
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6ba70db5b0a53eb4db0b033ddac4b8a9,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -1588,6 +1637,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6ba70db5b0a53eb4db0b033ddac4b8a9,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 6ba70db5b0a53eb4db0b033ddac4b8a9,
         type: 3}
