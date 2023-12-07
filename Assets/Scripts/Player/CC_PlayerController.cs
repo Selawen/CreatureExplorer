@@ -16,8 +16,10 @@ public class CC_PlayerController : MonoBehaviour
     [SerializeField] private float sprintSpeed = 10f;
     [SerializeField] private float airSpeed = 4f;
     [SerializeField] private float strafeSprintSpeed = 7f;
+    [SerializeField] private float hurtWalkingSpeed;
     [SerializeField] private float jumpForce = 10f;
-    [SerializeField] private float deadlyFallVelocity = 10f;
+    [SerializeField] private float painfulVelocity = 10f;
+    [SerializeField] private float deadlyFallVelocity = 20f;
 
     [Header("Loudness")]
     [SerializeField] private float walkingLoudness = 1f;
@@ -28,6 +30,7 @@ public class CC_PlayerController : MonoBehaviour
     [SerializeField] private float crouchHeight = 1.2f;
     [SerializeField] private float maxSprintAngle = 15f;
     [SerializeField] private float maxViewAngle = 70f;
+    [SerializeField] private float hurtTime;
 
     [Header("Interaction")]
     [SerializeField] private float climbDistance = 0.25f;
@@ -69,6 +72,7 @@ public class CC_PlayerController : MonoBehaviour
     private float verticalRotation;
     private float verticalSpeed;
     private float rotationSpeed = 1f;
+    private float hurtTimer;
 
     private float initialMomentumOnAirtimeStart;
 
@@ -76,13 +80,14 @@ public class CC_PlayerController : MonoBehaviour
     [SerializeField] private bool climbingUnlocked;
     private bool sprinting;
     private bool crouching;
+    private bool isHurt;
     private bool died = false;
     private MeshRenderer respawnFadeRenderer;
 
     private IInteractable closestInteractable;
     private Throwable heldThrowable;
 
-    private enum CharacterState { Grounded, Aerial, Climbing, Awaiting }
+    private enum CharacterState { Grounded, Aerial, Climbing, Awaiting, Hurt }
     private CharacterState currentState;
 
     private void Awake()
@@ -148,6 +153,16 @@ public class CC_PlayerController : MonoBehaviour
         }
         switch (currentState)
         {
+            case CharacterState.Hurt:
+                MoveHurt();
+                HandleInteract();
+                hurtTimer += Time.deltaTime; 
+                if(hurtTimer >= hurtTime)
+                {
+                    currentState = CharacterState.Grounded;
+                    isHurt = false;
+                }
+                break;
             case CharacterState.Grounded:
                 Move();
                 HandleInteract();
@@ -220,7 +235,7 @@ public class CC_PlayerController : MonoBehaviour
 
     public void GetJumpInput(InputAction.CallbackContext context)
     {
-        if(currentState == CharacterState.Grounded && context.started)
+        if(currentState == CharacterState.Grounded && context.performed)
         {
             Jump();
         }
@@ -287,6 +302,28 @@ public class CC_PlayerController : MonoBehaviour
             }
 
             moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward * speed;
+        }
+        else
+        {
+            moveDirection = Vector3.zero;
+        }
+    }
+
+    private void MoveHurt()
+    {
+        if (!controller.isGrounded)
+        {
+            currentState = CharacterState.Aerial;
+            Vector2 horizontalVelocity = new Vector2(controller.velocity.x, controller.velocity.z);
+            initialMomentumOnAirtimeStart = horizontalVelocity.magnitude;
+            return;
+        }
+        if (moveInput.sqrMagnitude > 0.1f)
+        {
+            float inputAngle = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg;
+            float targetAngle = inputAngle + transform.eulerAngles.y;
+
+            moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward * hurtWalkingSpeed;
         }
         else
         {
@@ -373,10 +410,17 @@ public class CC_PlayerController : MonoBehaviour
                     }
                 }
             }
-            if (verticalSpeed < -deadlyFallVelocity)
+            if (verticalSpeed < -painfulVelocity)
             {
-                died = true;
-                StartCoroutine(Die());
+                if (verticalSpeed < -deadlyFallVelocity)
+                {
+                    died = true;
+                    StartCoroutine(Die());
+                    return;
+                }
+                currentState = CharacterState.Hurt;
+                hurtTimer = 0;
+                isHurt = true;
                 return;
             }
             verticalSpeed = -1f;
@@ -395,7 +439,7 @@ public class CC_PlayerController : MonoBehaviour
 
         if(Physics.Raycast(transform.position + Vector3.up * interactHeight, transform.forward, out RaycastHit climb, climbDistance, ~playerLayer))
         {
-            if(climb.transform.TryGetComponent(out JellyfishLadder ladder))
+            if(climb.transform.TryGetComponent(out JellyfishLadder ladder) && currentState != CharacterState.Hurt)
             {
                 ladder.ContactPoint = climb.point;
                 closestInteractable = ladder;
@@ -494,6 +538,7 @@ public class CC_PlayerController : MonoBehaviour
 
         canvas.SetActive(true);
         controller.enabled = true;
+        currentState = CharacterState.Grounded;
         died = false;
     }
 
