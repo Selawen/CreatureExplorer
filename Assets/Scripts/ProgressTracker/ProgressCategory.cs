@@ -129,6 +129,11 @@ public class ProgressCategory : ProgressObject
         UpdateCompletion();
     }
 
+    public override float GetProgress()
+    {
+        return Percentage;
+    }
+
     private void SetProgress(int amount)
     {
         PlayerAmount = amount;

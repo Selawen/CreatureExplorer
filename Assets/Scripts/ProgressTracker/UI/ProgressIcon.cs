@@ -6,12 +6,14 @@ using TMPro;
 
 public class ProgressIcon : MonoBehaviour
 {
-   [SerializeField] private Image iconImage;
-   [SerializeField] private TextMeshProUGUI iconText;
+    [SerializeField] private Image iconImage;
+    [SerializeField] private TextMeshProUGUI iconText;
 
-    private ProgressObject progressData;
+    protected ProgressObject progressData;
 
-    public void Initialise(ProgressObject progressInfo)
+    public virtual void Initialise(ProgressCategory progressInfo) => Initialise(progressInfo as ProgressObject);
+
+    public virtual void Initialise(ProgressObject progressInfo)
     {
         progressData = progressInfo;
 
@@ -19,8 +21,9 @@ public class ProgressIcon : MonoBehaviour
         iconText.text = progressData.Name;
     }
 
-    public void SetComplete()
+    public virtual void SetProgress()
     {
-        iconImage.sprite = progressData.FinishedIcon;
+        if (progressData.Completed)
+            iconImage.sprite = progressData.FinishedIcon;
     }
 }

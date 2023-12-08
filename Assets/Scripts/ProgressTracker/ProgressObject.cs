@@ -57,4 +57,9 @@ public class ProgressObject
             category.Update();
         }
     }
+
+    public virtual float GetProgress()
+    {
+        return Completed? 1 : 0;
+    }
 }

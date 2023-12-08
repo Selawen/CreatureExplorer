@@ -9,6 +9,7 @@ public class ProgressUIHandler : MonoBehaviour
     [Button("GetProgressCategories")]
     public bool update;
 
+    [field: SerializeField] private GameObject progressCategoryPrefab;
     [field: SerializeField] private GameObject progressIconPrefab;
     [field: SerializeField] private static Dictionary<ProgressObject, ProgressIcon> IconObjects;
 
@@ -45,9 +46,26 @@ public class ProgressUIHandler : MonoBehaviour
         }
     }
 
-    public void CreateIcon(ProgressObject progressObject)
+    /// <summary>
+    /// Create ui for the root category 
+    /// </summary>
+    /// <param name="progressObject"></param>
+    public void CreateIcon(ProgressCategory progressObject)
     {
-        ProgressIcon iconObject = Instantiate(progressIconPrefab, transform).GetComponent<ProgressIcon>();
+        ProgressCategoryIcon iconObject = Instantiate(progressCategoryPrefab, transform).GetComponent<ProgressCategoryIcon>();
+
+        iconObject.Initialise(progressObject);
+        IconObjects.Add(progressObject, iconObject);
+    }
+
+    /// <summary>
+    /// Add category icons to the shelf of the root category
+    /// </summary>
+    /// <param name="progressObject"></param>
+    /// <param name="parentTransform"></param>
+    public void CreateIcon(ProgressObject progressObject, Transform parentTransform)
+    {
+        ProgressIcon iconObject = Instantiate(progressIconPrefab, parentTransform).GetComponent<ProgressIcon>();
 
         iconObject.Initialise(progressObject);
         IconObjects.Add(progressObject, iconObject);
@@ -58,10 +76,7 @@ public class ProgressUIHandler : MonoBehaviour
         progress.AddProgress();
         trackedProgress.UpdateProgress();
 
-        if (progress.Completed)
-        {
-            IconObjects[progress].SetComplete();
-        }
+        IconObjects[progress].SetProgress();
     }
 
 }
