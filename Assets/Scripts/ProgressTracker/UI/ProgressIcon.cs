@@ -17,7 +17,7 @@ public class ProgressIcon : MonoBehaviour
     {
         progressData = progressInfo;
 
-        iconImage.sprite = progressData.UnfinishedIcon;
+        iconImage.sprite = progressData.Completed? progressData.FinishedIcon : progressData.UnfinishedIcon;
         iconText.text = progressData.Name;
     }
 

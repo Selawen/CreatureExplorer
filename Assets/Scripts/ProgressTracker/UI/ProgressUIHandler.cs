@@ -16,7 +16,7 @@ public class ProgressUIHandler : MonoBehaviour
     [field: SerializeField] protected Tracker trackerReference;
     private static Tracker trackedProgress;
 
-    protected static ProgressCategory[] TrackedCategories
+    public static ProgressCategory[] TrackedCategories
     {
         get => trackedProgress.ProgressCategories;
     }

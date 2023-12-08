@@ -4,21 +4,6 @@ using UnityEngine;
 
 public class EvaluateProgress : MonoBehaviour
 {
-    [field:SerializeField] protected Tracker trackerReference;
-    private static Tracker trackedProgress;
-
-    protected static ProgressCategory[] TrackedCategories
-    {
-        get => trackedProgress.ProgressCategories;
-    }
-
-    private void Awake()
-    {
-        if (trackedProgress == null)
-        {
-            trackedProgress = trackerReference;
-        }
-    }
     // TODO: make async
     public static bool EvaluatePictureProgress(PictureInfo pictureInfo)
     {
@@ -26,8 +11,7 @@ public class EvaluateProgress : MonoBehaviour
         {
             if (questable.TryGetComponent(out Creature creature))
             {
-
-                foreach (ProgressCategory progress in TrackedCategories)
+                foreach (ProgressCategory progress in ProgressUIHandler.TrackedCategories)
                 {
                     if (progress.IsCategory(questable.QuestObjectID, out ProgressCategory rightCategory))
                     {
@@ -42,7 +26,7 @@ public class EvaluateProgress : MonoBehaviour
 
     public static void UpdateTrackedProgress(string progressID)
     {
-        foreach (ProgressCategory progress in trackedProgress.ProgressCategories)
+        foreach (ProgressCategory progress in ProgressUIHandler.TrackedCategories)
         {
             if (progress.HasID(progressID, out ProgressObject rightProgress))
             {
