@@ -16,7 +16,7 @@ public class EvaluateProgress : MonoBehaviour
                     if (progress.IsCategory(questable.QuestObjectID, out ProgressCategory rightCategory))
                     {
                         if (rightCategory.HasID(creature.CurrentAction.GetType().ToString(), out ProgressObject rightProgress))
-                            ProgressUIHandler.UpdateTrackedProgress(rightProgress);
+                            UpdateTrackedProgress(rightProgress);
                     }
                 }
             }
@@ -30,9 +30,15 @@ public class EvaluateProgress : MonoBehaviour
         {
             if (progress.HasID(progressID, out ProgressObject rightProgress))
             {
-                ProgressUIHandler.UpdateTrackedProgress(rightProgress);
-                //rightProgress.AddProgress();
+                UpdateTrackedProgress(rightProgress);
             }
         }
+    }
+
+    public static void UpdateTrackedProgress(ProgressObject progress)
+    {
+        progress.AddProgress();
+
+        ProgressUIHandler.UpdateTrackedProgress(progress);
     }
 }

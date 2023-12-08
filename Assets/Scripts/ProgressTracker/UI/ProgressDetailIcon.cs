@@ -9,7 +9,6 @@ public class ProgressDetailIcon : ProgressIcon
 
     private void OnEnable()
     {
-        Debug.Log("Page enabled");
         string[] splitPath = path.Split('/');
 
         ProgressCategory[] categories = ProgressUIHandler.TrackedCategories;
@@ -33,7 +32,7 @@ public class ProgressDetailIcon : ProgressIcon
         if (rightCategory.HasID(splitPath[splitPath.Length-1], out progressData))
         {
             Initialise(progressData);
-            Debug.Log($"found! {progressData.Name}");
+            //Debug.Log($"found! {progressData.Name}");
         }
     }
 }

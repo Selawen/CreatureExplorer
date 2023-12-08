@@ -27,6 +27,10 @@ public class ProgressCategoryIcon : ProgressIcon
             uiHandler.CreateIcon(obj, iconShelf);
         }
     }
+    protected override void OnEnable()
+    {
+        SetProgress();
+    }
 
     public override void SetProgress()
     {

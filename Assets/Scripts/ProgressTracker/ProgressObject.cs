@@ -12,6 +12,7 @@ public class ProgressObject
     [field:Header("UI")]
     [field: FieldIndent(0.4f)] [field: SerializeField] public Sprite UnfinishedIcon { get; private set; }
     [field: FieldIndent(0.4f)] [field: SerializeField] public Sprite FinishedIcon { get; private set; }
+    [field: FieldIndent(0.4f)] [field: SerializeField] public GameObject DetailPage { get; private set; }
 
     [field: Header("Tracking")]
     [field: FieldIndent(0.4f)] [field: SerializeField] public bool Completed { get; protected set; }
