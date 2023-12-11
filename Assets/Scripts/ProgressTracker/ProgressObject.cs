@@ -1,12 +1,20 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [Serializable]
 public class ProgressObject
 {
     [field: FieldIndent(0.4f)] [field: SerializeField] public string Name { get; private set; }
     [field: FieldIndent(0.4f)] [field: SerializeField] public string ID { get; private set; }
+
+    [field:Header("UI")]
+    [field: FieldIndent(0.4f)] [field: SerializeField] public Sprite UnfinishedIcon { get; private set; }
+    [field: FieldIndent(0.4f)] [field: SerializeField] public Sprite FinishedIcon { get; private set; }
+    [field: FieldIndent(0.4f)] [field: SerializeField] public GameObject DetailPage { get; private set; }
+
+    [field: Header("Tracking")]
     [field: FieldIndent(0.4f)] [field: SerializeField] public bool Completed { get; protected set; }
 
     protected ProgressCategory category;
@@ -49,5 +57,10 @@ public class ProgressObject
         {
             category.Update();
         }
+    }
+
+    public virtual float GetProgress()
+    {
+        return Completed? 1 : 0;
     }
 }

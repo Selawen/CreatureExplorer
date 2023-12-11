@@ -6,7 +6,6 @@ abstract public class Action : MonoBehaviour
 {
     [field:Header("Debugging")]
     [field: SerializeField] public string Name { get; private set; }
-    [field: SerializeField] public string Onomatopea { get; private set; }
 
     [field: Header("Player Feedback")]
     [field: SerializeField] protected string startAnimationTrigger;
@@ -57,6 +56,9 @@ abstract public class Action : MonoBehaviour
         failToken = failSource.Token;
         source = new CancellationTokenSource();
         token = failSource.Token;
+
+        if (animator == null)
+            SetAnimator();
     }
 
     private void OnDisable()
@@ -112,9 +114,9 @@ abstract public class Action : MonoBehaviour
     /// <returns>returns a new target if the behaviour changes the target. Null if not</returns>
     public abstract GameObject PerformAction(Creature creature, GameObject target);
 
-    public void InterruptAction()
+    public async Task InterruptAction()
     {
-        EndAnimation();
+        await EndAnimation();
         Reset();
     }
 
@@ -246,7 +248,7 @@ abstract public class Action : MonoBehaviour
     {
         try
         {
-            await Task.Delay((int)((actionDuration * 1.5f) * 1000), cancelToken);
+            await Task.Delay(Mathf.FloorToInt((actionDuration * 1.5f) * 1000), cancelToken);
             {
                 if (!cancelToken.IsCancellationRequested)
                 {
