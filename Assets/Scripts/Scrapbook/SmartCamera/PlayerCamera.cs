@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
@@ -9,11 +10,17 @@ public class PlayerCamera : MonoBehaviour
 {
     [SerializeField] private Camera pictureCamera;
     [SerializeField] private float zoomSensitivity;
+    [SerializeField, Range(5, 20)] private float minimumFieldOfView = 5f;
+    [SerializeField, Range(40, 80)] private float maximumFieldOfView = 60f;
+
+    [Tooltip("Event that carries the edited sensitivity based on the original zoom and current zoom")]
+    [SerializeField] private UnityEvent<float> onZoomLevelChanged;
+    [SerializeField] private Slider camZoomSlider;
 
     [SerializeField] private PagePicture picturePrefab;
 
     [SerializeField] private PictureStorage storage;
-    [SerializeField] private float maximumScanDistance = 20f;
+    [SerializeField] private float defaultMaxScanDistance = 20f;
     [SerializeField] private LayerMask ignoredPhotoLayers;
     [SerializeField] private TMPro.TMP_Text exceptionText;
 
@@ -24,6 +31,8 @@ public class PlayerCamera : MonoBehaviour
     [SerializeField] private Animator shutterTop, shutterBottom;
 
     private float originalZoom;
+
+    private float effectiveScanDistance;
 
     private PlayerInput input;
 
@@ -43,6 +52,12 @@ public class PlayerCamera : MonoBehaviour
     {
         originalZoom = pictureCamera.fieldOfView;
 
+        camZoomSlider.minValue = minimumFieldOfView;
+        camZoomSlider.maxValue = maximumFieldOfView;
+        camZoomSlider.value = originalZoom;
+
+        effectiveScanDistance = maximumFieldOfView / pictureCamera.fieldOfView * defaultMaxScanDistance;
+
         input = GetComponent<PlayerInput>();
         if (Application.isEditor)
         {
@@ -55,6 +70,8 @@ public class PlayerCamera : MonoBehaviour
     public void CameraClose()
     {
         pictureCamera.fieldOfView = originalZoom;
+        camZoomSlider.value = originalZoom;
+        onZoomLevelChanged?.Invoke(1);
     }
 
     public void ZoomCamera(InputAction.CallbackContext callbackContext)
@@ -62,7 +79,11 @@ public class PlayerCamera : MonoBehaviour
         if (callbackContext.started)
         {
             pictureCamera.fieldOfView -= callbackContext.ReadValue<Vector2>().y * zoomSensitivity;
-            pictureCamera.fieldOfView = Mathf.Clamp(pictureCamera.fieldOfView, 0, 60);
+            pictureCamera.fieldOfView = Mathf.Clamp(pictureCamera.fieldOfView, minimumFieldOfView, maximumFieldOfView);
+            camZoomSlider.value = pictureCamera.fieldOfView;
+
+            effectiveScanDistance = maximumFieldOfView / pictureCamera.fieldOfView * defaultMaxScanDistance;
+            onZoomLevelChanged?.Invoke(pictureCamera.fieldOfView / originalZoom);
         }
     }
 
@@ -79,6 +100,8 @@ public class PlayerCamera : MonoBehaviour
         }
     }
 
+    public void DeleteCameraRoll() => storage.DeleteStorage();
+    
     private IEnumerator Snap()
     {
         if (TryGetComponent(out SoundPlayer player))
@@ -116,7 +139,10 @@ public class PlayerCamera : MonoBehaviour
             PagePicture newPagePicture = Instantiate(picturePrefab);
             newPagePicture.SetPicture(spr);
             newPagePicture.LinkPictureInformation(pictureInfo);
-            storage.OnComponentDroppedOn(newPagePicture);
+
+            EvaluateProgress.EvaluatePictureProgress(pictureInfo);
+
+            storage.CreatePictureFromCamera(newPagePicture);
         }
         catch (System.Exception exception)
         {
@@ -136,11 +162,6 @@ public class PlayerCamera : MonoBehaviour
     }
     private void OnDrawGizmos()
     {
-        Matrix4x4 originalMatrix = Gizmos.matrix;
-        Matrix4x4 rotationMatrix = Matrix4x4.TRS(pictureCamera.transform.position - transform.position, transform.rotation, transform.lossyScale);
-
-        Gizmos.matrix = rotationMatrix;
-
         float camStep = pictureCamera.pixelHeight / photoAccuracy;
         float xStart = (pictureCamera.pixelWidth - pictureCamera.pixelHeight) * 0.5f;
 
@@ -149,11 +170,9 @@ public class PlayerCamera : MonoBehaviour
             for (int y = 0; y <= photoAccuracy; y++)
             {
                 Ray ray = pictureCamera.ScreenPointToRay(new Vector3(xStart + x * camStep, y * camStep));
-                Gizmos.DrawRay(ray.origin, ray.direction * maximumScanDistance);
+                Gizmos.DrawRay(ray.origin, ray.direction * effectiveScanDistance);
             }
         }
-
-        Gizmos.matrix = originalMatrix;
     }
 
     private List<QuestableObject> AnalyzeSubjects()
@@ -168,13 +187,18 @@ public class PlayerCamera : MonoBehaviour
             for (int y = 0; y <= photoAccuracy; y++)
             {
                 Ray ray = pictureCamera.ScreenPointToRay(new Vector3(xStart + x * camStep, y * camStep));
-                if(Physics.Raycast(ray, out RaycastHit hit, maximumScanDistance, ~ignoredPhotoLayers))
+                if(Physics.Raycast(ray, out RaycastHit hit, effectiveScanDistance, ~ignoredPhotoLayers))
                 {
-                    if (hit.transform.TryGetComponent(out QuestableObject questableObject))
+                    QuestableObject[] questables = hit.transform.GetComponents<QuestableObject>();
+                    if (questables.Length >0)
                     {
-                        if (!result.Contains(questableObject))
+                        foreach (QuestableObject questableObject in questables)
                         {
-                            result.Add(questableObject);
+                            if (!result.Contains(questableObject))
+                            {
+                                EvaluateProgress.UpdateTrackedProgress(questableObject.QuestObjectID);
+                                result.Add(questableObject);
+                            }
                         }
                     }
                 }

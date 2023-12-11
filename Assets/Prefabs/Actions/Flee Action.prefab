@@ -46,8 +46,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Name>k__BackingField: Run Away
   <Onomatopea>k__BackingField: AAAAAAAHHH
+  startAnimationTrigger: 
+  duringAnimationTrigger: Walk
+  finishAnimationTrigger: Idle
   sound: {fileID: 8300000, guid: c01c1ed08bebdba49ae96384e66aa013, type: 3}
   oneShot: 0
+  <Awareness>k__BackingField: 2
   <Cost>k__BackingField: 5
   <BaseReward>k__BackingField: 10
   <Reward>k__BackingField: 10
@@ -61,7 +65,7 @@ MonoBehaviour:
       <StateValue>k__BackingField: 25
     - <MoodType>k__BackingField: 1
       <Operator>k__BackingField: 3
-      <StateValue>k__BackingField: 15
+      <StateValue>k__BackingField: 7
   <ActionEffects>k__BackingField:
   - <EffectType>k__BackingField: 128
     <StateValue>k__BackingField: 0
@@ -72,6 +76,8 @@ MonoBehaviour:
     <StateValue>k__BackingField: 1
   finished: 0
   failed: 0
-  actionDuration: 4
-  speedMultiplier: 7
-  runDistance: 15
+  actionDuration: 8
+  setAnimator: 0
+  animator: {fileID: 0}
+  speedMultiplier: 6
+  runDistance: 30

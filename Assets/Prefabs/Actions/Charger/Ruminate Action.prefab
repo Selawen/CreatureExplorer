@@ -46,6 +46,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Name>k__BackingField: Ruminating
   <Onomatopea>k__BackingField: nomnom
+  startAnimationTrigger: 
+  duringAnimationTrigger: Ruminate
+  finishAnimationTrigger: Idle
+  sound: {fileID: 0}
+  oneShot: 0
+  <Awareness>k__BackingField: 0.8
   <Cost>k__BackingField: 4
   <BaseReward>k__BackingField: 10
   <Reward>k__BackingField: 10
@@ -66,3 +72,5 @@ MonoBehaviour:
   finished: 0
   failed: 0
   actionDuration: 3
+  setAnimator: 0
+  animator: {fileID: 0}

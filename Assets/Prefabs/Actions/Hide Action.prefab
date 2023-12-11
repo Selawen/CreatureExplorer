@@ -46,8 +46,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Name>k__BackingField: Hiding
   <Onomatopea>k__BackingField: pls don't find
+  startAnimationTrigger: 
+  duringAnimationTrigger: Idle
+  finishAnimationTrigger: 
   sound: {fileID: 0}
   oneShot: 0
+  <Awareness>k__BackingField: 1.5
   <Cost>k__BackingField: 2
   <BaseReward>k__BackingField: 7
   <Reward>k__BackingField: 7
@@ -70,3 +74,5 @@ MonoBehaviour:
   finished: 0
   failed: 0
   actionDuration: 5
+  setAnimator: 0
+  animator: {fileID: 0}

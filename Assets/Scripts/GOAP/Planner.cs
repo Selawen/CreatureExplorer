@@ -4,13 +4,18 @@ using UnityEngine;
 
 public class Planner : MonoBehaviour
 {
-    [SerializeField] private AnimationCurve AnnoyancePriority, FearPriority, HungerPriority, TirednessPriority, HappinessPriority, BoredomPriority;
+    [Header("Priority curves")]
+    [SerializeField] private AnimationCurve AnnoyancePriority; 
+    [SerializeField] private AnimationCurve FearPriority, HungerPriority, TirednessPriority, HappinessPriority, BoredomPriority;
 
-    [field: SerializeField] private Goal[] possibleGoals;
-    [Tooltip("initialised automatically")]
-    [field: SerializeField] private Action[] possibleActions;
+    [Header("Goals")]
+    [SerializeField] private Goal[] possibleGoals;
     [field: SerializeField] private Goal defaultGoal;
     [field: SerializeField] private Action defaultAction;
+
+    [Header("Debugging")]
+    [Tooltip("Initialised automatically")]
+    [SerializeField] private Action[] possibleActions;
 
     private Dictionary<StateType, AnimationCurve> curvesPerMood;
     private Dictionary<float, StateType> moodPriorities;
@@ -239,6 +244,9 @@ public class Planner : MonoBehaviour
 
             foreach (Plan p in possiblePlans)
             {
+                if (debug)
+                    Debug.Log($"looking into plan ending in {p.ActionList[0]}");
+
                 bool needNewPlan = false;
                 if (p.PlanComplete)
                 {

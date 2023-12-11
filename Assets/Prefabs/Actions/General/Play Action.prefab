@@ -46,6 +46,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Name>k__BackingField: Playing
   <Onomatopea>k__BackingField: Wheeeeeee!
+  startAnimationTrigger: 
+  duringAnimationTrigger: Walk
+  finishAnimationTrigger: Idle
+  sound: {fileID: 0}
+  oneShot: 0
+  <Awareness>k__BackingField: 0.5
   <Cost>k__BackingField: 6
   <BaseReward>k__BackingField: 5
   <Reward>k__BackingField: 5
@@ -59,7 +65,7 @@ MonoBehaviour:
       <StateValue>k__BackingField: 40
     - <MoodType>k__BackingField: 1
       <Operator>k__BackingField: 3
-      <StateValue>k__BackingField: 20
+      <StateValue>k__BackingField: 5
     - <MoodType>k__BackingField: 3
       <Operator>k__BackingField: 3
       <StateValue>k__BackingField: 20
@@ -75,3 +81,5 @@ MonoBehaviour:
   finished: 0
   failed: 0
   actionDuration: 5
+  setAnimator: 0
+  animator: {fileID: 0}

@@ -46,8 +46,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Name>k__BackingField: Move Towards Herd
   <Onomatopea>k__BackingField: Step step
+  startAnimationTrigger: 
+  duringAnimationTrigger: Walk
+  finishAnimationTrigger: Idle
   sound: {fileID: 8300000, guid: 92a87284e4de48440a04f20c5c9c31fc, type: 3}
   oneShot: 0
+  <Awareness>k__BackingField: 1
   <Cost>k__BackingField: 1
   <BaseReward>k__BackingField: 5
   <Reward>k__BackingField: 5
@@ -55,7 +59,7 @@ MonoBehaviour:
     <CreatureStates>k__BackingField:
     - <MoodType>k__BackingField: 1
       <Operator>k__BackingField: 3
-      <StateValue>k__BackingField: 5
+      <StateValue>k__BackingField: 2
     - <MoodType>k__BackingField: 2
       <Operator>k__BackingField: 4
       <StateValue>k__BackingField: 20
@@ -66,3 +70,5 @@ MonoBehaviour:
   finished: 0
   failed: 0
   actionDuration: 4
+  setAnimator: 0
+  animator: {fileID: 0}

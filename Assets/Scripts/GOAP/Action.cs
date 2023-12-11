@@ -2,40 +2,63 @@ using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
-abstract public class Action: MonoBehaviour
+abstract public class Action : MonoBehaviour
 {
+    [field:Header("Debugging")]
     [field: SerializeField] public string Name { get; private set; }
-    [field: SerializeField] public string Onomatopea { get; private set; }
 
+    [field: Header("Player Feedback")]
+    [field: SerializeField] protected string startAnimationTrigger;
+    [field: SerializeField] protected string duringAnimationTrigger;
+    [field: SerializeField] private string finishAnimationTrigger;
     [field: SerializeField] private AudioClip sound;
     [field: SerializeField] private bool oneShot;
 
+    [field: Header("Action stats")]
+    [field:Range(0, 2)][field: SerializeField] public float Awareness { get; protected set; }
     // TODO: have cost be calculated based on situation?
     [field: SerializeField] public float Cost { get; protected set; }
     [field: SerializeField] public float BaseReward { get; private set; }
     [field: SerializeField] public float Reward { get; protected set; }
 
+    [field: Header("GOAP")]
     [field: SerializeField] public CreatureState GoalEffects { get; private set; }
     [field: SerializeField] public ActionKey[] ActionEffects { get; private set; }
     [field: SerializeField] public ActionKey[] Prerequisites { get; private set; }
 
 
-    public bool finished = false;
-    public bool failed = false;
+    [ShowOnly] public bool finished = false;
+    [ShowOnly] public bool failed = false;
 
     [SerializeField] protected float actionDuration = 2;
+
+    [field: Header("Animator")]
+    [Button("SetAnimator", 30)]
+    [SerializeField] private bool setAnimator;
+    [ShowOnly][field: SerializeField] protected Animator animator;
+    protected SoundPlayer soundPlayer;
 
     protected CancellationTokenSource failSource;
     protected CancellationToken failToken;
     protected CancellationTokenSource source;
     protected CancellationToken token;
 
+    public void SetAnimator()
+    {
+        animator = transform.root.GetComponentInChildren<Animator>();
+    }
+
     protected virtual void Awake()
     {
+        soundPlayer = GetComponentInParent<SoundPlayer>();
+
         failSource = new CancellationTokenSource();
         failToken = failSource.Token;
         source = new CancellationTokenSource();
         token = failSource.Token;
+
+        if (animator == null)
+            SetAnimator();
     }
 
     private void OnDisable()
@@ -48,10 +71,37 @@ abstract public class Action: MonoBehaviour
 
     public GameObject ActivateAction(Creature creature, GameObject target)
     {
-        if (GetComponentInParent<SoundPlayer>() != null)
+        if (soundPlayer != null)
         {
-            GetComponentInParent<SoundPlayer>().PlaySound(sound, oneShot);
+            soundPlayer.PlaySound(sound, oneShot);
         }
+
+        if (animator == null)
+        {
+            return PerformAction(creature, target);
+        } else if (animator.GetBool("Die"))
+        {
+            return null;
+        }
+
+        // TODO: refactor
+        int maxLoops = 10;
+        do
+        {
+            maxLoops--;
+            if (startAnimationTrigger != "")
+            {
+                animator?.SetTrigger(startAnimationTrigger);
+            }
+            else if (duringAnimationTrigger != "")
+            {
+                animator?.SetTrigger(duringAnimationTrigger);
+            }
+            else
+            {
+                break;
+            }
+        } while (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle") && maxLoops > 0);
 
         return PerformAction(creature, target);
     }
@@ -63,6 +113,21 @@ abstract public class Action: MonoBehaviour
     /// <param name="target">the target of the action</param>
     /// <returns>returns a new target if the behaviour changes the target. Null if not</returns>
     public abstract GameObject PerformAction(Creature creature, GameObject target);
+
+    public async Task InterruptAction()
+    {
+        await EndAnimation();
+        Reset();
+    }
+
+    public virtual void Stop()
+    {
+        finished = false;
+        failed = false;
+
+        failSource.Cancel();
+        source.Cancel();
+    }
 
     public virtual void Reset()
     {
@@ -183,23 +248,26 @@ abstract public class Action: MonoBehaviour
     {
         try
         {
-            await Task.Delay((int)((actionDuration * 1.5f) * 1000), cancelToken);
+            await Task.Delay(Mathf.FloorToInt((actionDuration * 1.5f) * 1000), cancelToken);
             {
                 if (!cancelToken.IsCancellationRequested)
                 {
-                    failed = true;
-
                     if (GetComponentInParent<SoundPlayer>() != null)
                     {
                         GetComponentInParent<SoundPlayer>().StopSounds();
                     }
 
                     source.Cancel();
+
+                    await EndAnimation();
+
+                    failed = true;
                 }
             }
         } catch (TaskCanceledException)
         {
-            //Debug.Log($"{this.name} has finished");
+            if (GetComponentInParent<Creature>().LogDebugs)
+                Debug.Log($"{this.name} has finished");
         }
     }
 
@@ -207,9 +275,8 @@ abstract public class Action: MonoBehaviour
     protected virtual async void DoAction(GameObject target = null)
     {
         // standard end of DoAction method, set to finished and cancel the failcheck if not failed already
-        if (!failed)
+        if (!failed && !token.IsCancellationRequested)
         {
-            finished = true;
 
             if (GetComponentInParent<SoundPlayer>() != null)
             {
@@ -217,6 +284,24 @@ abstract public class Action: MonoBehaviour
             }
 
             failSource.Cancel();
+
+            await EndAnimation();
+            finished = true;
+        }
+    }
+
+    protected async Task EndAnimation()
+    {
+        if (animator == null || animator.GetBool("Die")) return;
+
+        animator.SetTrigger(finishAnimationTrigger);
+
+        int maxLoops = 100;
+        // wait for previous animation to finish       
+        while (!animator.GetCurrentAnimatorStateInfo(0).loop && !animator.GetNextAnimatorStateInfo(0).IsName("Idle") &&  maxLoops > 0)
+        {
+            maxLoops--;
+            await Task.Delay(100);
         }
     }
 }

@@ -8,19 +8,29 @@ public abstract class PageComponent : MonoBehaviour, IBeginDragHandler, IDragHan
     //public System.Action OnComponentRemoved;
 
     protected RectTransform _rectTransform;
+    protected Transform previousParent;
 
     private Vector3 startPosition;
     private PageComponentInteractor currentInteractor;
+
 
     private void Awake()
     {
         _rectTransform = GetComponent<RectTransform>();
     }
-    public void SetInteractor(PageComponentInteractor interactor) => currentInteractor = interactor;
+    public void SetInteractor(PageComponentInteractor interactor)
+    {
+        if(currentInteractor != null)
+        {
+            currentInteractor.RemoveFromInteractor(this);
+        }
+        currentInteractor = interactor;
+    }
 
     public virtual void OnBeginDrag(PointerEventData eventData)
     {
         startPosition = _rectTransform.position;
+        previousParent = transform.parent;
     }
 
     public virtual void OnDrag(PointerEventData eventData)
@@ -31,7 +41,6 @@ public abstract class PageComponent : MonoBehaviour, IBeginDragHandler, IDragHan
         }
         if(eventData.button == PointerEventData.InputButton.Right)
         {
-            Debug.Log("Received drag right input");
             TurnAndScale(eventData.delta);
         }
     }
@@ -44,26 +53,22 @@ public abstract class PageComponent : MonoBehaviour, IBeginDragHandler, IDragHan
         {
             if(rayResult.gameObject.TryGetComponent(out PageComponentInteractor pageComponentInteractor))
             {
-                if(currentInteractor != null && currentInteractor != pageComponentInteractor)
-                {
-                    currentInteractor.RemoveFromInteractor(this);
-                }
                 if (pageComponentInteractor.OnComponentDroppedOn(this))
                 {
+                    if(currentInteractor != pageComponentInteractor)
+                    {
+                        SetInteractor(pageComponentInteractor);
+                    }
                     return;
-                } 
+                }
             }
         }
-        _rectTransform.position = startPosition;
-    }
-
-    public void Remove()
-    {
-        if(currentInteractor != null)
+        // This should never be null if the player can drag the component
+        if(previousParent != null)
         {
-            currentInteractor.RemoveFromInteractor(this);
+            transform.SetParent(previousParent);
         }
-        currentInteractor = null;
+        _rectTransform.position = startPosition;
     }
 
     private void Move(Vector2 position)

@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 6432964128142477737}
   - component: {fileID: 468902124021878580}
   - component: {fileID: 1326022870166508822}
-  - component: {fileID: 6385998300761024218}
   - component: {fileID: 4399107587592367450}
+  - component: {fileID: 7713616402260419974}
+  - component: {fileID: 5479762458277101424}
   m_Layer: 0
   m_Name: Sticky Berry
   m_TagString: Untagged
@@ -29,8 +30,8 @@ Transform:
   m_GameObject: {fileID: 3931060569965942598}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -42,7 +43,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3931060569965942598}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: -9084960960286832920, guid: 50695d12af2022a40b9109c558befb0d, type: 3}
 --- !u!23 &1326022870166508822
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -63,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 366bbe0a7d895cb4db6f46af3a4bf82e, type: 2}
+  - {fileID: 2100000, guid: 355f8402d09f0b342828ae8025be5e06, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -85,19 +86,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &6385998300761024218
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3931060569965942598}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4399107587592367450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,4 +106,35 @@ MonoBehaviour:
     - <MoodType>k__BackingField: 0
       <Operator>k__BackingField: 3
       <StateValue>k__BackingField: 0.5
+  <InteractionPrompt>k__BackingField: Pick up
   splatVelocity: 2
+--- !u!54 &7713616402260419974
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3931060569965942598}
+  serializedVersion: 2
+  m_Mass: 0.3
+  m_Drag: 1.5
+  m_AngularDrag: 0.7
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!64 &5479762458277101424
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3931060569965942598}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -9084960960286832920, guid: 50695d12af2022a40b9109c558befb0d, type: 3}

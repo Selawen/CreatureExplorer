@@ -2,62 +2,35 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Flee : Action
+public class Flee : NavigatedAction
 {
-    [SerializeField] private float speedMultiplier = 4;
+    [Header("Flee")]
     [SerializeField] private float runDistance= 10;
 
-    private NavMeshAgent moveAgent;
-    private float originalSpeed, originalRotationSpeed, originalAcceleration;
-
-    private void Start()
-    {
-        moveAgent = gameObject.GetComponentInParent<NavMeshAgent>();
-        originalSpeed = moveAgent.speed;
-        originalRotationSpeed = moveAgent.angularSpeed;
-        originalAcceleration = moveAgent.acceleration;
-    }
+    private Vector3 fearSource;
 
     public override GameObject PerformAction(Creature creature, GameObject target)
     {
-        moveAgent = gameObject.GetComponentInParent<NavMeshAgent>();
+        targetTransform = creature.transform;
+        fearSource = creature.GetComponent<Creature>().WaryOff;
 
-        originalSpeed = moveAgent.speed;
-        originalRotationSpeed = moveAgent.angularSpeed;
-        originalAcceleration = moveAgent.acceleration;
-
-        moveAgent.speed *= speedMultiplier;
-        moveAgent.angularSpeed *= speedMultiplier;
-        moveAgent.acceleration *= speedMultiplier;
-
-        Vector3 fearsource = creature.GetComponent<Creature>().WaryOff;
-        if (fearsource == null)
-        {
-            fearsource = transform.position - transform.forward;
-        }
-
-        moveAgent.SetDestination(creature.transform.position +(creature.transform.position - fearsource).normalized*runDistance);
-
-        //Task.Run(() => DoAction(), failToken);
-        // Navmeshagent doesn't play nice with threading
-        DoAction();
-        FailCheck(failToken);
+        base.PerformAction(creature, target);
 
         return target;
     }
 
-    public override void Reset()
+    protected override void SetPathDestination()
     {
-        base.Reset();
+        if (fearSource == null)
+        {
+            fearSource = transform.position - transform.forward;
+        }
 
-        moveAgent.speed = originalSpeed;
-        moveAgent.angularSpeed = originalRotationSpeed;
-        moveAgent.acceleration = originalAcceleration;
+        moveAgent.SetDestination(targetTransform.position +(targetTransform.position - fearSource).normalized*runDistance);
     }
-
-    public override void CalculateCostAndReward(CreatureState currentState, MoodState targetMood, float targetMoodPrio)
+    protected override void MoveAction(GameObject target = null)
     {
-        base.CalculateCostAndReward(currentState, targetMood, targetMoodPrio);
+        DoAction(target);
     }
 
     protected override async void DoAction(GameObject target = null)
@@ -66,19 +39,7 @@ public class Flee : Action
 
         await Task.WhenAny(tasks);// .Delay((int)(actionDuration * 1000));
         {
-            moveAgent.speed = originalSpeed;
-            moveAgent.angularSpeed = originalRotationSpeed;
-            moveAgent.acceleration = originalAcceleration;
-
             base.DoAction();
-        }
-    }
-
-    private async Task CheckDistanceToDestination()
-    {
-        while ((moveAgent.destination - moveAgent.transform.position).magnitude > 0.5f)
-        {
-            await Task.Yield();
         }
     }
 }

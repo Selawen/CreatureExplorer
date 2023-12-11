@@ -46,7 +46,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Name>k__BackingField: Move Towards Food
   <Onomatopea>k__BackingField: Step step
+  startAnimationTrigger: 
+  duringAnimationTrigger: Walk
+  finishAnimationTrigger: Idle
   sound: {fileID: 8300000, guid: 92a87284e4de48440a04f20c5c9c31fc, type: 3}
+  oneShot: 0
+  <Awareness>k__BackingField: 0.8
   <Cost>k__BackingField: 2
   <BaseReward>k__BackingField: 1
   <Reward>k__BackingField: 1

@@ -6,7 +6,7 @@ public class PageTrashCan : PageComponentInteractor
 {
     public override bool OnComponentDroppedOn(PageComponent component)
     {
-        component.Remove();
+        component.SetInteractor(null);
         Destroy(component.gameObject);
 
         return true;

@@ -1,24 +1,17 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.AI;
 using UnityEngine;
 using TMPro;
 
 [RequireComponent(typeof(Planner))]
 public class Creature : MonoBehaviour
 {
-    [Header("Events")]
-    // Protected and public switched around to appease header
-    [field: SerializeField] protected float hearingSensitivity = 1;
-    [Tooltip("The name of the script that is on this creature's foodsource")]
-    [field: SerializeField] public string FoodSource { get; protected set; }
-    [Tooltip("The name of the script that is on this creature's sleeping spots")]
-    [field: SerializeField] public string SleepSpot { get; protected set; }
-    [SerializeField] protected float checkSurroundingsTimer = 0.5f;
+    [field: Header("Creature data")]
+    [field: SerializeField] public CreatureData data;
     public Vector3 WaryOff { get; protected set; }
     protected float waryLoudness = 1;
-
-    [SerializeField] protected float decayTimer = 10;
 
     [Header("Debugging")]
     [SerializeField] private bool showThoughts;
@@ -30,9 +23,6 @@ public class Creature : MonoBehaviour
     [Header("GOAP")]
     [SerializeField] protected Condition worldState;
     [SerializeField] private CreatureState currentCreatureState;
-    [SerializeField] private CreatureState changesEverySecond;
-    [SerializeField] private CreatureState reactionToAttack;
-    [SerializeField] private CreatureState reactionToPlayer;
     [SerializeField] private List<Action> currentPlan;
     public Action CurrentAction { get; private set; }
 
@@ -40,7 +30,7 @@ public class Creature : MonoBehaviour
     protected CheckSurroundings surroundCheck;
 
     private Goal currentGoal;
-    private GameObject currentTarget = null;
+    protected GameObject currentTarget = null;
 
     private Planner planner;
 
@@ -50,9 +40,7 @@ public class Creature : MonoBehaviour
     {
         if (!showThoughts)
         {
-            goalText.gameObject.SetActive(false);
-            actionText.gameObject.SetActive(false);
-            soundText.gameObject.SetActive(true);
+            goalText.transform.parent.gameObject.SetActive(false);
         }
 
         planner = GetComponent<Planner>();
@@ -62,6 +50,8 @@ public class Creature : MonoBehaviour
             currentCreatureState = new CreatureState();
         }
 
+        UpdateCreatureState();
+
         GenerateNewGoal();
 
         surroundCheck += CheckForFood;
@@ -70,16 +60,14 @@ public class Creature : MonoBehaviour
 
     protected virtual void FixedUpdate()
     {
-        // TODO: make it possible to interrupt actions
-
         UpdateValues();
+
         if (CurrentAction != null)
         {
             // if an action has failed try and generate a new goal
             if (CurrentAction.failed)
             {
-                if (LogDebugs)
-                    Debug.Log("Action failed! " + CurrentAction.Name);
+                DebugMessage("Action failed! " + CurrentAction.Name);
 
                 GenerateNewGoal();
             }
@@ -99,7 +87,7 @@ public class Creature : MonoBehaviour
     {
         StopAllCoroutines();
         CurrentAction.enabled = false;
-        Destroy(gameObject, decayTimer);
+        Destroy(gameObject, data.DecayTimer);
     }
 
     private void OnEnable()
@@ -111,7 +99,7 @@ public class Creature : MonoBehaviour
 
 
     #region GOAP
-    private void StartAction()
+    protected void StartAction()
     {
         CurrentAction = currentPlan[0];
 
@@ -123,29 +111,13 @@ public class Creature : MonoBehaviour
         if (showThoughts)
         {
             actionText.text = currentPlan[0].Name;
-        } else
-        {
-            soundText.text = currentPlan[0].Onomatopea;
-        }
+        } 
     }
 
     private void FinishAction()
     {
         // Update creatureState with effects of finished action
-        foreach (MoodState effect in CurrentAction.GoalEffects.CreatureStates)
-        {
-            if (effect.Operator == StateOperant.Set)
-                currentCreatureState.SetValue(effect.StateValue, effect.MoodType);
-            else if (effect.Operator == StateOperant.Add)
-                currentCreatureState.AddValue(effect.StateValue, effect.MoodType);
-            else if (effect.Operator == StateOperant.Subtract)
-                currentCreatureState.AddValue(-effect.StateValue, effect.MoodType);
-            
-            if (LogDebugs)
-            {
-                Debug.Log("updated worldstate of " + effect.MoodType.ToString());
-            }
-        }
+        UpdateValues(CurrentAction.GoalEffects);
 
         // check if goal has been reached
         if (currentPlan.Count <= 1)
@@ -191,7 +163,12 @@ public class Creature : MonoBehaviour
     /// </summary>
     private void UpdateValues()
     {
-        foreach (MoodState change in changesEverySecond.CreatureStates)
+        // TODO: get rid of magic number
+        // Make creature tire faster when it's bedtime
+        if (DistantLands.Cozy.CozyWeather.instance.currentTime.IsBetweenTimes(data.Bedtime, data.WakeTime))
+            currentCreatureState.AddValue(2f * Time.deltaTime, StateType.Tiredness);
+
+        foreach (MoodState change in data.ChangesEverySecond.CreatureStates)
         {
             if (change.Operator == StateOperant.Add)
                 currentCreatureState.AddValue(change.StateValue * Time.deltaTime, change.MoodType);
@@ -229,6 +206,12 @@ public class Creature : MonoBehaviour
                 currentCreatureState.AddValue(change.StateValue, change.MoodType);
             else if (change.Operator == StateOperant.Subtract)
                 currentCreatureState.AddValue(-change.StateValue, change.MoodType);
+
+
+            if (LogDebugs)
+            {
+                Debug.Log("updated worldstate of " + change.MoodType.ToString());
+            }
         }
 
         UpdateCreatureState();
@@ -240,6 +223,8 @@ public class Creature : MonoBehaviour
     protected virtual void UpdateCreatureState()
     {
         CheckForInterruptions(StateType.Tiredness, GetComponentInChildren<Sleep>(), "Fell asleep");
+
+        worldState = DistantLands.Cozy.CozyWeather.instance.currentTime.IsBetweenTimes(data.Bedtime, data.WakeTime) ? SetConditionTrue(worldState, Condition.ShouldBeSleeping) : SetConditionFalse(worldState, Condition.ShouldBeSleeping);
 
         worldState = (currentCreatureState.Find(StateType.Hunger).StateValue > 50) ? SetConditionTrue(worldState, Condition.IsHungry) : SetConditionFalse(worldState, Condition.IsHungry);
         worldState = (currentCreatureState.Find(StateType.Tiredness).StateValue > 50) ? SetConditionTrue(worldState, Condition.IsSleepy) : SetConditionFalse(worldState, Condition.IsSleepy);
@@ -278,15 +263,30 @@ public class Creature : MonoBehaviour
         }
     }
 
-    protected void Interrupt(Action associatedAction, string debugText = "")
+    protected async void Interrupt(Action associatedAction, string debugText = "", bool waitForFinishAnimation = false)
     {
-        if (LogDebugs)
-            Debug.Log($"interruption source: {associatedAction.Name}");
+        DebugMessage($"interruption source: {associatedAction.Name}");
+
+        if (waitForFinishAnimation)
+        {
+            System.Threading.Tasks.Task animationWaiter = CurrentAction.InterruptAction();
+            while (!animationWaiter.IsCompletedSuccessfully)
+            {
+                await System.Threading.Tasks.Task.Delay(100);
+            }
+        }
+        else
+        {
+            CurrentAction.Reset();
+        }
         
-        CurrentAction.Reset();
         GetComponent<UnityEngine.AI.NavMeshAgent>().SetDestination(transform.position);
 
-        goalText.text = debugText;
+        if (showThoughts)
+        {
+            goalText.text = debugText;
+        }
+
         currentPlan.Clear();
         currentPlan.Add(associatedAction);
         StartAction();
@@ -300,39 +300,56 @@ public class Creature : MonoBehaviour
     public bool AttackSuccess(Vector3 attackSource)
     {
         // TODO: think about what to set the value to beat to
-        ReactToAttack(attackSource);
 
-        if (UnityEngine.Random.Range(0, currentCreatureState.Find(StateType.Tiredness).StateValue) > 20)
+        if (UnityEngine.Random.Range(0, currentCreatureState.Find(StateType.Tiredness).StateValue) > 10)
         {
-            CurrentAction.Reset();
+            DebugMessage("Die");
 
-            // TODO: implement proper reaction
-            goalText.text = "DEAD";
-            soundText.text = "DEAD";
-            actionText.text = "";
-            this.enabled = false;
+            Animator animator = GetComponentInChildren<Animator>();
+            CurrentAction.Stop();
+
+            if (animator != null)
+            {
+                animator.Rebind();
+                this.enabled = false;
+                animator.speed = 1;
+
+                animator.SetBool("Die", true);
+            }
+            else
+            {
+                this.enabled = false;
+            }
+
+            if (showThoughts)
+            {
+                // TODO: implement proper reaction
+                goalText.text = "DEAD";
+                soundText.text = "DEAD";
+                actionText.text = "";
+            }
 
             return true;
-        } else 
+        }
+        else
+        {
+            ReactToAttack(attackSource);
             return false;
+        }
     }
 
     protected virtual void ReactToAttack(Vector3 attackPos)
     {
         WaryOff = attackPos;
-        UpdateValues(reactionToAttack);
+        UpdateValues(data.ReactionToAttack);
         worldState = SetConditionTrue(worldState, Condition.IsNearDanger);
 
-        if (LogDebugs)
-        {
-            Debug.Log("Was Attacked");
-        } 
+        DebugMessage("Was Attacked");
     }
 
-    // TODO: factor in loudness
     public void HearPlayer(Vector3 playerPos, float playerLoudness)
     {
-        if ((transform.position - playerPos).sqrMagnitude < playerLoudness * hearingSensitivity)
+        if ((transform.position - playerPos).sqrMagnitude < playerLoudness * data.HearingSensitivity * CurrentAction.Awareness)
             ReactToPlayer(playerPos, playerLoudness);
         else if (sawPlayer)
         {
@@ -343,25 +360,21 @@ public class Creature : MonoBehaviour
     protected virtual void ReactToPlayer(Vector3 playerPos, float playerLoudness)
     {
         sawPlayer = true;
-        UpdateValues(reactionToPlayer);
-        if (LogDebugs)
-        {
-            Debug.Log("Noticed Player");
-        } 
+        UpdateValues(data.ReactionToPlayer);
+
+        DebugMessage("Noticed Player");
     }
 
     protected virtual void ReactToPlayerLeaving(Vector3 playerPos)
     {
         sawPlayer = false;
-        if (LogDebugs)
-        {
-            Debug.Log("Lost sight of Player");
-        } 
+
+        DebugMessage("Lost sight of Player");
     }
 
     protected IEnumerator LookAtSurroundings()
     {
-        yield return new WaitForSeconds(checkSurroundingsTimer);
+        yield return new WaitForSeconds(data.CheckSurroundingsTimer);
         StartCoroutine(LookAtSurroundings());
         surroundCheck.Invoke();
     }
@@ -369,17 +382,14 @@ public class Creature : MonoBehaviour
     /// <summary>
     /// Checks for food in neighbourhood and ups the hunger value with the amount of food nearby
     /// </summary>
-    protected void CheckForFood()
+    protected virtual void CheckForFood()
     {
         Food f = null;
-        int foodcount = LookForObjects<Food>.CheckForObjects(f, transform.position, hearingSensitivity).Count;
+        int foodcount = LookForObjects<Food>.CheckForObjects(f, transform.position, data.HearingSensitivity).Count;
 
         currentCreatureState.AddValue(foodcount, StateType.Hunger);
 
-        if (LogDebugs)
-        {
-            //Debug.Log($"found {foodcount} {FoodSource}, hunger is now {currentCreatureState.Find(StateType.Hunger).StateValue}");
-        }
+        //DebugMessage($"found {foodcount} {FoodSource}, hunger is now {currentCreatureState.Find(StateType.Hunger).StateValue}");
     }
 
     protected Condition SetConditionTrue(Condition currentState, Condition flagToSet)
@@ -390,5 +400,11 @@ public class Creature : MonoBehaviour
     protected Condition SetConditionFalse(Condition currentState, Condition flagToSet)
     {
         return currentState &= ~flagToSet;
+    }
+
+    protected void DebugMessage(string message)
+    {
+        if (LogDebugs)
+            Debug.Log(message);
     }
 }
