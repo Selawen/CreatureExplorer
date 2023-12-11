@@ -175,7 +175,7 @@ Transform:
   m_GameObject: {fileID: 122837238509799219}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0.498, z: 0.171}
-  m_LocalScale: {x: 0.016, y: 0.016, z: 0.016}
+  m_LocalScale: {x: 0.048, y: 0.048, z: 0.048}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4309366670075586984}
@@ -239,7 +239,7 @@ Transform:
   m_GameObject: {fileID: 316981951996950852}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0.498, z: 0.171}
-  m_LocalScale: {x: 0.025, y: 0.025, z: 0.025}
+  m_LocalScale: {x: 0.075, y: 0.075, z: 0.075}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4925738121907033561}
@@ -2053,7 +2053,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 4925738121907033565}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.7
+  m_Radius: 2.1
   m_Speed: 1
   m_Acceleration: 8
   avoidancePriority: 50
@@ -2062,7 +2062,7 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 1
+  m_Height: 3
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
@@ -2211,7 +2211,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e7f24de16c48754daccfa08fe15dc84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data: {fileID: 11400000, guid: 737114a551e613c429624394a2a5dd56, type: 2}
+  data: {fileID: 11400000, guid: 971bd74babff8f149bd10acbe5d3b997, type: 2}
   showThoughts: 0
   <LogDebugs>k__BackingField: 0
   goalText: {fileID: 0}

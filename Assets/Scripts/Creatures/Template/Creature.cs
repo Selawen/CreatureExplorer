@@ -263,12 +263,23 @@ public class Creature : MonoBehaviour
         }
     }
 
-    protected void Interrupt(Action associatedAction, string debugText = "")
+    protected async void Interrupt(Action associatedAction, string debugText = "", bool waitForFinishAnimation = false)
     {
-        if (LogDebugs)
-            Debug.Log($"interruption source: {associatedAction.Name}");
+        DebugMessage($"interruption source: {associatedAction.Name}");
+
+        if (waitForFinishAnimation)
+        {
+            System.Threading.Tasks.Task animationWaiter = CurrentAction.InterruptAction();
+            while (!animationWaiter.IsCompletedSuccessfully)
+            {
+                await System.Threading.Tasks.Task.Delay(100);
+            }
+        }
+        else
+        {
+            CurrentAction.Reset();
+        }
         
-        CurrentAction.InterruptAction();
         GetComponent<UnityEngine.AI.NavMeshAgent>().SetDestination(transform.position);
 
         if (showThoughts)

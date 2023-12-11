@@ -9,6 +9,8 @@ public class Snorlax : Charger
     [SerializeField] private Action sleepAction;
     [SerializeField] private Action moveAction, fleeAction;
 
+    private bool luredAway = false;
+
 
     // Start is called before the first frame update
     protected override void Start()
@@ -23,8 +25,18 @@ public class Snorlax : Charger
     // Update is called once per frame
     protected override void FixedUpdate()
     {
+        if (luredAway && (CurrentAction.finished || CurrentAction.failed))
+        {
+            if (CurrentAction == moveAction)
+            {
+                surroundCheck += CheckForFood;
+            }
 
+            Interrupt(sleepAction);
+            luredAway = false;
+        } 
     }
+
     protected override void ReactToThreat(Vector3 threatPosition, float threatLoudness)
     {
         base.ReactToThreat(threatPosition, threatLoudness);
@@ -54,8 +66,13 @@ public class Snorlax : Charger
         Food f = null;
         if (LookForObjects<Food>.TryGetClosestObject(f, transform.position, data.HearingSensitivity, out f) && CurrentAction != fleeAction)
         {
+            Animator animator = GetComponentInChildren<Animator>();
+
             currentTarget = f.gameObject;
-            Interrupt(moveAction);
+            surroundCheck -= CheckForFood;
+
+            Interrupt(moveAction, "", true);
+            luredAway = true;
         }
     }
 }
