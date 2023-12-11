@@ -280,7 +280,7 @@ public class Creature : MonoBehaviour
             CurrentAction.Reset();
         }
         
-        GetComponent<UnityEngine.AI.NavMeshAgent>().SetDestination(transform.position);
+        GetComponent<NavMeshAgent>().SetDestination(transform.position);
 
         if (showThoughts)
         {
