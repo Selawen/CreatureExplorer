@@ -29,10 +29,17 @@ public class Throwable : StatusEffect, IInteractable
     public void Throw(Vector3 direction, float force)
     {
         throwCollider.enabled = true;
-        throwCollider.isTrigger = false;
-        transform.SetParent(null);
-        rb.useGravity = true;
         rb.AddForce(direction * force);
+        if (TryGetComponent(out Food food))
+        {
+            food.ActivatePhysics();
+        }
+        else
+        {
+            transform.SetParent(null);
+            throwCollider.isTrigger = false;
+            rb.useGravity = true;
+        }
     }
 
     public void Interact()
@@ -40,6 +47,10 @@ public class Throwable : StatusEffect, IInteractable
         rb.velocity = Vector3.zero;
         throwCollider.enabled = false;
         rb.useGravity = false;
-        GetComponent<Food>().StopAllCoroutines();
+        if(TryGetComponent(out Food food))
+        {
+            food.StopAllCoroutines();
+        }
+
     }
 }

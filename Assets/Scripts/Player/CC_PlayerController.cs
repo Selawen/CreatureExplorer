@@ -39,6 +39,7 @@ public class CC_PlayerController : MonoBehaviour
     [SerializeField] private float interactHeight = 0.875f;
     [SerializeField] private float drowningHeight = 1.6f;
     [SerializeField] private float throwForce = 4f;
+    [SerializeField] private ushort berryPouchSize;
     [SerializeField] private Transform throwPoint;
     [SerializeField] private UnityEvent<string> onInteractPromptChanged;
 
@@ -80,12 +81,12 @@ public class CC_PlayerController : MonoBehaviour
     [SerializeField] private bool climbingUnlocked;
     private bool sprinting;
     private bool crouching;
-    private bool isHurt;
     private bool died = false;
     private MeshRenderer respawnFadeRenderer;
 
     private IInteractable closestInteractable;
     private Throwable heldThrowable;
+    private Inventory<Throwable> berryPouch;
 
     private enum CharacterState { Grounded, Aerial, Climbing, Awaiting, Hurt }
     private CharacterState currentState;
@@ -110,7 +111,9 @@ public class CC_PlayerController : MonoBehaviour
 
         respawnFadeRenderer = Instantiate(respawnOccluder, firstPersonCamera.transform).GetComponent<MeshRenderer>();
 
-        GrandTemple.OnRingExtended += UnlockClimbing;
+        GrandTemple.OnRingExtended += UnlockBasket;
+        //Debug
+        UnlockBasket();
 
         StaticQuestHandler.OnQuestInputDisabled += () =>
         {
@@ -160,7 +163,6 @@ public class CC_PlayerController : MonoBehaviour
                 if(hurtTimer >= hurtTime)
                 {
                     currentState = CharacterState.Grounded;
-                    isHurt = false;
                 }
                 break;
             case CharacterState.Grounded:
@@ -258,13 +260,28 @@ public class CC_PlayerController : MonoBehaviour
                 // TODO: You can't climb, as the jellyfish shocks you.
                 return;
             }
-            if(closestInteractable.GetType() == typeof(Throwable) && heldThrowable == null)
+            if(closestInteractable.GetType() == typeof(Throwable))
             {
-                heldThrowable = closestInteractable as Throwable;
-                heldThrowable.transform.SetParent(throwPoint);
-                heldThrowable.transform.localPosition = Vector3.zero;
+                Throwable berry = closestInteractable as Throwable;
+                if(heldThrowable == null)
+                {
+                    heldThrowable = berry;
+                    heldThrowable.transform.SetParent(throwPoint);
+                    heldThrowable.transform.localPosition = Vector3.zero;
+                    heldThrowable.Interact();
+                    return;
+                }
+                else if (berryPouch != null && !berryPouch.InventoryIsFull())
+                {
+                    berry.gameObject.SetActive(false);
+                    berryPouch.AddItemToInventory(berry);
+                    return;
+                }
             }
-            closestInteractable.Interact();
+            else
+            {
+                closestInteractable.Interact();
+            }
         }
     }
 
@@ -274,6 +291,19 @@ public class CC_PlayerController : MonoBehaviour
         {
             heldThrowable.Throw(firstPersonCamera.transform.forward, throwForce);
             heldThrowable = null;
+        }
+    }
+
+    public void GetRetrieveBerryInput(InputAction.CallbackContext context)
+    {
+        if(heldThrowable == null && berryPouch != null && berryPouch.GetItemCount() > 0)
+        {
+            heldThrowable = berryPouch.GetItemAtIndex(0);
+            heldThrowable.gameObject.SetActive(true);
+            heldThrowable.transform.SetParent(throwPoint);
+            heldThrowable.Interact();
+            heldThrowable.transform.localPosition = Vector3.zero;
+            berryPouch.RemoveItemFromInventory(heldThrowable);
         }
     }
 
@@ -420,7 +450,6 @@ public class CC_PlayerController : MonoBehaviour
                 }
                 currentState = CharacterState.Hurt;
                 hurtTimer = 0;
-                isHurt = true;
                 return;
             }
             verticalSpeed = -1f;
@@ -556,11 +585,13 @@ public class CC_PlayerController : MonoBehaviour
     {
         climbingUnlocked = true;
         GrandTemple.OnRingExtended -= UnlockClimbing;
-        GrandTemple.OnRingExtended += UnlockBasket;
     }
 
     private void UnlockBasket()
     {
+        berryPouch = new Inventory<Throwable>(berryPouchSize);
+        GrandTemple.OnRingExtended -= UnlockBasket;
+        GrandTemple.OnRingExtended += UnlockClimbing;
         Debug.Log("Unlocked the berry basket!");
     }
 
