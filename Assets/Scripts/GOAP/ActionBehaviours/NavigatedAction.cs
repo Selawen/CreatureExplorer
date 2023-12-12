@@ -64,13 +64,16 @@ public abstract class NavigatedAction : Action
 
         targetTransform = null;
 
-        moveAgent.speed = originalSpeed;
-        moveAgent.angularSpeed = originalRotationSpeed;
-        moveAgent.acceleration = originalAcceleration;
-        moveAgent.autoBraking = true;
+        if (moveAgent != null)
+        {
+            moveAgent.speed = originalSpeed;
+            moveAgent.angularSpeed = originalRotationSpeed;
+            moveAgent.acceleration = originalAcceleration;
+            moveAgent.autoBraking = true;
 
-        moveAgent.ResetPath();
-        moveAgent.SetDestination(transform.position);
+            moveAgent.ResetPath();
+            moveAgent.SetDestination(transform.position);
+        }
 
         if (animator != null)
             animator.speed = 1;

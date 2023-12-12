@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class GrandTemple : MonoBehaviour
 {
-    //public static GrandTemple Instance { get; private set; }
+    public static GrandTemple Instance { get; private set; }
+    
     public static System.Action OnStatueCleared;
     public static System.Action OnRingExtended;
 
@@ -17,6 +18,7 @@ public class GrandTemple : MonoBehaviour
 
     private void Awake()
     {
+        Instance = this;
         OnStatueCleared += EvaluateStatue;
     }
 

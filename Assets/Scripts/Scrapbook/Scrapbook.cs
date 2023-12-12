@@ -108,7 +108,8 @@ public class Scrapbook : MonoBehaviour
 
     public void CreateNewTextEntry()
     {
-        PageText newText = Instantiate(textEntryPrefab, CurrentPage.transform);
+        PageText newText = Instantiate(textEntryPrefab, CurrentPage.transform.position, Quaternion.identity);
+        CurrentPage.AddComponentToPage(newText);
         newText.TextField.onSelect.AddListener((string s) => OnBeginType?.Invoke());
         newText.TextField.onDeselect.AddListener((string s) => OnEndType?.Invoke());
     }

@@ -12,7 +12,7 @@ public static class LookForObjects<T>
 
         foreach (Collider c in Physics.OverlapSphere(checkFromPosition, checkingRange))
         {
-            if (c.gameObject.TryGetComponent(out objectToCheckFor) && (c.transform.position - checkFromPosition).sqrMagnitude < distance)
+            if (c.gameObject.TryGetComponent(out objectToCheckFor) && (c.transform.position - checkFromPosition).magnitude < distance)
             {
                 result.Add(objectToCheckFor); 
                 distance = (c.transform.position - checkFromPosition).sqrMagnitude;
@@ -28,9 +28,10 @@ public static class LookForObjects<T>
         float distance = checkingRange;
         Collider nearest = null;
 
+
         foreach (Collider c in Physics.OverlapSphere(checkFromPosition, checkingRange))
         {
-            if (c.gameObject.TryGetComponent(out objectToCheckFor) && (c.transform.position - checkFromPosition).sqrMagnitude < distance)
+            if (c.gameObject.TryGetComponent(out objectToCheckFor) && (c.transform.position - checkFromPosition).magnitude < distance)
             {
                 nearestObject = objectToCheckFor;
                 distance = (c.transform.position - checkFromPosition).sqrMagnitude;

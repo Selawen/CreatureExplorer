@@ -34,6 +34,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1288532952976959648}
   - {fileID: 1218546051389370401}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -380,6 +381,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 26fabf98-229e-4f76-bcdc-3e9810ea39e6
     m_ActionName: Camera/Zoom[/Mouse/scroll]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5104014566567447014}
+        m_TargetAssemblyTypeName: CC_PlayerController, Assembly-CSharp
+        m_MethodName: GetThrowInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: de2e3c9c-3626-40f2-a8ef-63dba470dee0
+    m_ActionName: Overworld/Throw[/Mouse/rightButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Overworld
@@ -415,13 +432,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4556ca03b65bd4f938647bba92e283, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 5
+  walkSpeed: 4
   sneakSpeed: 1.5
   climbSpeed: 3
   sprintSpeed: 8
   airSpeed: 3
   strafeSprintSpeed: 6
+  hurtWalkingSpeed: 2
   jumpForce: 4
+  painfulVelocity: 10
   deadlyFallVelocity: 20
   walkingLoudness: 5
   sneakingLoudness: 1
@@ -429,11 +448,14 @@ MonoBehaviour:
   crouchHeight: 1.35
   maxSprintAngle: 15
   maxViewAngle: 70
+  hurtTime: 5
   climbDistance: 1
   interactDistance: 1.5
   interactRadius: 1.5
   interactHeight: 0.875
   drowningHeight: 1.6
+  throwForce: 60
+  throwPoint: {fileID: 1288532952976959648}
   onInteractPromptChanged:
     m_PersistentCalls:
       m_Calls:
@@ -456,8 +478,6 @@ MonoBehaviour:
   waterLayer:
     serializedVersion: 2
     m_Bits: 16
-  groundCheckRadius: 0.2
-  groundCheckDistance: 0.3
   respawnTransform: {fileID: 0}
   respawnDuration: 2
   respawnOccluder: {fileID: 919132149155446097, guid: 011f046753e882848b1beffb3ae199e3,
@@ -518,6 +538,7 @@ MonoBehaviour:
         m_CallState: 2
   firstPersonCamera: {fileID: 0}
   gameSettings: {fileID: 11400000, guid: 0e36501920850ee48a198c6521c2d486, type: 2}
+  climbingUnlocked: 0
 --- !u!114 &5584154710332234837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -760,7 +781,7 @@ RectTransform:
   - {fileID: 3567739956117650573}
   - {fileID: 3136800130455149252}
   m_Father: {fileID: 5104014566567447016}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -828,6 +849,37 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!1 &6773256362699384250
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1288532952976959648}
+  m_Layer: 6
+  m_Name: ThrowablePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1288532952976959648
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6773256362699384250}
+  m_LocalRotation: {x: 0, y: -0.043619405, z: 0, w: 0.9990483}
+  m_LocalPosition: {x: 0.325, y: 1.15, z: 0.45}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5104014566567447016}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: -5, z: 0}
 --- !u!1001 &1690493535299640125
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -835,6 +887,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1218546051389370401}
     m_Modifications:
+    - target: {fileID: 1807263154119540719, guid: 0d2f87619a5029e4fb22c409a092efc3,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1807263154119540719, guid: 0d2f87619a5029e4fb22c409a092efc3,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1807263154119540719, guid: 0d2f87619a5029e4fb22c409a092efc3,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 4833206982714648395, guid: 0d2f87619a5029e4fb22c409a092efc3,
         type: 3}
       propertyPath: m_Name
@@ -1174,6 +1241,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5241186986897981084, guid: d0e481aa2c5586949a9eacb844b7c98c,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 37.83252
+      objectReference: {fileID: 0}
     - target: {fileID: 5908380861042403951, guid: d0e481aa2c5586949a9eacb844b7c98c,
         type: 3}
       propertyPath: m_Sprite
@@ -1391,6 +1463,21 @@ PrefabInstance:
       propertyPath: storageBackgroundImage
       value: 
       objectReference: {fileID: 1396916725082015760}
+    - target: {fileID: 5632235273860322253, guid: 6a3c4c323bba5664cb0a29f72e36c10a,
+        type: 3}
+      propertyPath: m_Maskable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5945711125973829122, guid: 6a3c4c323bba5664cb0a29f72e36c10a,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 140
+      objectReference: {fileID: 0}
+    - target: {fileID: 5945711125973829122, guid: 6a3c4c323bba5664cb0a29f72e36c10a,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 8405368419244542668, guid: 6a3c4c323bba5664cb0a29f72e36c10a,
         type: 3}
       propertyPath: m_RaycastTarget
