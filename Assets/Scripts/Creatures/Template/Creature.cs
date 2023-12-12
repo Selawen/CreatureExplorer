@@ -99,7 +99,7 @@ public class Creature : MonoBehaviour
 
 
     #region GOAP
-    protected void StartAction()
+    protected virtual void StartAction()
     {
         CurrentAction = currentPlan[0];
 
