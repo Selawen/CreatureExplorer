@@ -40,8 +40,8 @@ public class SequencePuzzleElement : MonoBehaviour, IInteractable
     public void OnPuzzleClear()
     {
         Debug.Log("Cleared");
-        StopCoroutine(nameof(MaterialShift));
         internalClear = true;
+        StopCoroutine(nameof(MaterialShift));
         meshRenderer.material = completionMaterial;
     }
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class SequencePuzzle : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class SequencePuzzle : MonoBehaviour
     [SerializeField] private SequencePuzzleElement[] puzzleElements;
     [SerializeField] private bool canPingMultipleTimes;
     [SerializeField] private float materialShiftTime  = 2f;
+    [SerializeField] private UnityEvent onPuzzleCleared;
 
     private int sequenceCount;
     private Queue<SequencePuzzleElement> pingOrder;
@@ -28,7 +30,7 @@ public class SequencePuzzle : MonoBehaviour
 
     public void Ping(SequencePuzzleElement element)
     {
-        if (pingOrder.Contains(element) && !canPingMultipleTimes) 
+        if (pingOrder.Contains(element) && !canPingMultipleTimes || Cleared) 
             return;
 
         pingOrder.Enqueue(element);
@@ -59,6 +61,7 @@ public class SequencePuzzle : MonoBehaviour
         {
             element.OnPuzzleClear();
         }
+        onPuzzleCleared?.Invoke();
         Cleared = true;
     }
 
