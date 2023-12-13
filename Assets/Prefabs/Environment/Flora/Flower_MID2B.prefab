@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5674253354768377646}
   - component: {fileID: 8723794401560012939}
   - component: {fileID: 6842607757524622401}
+  - component: {fileID: 7648130852449543666}
   m_Layer: 0
   m_Name: Flower_MID2B
   m_TagString: Untagged
@@ -84,3 +85,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!205 &7648130852449543666
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5040988066860891540}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0, y: 0, z: 0}
+  m_Size: 1
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.016847027
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 6842607757524622401}
+  m_Enabled: 1
