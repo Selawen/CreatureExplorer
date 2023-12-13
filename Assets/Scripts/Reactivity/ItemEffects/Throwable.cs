@@ -3,9 +3,11 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Throwable : StatusEffect, IInteractable
 {
+    public Sprite InventoryGraphic { get { return inventoryGraphic; } }
     [field: SerializeField] public string InteractionPrompt { get; private set; } = "Pick up";
     
     [SerializeField] private float splatVelocity = 2;
+    [SerializeField] private Sprite inventoryGraphic;
 
     private Rigidbody rb;
     private Collider throwCollider;

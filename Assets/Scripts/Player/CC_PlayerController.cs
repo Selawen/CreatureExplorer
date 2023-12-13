@@ -63,6 +63,7 @@ public class CC_PlayerController : MonoBehaviour
     private float defaultCameraHeight;
     private float crouchEyeOffset;
 
+    private BerryPouch pouch;
     private FollowTarget cameraFollow;
     private PlayerInput playerInput;
 
@@ -86,7 +87,6 @@ public class CC_PlayerController : MonoBehaviour
 
     private IInteractable closestInteractable;
     private Throwable heldThrowable;
-    private Inventory<Throwable> berryPouch;
 
     private enum CharacterState { Grounded, Aerial, Climbing, Awaiting, Hurt }
     private CharacterState currentState;
@@ -110,6 +110,8 @@ public class CC_PlayerController : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
 
         respawnFadeRenderer = Instantiate(respawnOccluder, firstPersonCamera.transform).GetComponent<MeshRenderer>();
+
+        pouch = GetComponentInChildren<BerryPouch>();
 
         GrandTemple.OnRingExtended += UnlockBasket;
         //Debug
@@ -268,13 +270,13 @@ public class CC_PlayerController : MonoBehaviour
                     heldThrowable = berry;
                     heldThrowable.transform.SetParent(throwPoint);
                     heldThrowable.transform.localPosition = Vector3.zero;
+                    pouch.HoldingBerry = true;
                     heldThrowable.Interact();
                     return;
                 }
-                else if (berryPouch != null && !berryPouch.InventoryIsFull())
+                else if (pouch.AddBerry(berry))
                 {
                     berry.gameObject.SetActive(false);
-                    berryPouch.AddItemToInventory(berry);
                     return;
                 }
             }
@@ -290,21 +292,23 @@ public class CC_PlayerController : MonoBehaviour
         if(context.started && heldThrowable != null)
         {
             heldThrowable.Throw(firstPersonCamera.transform.forward, throwForce);
+            pouch.HoldingBerry = false;
             heldThrowable = null;
         }
     }
 
+    // This function will be changed and possibly moved to reflect the new interface
     public void GetRetrieveBerryInput(InputAction.CallbackContext context)
     {
-        if(heldThrowable == null && berryPouch != null && berryPouch.GetItemCount() > 0)
-        {
-            heldThrowable = berryPouch.GetItemAtIndex(0);
-            heldThrowable.gameObject.SetActive(true);
-            heldThrowable.transform.SetParent(throwPoint);
-            heldThrowable.Interact();
-            heldThrowable.transform.localPosition = Vector3.zero;
-            berryPouch.RemoveItemFromInventory(heldThrowable);
-        }
+        //if(heldThrowable == null && berryPouch != null && berryPouch.GetItemCount() > 0)
+        //{
+        //    heldThrowable = berryPouch.GetItemAtIndex(0);
+        //    heldThrowable.gameObject.SetActive(true);
+        //    heldThrowable.transform.SetParent(throwPoint);
+        //    heldThrowable.Interact();
+        //    heldThrowable.transform.localPosition = Vector3.zero;
+        //    berryPouch.RemoveItemFromInventory(heldThrowable);
+        //}
     }
 
     private void Move()
