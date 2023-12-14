@@ -94,6 +94,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "OpenPouch",
+                    "type": "Button",
+                    "id": "5e796a8d-00c1-43f2-832b-cbc1d37d32ab",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -402,6 +411,28 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "RetrieveBerry",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "54f46edd-6f3d-4f9b-9e4f-a8e526c2d829",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "OpenPouch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "18d900cb-dc40-46bd-b45b-e916e19e9102",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "NintendoSwitch",
+                    "action": "OpenPouch",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -901,6 +932,45 @@
             "id": "e34ff88a-deaf-448d-ae05-57753dbe3eb4",
             "actions": [],
             "bindings": []
+        },
+        {
+            "name": "Pouch",
+            "id": "ed90775b-25c0-42d8-bf42-ac717439648f",
+            "actions": [
+                {
+                    "name": "Close",
+                    "type": "Button",
+                    "id": "4d6d8e69-7865-4208-9a27-96afdf1ed713",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "5387fb44-ca9b-4ff3-b039-e122a9231024",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Close",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cdcfe5c3-01a3-460d-b580-3fde3ae0eedd",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Close",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [

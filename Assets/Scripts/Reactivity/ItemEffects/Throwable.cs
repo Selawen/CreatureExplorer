@@ -4,10 +4,12 @@ using UnityEngine;
 public class Throwable : StatusEffect, IInteractable
 {
     public Sprite InventoryGraphic { get { return inventoryGraphic; } }
+    public Sprite HoverGraphic { get { return hoverGraphic; } }
     [field: SerializeField] public string InteractionPrompt { get; private set; } = "Pick up";
     
     [SerializeField] private float splatVelocity = 2;
     [SerializeField] private Sprite inventoryGraphic;
+    [SerializeField] private Sprite hoverGraphic;
 
     private Rigidbody rb;
     private Collider throwCollider;

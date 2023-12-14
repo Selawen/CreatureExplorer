@@ -80,6 +80,7 @@ public class CC_PlayerController : MonoBehaviour
 
     // This is serialized only for debugging purposes
     [SerializeField] private bool climbingUnlocked;
+    [SerializeField] private bool pouchUnlocked;
     private bool sprinting;
     private bool crouching;
     private bool died = false;
@@ -114,8 +115,12 @@ public class CC_PlayerController : MonoBehaviour
         pouch = GetComponentInChildren<BerryPouch>();
 
         GrandTemple.OnRingExtended += UnlockBasket;
+        if (pouchUnlocked)
+        {
+            pouch.Unlock();
+        }
         //Debug
-        UnlockBasket();
+        //UnlockBasket();
 
         StaticQuestHandler.OnQuestInputDisabled += () =>
         {
@@ -267,11 +272,8 @@ public class CC_PlayerController : MonoBehaviour
                 Throwable berry = closestInteractable as Throwable;
                 if(heldThrowable == null)
                 {
-                    heldThrowable = berry;
-                    heldThrowable.transform.SetParent(throwPoint);
-                    heldThrowable.transform.localPosition = Vector3.zero;
+                    CarryThrowable(berry);
                     pouch.HoldingBerry = true;
-                    heldThrowable.Interact();
                     return;
                 }
                 else if (pouch.AddBerry(berry))
@@ -295,6 +297,20 @@ public class CC_PlayerController : MonoBehaviour
             pouch.HoldingBerry = false;
             heldThrowable = null;
         }
+    }
+
+    public void ReceiveRetrievedBerry(Throwable berry)
+    {
+        CarryThrowable(berry);
+    }
+
+    private void CarryThrowable(Throwable throwable)
+    {
+        heldThrowable = throwable;
+        heldThrowable.gameObject.SetActive(true);
+        heldThrowable.transform.SetParent(throwPoint);
+        heldThrowable.transform.localPosition = Vector3.zero;
+        heldThrowable.Interact();
     }
 
     // This function will be changed and possibly moved to reflect the new interface
@@ -593,7 +609,7 @@ public class CC_PlayerController : MonoBehaviour
 
     private void UnlockBasket()
     {
-        berryPouch = new Inventory<Throwable>(berryPouchSize);
+        pouch.Unlock();
         GrandTemple.OnRingExtended -= UnlockBasket;
         GrandTemple.OnRingExtended += UnlockClimbing;
         Debug.Log("Unlocked the berry basket!");
