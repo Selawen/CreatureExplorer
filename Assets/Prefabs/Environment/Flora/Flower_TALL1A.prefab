@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1244024733649965313}
   - component: {fileID: 2804742502753410724}
   - component: {fileID: 74455885943827054}
+  - component: {fileID: -5297085628028105326}
   m_Layer: 0
   m_Name: Flower_TALL1A
   m_TagString: Untagged
@@ -83,3 +84,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!205 &-5297085628028105326
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1875882611850726331}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0, y: 0, z: 0}
+  m_Size: 1
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.024450809
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 74455885943827054}
+  m_Enabled: 1
