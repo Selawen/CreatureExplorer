@@ -16,8 +16,10 @@ public class CC_PlayerController : MonoBehaviour
     [SerializeField] private float sprintSpeed = 10f;
     [SerializeField] private float airSpeed = 4f;
     [SerializeField] private float strafeSprintSpeed = 7f;
+    [SerializeField] private float hurtWalkingSpeed;
     [SerializeField] private float jumpForce = 10f;
-    [SerializeField] private float deadlyFallVelocity = 10f;
+    [SerializeField] private float painfulVelocity = 10f;
+    [SerializeField] private float deadlyFallVelocity = 20f;
 
     [Header("Loudness")]
     [SerializeField] private float walkingLoudness = 1f;
@@ -28,6 +30,7 @@ public class CC_PlayerController : MonoBehaviour
     [SerializeField] private float crouchHeight = 1.2f;
     [SerializeField] private float maxSprintAngle = 15f;
     [SerializeField] private float maxViewAngle = 70f;
+    [SerializeField] private float hurtTime;
 
     [Header("Interaction")]
     [SerializeField] private float climbDistance = 0.25f;
@@ -35,15 +38,14 @@ public class CC_PlayerController : MonoBehaviour
     [SerializeField] private float interactRadius = 5f;
     [SerializeField] private float interactHeight = 0.875f;
     [SerializeField] private float drowningHeight = 1.6f;
+    [SerializeField] private float throwForce = 4f;
+    [SerializeField] private Transform throwPoint;
     [SerializeField] private UnityEvent<string> onInteractPromptChanged;
 
     [SerializeField] private float minimumClimbDistance = 1f;
     [SerializeField] private LayerMask playerLayer;
     [SerializeField] private LayerMask waterLayer;
 
-    [Header("GroundCheck")]
-    [SerializeField] private float groundCheckRadius = 0.2f;
-    [SerializeField] private float groundCheckDistance = 0.3f;
 
     [Header("Death")]
     [SerializeField] private Transform respawnTransform;
@@ -70,17 +72,22 @@ public class CC_PlayerController : MonoBehaviour
     private float verticalRotation;
     private float verticalSpeed;
     private float rotationSpeed = 1f;
+    private float hurtTimer;
 
     private float initialMomentumOnAirtimeStart;
 
+    // This is serialized only for debugging purposes
+    [SerializeField] private bool climbingUnlocked;
     private bool sprinting;
     private bool crouching;
+    private bool isHurt;
     private bool died = false;
     private MeshRenderer respawnFadeRenderer;
 
     private IInteractable closestInteractable;
+    private Throwable heldThrowable;
 
-    private enum CharacterState { Grounded, Aerial, Climbing, Awaiting }
+    private enum CharacterState { Grounded, Aerial, Climbing, Awaiting, Hurt }
     private CharacterState currentState;
 
     private void Awake()
@@ -102,6 +109,8 @@ public class CC_PlayerController : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
 
         respawnFadeRenderer = Instantiate(respawnOccluder, firstPersonCamera.transform).GetComponent<MeshRenderer>();
+
+        GrandTemple.OnRingExtended += UnlockClimbing;
 
         StaticQuestHandler.OnQuestInputDisabled += () =>
         {
@@ -144,6 +153,16 @@ public class CC_PlayerController : MonoBehaviour
         }
         switch (currentState)
         {
+            case CharacterState.Hurt:
+                MoveHurt();
+                HandleInteract();
+                hurtTimer += Time.deltaTime; 
+                if(hurtTimer >= hurtTime)
+                {
+                    currentState = CharacterState.Grounded;
+                    isHurt = false;
+                }
+                break;
             case CharacterState.Grounded:
                 Move();
                 HandleInteract();
@@ -216,7 +235,7 @@ public class CC_PlayerController : MonoBehaviour
 
     public void GetJumpInput(InputAction.CallbackContext context)
     {
-        if(currentState == CharacterState.Grounded && context.started)
+        if(currentState == CharacterState.Grounded && context.performed)
         {
             Jump();
         }
@@ -231,21 +250,40 @@ public class CC_PlayerController : MonoBehaviour
             moveDirection = Vector3.zero;
             if(closestInteractable.GetType() == typeof(JellyfishLadder))
             {
-                StartClimb();
-                //StartCoroutine(PrepareClimb(closestInteractable as JellyfishLadder));
+                if (climbingUnlocked)
+                {
+                    StartClimb();
+                    return;
+                }
+                // TODO: You can't climb, as the jellyfish shocks you.
                 return;
+            }
+            if(closestInteractable.GetType() == typeof(Throwable) && heldThrowable == null)
+            {
+                heldThrowable = closestInteractable as Throwable;
+                heldThrowable.transform.SetParent(throwPoint);
+                heldThrowable.transform.localPosition = Vector3.zero;
             }
             closestInteractable.Interact();
         }
     }
 
+    public void GetThrowInput(InputAction.CallbackContext context)
+    {
+        if(context.started && heldThrowable != null)
+        {
+            heldThrowable.Throw(firstPersonCamera.transform.forward, throwForce);
+            heldThrowable = null;
+        }
+    }
+
     private void Move()
     {
-        if (!GroundCheck())
+        if (!controller.isGrounded)
         {
             currentState = CharacterState.Aerial;
-            initialMomentumOnAirtimeStart = controller.velocity.magnitude;
-            //moveDirection = Vector3.zero;
+            Vector2 horizontalVelocity = new Vector2(controller.velocity.x, controller.velocity.z);
+            initialMomentumOnAirtimeStart = horizontalVelocity.magnitude;
             return;
         }
         if (moveInput.sqrMagnitude > 0.1f)
@@ -271,11 +309,33 @@ public class CC_PlayerController : MonoBehaviour
         }
     }
 
+    private void MoveHurt()
+    {
+        if (!controller.isGrounded)
+        {
+            currentState = CharacterState.Aerial;
+            Vector2 horizontalVelocity = new Vector2(controller.velocity.x, controller.velocity.z);
+            initialMomentumOnAirtimeStart = horizontalVelocity.magnitude;
+            return;
+        }
+        if (moveInput.sqrMagnitude > 0.1f)
+        {
+            float inputAngle = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg;
+            float targetAngle = inputAngle + transform.eulerAngles.y;
+
+            moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward * hurtWalkingSpeed;
+        }
+        else
+        {
+            moveDirection = Vector3.zero;
+        }
+    }
+
     private void Climb()
     {
         if (moveInput.sqrMagnitude > 0.1f)
         {
-            if(GroundCheck() && moveInput.y < 0)
+            if(controller.isGrounded && moveInput.y < 0)
             {
                 currentState = CharacterState.Grounded;
                 return;
@@ -311,7 +371,14 @@ public class CC_PlayerController : MonoBehaviour
             Vector3 control = moveDirection + (Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward).normalized * airSpeed * 0.1f;
             if (control.magnitude > initialMomentumOnAirtimeStart)
             {
-                control = control.normalized * initialMomentumOnAirtimeStart;
+                if(initialMomentumOnAirtimeStart < airSpeed)
+                {
+                    control = control.normalized * airSpeed;
+                }
+                else
+                {
+                    control = control.normalized * initialMomentumOnAirtimeStart;
+                }
             }
             moveDirection = control;
         }
@@ -329,7 +396,7 @@ public class CC_PlayerController : MonoBehaviour
             }
         }
 
-        if (GroundCheck())
+        if (controller.isGrounded)
         {
             currentState = CharacterState.Grounded;
             if (Physics.Raycast(transform.position, transform.up * -1, out RaycastHit hit, 1f, ~playerLayer))
@@ -343,22 +410,21 @@ public class CC_PlayerController : MonoBehaviour
                     }
                 }
             }
-            if (verticalSpeed < -deadlyFallVelocity)
+            if (verticalSpeed < -painfulVelocity)
             {
-                died = true;
-                StartCoroutine(Die());
+                if (verticalSpeed < -deadlyFallVelocity)
+                {
+                    died = true;
+                    StartCoroutine(Die());
+                    return;
+                }
+                currentState = CharacterState.Hurt;
+                hurtTimer = 0;
+                isHurt = true;
                 return;
             }
-            else
-            {
-                Physics.Raycast(transform.position, transform.up * -1, out RaycastHit floorHit, 2f, ~playerLayer);
-                transform.position = floorHit.point;
-                verticalSpeed = -0.5f;
-                return;
-            }
+            verticalSpeed = -1f;
         }
-        //Vector3 fallingSpeed = new(controller.velocity.x, controller.velocity.y - (9.81f * Time.deltaTime), controller.velocity.z);
-
     }
 
     private void Jump()
@@ -373,7 +439,7 @@ public class CC_PlayerController : MonoBehaviour
 
         if(Physics.Raycast(transform.position + Vector3.up * interactHeight, transform.forward, out RaycastHit climb, climbDistance, ~playerLayer))
         {
-            if(climb.transform.TryGetComponent(out JellyfishLadder ladder))
+            if(climb.transform.TryGetComponent(out JellyfishLadder ladder) && currentState != CharacterState.Hurt)
             {
                 ladder.ContactPoint = climb.point;
                 closestInteractable = ladder;
@@ -415,28 +481,6 @@ public class CC_PlayerController : MonoBehaviour
             return;
         }
         onInteractPromptChanged?.Invoke(string.Empty);
-    }
-
-    private bool GroundCheck()
-    {
-        // We're doing a front and back ground check for additional accuracy without making the radius too big.
-        if (Physics.CheckSphere(transform.position + transform.forward * groundCheckDistance, groundCheckRadius, ~playerLayer))
-        {
-            return true;
-        }
-        if (Physics.CheckSphere(transform.position - transform.forward * groundCheckDistance, groundCheckRadius, ~playerLayer))
-        {
-            return true;
-        }
-        if (Physics.CheckSphere(transform.position + transform.right * groundCheckDistance, groundCheckRadius, ~playerLayer))
-        {
-            return true;
-        }
-        if (Physics.CheckSphere(transform.position - transform.right * groundCheckDistance, groundCheckRadius, ~playerLayer))
-        {
-            return true;
-        }
-        return false;
     }
 
     public void GoDie() => StartCoroutine(Die());
@@ -494,6 +538,7 @@ public class CC_PlayerController : MonoBehaviour
 
         canvas.SetActive(true);
         controller.enabled = true;
+        currentState = CharacterState.Grounded;
         died = false;
     }
 
@@ -507,14 +552,21 @@ public class CC_PlayerController : MonoBehaviour
         playerInput.actions.FindAction("QuickCloseBook").Enable();
     }
 
+    private void UnlockClimbing()
+    {
+        climbingUnlocked = true;
+        GrandTemple.OnRingExtended -= UnlockClimbing;
+        GrandTemple.OnRingExtended += UnlockBasket;
+    }
+
+    private void UnlockBasket()
+    {
+        Debug.Log("Unlocked the berry basket!");
+    }
+
     private void OnDrawGizmos()
     {
-        // Groundcheck
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position + transform.forward * groundCheckDistance, groundCheckRadius);
-        Gizmos.DrawWireSphere(transform.position - transform.forward * groundCheckDistance, groundCheckRadius);
-        Gizmos.DrawWireSphere(transform.position + transform.right * groundCheckDistance, groundCheckRadius);
-        Gizmos.DrawWireSphere(transform.position - transform.right * groundCheckDistance, groundCheckRadius);
         Gizmos.DrawWireSphere(transform.position + Vector3.up * drowningHeight, 0.25f);
         // Interaction
         Gizmos.color = Color.cyan;
@@ -523,7 +575,7 @@ public class CC_PlayerController : MonoBehaviour
         Gizmos.color = Color.yellow;
         if (respawnTransform)
         {
-            Gizmos.DrawSphere(respawnTransform.position, groundCheckRadius);
+            Gizmos.DrawSphere(respawnTransform.position, 0.5f);
         }
     }
 }

@@ -99,7 +99,7 @@ public class Creature : MonoBehaviour
 
 
     #region GOAP
-    protected void StartAction()
+    protected virtual void StartAction()
     {
         CurrentAction = currentPlan[0];
 
@@ -280,7 +280,7 @@ public class Creature : MonoBehaviour
             CurrentAction.Reset();
         }
         
-        GetComponent<UnityEngine.AI.NavMeshAgent>().SetDestination(transform.position);
+        GetComponent<NavMeshAgent>().SetDestination(transform.position);
 
         if (showThoughts)
         {

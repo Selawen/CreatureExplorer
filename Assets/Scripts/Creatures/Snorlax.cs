@@ -66,8 +66,6 @@ public class Snorlax : Charger
         Food f = null;
         if (LookForObjects<Food>.TryGetClosestObject(f, transform.position, data.HearingSensitivity, out f) && CurrentAction != fleeAction)
         {
-            Animator animator = GetComponentInChildren<Animator>();
-
             currentTarget = f.gameObject;
             surroundCheck -= CheckForFood;
 

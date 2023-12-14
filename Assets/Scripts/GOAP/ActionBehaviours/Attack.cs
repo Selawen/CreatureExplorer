@@ -34,24 +34,28 @@ public class Attack : NavigatedAction
 
     protected override async void DoAction(GameObject target = null)
     {
-        Task check = CheckDistanceToDestination();
-
-        while (!check.IsCompletedSuccessfully)
-        {
-            // wait a bit before updating
-            await Task.Delay(100);
-            if ((moveAgent.destination - targetTransform.position).sqrMagnitude > 1f)
-            {
-                SetPathDestination();
-            }
-        }
-
         float comparison = 2f;
 
         if (target.TryGetComponent(out NavMeshAgent agent))
         {
             comparison += agent.radius;
         }
+        Task check = CheckDistanceToDestination(comparison);
+
+        while (!check.IsCompletedSuccessfully)
+        {
+            // wait a bit before updating
+            await Task.Delay(100);
+
+            if (creatureDeactivated)
+                return;
+
+            if ((moveAgent.destination - targetTransform.position).sqrMagnitude > 1f)
+            {
+                SetPathDestination();
+            }
+        }
+
 
         // If the torca can't reach target, fail attacking
         if ((target.transform.position - (moveAgent.destination + attackOrigin.localPosition)).magnitude > comparison)
@@ -68,6 +72,9 @@ public class Attack : NavigatedAction
             failed = true;
             return;
         }
+
+        if (creatureDeactivated)
+            return;
 
         ResetNavigation();
 

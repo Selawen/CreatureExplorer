@@ -64,7 +64,7 @@ public abstract class NavigatedAction : Action
 
         targetTransform = null;
 
-        if (moveAgent != null)
+        if (moveAgent.isActiveAndEnabled)
         {
             moveAgent.speed = originalSpeed;
             moveAgent.angularSpeed = originalRotationSpeed;
@@ -108,6 +108,9 @@ public abstract class NavigatedAction : Action
 
     protected void ResetNavigation()
     {
+        if (creatureDeactivated)
+            return;
+
         moveAgent.speed = originalSpeed;
         moveAgent.angularSpeed = originalRotationSpeed;
         moveAgent.acceleration = originalAcceleration;
@@ -123,10 +126,15 @@ public abstract class NavigatedAction : Action
         }
     }
 
-    protected async Task CheckDistanceToDestination()
+    protected async Task CheckDistanceToDestination(float extraMargin = 0)
     {
-        while ((moveAgent.destination - moveAgent.transform.position).magnitude > targetingPrecision)
+        while ((moveAgent.destination - moveAgent.transform.position).magnitude > (targetingPrecision+extraMargin))
         {
+            if (creatureDeactivated)
+            {
+                break;
+            }
+
             await Task.Yield();
         }
     }

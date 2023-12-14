@@ -43,6 +43,8 @@ abstract public class Action : MonoBehaviour
     protected CancellationTokenSource source;
     protected CancellationToken token;
 
+    protected bool creatureDeactivated = true;
+
     public void SetAnimator()
     {
         animator = transform.root.GetComponentInChildren<Animator>();
@@ -50,6 +52,7 @@ abstract public class Action : MonoBehaviour
 
     protected virtual void Awake()
     {
+        creatureDeactivated = false;
         soundPlayer = GetComponentInParent<SoundPlayer>();
 
         failSource = new CancellationTokenSource();
@@ -63,6 +66,8 @@ abstract public class Action : MonoBehaviour
 
     private void OnDisable()
     {
+        creatureDeactivated = true;
+
         failSource.Cancel();
         failSource.Dispose();
         source.Cancel();
@@ -266,6 +271,8 @@ abstract public class Action : MonoBehaviour
             }
         } catch (TaskCanceledException)
         {
+            if (creatureDeactivated)
+                return;
             if (GetComponentInParent<Creature>().LogDebugs)
                 Debug.Log($"{this.name} has finished");
         }
