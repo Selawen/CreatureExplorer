@@ -83,6 +83,7 @@ public class CC_PlayerController : MonoBehaviour
     [SerializeField] private bool pouchUnlocked;
     private bool sprinting;
     private bool crouching;
+    private bool isHurt;
     private bool died = false;
     private MeshRenderer respawnFadeRenderer;
 
@@ -169,6 +170,7 @@ public class CC_PlayerController : MonoBehaviour
                 hurtTimer += Time.deltaTime; 
                 if(hurtTimer >= hurtTime)
                 {
+                    isHurt = false;
                     currentState = CharacterState.Grounded;
                 }
                 break;
@@ -313,19 +315,6 @@ public class CC_PlayerController : MonoBehaviour
         heldThrowable.Interact();
     }
 
-    // This function will be changed and possibly moved to reflect the new interface
-    public void GetRetrieveBerryInput(InputAction.CallbackContext context)
-    {
-        //if(heldThrowable == null && berryPouch != null && berryPouch.GetItemCount() > 0)
-        //{
-        //    heldThrowable = berryPouch.GetItemAtIndex(0);
-        //    heldThrowable.gameObject.SetActive(true);
-        //    heldThrowable.transform.SetParent(throwPoint);
-        //    heldThrowable.Interact();
-        //    heldThrowable.transform.localPosition = Vector3.zero;
-        //    berryPouch.RemoveItemFromInventory(heldThrowable);
-        //}
-    }
 
     private void Move()
     {
@@ -448,7 +437,14 @@ public class CC_PlayerController : MonoBehaviour
 
         if (controller.isGrounded)
         {
-            currentState = CharacterState.Grounded;
+            if (isHurt)
+            {
+                currentState = CharacterState.Hurt;
+            }
+            else
+            {
+                currentState = CharacterState.Grounded;
+            }
             if (Physics.Raycast(transform.position, transform.up * -1, out RaycastHit hit, 1f, ~playerLayer))
             {
                 if(hit.transform.TryGetComponent(out BounceSurface surface))
@@ -469,6 +465,7 @@ public class CC_PlayerController : MonoBehaviour
                     return;
                 }
                 currentState = CharacterState.Hurt;
+                isHurt = true;
                 hurtTimer = 0;
                 return;
             }
@@ -479,7 +476,8 @@ public class CC_PlayerController : MonoBehaviour
     private void Jump()
     {
         verticalSpeed = jumpForce;
-        initialMomentumOnAirtimeStart = controller.velocity.magnitude;
+        Vector2 horizontalVelocity = new Vector2(controller.velocity.x, controller.velocity.z);
+        initialMomentumOnAirtimeStart = horizontalVelocity.magnitude;
     }
 
     private void HandleInteract()
