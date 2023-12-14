@@ -57,6 +57,7 @@ public class BerryPouch : MonoBehaviour
                     berryButton.GetComponentInChildren<Image>().sprite = berry.InventoryGraphic;
                     SpriteState buttonState = berryButton.spriteState;
                     buttonState.highlightedSprite = berry.HoverGraphic;
+                    buttonState.selectedSprite = berry.HoverGraphic;
                     berryButton.spriteState = buttonState;
                     berryButton.onClick.AddListener(()=>
                     {
