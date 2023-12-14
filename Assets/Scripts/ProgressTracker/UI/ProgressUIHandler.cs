@@ -41,7 +41,7 @@ public class ProgressUIHandler : MonoBehaviour
             trackedProgress = trackerReference;
         }
 
-        foreach(LayoutElement element in GetComponentsInChildren<LayoutElement>())
+        foreach(ProgressIcon element in GetComponentsInChildren<ProgressIcon>())
         {
             DestroyImmediate(element.gameObject);
         }
