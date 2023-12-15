@@ -50,6 +50,7 @@ public class CC_PlayerController : MonoBehaviour
     [Header("Death")]
     [SerializeField] private Transform respawnTransform;
     [SerializeField] private float respawnDuration = 0.5f;
+    [SerializeField] private GameObject deathScreen;
     [SerializeField] private GameObject respawnOccluder;
     [SerializeField] private UnityEvent exitCamera;
     [SerializeField] private UnityEvent closeScrapbook;
@@ -109,6 +110,8 @@ public class CC_PlayerController : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
 
         respawnFadeRenderer = Instantiate(respawnOccluder, firstPersonCamera.transform).GetComponent<MeshRenderer>();
+        deathScreen = Instantiate(deathScreen);
+        deathScreen.SetActive(false);
 
         GrandTemple.OnRingExtended += UnlockClimbing;
 
@@ -503,12 +506,16 @@ public class CC_PlayerController : MonoBehaviour
         GameObject canvas = GetComponentInChildren<Canvas>().gameObject;
         canvas.SetActive(false);
         controller.enabled = false;
-        float timer = 0.001f;
+
+        StartCoroutine(deathScreen.GetComponent<RandomMessage>().FadeIn(respawnDuration*0.1f));
+        deathScreen.SetActive(true);
+
+        GetComponent<PlayerCamera>().DeleteCameraRoll();
 
         Material fadeMaterial = respawnFadeRenderer.material;
         Color fadeColor = fadeMaterial.color;
 
-        GetComponent<PlayerCamera>().DeleteCameraRoll();
+        float timer = 0.001f;
 
         // Fade in vision obscurer, move player, then fade it out again
         while (timer < respawnDuration*0.3f)
@@ -527,6 +534,8 @@ public class CC_PlayerController : MonoBehaviour
         else if (playerInput.currentActionMap.name == "Scrapbook")
             closeScrapbook.Invoke();
 
+        StartCoroutine(deathScreen.GetComponent<RandomMessage>().FadeOut(respawnDuration * 0.1f, respawnDuration *0.6f));
+
         while (timer < respawnDuration)
         {
             fadeColor.a = Mathf.InverseLerp(respawnDuration, 0.6f* respawnDuration,timer);
@@ -535,6 +544,8 @@ public class CC_PlayerController : MonoBehaviour
             timer += Time.deltaTime;
             yield return null;
         }
+
+        deathScreen.SetActive(false);
 
         canvas.SetActive(true);
         controller.enabled = true;
