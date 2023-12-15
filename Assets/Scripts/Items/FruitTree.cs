@@ -11,6 +11,8 @@ public class FruitTree : Tree, IBreakable
         }
     }
 
+
+#if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         Color originalGizmoColour = Gizmos.color;
@@ -23,4 +25,5 @@ public class FruitTree : Tree, IBreakable
 
         Gizmos.color = originalGizmoColour;
     }
+#endif
 }
