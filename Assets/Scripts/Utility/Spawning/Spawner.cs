@@ -38,6 +38,7 @@ public abstract class Spawner : MonoBehaviour
             StartCoroutine(SpawnTimer());
     }
 
+#if UNITY_EDITOR
     protected virtual void OnDrawGizmos()
     {
         Color originalColour = Gizmos.color;
@@ -45,4 +46,5 @@ public abstract class Spawner : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, (spawnrange+1)); 
         Gizmos.color = originalColour;
     }
+#endif
 }

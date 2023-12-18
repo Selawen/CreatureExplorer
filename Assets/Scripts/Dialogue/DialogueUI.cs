@@ -1,10 +1,14 @@
-using System.Collections;
 using TMPro;
 using UnityEngine;
 
 public class DialogueUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI textField;
+
+    private void Awake()
+    {
+        gameObject.SetActive(false);
+    }
 
     public void ShowText(string shownText)
     {
@@ -14,7 +18,7 @@ public class DialogueUI : MonoBehaviour
 
     public void HideText()
     {
-        textField.text = "";
+        textField.text = "Dialogue box should be disabled";
         gameObject.SetActive(false);
     }
 }

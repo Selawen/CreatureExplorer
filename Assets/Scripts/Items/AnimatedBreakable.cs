@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AnimatedBreakable : MonoBehaviour, IBreakable
@@ -25,6 +23,8 @@ public class AnimatedBreakable : MonoBehaviour, IBreakable
         broken = true;
     }
 
+
+#if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         Matrix4x4 originalMatrix = Gizmos.matrix;
@@ -41,4 +41,5 @@ public class AnimatedBreakable : MonoBehaviour, IBreakable
         Gizmos.color = originalGizmoColour;
         Gizmos.matrix = originalMatrix;
     }
+#endif
 }
