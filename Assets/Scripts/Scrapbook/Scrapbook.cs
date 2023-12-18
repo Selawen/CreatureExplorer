@@ -24,11 +24,13 @@ public class Scrapbook : MonoBehaviour
 
     [SerializeField] private Image elementsPanel;
     [SerializeField] private GameObject extrasGroup;
+    [SerializeField] private GameObject progressTrackerTab;
 
     [SerializeField] private RectTransform pagesParent;
 
     [SerializeField] private GameObject previousPageButton;
     [SerializeField] private GameObject nextPageButton;
+    [SerializeField] private GameObject progressTrackerButton;
 
     [SerializeField] private ScrapbookPage scrapbookPagePrefab;
     [SerializeField] private PageText textEntryPrefab;
@@ -75,6 +77,16 @@ public class Scrapbook : MonoBehaviour
         extrasGroup.SetActive(true);
     }
 
+    public void ToggleProgressTracker()
+    {
+        if (progressTrackerTab.activeSelf)
+        {
+            CloseTracker();
+            return;
+        }
+        OpenTracker();
+    }
+
     public void GoToNextPage()
     {
         allPages[currentPageIndex].gameObject.SetActive(false);
@@ -116,6 +128,9 @@ public class Scrapbook : MonoBehaviour
 
     private void OpenBookForQuest()
     {
+        CloseTracker();
+        progressTrackerButton.SetActive(false);    
+        
         elementsPanel.gameObject.SetActive(true);
         elementsPanel.color = new Color(1, 1, 1, 0);
         book.transform.localPosition = questDockPosition;
@@ -129,6 +144,8 @@ public class Scrapbook : MonoBehaviour
 
     private void CloseBookForQuest()
     {
+        progressTrackerButton.SetActive(true);
+
         bookQuestButton.onClick.RemoveAllListeners();
         bookQuestButton.gameObject.SetActive(false);
         book.transform.localPosition = menuPosition;
@@ -172,6 +189,27 @@ public class Scrapbook : MonoBehaviour
             newPage.gameObject.SetActive(i == 0);
             allPages[i] = newPage;
         }
+    }
+
+    private void OpenTracker()
+    {
+        progressTrackerTab.SetActive(true);
+        previousPageButton.SetActive(false);
+        nextPageButton.SetActive(false);
+    }
+
+    private void CloseTracker()
+    {
+        progressTrackerTab.SetActive(false); 
+        if (currentPageIndex != 0)
+        {
+            previousPageButton.SetActive(true);
+        }
+        if (currentPageIndex + 1 != allPages.Length)
+        {
+            nextPageButton.SetActive(true);
+        }
+
     }
 
 }
