@@ -36,7 +36,7 @@ public class DialogueTrigger : MonoBehaviour, IDialogue
     private void OnDrawGizmos()
     {
         Matrix4x4 originalMatrix = Gizmos.matrix;
-        Gizmos.matrix = Matrix4x4.TRS(transform.position, transform.rotation, transform.lossyScale);
+        Gizmos.matrix = Matrix4x4.TRS(transform.position, transform.rotation, Vector3.one);
 
         Color originalGizmoColour = Gizmos.color;
         Gizmos.color = gizmoColour;
