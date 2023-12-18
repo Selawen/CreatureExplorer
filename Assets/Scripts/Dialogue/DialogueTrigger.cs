@@ -3,7 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public class DialogueTrigger : MonoBehaviour, IDialogue
 {
-    [SerializeField] private string dialogueText;
+    [SerializeField] private string[] dialogueText;
     [SerializeField] private bool showOnce;
     [SerializeField] private bool hideOnExit;
 
@@ -13,33 +13,22 @@ public class DialogueTrigger : MonoBehaviour, IDialogue
 
     [ShowOnly] private bool hasBeenShown;
 
-    public string DialogueText()
-    {
-        return dialogueText;
-    }
+    public string[] DialogueText => dialogueText;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!showOnce || (showOnce && !hasBeenShown))
+        if ((!showOnce || (showOnce && !hasBeenShown))&& other.TryGetComponent(out CC_PlayerController player))
         {
-            DialogueUI textCanvas = other.GetComponentInChildren<DialogueUI>(true);
-            if (textCanvas != null)
-            {
-                textCanvas.ShowText(dialogueText);
-                hasBeenShown = true;
-            }
+            DialogueUI.ShowText(dialogueText);
+            hasBeenShown = true;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (hideOnExit)
+        if (hideOnExit && other.TryGetComponent(out CC_PlayerController player))
         {
-            DialogueUI textCanvas = other.GetComponentInChildren<DialogueUI>();
-            if (textCanvas != null)
-            {
-                textCanvas.HideText();
-            }
+            DialogueUI.HideText();
         }
     }
 

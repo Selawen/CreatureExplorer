@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4498397845905375313}
   - component: {fileID: 516953860060025027}
   m_Layer: 0
-  m_Name: AngryBerry
+  m_Name: Snail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36,8 +36,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 132, y: 67}
-  m_SizeDelta: {x: 170.975, y: 208.2986}
+  m_AnchoredPosition: {x: 58.423, y: -251.2456}
+  m_SizeDelta: {x: 353.16, y: 177.5004}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &516953860060025027
 MonoBehaviour:
@@ -53,7 +53,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   iconImage: {fileID: 5027848897951119011}
   iconText: {fileID: 3228538834651530679}
-  path: Vegetation/Anger Berry/stickyberry
+  path: Creatures/Snail/snail
 --- !u!1 &2896596364234934868
 GameObject:
   m_ObjectHideFlags: 0
@@ -89,8 +89,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -17.1893, y: -20.9418}
-  m_SizeDelta: {x: 34.3787, y: 41.8835}
+  m_AnchoredPosition: {x: -21.81488, y: 10.964294}
+  m_SizeDelta: {x: 43.6297, y: 21.9286}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7842216370741144089
 CanvasRenderer:
@@ -120,7 +120,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b2613b86dd062bf4d97221716ed16883, type: 3}
+  m_Sprite: {fileID: 21300000, guid: cb1cacc8418d4ec4bb7b6266a21ee68e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -130,7 +130,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!1 &3402947394378579322
+--- !u!1 &6462092382999892994
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -138,181 +138,51 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5026147648165556856}
-  - component: {fileID: 7448017929454706724}
-  m_Layer: 0
-  m_Name: SleepyBerry
+  - component: {fileID: 7300304126850796023}
+  - component: {fileID: 1112164403188379914}
+  - component: {fileID: 5596418087097884138}
+  m_Layer: 2
+  m_Name: PageTitle (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &5026147648165556856
+--- !u!224 &7300304126850796023
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3402947394378579322}
+  m_GameObject: {fileID: 6462092382999892994}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 2448017191232453873}
-  - {fileID: 1765402566168753048}
+  m_Children: []
   m_Father: {fileID: 8790882407644943619}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 77.83, y: -216}
-  m_SizeDelta: {x: 279.3144, y: 226.0101}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 58.422, y: -445.27}
+  m_SizeDelta: {x: 353.16, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &7448017929454706724
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3402947394378579322}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 604b36426147bbb4586507c4964bd3dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  iconImage: {fileID: 4436337413171820584}
-  iconText: {fileID: 1090548373218395256}
-  path: Vegetation/Sleepy Berry/sleepyberry
---- !u!1 &3733533597622163574
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2448017191232453873}
-  - component: {fileID: 9042964187563975989}
-  - component: {fileID: 4436337413171820584}
-  m_Layer: 0
-  m_Name: Image
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &2448017191232453873
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3733533597622163574}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5026147648165556856}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &9042964187563975989
+--- !u!222 &1112164403188379914
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3733533597622163574}
+  m_GameObject: {fileID: 6462092382999892994}
   m_CullTransparentMesh: 1
---- !u!114 &4436337413171820584
+--- !u!114 &5596418087097884138
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3733533597622163574}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 037959f3dc6d6df409852cd2fbfadcec, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!1 &6492920592211232603
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1765402566168753048}
-  - component: {fileID: 5436031965326743407}
-  - component: {fileID: 1090548373218395256}
-  m_Layer: 0
-  m_Name: Text (TMP)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!224 &1765402566168753048
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6492920592211232603}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5026147648165556856}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 25}
-  m_SizeDelta: {x: 200, y: 50}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &5436031965326743407
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6492920592211232603}
-  m_CullTransparentMesh: 1
---- !u!114 &1090548373218395256
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6492920592211232603}
+  m_GameObject: {fileID: 6462092382999892994}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
@@ -326,7 +196,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: ???
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7335574328b6c6a4b971beb0deb13d8e, type: 2}
   m_sharedMaterial: {fileID: -67544378600376116, guid: 7335574328b6c6a4b971beb0deb13d8e,
@@ -336,8 +206,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4282665071
+  m_fontColor: {r: 0.43529415, g: 0.28235295, b: 0.26666668, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -354,12 +224,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50
+  m_fontSize: 100
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 200
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -542,12 +412,22 @@ PrefabInstance:
     - target: {fileID: 139040250186555275, guid: 36eacb12f3c942b4fbf042d52d3c33eb,
         type: 3}
       propertyPath: m_text
-      value: Berries
+      value: ???
       objectReference: {fileID: 0}
     - target: {fileID: 2344146868187466192, guid: 36eacb12f3c942b4fbf042d52d3c33eb,
         type: 3}
       propertyPath: m_Name
-      value: BerryProgressPage
+      value: AmbientCreaturesProgressPage
+      objectReference: {fileID: 0}
+    - target: {fileID: 3136084441565018891, guid: 36eacb12f3c942b4fbf042d52d3c33eb,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 240.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 3136084441565018891, guid: 36eacb12f3c942b4fbf042d52d3c33eb,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -114.88
       objectReference: {fileID: 0}
     - target: {fileID: 3798068814305032330, guid: 36eacb12f3c942b4fbf042d52d3c33eb,
         type: 3}
@@ -562,27 +442,27 @@ PrefabInstance:
     - target: {fileID: 3951714547734720221, guid: 36eacb12f3c942b4fbf042d52d3c33eb,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 197.83
+      value: 240.2423
       objectReference: {fileID: 0}
     - target: {fileID: 3951714547734720221, guid: 36eacb12f3c942b4fbf042d52d3c33eb,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 322.4357
+      value: 295.2691
       objectReference: {fileID: 0}
     - target: {fileID: 3951714547734720221, guid: 36eacb12f3c942b4fbf042d52d3c33eb,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -117
+      value: -114.88
       objectReference: {fileID: 0}
     - target: {fileID: 3951714547734720221, guid: 36eacb12f3c942b4fbf042d52d3c33eb,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 47
+      value: 92.365
       objectReference: {fileID: 0}
     - target: {fileID: 4921840292522404460, guid: 36eacb12f3c942b4fbf042d52d3c33eb,
         type: 3}
       propertyPath: path
-      value: Vegetation/Normal Berry/berryPlant
+      value: Creatures/Kwadder/kwadder
       objectReference: {fileID: 0}
     - target: {fileID: 5767093989679346393, guid: 36eacb12f3c942b4fbf042d52d3c33eb,
         type: 3}
@@ -698,12 +578,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: c0cbfa742a2d1b243bfd8fae94a7f599,
+      objectReference: {fileID: 21300000, guid: 98987d9df4393cb479cef1e5ec6f52c0,
         type: 3}
     - target: {fileID: 9008654936372901254, guid: 36eacb12f3c942b4fbf042d52d3c33eb,
         type: 3}
       propertyPath: m_Name
-      value: NormalBerry
+      value: Kwadder
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 36eacb12f3c942b4fbf042d52d3c33eb, type: 3}
