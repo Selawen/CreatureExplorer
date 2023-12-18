@@ -5,6 +5,7 @@ public class OnMeshSpawner : Spawner
 {
     [SerializeField] private MeshFilter spawnOn;
     [SerializeField] private float distanceFromMesh = 0;
+    [SerializeField] private bool rotateWithMesh;
 
     private MeshCollider spawnCollider;
 
@@ -34,9 +35,18 @@ public class OnMeshSpawner : Spawner
         // TODO: figure out better way to have objects spawn on mesh (not inside)
         Vector3 spawnpos = transform.position + new Vector3(Random.Range(-spawnrange, spawnrange), Random.Range(-spawnrange, spawnrange), Random.Range(-spawnrange, spawnrange))*10;
         Vector3 spawnPoint = spawnCollider.ClosestPoint(spawnpos);
+        
+        Quaternion spawnRotation = transform.rotation;
+
+        if (rotateWithMesh)
+        {
+            spawnRotation.SetLookRotation(Vector3.forward, spawnPoint - transform.position);
+        }
+        
         spawnPoint = transform.position + (spawnPoint - transform.position) * (1+distanceFromMesh);
 
-        Instantiate(spawnedObject, spawnPoint, transform.rotation, transform);
+
+        Instantiate(spawnedObject, spawnPoint,spawnRotation, transform);
     }
 
     protected override void OnDrawGizmos()
