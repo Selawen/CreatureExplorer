@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3468446685494084381
+--- !u!1 &3826674211892935102
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,47 +8,49 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4281152271060949415}
-  - component: {fileID: 920545063405016578}
-  - component: {fileID: 3108215547161879240}
-  - component: {fileID: 739179798360810116}
+  - component: {fileID: 4490303539636527876}
+  - component: {fileID: 720321755955719329}
+  - component: {fileID: 3322512603303450731}
+  - component: {fileID: -4988765610602848725}
+  - component: {fileID: 3012115541477962270}
+  - component: {fileID: 2668819456132066811}
   m_Layer: 0
-  m_Name: Flower_TALL2
+  m_Name: Flower5_TALL3a
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4281152271060949415
+--- !u!4 &4490303539636527876
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3468446685494084381}
+  m_GameObject: {fileID: 3826674211892935102}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.10848713, y: 0, z: 0.9788406}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &920545063405016578
+--- !u!33 &720321755955719329
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3468446685494084381}
-  m_Mesh: {fileID: -5647883086856566168, guid: aed35e1d34fd1ad45a1507653a7697fa, type: 3}
---- !u!23 &3108215547161879240
+  m_GameObject: {fileID: 3826674211892935102}
+  m_Mesh: {fileID: -2342685535274154141, guid: 29f776f76ac2a6f459c9217c40457bc3, type: 3}
+--- !u!23 &3322512603303450731
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3468446685494084381}
+  m_GameObject: {fileID: 3826674211892935102}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -62,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ff862af31850e3445bfd5d91e456fc5d, type: 2}
+  - {fileID: 2100000, guid: ac0cf6840047cc1449ae2790817ebced, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -84,16 +86,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!205 &739179798360810116
+--- !u!205 &-4988765610602848725
 LODGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3468446685494084381}
+  m_GameObject: {fileID: 3826674211892935102}
   serializedVersion: 2
-  m_LocalReferencePoint: {x: 0, y: 0.5728503, z: 0}
-  m_Size: 1.1934956
+  m_LocalReferencePoint: {x: 0, y: 0, z: 0}
+  m_Size: 1
   m_FadeMode: 0
   m_AnimateCrossFading: 0
   m_LastLODIsBillboard: 0
@@ -101,8 +103,36 @@ LODGroup:
   - screenRelativeHeight: 0.02
     fadeTransitionWidth: 0
     renderers:
-    - renderer: {fileID: 3108215547161879240}
+    - renderer: {fileID: 3322512603303450731}
   - screenRelativeHeight: 0.02
     fadeTransitionWidth: 0
     renderers: []
   m_Enabled: 1
+--- !u!114 &3012115541477962270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3826674211892935102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d61bc7dc05c0ce44b9240530be9c6aa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <QuestObjectID>k__BackingField: flower5
+  <GivenName>k__BackingField: 
+  <GivenDescription>k__BackingField: 
+--- !u!135 &2668819456132066811
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3826674211892935102}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5957103
+  m_Center: {x: -0.002733171, y: 0.5395504, z: 0.020422488}

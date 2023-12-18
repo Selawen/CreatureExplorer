@@ -12,8 +12,10 @@ GameObject:
   - component: {fileID: 7078556175641065178}
   - component: {fileID: 5033021208131224080}
   - component: {fileID: 3097692592745715366}
+  - component: {fileID: 2424645004401558617}
+  - component: {fileID: 5287109471065684906}
   m_Layer: 0
-  m_Name: Flower_MID2
+  m_Name: Flower2_MID2b
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41,7 +43,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6834245898219086789}
-  m_Mesh: {fileID: -10624515218340213, guid: af420a65e4d852f4da1c9d29f1f9df0f, type: 3}
+  m_Mesh: {fileID: 3787831989578198672, guid: b17afb82f59bd7d498b91f2bcc1d6a67, type: 3}
 --- !u!23 &5033021208131224080
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -107,3 +109,31 @@ LODGroup:
     fadeTransitionWidth: 0
     renderers: []
   m_Enabled: 1
+--- !u!135 &2424645004401558617
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6834245898219086789}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.21435824
+  m_Center: {x: 0.0032495558, y: 0.21170011, z: 0.0026780814}
+--- !u!114 &5287109471065684906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6834245898219086789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d61bc7dc05c0ce44b9240530be9c6aa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <QuestObjectID>k__BackingField: flower2
+  <GivenName>k__BackingField: 
+  <GivenDescription>k__BackingField: 

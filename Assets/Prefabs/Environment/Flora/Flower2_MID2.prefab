@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7771109732555285364
+--- !u!1 &6834245898219086789
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,47 +8,49 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6959002109991303630}
-  - component: {fileID: 6286053219763664491}
-  - component: {fileID: 8131384714388193953}
-  - component: {fileID: -5241567879491726216}
+  - component: {fileID: 6166499655031241087}
+  - component: {fileID: 7078556175641065178}
+  - component: {fileID: 5033021208131224080}
+  - component: {fileID: 3097692592745715366}
+  - component: {fileID: 1211212512794420575}
+  - component: {fileID: 7675785523083737821}
   m_Layer: 0
-  m_Name: Flower_MID1A
+  m_Name: Flower2_MID2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6959002109991303630
+--- !u!4 &6166499655031241087
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7771109732555285364}
+  m_GameObject: {fileID: 6834245898219086789}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.017569542, y: 0, z: 3.376979}
+  m_LocalPosition: {x: 0.07584095, y: 0, z: 2.1430151}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &6286053219763664491
+--- !u!33 &7078556175641065178
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7771109732555285364}
-  m_Mesh: {fileID: -8643716417950257421, guid: 3191c7ad04b7a27488556d944fe00cd6, type: 3}
---- !u!23 &8131384714388193953
+  m_GameObject: {fileID: 6834245898219086789}
+  m_Mesh: {fileID: -4834039394156950262, guid: c2a2f975bae0d304290a255b7310d783, type: 3}
+--- !u!23 &5033021208131224080
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7771109732555285364}
+  m_GameObject: {fileID: 6834245898219086789}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -62,8 +64,8 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a2c339eb6c7be86408936ef01b2bc437, type: 2}
   - {fileID: 2100000, guid: 9cfe589aadccc19449096386077932a5, type: 2}
+  - {fileID: 2100000, guid: a2c339eb6c7be86408936ef01b2bc437, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -85,16 +87,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!205 &-5241567879491726216
+--- !u!205 &3097692592745715366
 LODGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7771109732555285364}
+  m_GameObject: {fileID: 6834245898219086789}
   serializedVersion: 2
-  m_LocalReferencePoint: {x: 0.034659058, y: 0.28354177, z: 0.0062294006}
-  m_Size: 0.6227756
+  m_LocalReferencePoint: {x: -0.017408222, y: 0.24798745, z: -0.012027875}
+  m_Size: 0.51339436
   m_FadeMode: 0
   m_AnimateCrossFading: 0
   m_LastLODIsBillboard: 0
@@ -102,8 +104,36 @@ LODGroup:
   - screenRelativeHeight: 0.02
     fadeTransitionWidth: 0
     renderers:
-    - renderer: {fileID: 8131384714388193953}
+    - renderer: {fileID: 5033021208131224080}
   - screenRelativeHeight: 0.02
     fadeTransitionWidth: 0
     renderers: []
   m_Enabled: 1
+--- !u!135 &1211212512794420575
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6834245898219086789}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.26388112
+  m_Center: {x: -0.017895415, y: 0.25492766, z: -0.012364484}
+--- !u!114 &7675785523083737821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6834245898219086789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d61bc7dc05c0ce44b9240530be9c6aa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <QuestObjectID>k__BackingField: flower2
+  <GivenName>k__BackingField: 
+  <GivenDescription>k__BackingField: 
