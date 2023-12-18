@@ -6,7 +6,11 @@ using UnityEngine.InputSystem;
 public class DialogueUI : MonoBehaviour
 {
     public static DialogueUI Instance;
-    [SerializeField] private static TextMeshProUGUI textField;
+
+    [SerializeField] private GameObject shownUI;
+    private static GameObject UIObject;
+
+    private static TextMeshProUGUI textField;
 
     private static string[] dialogueStrings;
     private static int dialogueIndex = 0;
@@ -15,14 +19,18 @@ public class DialogueUI : MonoBehaviour
     {
         Instance = this;
         textField = GetComponentInChildren<TextMeshProUGUI>();
+        if (UIObject == null)
+        {
+            UIObject = shownUI;
+        }
         dialogueStrings = new string[0];
-        gameObject.SetActive(false);
+        UIObject.SetActive(false);
     }
 
     public static void ShowText(string shownText)
     {
         textField.text = shownText;
-        Instance.gameObject.SetActive(true);
+        UIObject.SetActive(true);
     }
 
     public static void ShowText(string[] shownTexts)
@@ -36,13 +44,13 @@ public class DialogueUI : MonoBehaviour
         {
             textField.text = "Something went wrong";
         }
-        Instance.gameObject.SetActive(true);
+        UIObject.SetActive(true);
     }
 
     public static void HideText()
     {
         textField.text = "Dialogue box should be disabled";
-        Instance.gameObject.SetActive(false);
+        UIObject.SetActive(false);
     }
 
     public void GetContinueInput(InputAction.CallbackContext context)
