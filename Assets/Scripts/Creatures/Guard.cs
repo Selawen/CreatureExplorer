@@ -22,6 +22,7 @@ public class Guard : Torca
         patrolTarget.transform.position = patrolPoints[patrolIndex];
         currentTarget = patrolTarget;
         base.Start();
+        surroundCheck = new CheckSurroundings(CheckForFood);
     }
 
     protected override void FixedUpdate()
@@ -51,7 +52,7 @@ public class Guard : Torca
     /// <summary>
     /// Checks for food in neighbourhood and ups the hunger value with the amount of food nearby
     /// </summary>
-    protected override void CheckForFood()
+    public override void CheckForFood()
     {
         int foodcount = 0;
         foreach (Collider c in Physics.OverlapSphere(transform.position, data.HearingSensitivity * CurrentAction.Awareness))

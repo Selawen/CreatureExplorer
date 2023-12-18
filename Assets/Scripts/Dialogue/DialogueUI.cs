@@ -8,12 +8,14 @@ public class DialogueUI : MonoBehaviour
     public static DialogueUI Instance;
     [SerializeField] private static TextMeshProUGUI textField;
 
-    private static string[] dialogueStrings = null;
+    private static string[] dialogueStrings;
     private static int dialogueIndex = 0;
 
     private void Awake()
     {
         Instance = this;
+        textField = GetComponentInChildren<TextMeshProUGUI>();
+        dialogueStrings = new string[0];
         gameObject.SetActive(false);
     }
 
@@ -25,9 +27,15 @@ public class DialogueUI : MonoBehaviour
 
     public static void ShowText(string[] shownTexts)
     {
-        dialogueIndex = 0;
-        dialogueStrings = shownTexts;
-        textField.text = shownTexts[0];
+        if (shownTexts.Length > 0)
+        {
+            dialogueIndex = 0;
+            dialogueStrings = shownTexts;
+            textField.text = shownTexts[0];
+        } else
+        {
+            textField.text = "Something went wrong";
+        }
         Instance.gameObject.SetActive(true);
     }
 
@@ -39,6 +47,11 @@ public class DialogueUI : MonoBehaviour
 
     public void GetContinueInput(InputAction.CallbackContext context)
     {
+        if (dialogueStrings.Length< 1)
+        {
+            return;
+        }
+
         dialogueIndex += context.started? 1:0;
         if (dialogueIndex < dialogueStrings.Length)
         {

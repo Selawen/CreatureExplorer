@@ -57,7 +57,8 @@ public class Scrapbook : MonoBehaviour
     }
     private void Start()
     {
-        ClosePages();
+        ClosePages(); 
+        CloseTracker();
     }
 
     public void ClosePages()

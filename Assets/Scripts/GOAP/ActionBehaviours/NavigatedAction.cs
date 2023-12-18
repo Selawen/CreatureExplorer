@@ -64,7 +64,7 @@ public abstract class NavigatedAction : Action
 
         targetTransform = null;
 
-        if (moveAgent.isActiveAndEnabled)
+        if (moveAgent != null && moveAgent.isActiveAndEnabled)
         {
             moveAgent.speed = originalSpeed;
             moveAgent.angularSpeed = originalRotationSpeed;
