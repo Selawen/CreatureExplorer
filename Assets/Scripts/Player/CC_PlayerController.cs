@@ -27,6 +27,8 @@ public class CC_PlayerController : MonoBehaviour
     [SerializeField] private float sprintingLoudness = 2.5f;
 
     [Header("Settings")]
+    [Tooltip("The amount of distance the player can be removed from the ground and still jump")]
+    [SerializeField] private float jumpRadius = 0.25f;
     [SerializeField] private float crouchHeight = 1.2f;
     [SerializeField] private float maxSprintAngle = 15f;
     [SerializeField] private float maxViewAngle = 70f;
@@ -82,8 +84,11 @@ public class CC_PlayerController : MonoBehaviour
     // This is serialized only for debugging purposes
     [SerializeField] private bool climbingUnlocked;
     [SerializeField] private bool pouchUnlocked;
+
+    private bool climbing;
     private bool sprinting;
     private bool crouching;
+    private bool jumping;
     private bool isHurt;
     private bool died = false;
     private MeshRenderer respawnFadeRenderer;
@@ -143,7 +148,7 @@ public class CC_PlayerController : MonoBehaviour
             playerInput.SwitchCurrentActionMap("Overworld");
             currentState = CharacterState.Grounded;
         };
-
+        jumpRadius += controller.skinWidth;
     }
 
     private void Start()
@@ -165,6 +170,15 @@ public class CC_PlayerController : MonoBehaviour
             StartCoroutine(Die());
             return;
         }
+
+        if (controller.isGrounded && verticalSpeed < 0)
+            verticalSpeed = 0;
+
+        if (Physics.Raycast(transform.position + Vector3.up * 0.15f, Vector3.up * -1f, out RaycastHit hit,0.25f , ~playerLayer, QueryTriggerInteraction.Ignore))
+        {
+            transform.position = hit.point;
+        }
+
         switch (currentState)
         {
             case CharacterState.Hurt:
@@ -190,11 +204,20 @@ public class CC_PlayerController : MonoBehaviour
                 break;
         }
 
+
         if (!died)
         {
-            controller.Move((moveDirection + verticalSpeed * Vector3.up) * Time.deltaTime);
+            controller.Move(moveDirection * Time.deltaTime);
+            if (!climbing)
+            {
+                controller.Move(verticalSpeed * Time.deltaTime * Vector3.up);
+            }
+            //controller.Move((moveDirection + verticalSpeed * Vector3.up) * Time.deltaTime);
+            //controller.SimpleMove(Vector3.zero);
         }
 
+        float gravity = 9.81f * Time.deltaTime;
+        verticalSpeed -= gravity;
     }
 
     public void SetRotationSpeed(float newSpeed) => rotationSpeed = newSpeed;
@@ -249,9 +272,9 @@ public class CC_PlayerController : MonoBehaviour
 
     public void GetJumpInput(InputAction.CallbackContext context)
     {
-        if(currentState == CharacterState.Grounded && context.performed)
+        if (context.performed && !jumping)
         {
-            Jump();
+            StartCoroutine(Jump());
         }
     }
 
@@ -321,11 +344,16 @@ public class CC_PlayerController : MonoBehaviour
 
     private void Move()
     {
-        if (!controller.isGrounded)
+        if (!Physics.CheckSphere(transform.position, jumpRadius, ~playerLayer))
         {
+            // For some reason, this doesn't work anymore
+
+            //Vector2 horizontalVelocity = new Vector2(controller.velocity.x, controller.velocity.z);
+            //initialMomentumOnAirtimeStart = horizontalVelocity.magnitude;
+            //Debug.Log(initialMomentumOnAirtimeStart);
+
+            initialMomentumOnAirtimeStart = sprinting ? sprintSpeed : walkSpeed;
             currentState = CharacterState.Aerial;
-            Vector2 horizontalVelocity = new Vector2(controller.velocity.x, controller.velocity.z);
-            initialMomentumOnAirtimeStart = horizontalVelocity.magnitude;
             return;
         }
         if (moveInput.sqrMagnitude > 0.1f)
@@ -353,11 +381,12 @@ public class CC_PlayerController : MonoBehaviour
 
     private void MoveHurt()
     {
-        if (!controller.isGrounded)
+        if (!Physics.CheckSphere(transform.position, jumpRadius, ~playerLayer))
         {
             currentState = CharacterState.Aerial;
-            Vector2 horizontalVelocity = new Vector2(controller.velocity.x, controller.velocity.z);
-            initialMomentumOnAirtimeStart = horizontalVelocity.magnitude;
+            //Vector2 horizontalVelocity = new Vector2(controller.velocity.x, controller.velocity.z);
+            //initialMomentumOnAirtimeStart = horizontalVelocity.magnitude;
+            initialMomentumOnAirtimeStart = hurtWalkingSpeed;
             return;
         }
         if (moveInput.sqrMagnitude > 0.1f)
@@ -390,20 +419,17 @@ public class CC_PlayerController : MonoBehaviour
                 return;
             }
             moveDirection = moveInput.y * climbSpeed * transform.up;
+            controller.Move(moveDirection);
         }
         else
         {
             moveDirection = Vector3.zero;
+            controller.Move(moveDirection);
         }
     }
 
     private void Fall()
     {
-        float gravity = 9.81f * Time.deltaTime;
-        if (controller.velocity.y > -0.5f)
-            verticalSpeed = controller.velocity.y - gravity;
-        else
-            verticalSpeed -= gravity;
 
         if (moveInput.sqrMagnitude > 0.1f)
         {
@@ -454,6 +480,7 @@ public class CC_PlayerController : MonoBehaviour
                 {
                     if(surface.Bounce(verticalSpeed * -1, out float exitForce))
                     {
+                        //controller.Move(Vector3.up * exitForce);
                         verticalSpeed = exitForce;
                         return;
                     }
@@ -472,15 +499,24 @@ public class CC_PlayerController : MonoBehaviour
                 hurtTimer = 0;
                 return;
             }
-            verticalSpeed = -1f;
+            //verticalSpeed = 0f;
         }
     }
 
-    private void Jump()
+    private IEnumerator Jump()
     {
-        verticalSpeed = jumpForce;
-        Vector2 horizontalVelocity = new Vector2(controller.velocity.x, controller.velocity.z);
-        initialMomentumOnAirtimeStart = horizontalVelocity.magnitude;
+        float gravityValue = -9.81f;
+        if (Physics.CheckSphere(transform.position, jumpRadius, ~playerLayer) && !jumping)
+        {
+            jumping = true;
+            verticalSpeed += Mathf.Sqrt(jumpForce * -gravityValue);
+            while(verticalSpeed > 0)
+            {
+                yield return null;
+            }
+            jumping = false;
+        }
+
     }
 
     private void HandleInteract()
@@ -538,7 +574,8 @@ public class CC_PlayerController : MonoBehaviour
     private void StartClimb()
     {
         onInteractPromptChanged?.Invoke("");
-        verticalSpeed = 0;
+        //verticalSpeed = 0;
+        climbing = true;
         moveDirection = Vector3.zero;
         currentState = CharacterState.Climbing;
     }
@@ -548,7 +585,7 @@ public class CC_PlayerController : MonoBehaviour
         died = true;
         moveDirection = Vector3.zero;
         verticalRotation = 0;
-        verticalSpeed = -0.5f;
+        //verticalSpeed = -0.5f;
 
         GameObject canvas = GetComponentInChildren<Canvas>().gameObject;
         canvas.SetActive(false);
@@ -628,6 +665,7 @@ public class CC_PlayerController : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position + Vector3.up * drowningHeight, 0.25f);
+        Gizmos.DrawWireSphere(transform.position, jumpRadius);
         // Interaction
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(transform.position + Vector3.up * interactHeight + interactDistance * transform.forward, interactRadius);
