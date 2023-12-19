@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2804742502753410724}
   - component: {fileID: 74455885943827054}
   - component: {fileID: -5297085628028105326}
+  - component: {fileID: -7460023078221457597}
   m_Layer: 0
   m_Name: Flower_TALL1A
   m_TagString: Untagged
@@ -103,3 +104,16 @@ LODGroup:
     renderers:
     - renderer: {fileID: 74455885943827054}
   m_Enabled: 1
+--- !u!135 &-7460023078221457597
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1875882611850726331}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.6673043
+  m_Center: {x: 0.14772278, y: 0.66827416, z: 0.023633383}

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5036157119489881611}
   - component: {fileID: 7061909740362613441}
   - component: {fileID: 9104280967289712776}
+  - component: {fileID: 1305891299788326424}
   m_Layer: 0
   m_Name: Flower_MID2A
   m_TagString: Untagged
@@ -104,3 +105,16 @@ LODGroup:
     renderers:
     - renderer: {fileID: 7061909740362613441}
   m_Enabled: 1
+--- !u!135 &1305891299788326424
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8718983234257478420}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.26388112
+  m_Center: {x: -0.017895415, y: 0.25492766, z: -0.012364484}

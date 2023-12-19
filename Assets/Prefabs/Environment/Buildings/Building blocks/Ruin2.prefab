@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5905482809821700983}
+  - component: {fileID: -28227700705895437}
   m_Layer: 0
   m_Name: Ruin2
   m_TagString: Untagged
@@ -55,6 +56,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &-28227700705895437
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3531991369288333006}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 2.5651221
+  m_Height: 7.7040033
+  m_Direction: 1
+  m_Center: {x: -1.0215828, y: 1.4728112, z: -2.4178548}
 --- !u!1001 &81824431167096696
 PrefabInstance:
   m_ObjectHideFlags: 0
