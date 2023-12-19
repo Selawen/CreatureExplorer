@@ -49,6 +49,7 @@ public class OnMeshSpawner : Spawner
         Instantiate(spawnedObject, spawnPoint,spawnRotation, transform);
     }
 
+#if UNITY_EDITOR
     protected override void OnDrawGizmos()
     {
         Matrix4x4 originalMatrix = Gizmos.matrix;
@@ -61,4 +62,5 @@ public class OnMeshSpawner : Spawner
 
         Gizmos.matrix = originalMatrix;
     }
+#endif
 }
