@@ -38,6 +38,11 @@ public class Creature : MonoBehaviour
 
     protected virtual void Start()
     {
+        foreach (Collider col in GetComponentsInChildren<Collider>())
+        {
+            Physics.IgnoreCollision(GetComponent<Collider>(), col);
+        }
+
         if (!showThoughts)
         {
             goalText.transform.parent.gameObject.SetActive(false);
@@ -54,7 +59,7 @@ public class Creature : MonoBehaviour
 
         GenerateNewGoal();
 
-        surroundCheck += CheckForFood;
+        surroundCheck = new CheckSurroundings(CheckForFood);
         StartCoroutines();
     }
 
@@ -99,7 +104,7 @@ public class Creature : MonoBehaviour
 
 
     #region GOAP
-    protected void StartAction()
+    protected virtual void StartAction()
     {
         CurrentAction = currentPlan[0];
 
@@ -280,7 +285,7 @@ public class Creature : MonoBehaviour
             CurrentAction.Reset();
         }
         
-        GetComponent<UnityEngine.AI.NavMeshAgent>().SetDestination(transform.position);
+        GetComponent<NavMeshAgent>().SetDestination(transform.position);
 
         if (showThoughts)
         {
@@ -376,13 +381,14 @@ public class Creature : MonoBehaviour
     {
         yield return new WaitForSeconds(data.CheckSurroundingsTimer);
         StartCoroutine(LookAtSurroundings());
-        surroundCheck.Invoke();
+        if (surroundCheck != null)
+            surroundCheck.Invoke();
     }
 
     /// <summary>
     /// Checks for food in neighbourhood and ups the hunger value with the amount of food nearby
     /// </summary>
-    protected virtual void CheckForFood()
+    public virtual void CheckForFood()
     {
         Food f = null;
         int foodcount = LookForObjects<Food>.CheckForObjects(f, transform.position, data.HearingSensitivity).Count;

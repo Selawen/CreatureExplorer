@@ -1,13 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System.Text.RegularExpressions;
 
 public class ProgressDetailIcon : ProgressIcon
 {
     [SerializeField] private string path;
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
         string[] splitPath = path.Split('/');
 

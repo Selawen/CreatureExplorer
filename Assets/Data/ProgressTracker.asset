@@ -15,9 +15,9 @@ MonoBehaviour:
   <ProgressCategories>k__BackingField:
   - <Name>k__BackingField: Creatures
     <ID>k__BackingField: Creatures
-    <UnfinishedIcon>k__BackingField: {fileID: 21300000, guid: 098a2971c1087674b92b2f7cfab64a71,
+    <UnfinishedIcon>k__BackingField: {fileID: 21300000, guid: b1fc591f4941ae24bbd711ee1a8f8639,
       type: 3}
-    <FinishedIcon>k__BackingField: {fileID: 21300000, guid: 5a74b62dc6a77f84395b5ab237161f21,
+    <FinishedIcon>k__BackingField: {fileID: 21300000, guid: a2f7c710f561b06439edfa33744109c2,
       type: 3}
     <DetailPage>k__BackingField: {fileID: 0}
     <Completed>k__BackingField: 0
@@ -171,28 +171,56 @@ MonoBehaviour:
           type: 3}
         <DetailPage>k__BackingField: {fileID: 0}
         <Completed>k__BackingField: 0
-    <TrackedObjects>k__BackingField:
     - <Name>k__BackingField: Kwadder
       <ID>k__BackingField: Kwadder
       <UnfinishedIcon>k__BackingField: {fileID: 21300000, guid: 1bd4ddb3e3d1afa4cb69430186537f1a,
         type: 3}
       <FinishedIcon>k__BackingField: {fileID: 21300000, guid: 4879d9d6586924e46a2f66399a96e240,
         type: 3}
-      <DetailPage>k__BackingField: {fileID: 0}
+      <DetailPage>k__BackingField: {fileID: 4414206258890059875, guid: 2b6fa1ab9380c8a44b0257ab7abba115,
+        type: 3}
       <Completed>k__BackingField: 0
+      <Percentage>k__BackingField: 0
+      <TotalAmount>k__BackingField: 1
+      <PlayerAmount>k__BackingField: 0
+      <Tracked>k__BackingField: []
+      <TrackedObjects>k__BackingField:
+      - <Name>k__BackingField: Kwadder
+        <ID>k__BackingField: kwadder
+        <UnfinishedIcon>k__BackingField: {fileID: 21300000, guid: 98987d9df4393cb479cef1e5ec6f52c0,
+          type: 3}
+        <FinishedIcon>k__BackingField: {fileID: 21300000, guid: 996b2e27f3790044f8789941e6730df0,
+          type: 3}
+        <DetailPage>k__BackingField: {fileID: 0}
+        <Completed>k__BackingField: 0
     - <Name>k__BackingField: Snail
       <ID>k__BackingField: Snail
-      <UnfinishedIcon>k__BackingField: {fileID: 21300000, guid: 4345c715e956984408c326c10314c174,
+      <UnfinishedIcon>k__BackingField: {fileID: 21300000, guid: 739b7269caba633449c1341352287718,
         type: 3}
-      <FinishedIcon>k__BackingField: {fileID: 21300000, guid: 4345c715e956984408c326c10314c174,
+      <FinishedIcon>k__BackingField: {fileID: 21300000, guid: 7bae77978f7153c478089d5595f5bb36,
         type: 3}
-      <DetailPage>k__BackingField: {fileID: 0}
+      <DetailPage>k__BackingField: {fileID: 4414206258890059875, guid: 2b6fa1ab9380c8a44b0257ab7abba115,
+        type: 3}
       <Completed>k__BackingField: 0
+      <Percentage>k__BackingField: 0
+      <TotalAmount>k__BackingField: 1
+      <PlayerAmount>k__BackingField: 0
+      <Tracked>k__BackingField: []
+      <TrackedObjects>k__BackingField:
+      - <Name>k__BackingField: Snail
+        <ID>k__BackingField: snail
+        <UnfinishedIcon>k__BackingField: {fileID: 21300000, guid: cb1cacc8418d4ec4bb7b6266a21ee68e,
+          type: 3}
+        <FinishedIcon>k__BackingField: {fileID: 21300000, guid: f69c28708a69ad347b2403502b046b36,
+          type: 3}
+        <DetailPage>k__BackingField: {fileID: 0}
+        <Completed>k__BackingField: 0
+    <TrackedObjects>k__BackingField: []
   - <Name>k__BackingField: Vegetation
     <ID>k__BackingField: Vegetation
-    <UnfinishedIcon>k__BackingField: {fileID: 21300000, guid: 4471566c87461a848aaff95b855e22f5,
+    <UnfinishedIcon>k__BackingField: {fileID: 21300000, guid: adf35c2eb09226349abd8121eebc31b4,
       type: 3}
-    <FinishedIcon>k__BackingField: {fileID: 21300000, guid: c669197bbed6f144b9740e40895f04e0,
+    <FinishedIcon>k__BackingField: {fileID: 21300000, guid: 6cb015a959734d9488330cba8d0e5c9e,
       type: 3}
     <DetailPage>k__BackingField: {fileID: 0}
     <Completed>k__BackingField: 0
@@ -282,7 +310,7 @@ MonoBehaviour:
       <Tracked>k__BackingField: []
       <TrackedObjects>k__BackingField:
       - <Name>k__BackingField: Normal Berry
-        <ID>k__BackingField: berryplant
+        <ID>k__BackingField: berryPlant
         <UnfinishedIcon>k__BackingField: {fileID: 21300000, guid: c0cbfa742a2d1b243bfd8fae94a7f599,
           type: 3}
         <FinishedIcon>k__BackingField: {fileID: 21300000, guid: dc4cb896441715143bf842d6fc289ec1,
@@ -334,49 +362,42 @@ MonoBehaviour:
         <DetailPage>k__BackingField: {fileID: 0}
         <Completed>k__BackingField: 0
     <TrackedObjects>k__BackingField: []
-  - <Name>k__BackingField: Pictures
-    <ID>k__BackingField: Pictures
-    <UnfinishedIcon>k__BackingField: {fileID: 21300000, guid: dbfd1275042db314d8fbdd134afddbe0,
+  - <Name>k__BackingField: Structures
+    <ID>k__BackingField: Structures
+    <UnfinishedIcon>k__BackingField: {fileID: 21300000, guid: 2b05502f7d227db4780c4af0eb55fafe,
       type: 3}
-    <FinishedIcon>k__BackingField: {fileID: 21300000, guid: cf1960f0ce597604dbd4b372219334c9,
+    <FinishedIcon>k__BackingField: {fileID: 21300000, guid: 208e7cb07f9c94c41a06aa2699c701ab,
       type: 3}
     <DetailPage>k__BackingField: {fileID: 0}
     <Completed>k__BackingField: 0
     <Percentage>k__BackingField: 0
     <TotalAmount>k__BackingField: 1
     <PlayerAmount>k__BackingField: 0
-    <Tracked>k__BackingField:
-    - <Name>k__BackingField: Time Of Day
-      <ID>k__BackingField: Time Of Day
-      <UnfinishedIcon>k__BackingField: {fileID: 21300000, guid: a6c39375dd258204aa76f23fef804eb2,
+    <Tracked>k__BackingField: []
+    <TrackedObjects>k__BackingField:
+    - <Name>k__BackingField: Monument
+      <ID>k__BackingField: monument
+      <UnfinishedIcon>k__BackingField: {fileID: 21300000, guid: 4345c715e956984408c326c10314c174,
         type: 3}
-      <FinishedIcon>k__BackingField: {fileID: 21300000, guid: 391aaa0b581312941b814e87136835b7,
+      <FinishedIcon>k__BackingField: {fileID: 21300000, guid: 093ea67f4f8bdb743961aed76709a6cd,
         type: 3}
       <DetailPage>k__BackingField: {fileID: 0}
       <Completed>k__BackingField: 0
-      <Percentage>k__BackingField: 0
-      <TotalAmount>k__BackingField: 3
-      <PlayerAmount>k__BackingField: 0
-      <Tracked>k__BackingField: []
-      <TrackedObjects>k__BackingField:
-      - <Name>k__BackingField: Day
-        <ID>k__BackingField: Day
-        <UnfinishedIcon>k__BackingField: {fileID: 0}
-        <FinishedIcon>k__BackingField: {fileID: 0}
-        <DetailPage>k__BackingField: {fileID: 0}
-        <Completed>k__BackingField: 0
-      - <Name>k__BackingField: Night
-        <ID>k__BackingField: Night
-        <UnfinishedIcon>k__BackingField: {fileID: 0}
-        <FinishedIcon>k__BackingField: {fileID: 0}
-        <DetailPage>k__BackingField: {fileID: 0}
-        <Completed>k__BackingField: 0
-      - <Name>k__BackingField: Twilight
-        <ID>k__BackingField: Twilight
-        <UnfinishedIcon>k__BackingField: {fileID: 0}
-        <FinishedIcon>k__BackingField: {fileID: 0}
-        <DetailPage>k__BackingField: {fileID: 0}
-        <Completed>k__BackingField: 0
-    <TrackedObjects>k__BackingField: []
+    - <Name>k__BackingField: Statue
+      <ID>k__BackingField: statue
+      <UnfinishedIcon>k__BackingField: {fileID: 21300000, guid: 4345c715e956984408c326c10314c174,
+        type: 3}
+      <FinishedIcon>k__BackingField: {fileID: 21300000, guid: 80df001af5786964a83224fd5524bcc0,
+        type: 3}
+      <DetailPage>k__BackingField: {fileID: 0}
+      <Completed>k__BackingField: 0
+    - <Name>k__BackingField: Temple
+      <ID>k__BackingField: hubtemple
+      <UnfinishedIcon>k__BackingField: {fileID: 21300000, guid: 4345c715e956984408c326c10314c174,
+        type: 3}
+      <FinishedIcon>k__BackingField: {fileID: 21300000, guid: a8da2d0d4890cd740910899ecaab357e,
+        type: 3}
+      <DetailPage>k__BackingField: {fileID: 0}
+      <Completed>k__BackingField: 0
   update: 0
   resetProgress: 0

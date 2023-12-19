@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 7453374320815687206}
   - component: {fileID: 1737242609078936821}
   - component: {fileID: 4528330645407572024}
+  - component: {fileID: 7232240327116111451}
   m_Layer: 0
   m_Name: Sleepy Berry
   m_TagString: Untagged
@@ -45,7 +46,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3931060569965942598}
-  m_Mesh: {fileID: 7857079947831556225, guid: b89461090bca3e049ba304c5a392f66b, type: 3}
+  m_Mesh: {fileID: -2837795847485354643, guid: e52bc14bee638bc4c851304fbf318987, type: 3}
 --- !u!23 &1326022870166508822
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -66,7 +67,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a79830090833d5d479b321f0f08b802b, type: 2}
+  - {fileID: 2100000, guid: a3b23ce09ab7be24caa9c7ab7eebd683, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -110,6 +111,8 @@ MonoBehaviour:
       <StateValue>k__BackingField: 30
   <InteractionPrompt>k__BackingField: Pick up
   splatVelocity: 2
+  inventoryGraphic: {fileID: 21300000, guid: 1da57cacfd902c347ac6287903f8ec7c, type: 3}
+  hoverGraphic: {fileID: 21300000, guid: 615ae8d216722d4408ccf53f2b378c63, type: 3}
 --- !u!114 &4458115600300750904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -171,4 +174,19 @@ MeshCollider:
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: 7857079947831556225, guid: b89461090bca3e049ba304c5a392f66b, type: 3}
+  m_Mesh: {fileID: -2837795847485354643, guid: e52bc14bee638bc4c851304fbf318987, type: 3}
+--- !u!114 &7232240327116111451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3931060569965942598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d61bc7dc05c0ce44b9240530be9c6aa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <QuestObjectID>k__BackingField: sleepyberry
+  <GivenName>k__BackingField: 
+  <GivenDescription>k__BackingField: 

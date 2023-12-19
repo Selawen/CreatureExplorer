@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1172911321426087392}
-  - component: {fileID: 2875025815662617985}
   m_Layer: 0
   m_Name: SleepMushroomClosed
   m_TagString: Untagged
@@ -29,109 +28,133 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7180848818412688459}
+  - {fileID: 3351829596871919772}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!205 &2875025815662617985
+--- !u!1001 &2958493591028920183
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1172911321426087392}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: e52bc14bee638bc4c851304fbf318987,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e52bc14bee638bc4c851304fbf318987,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e52bc14bee638bc4c851304fbf318987,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e52bc14bee638bc4c851304fbf318987,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e52bc14bee638bc4c851304fbf318987,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e52bc14bee638bc4c851304fbf318987,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e52bc14bee638bc4c851304fbf318987,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e52bc14bee638bc4c851304fbf318987,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e52bc14bee638bc4c851304fbf318987,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e52bc14bee638bc4c851304fbf318987,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e52bc14bee638bc4c851304fbf318987,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e52bc14bee638bc4c851304fbf318987,
+        type: 3}
+      propertyPath: m_Name
+      value: SleepMushroomClosed
+      objectReference: {fileID: 0}
+    - target: {fileID: 2095318154047425835, guid: e52bc14bee638bc4c851304fbf318987,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a3b23ce09ab7be24caa9c7ab7eebd683, type: 2}
+    - target: {fileID: 7731816710521952822, guid: e52bc14bee638bc4c851304fbf318987,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a3b23ce09ab7be24caa9c7ab7eebd683, type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e52bc14bee638bc4c851304fbf318987, type: 3}
+--- !u!1 &2724616128616813094 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e52bc14bee638bc4c851304fbf318987,
+    type: 3}
+  m_PrefabInstance: {fileID: 2958493591028920183}
+  m_PrefabAsset: {fileID: 0}
+--- !u!205 &7492796103989302640
 LODGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1949165892924512090}
+  m_GameObject: {fileID: 2724616128616813094}
   serializedVersion: 2
-  m_LocalReferencePoint: {x: 0.000000059604645, y: 0.3948249, z: 0.00703007}
-  m_Size: 0.85000205
+  m_LocalReferencePoint: {x: 0.000000059604645, y: 0.35111573, z: -0.000000059604645}
+  m_Size: 0.77943707
   m_FadeMode: 0
   m_AnimateCrossFading: 0
   m_LastLODIsBillboard: 0
   m_LODs:
-  - screenRelativeHeight: 0.033002313
+  - screenRelativeHeight: 0.20015036
     fadeTransitionWidth: 0
     renderers:
-    - renderer: {fileID: 6586986029127204684}
+    - renderer: {fileID: 3754523235297845852}
+  - screenRelativeHeight: 0.02773972
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 4774449380463441217}
   m_Enabled: 1
---- !u!1 &4476154989767853459
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7180848818412688459}
-  - component: {fileID: 5812242899579338641}
-  - component: {fileID: 6586986029127204684}
-  m_Layer: 0
-  m_Name: sleepmushroomclosed
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7180848818412688459
+--- !u!4 &3351829596871919772 stripped
 Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e52bc14bee638bc4c851304fbf318987,
+    type: 3}
+  m_PrefabInstance: {fileID: 2958493591028920183}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4476154989767853459}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1172911321426087392}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &5812242899579338641
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4476154989767853459}
-  m_Mesh: {fileID: 5057333720576783824, guid: e52bc14bee638bc4c851304fbf318987, type: 3}
---- !u!23 &6586986029127204684
+--- !u!23 &3754523235297845852 stripped
 MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 2095318154047425835, guid: e52bc14bee638bc4c851304fbf318987,
+    type: 3}
+  m_PrefabInstance: {fileID: 2958493591028920183}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4476154989767853459}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 257
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 68fa576d186f4f444ae1a09773f49357, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!23 &4774449380463441217 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 7731816710521952822, guid: e52bc14bee638bc4c851304fbf318987,
+    type: 3}
+  m_PrefabInstance: {fileID: 2958493591028920183}
+  m_PrefabAsset: {fileID: 0}

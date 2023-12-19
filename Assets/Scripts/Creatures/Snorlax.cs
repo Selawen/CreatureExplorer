@@ -15,7 +15,7 @@ public class Snorlax : Charger
     // Start is called before the first frame update
     protected override void Start()
     {
-        surroundCheck += CheckForFood;
+        surroundCheck = new CheckSurroundings(CheckForFood);
         surroundCheck += CheckForPredators;
         surroundCheck += CheckForFleeing;
         StartAction();
@@ -61,13 +61,11 @@ public class Snorlax : Charger
     /// <summary>
     /// Checks for food in neighbourhood and ups the hunger value with the amount of food nearby
     /// </summary>
-    protected override void CheckForFood()
+    public override void CheckForFood()
     {
         Food f = null;
         if (LookForObjects<Food>.TryGetClosestObject(f, transform.position, data.HearingSensitivity, out f) && CurrentAction != fleeAction)
         {
-            Animator animator = GetComponentInChildren<Animator>();
-
             currentTarget = f.gameObject;
             surroundCheck -= CheckForFood;
 
