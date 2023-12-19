@@ -24,8 +24,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 122837238509799219}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.498, z: 0.171}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalPosition: {x: 0, y: 0.297, z: 0.171}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1943980323120537327}
@@ -57,8 +57,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 316981951996950852}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.498, z: 0.171}
-  m_LocalScale: {x: 4.5, y: 4.5, z: 4.5}
+  m_LocalPosition: {x: 0, y: 0.297, z: 0.171}
+  m_LocalScale: {x: 8, y: 8, z: 8}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 4925738121907033561}
@@ -691,13 +691,13 @@ GameObject:
   m_Component:
   - component: {fileID: 4925738121907033561}
   - component: {fileID: 8660825780503582700}
-  - component: {fileID: 1518125737478200660}
   - component: {fileID: 4925738121907033380}
   - component: {fileID: 6043484260848758528}
   - component: {fileID: 1867976098702648571}
   - component: {fileID: 8636512204664125340}
   - component: {fileID: 6161655232539209878}
   - component: {fileID: 2820416536569964663}
+  - component: {fileID: 7731065398703187783}
   m_Layer: 0
   m_Name: Snorlax
   m_TagString: Untagged
@@ -736,19 +736,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32b75e9165e6c2541bbfc64f00d66b33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!135 &1518125737478200660
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4925738121907033565}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!195 &4925738121907033380
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -768,7 +755,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 3
-  m_BaseOffset: 0.5
+  m_BaseOffset: -0.25
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!82 &6043484260848758528
@@ -1013,6 +1000,19 @@ MonoBehaviour:
   - {fileID: 2486740466168521819}
   - {fileID: 5992696898463470304}
   - {fileID: 4027215085850909511}
+--- !u!65 &7731065398703187783
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4925738121907033565}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4, y: 6, z: 11}
+  m_Center: {x: -5, y: 3, z: -1}
 --- !u!1 &8654058553990610225
 GameObject:
   m_ObjectHideFlags: 0
