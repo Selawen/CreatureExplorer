@@ -42,11 +42,13 @@ public class Snorlax : Charger
         base.ReactToThreat(threatPosition, threatLoudness);
 
         Interrupt(fleeAction);
+        GetComponent<Collider>().isTrigger = true;
     }
 
     protected override void ReactToAttack(Vector3 attackPos)
     {
         base.ReactToAttack(attackPos);
+        GetComponent<Collider>().isTrigger = true;
     }
     
     
@@ -71,6 +73,7 @@ public class Snorlax : Charger
 
             Interrupt(moveAction, "", true);
             luredAway = true;
+            GetComponent<Collider>().isTrigger = true;
         }
     }
 }
