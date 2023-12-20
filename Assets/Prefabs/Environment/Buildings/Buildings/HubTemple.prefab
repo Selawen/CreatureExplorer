@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1902806418
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1902806419}
+  m_Layer: 0
+  m_Name: Respawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1902806419
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1902806418}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 162.1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7225709431512509117}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &342925596559214946
 GameObject:
   m_ObjectHideFlags: 0
@@ -484,9 +515,9 @@ MonoBehaviour:
   thirdStageDialogue:
   - You are almost there, there is only one thing left to do.
   - 'You need to tell me the stories of the past. '
-  firstStageRequirement: 2
-  secondStageRequirement: 5
-  thirdStageRequirement: 9
+  firstStageRequirement: 3
+  secondStageRequirement: 6
+  thirdStageRequirement: 10
 --- !u!1 &4329520561332562399
 GameObject:
   m_ObjectHideFlags: 0
@@ -644,6 +675,37 @@ Transform:
   m_Father: {fileID: 7723424399552213849}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6800909131944452253
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3272492002585541196}
+  m_Layer: 0
+  m_Name: Respawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3272492002585541196
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6800909131944452253}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 162.1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7225709431512509117}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8973423585599636147
 GameObject:
   m_ObjectHideFlags: 0
@@ -681,6 +743,8 @@ Transform:
   - {fileID: 6776620707854085697}
   - {fileID: 1272386263155481172}
   - {fileID: 7720971219626315537}
+  - {fileID: 1902806419}
+  - {fileID: 3272492002585541196}
   m_Father: {fileID: 3834200271100959254}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -918,7 +982,7 @@ PrefabInstance:
         type: 3}
       propertyPath: <TitanQuest>k__BackingField
       value: 
-      objectReference: {fileID: 11400000, guid: 40ff932bd8da4e34eb286f207e29edcf,
+      objectReference: {fileID: 11400000, guid: 88ba003c07c3abb438ebbc1801eeb54b,
         type: 2}
     - target: {fileID: 5657093277598853195, guid: 160da9564367dd24499d3039da0e3dbf,
         type: 3}

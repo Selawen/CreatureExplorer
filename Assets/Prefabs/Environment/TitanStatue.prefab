@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 5657093277598853195}
   - component: {fileID: 5657093277598853192}
   - component: {fileID: 5657093277598853194}
+  - component: {fileID: 7943992188716764176}
   m_Layer: 0
   m_Name: TitanStatue
   m_TagString: Untagged
@@ -145,7 +146,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <InteractionPrompt>k__BackingField: Interact (E)
   <TitanQuest>k__BackingField: {fileID: 0}
-  onWrongPicturePresented:
-    m_PersistentCalls:
-      m_Calls: []
   debugSwapMaterial: {fileID: 2100000, guid: 431320574bbd4df4794b645f6c921491, type: 2}
+--- !u!114 &7943992188716764176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5657093277598853193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d61bc7dc05c0ce44b9240530be9c6aa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <QuestObjectID>k__BackingField: Statue
+  <GivenName>k__BackingField: 
+  <GivenDescription>k__BackingField: 
