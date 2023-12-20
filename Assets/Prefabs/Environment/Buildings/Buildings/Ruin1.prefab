@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 4518522394256384847}
   - component: {fileID: 3251312897054626901}
   - component: {fileID: 204511194449677697}
+  - component: {fileID: -4776441847142420592}
   m_Layer: 0
   m_Name: Ruin1
   m_TagString: Untagged
@@ -275,6 +276,21 @@ CapsuleCollider:
   m_Height: 2.7095187
   m_Direction: 1
   m_Center: {x: -6.33, y: 1.192793, z: -6.4}
+--- !u!114 &-4776441847142420592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 755307599304074553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d61bc7dc05c0ce44b9240530be9c6aa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <QuestObjectID>k__BackingField: monument
+  <GivenName>k__BackingField: 
+  <GivenDescription>k__BackingField: 
 --- !u!1001 &30326593256519671
 PrefabInstance:
   m_ObjectHideFlags: 0
