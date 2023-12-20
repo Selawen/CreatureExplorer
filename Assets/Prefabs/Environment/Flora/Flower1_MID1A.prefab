@@ -101,10 +101,13 @@ LODGroup:
   m_AnimateCrossFading: 0
   m_LastLODIsBillboard: 0
   m_LODs:
-  - screenRelativeHeight: 0.03103683
+  - screenRelativeHeight: 0.01
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 8131384714388193953}
+  - screenRelativeHeight: 0.01
+    fadeTransitionWidth: 0
+    renderers: []
   m_Enabled: 1
 --- !u!135 &8545590913480424645
 SphereCollider:
@@ -118,7 +121,7 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.3113878
-  m_Center: {x: 0.034659058, y: 0.28354177, z: 0.0062294006}
+  m_Center: {x: 0, y: 0.4, z: 0}
 --- !u!114 &3108791284427409480
 MonoBehaviour:
   m_ObjectHideFlags: 0
