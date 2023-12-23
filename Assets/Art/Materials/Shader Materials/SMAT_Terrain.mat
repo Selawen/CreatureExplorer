@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: SMAT_Terrain
-  m_Shader: {fileID: -6465566751694194690, guid: 00d4cb4424988f0489950ffeda33837e,
+  m_Shader: {fileID: -6465566751694194690, guid: f094c91529f559e42a5c578710644541,
     type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -34,6 +34,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _BottomAlbedo:
+        m_Texture: {fileID: 2800000, guid: 3c01529d034e5e842babfeff6c8f1638, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BottomNormal:
         m_Texture: {fileID: 2800000, guid: 27bec9729e258324bad97574c8c8c2c1, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -86,25 +90,29 @@ Material:
     m_Floats:
     - _Contrast: 5.1
     - _DirtContrast: 26.9
-    - _DirtNoise: 43.9
-    - _DirtSize: 1.35
+    - _DirtNoise: 55.6
+    - _DirtSize: 1.33
     - _EdgeNoise: 85.8
     - _GrassContrast: 8.5
     - _GrassNoise: 32.33
-    - _Level: 1.22
+    - _Level: 1.05
     - _NoiseStrength: 0.122
+    - _ProjectionContrast: 50
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Smoothness: 0.349
-    - _SmoothnessStrength: 0.204
+    - _SmoothnessStrength: 0.253
     - _Tiling: 0.25
-    - _TopTiling: 0.25
+    - _TopTiling: 0.125
     - _UpNode: 1
     - _test: 4.7
     m_Colors:
+    - _BottomTiling: {r: 0.02, g: 0.02, b: 0, a: 0}
     - _DirtTint: {r: 0.754717, g: 0.754717, b: 0.754717, a: 0}
     - _RockTint: {r: 0.2264151, g: 0.21231756, b: 0.21231756, a: 0}
     - _RotationOffset: {r: 0, g: 1, b: 0, a: 0}
     - _SideTiling: {r: 0.03, g: 0.02, b: 0, a: 0}
+    - _Test2: {r: 1, g: 1, b: 0, a: 0}
     - _Tint: {r: 0.2924528, g: 0.2469295, b: 0.25934497, a: 0}
+    - _test: {r: 0, g: -0.06, b: 0, a: 0}
   m_BuildTextureStacks: []

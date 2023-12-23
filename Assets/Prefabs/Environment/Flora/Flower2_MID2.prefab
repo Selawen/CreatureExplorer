@@ -101,11 +101,11 @@ LODGroup:
   m_AnimateCrossFading: 0
   m_LastLODIsBillboard: 0
   m_LODs:
-  - screenRelativeHeight: 0.02
+  - screenRelativeHeight: 0.01
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 5033021208131224080}
-  - screenRelativeHeight: 0.02
+  - screenRelativeHeight: 0.01
     fadeTransitionWidth: 0
     renderers: []
   m_Enabled: 1
@@ -117,11 +117,11 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6834245898219086789}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.26388112
-  m_Center: {x: -0.017895415, y: 0.25492766, z: -0.012364484}
+  m_Radius: 0.25
+  m_Center: {x: 0, y: 0.35, z: 0}
 --- !u!114 &7675785523083737821
 MonoBehaviour:
   m_ObjectHideFlags: 0

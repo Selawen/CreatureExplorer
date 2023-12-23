@@ -12,6 +12,7 @@ public class TitanStatue : MonoBehaviour, IInteractable
     //[SerializeField] private int ringIndex;
 
     [SerializeField] private Material debugSwapMaterial;
+    [SerializeField] private UnityEvent onQuestCompleted;
 
     private bool questFinished = false;
 
@@ -54,6 +55,7 @@ public class TitanStatue : MonoBehaviour, IInteractable
             Cursor.lockState = CursorLockMode.Locked;
             questFinished = true;
             InteractionPrompt = string.Empty;
+            onQuestCompleted?.Invoke();
 
             PagePicture.OnPictureClicked = null;
             return;
