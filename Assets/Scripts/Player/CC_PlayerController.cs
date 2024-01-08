@@ -41,7 +41,6 @@ public class CC_PlayerController : MonoBehaviour
     [SerializeField] private float interactHeight = 0.875f;
     [SerializeField] private float drowningHeight = 1.6f;
     [SerializeField] private float throwForce = 4f;
-    [SerializeField] private ushort berryPouchSize;
     [SerializeField] private Transform throwPoint;
     [SerializeField] private UnityEvent<string> onInteractPromptChanged;
 
@@ -658,7 +657,6 @@ public class CC_PlayerController : MonoBehaviour
         pouch.Unlock();
         GrandTemple.OnRingExtended -= UnlockBasket;
         GrandTemple.OnRingExtended += UnlockClimbing;
-        Debug.Log("Unlocked the berry basket!");
     }
 
     private void OnDrawGizmos()

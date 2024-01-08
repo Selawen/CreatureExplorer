@@ -24,12 +24,14 @@ public class ClimbingState : State
     {
         if(Physics.Raycast(transform.position, Vector3.up * -1, 0.5f, ~playerLayer) && moveInput.y < 0)
         {
+            transform.SetParent(null);
             Owner.SwitchState(typeof(FallingState));
             return;
         }
         if(!Physics.Raycast(transform.position, transform.forward, 1f, ~playerLayer) && !Physics.Raycast(transform.position + Vector3.up, transform.forward, 1f, ~playerLayer))
         {
             rb.AddForce(transform.forward * 5f, ForceMode.VelocityChange);
+            transform.SetParent(null);
             Owner.SwitchState(typeof(FallingState));
             return;
         }

@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float interactHeight = 0.875f;
     [SerializeField] private float interactionRadius = 1.25f;
     [SerializeField] private float climbDistance = 0.25f;
+    [SerializeField] private float throwForce = 4f;
 
     [SerializeField] private GameSettings gameSettings;
 
@@ -24,7 +25,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private UnityEvent<string> onInteractableFound;
     [SerializeField] private UnityEvent onInteractableOutOfRange;
 
+    [SerializeField] private Transform throwPoint;
+
+    private BerryPouch pouch;
     //[SerializeField] private Camera pictureCamera;
+    private bool climbingUnlocked;
 
     private float verticalRotation;
 
@@ -37,6 +42,7 @@ public class PlayerController : MonoBehaviour
     private PlayerInput playerInput;
 
     private IInteractable interactableInRange;
+    private Throwable heldThrowable;
 
     private void Awake()
     {
@@ -46,6 +52,25 @@ public class PlayerController : MonoBehaviour
 
         playerInput = GetComponent<PlayerInput>();
         Cursor.lockState = CursorLockMode.Locked;
+        pouch = GetComponentInChildren<BerryPouch>();
+
+        GrandTemple.OnRingExtended += UnlockPouch;
+
+        StaticQuestHandler.OnQuestInputDisabled += () =>
+        {
+            playerInput.SwitchCurrentActionMap("Await");
+        };
+
+        StaticQuestHandler.OnQuestOpened += () =>
+        {
+            playerInput.SwitchCurrentActionMap("Scrapbook");
+            onInteractableOutOfRange?.Invoke();
+        };
+        StaticQuestHandler.OnQuestClosed += () =>
+        {
+            playerInput.SwitchCurrentActionMap("Overworld");
+            stateMachine.SwitchState(typeof(WalkingState));
+        };
     }
 
     private void Start()
@@ -104,15 +129,37 @@ public class PlayerController : MonoBehaviour
     {
         if (callbackContext.started && interactableInRange != null)
         {
-            if (interactableInRange.GetType() == typeof(JellyfishLadder))
+            if (interactableInRange.GetType() == typeof(JellyfishLadder) && climbingUnlocked)
             {
+                JellyfishLadder ladder = interactableInRange as JellyfishLadder;
                 onInteractableOutOfRange?.Invoke();
                 stateMachine.SwitchState(typeof(ClimbingState));
+                transform.SetParent(ladder.transform);
+                return;
             }
-            interactableInRange.Interact();
-            
+            if (interactableInRange.GetType() == typeof(Throwable))
+            {
+                Throwable berry = interactableInRange as Throwable;
+                if (heldThrowable == null)
+                {
+                    CarryThrowable(berry);
+                    pouch.HoldingBerry = true;
+                    return;
+                }
+                else if (pouch.AddBerry(berry))
+                {
+                    berry.gameObject.SetActive(false);
+                    return;
+                }
+            }
+            else
+            {
+                interactableInRange.Interact();
+            }
         }
     }
+
+
 
     public void GetRotationInput(InputAction.CallbackContext callbackContext)
     {
@@ -139,6 +186,32 @@ public class PlayerController : MonoBehaviour
 
     public void SetLoudness(float newLoudness) => Loudness = newLoudness;
 
+    public void GetThrowInput(InputAction.CallbackContext context)
+    {
+        if (context.started && heldThrowable != null)
+        {
+            heldThrowable.GetComponent<Rigidbody>().isKinematic = false;
+            heldThrowable.Throw(firstPersonCamera.transform.forward, throwForce);
+            pouch.HoldingBerry = false;
+            heldThrowable = null;
+        }
+    }
+    public void ReceiveRetrievedBerry(Throwable berry)
+    {
+        CarryThrowable(berry);
+    }
+
+    private void CarryThrowable(Throwable throwable)
+    {
+        heldThrowable = throwable;
+        heldThrowable.gameObject.SetActive(true);
+        heldThrowable.transform.SetParent(throwPoint);
+        heldThrowable.transform.rotation = Quaternion.identity;
+        heldThrowable.transform.localPosition = Vector3.zero;
+        heldThrowable.GetComponent<Rigidbody>().isKinematic = true;
+        heldThrowable.Interact();
+    }
+
     private void HandleRotation(Vector2 lookInput)
     { 
         verticalRotation = Mathf.Clamp(verticalRotation - (lookInput.y * gameSettings.LookSensitivity), -maximumViewAngle, maximumViewAngle);
@@ -150,7 +223,6 @@ public class PlayerController : MonoBehaviour
 
         if (stateType != typeof(WalkingState) && stateType != typeof(FallingState) && stateType != typeof(JumpingState))
         {
-            Debug.Log("State is neither walking nor jumping nor falling, returning");
             return;
         }
 
@@ -158,7 +230,7 @@ public class PlayerController : MonoBehaviour
 
         if (Physics.Raycast(transform.position + Vector3.up * interactHeight, transform.forward, out RaycastHit climb, climbDistance, interactionLayers))
         {
-            if (climb.transform.TryGetComponent(out JellyfishLadder ladder))
+            if (climb.transform.TryGetComponent(out JellyfishLadder ladder) && climbingUnlocked)
             {
                 ladder.ContactPoint = climb.point;
                 interactableInRange = ladder;
@@ -200,6 +272,18 @@ public class PlayerController : MonoBehaviour
             return;
         }
         onInteractableOutOfRange?.Invoke();
+    }
+
+    private void UnlockClimb()
+    {
+        climbingUnlocked = true;
+        GrandTemple.OnRingExtended -= UnlockClimb;
+    }
+    private void UnlockPouch()
+    {
+        pouch.Unlock();
+        GrandTemple.OnRingExtended -= UnlockPouch;
+        GrandTemple.OnRingExtended += UnlockClimb;
     }
 
     private void OnDrawGizmos()
