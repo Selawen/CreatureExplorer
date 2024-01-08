@@ -22,7 +22,7 @@ public class WalkingState : State
         rigidbody = GetComponent<Rigidbody>();
         if(strafeSprintSpeed >= sprintSpeed)
         {
-            throw new System.Exception("Strafe Sprint Speed can't be higher than sprint speed! Strafing must be slower than forward sprinting!");
+            throw new System.Exception("Strafe Sprint Speed can't be higher than or as fast as sprint speed! Strafing must be slower than forward sprinting!");
         }
     }
 

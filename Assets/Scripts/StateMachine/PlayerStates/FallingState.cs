@@ -30,7 +30,20 @@ public class FallingState : State
 
     public override void OnStateUpdate()
     {
-        if(Physics.CheckSphere(transform.position, 0.25f, ~playerLayer))
+        if (Physics.Raycast(transform.position, Vector3.up * -1f, out RaycastHit hit, 1f, ~playerLayer))
+        {
+            if (hit.transform.TryGetComponent(out BounceSurface surface))
+            {
+                if (surface.Bounce(rigidbody.velocity.y * -1, out float exitForce))
+                {
+                    //controller.Move(Vector3.up * exitForce);
+                    rigidbody.velocity = new(rigidbody.velocity.x, 0, rigidbody.velocity.z);
+                    rigidbody.AddForce(exitForce * Vector3.up, ForceMode.VelocityChange);
+                    return;
+                }
+            }
+        }
+        if (Physics.CheckSphere(transform.position, 0.25f, ~playerLayer))
         {
             if (rigidbody.velocity.y <= -lethalVelocity)
             {

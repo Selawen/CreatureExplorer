@@ -56,8 +56,6 @@ public class JumpingState : State
 
             Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
 
-            float verticalVelocity = rigidbody.velocity.y;
-
             Vector3 newVelocity = moveDirection.normalized * aerialSpeed;
 
             rigidbody.AddForce(newVelocity, ForceMode.Acceleration);
