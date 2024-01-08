@@ -38,6 +38,7 @@ public class Creature : MonoBehaviour
 
     protected virtual void Start()
     {
+        //GetComponent<NavMeshAgent>().updateUpAxis = false;
         foreach (Collider col in GetComponentsInChildren<Collider>())
         {
             Physics.IgnoreCollision(GetComponent<Collider>(), col);
@@ -66,6 +67,15 @@ public class Creature : MonoBehaviour
     protected virtual void FixedUpdate()
     {
         UpdateValues();
+
+        /*
+        Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit);
+        if (transform.up != hit.normal)
+        {
+            float rotationY = transform.rotation.y;
+            transform.up = hit.normal;
+            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, rotationY, transform.rotation.eulerAngles.z);
+        }*/
 
         if (CurrentAction != null)
         {
