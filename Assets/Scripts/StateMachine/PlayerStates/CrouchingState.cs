@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(Rigidbody), typeof(PhysicsStepper))]
 public class CrouchingState : State
 {
     [SerializeField] private float sneakSpeed = 3f;
@@ -16,6 +16,7 @@ public class CrouchingState : State
     private Vector2 moveInput;
 
     private new Rigidbody rigidbody;
+    private PhysicsStepper stepper;
 
     private CapsuleCollider capsuleCollider;
 
@@ -23,6 +24,8 @@ public class CrouchingState : State
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
+        stepper = GetComponent<PhysicsStepper>();
+
         capsuleCollider = GetComponent<CapsuleCollider>();
 
         standardColliderHeight = capsuleCollider.height;
@@ -83,6 +86,8 @@ public class CrouchingState : State
         {
             float targetAngle = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg + rigidbody.transform.eulerAngles.y;
             Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+
+            stepper.HandleStep(ref rigidbody, moveDirection);
 
             float verticalVelocity = rigidbody.velocity.y;
 

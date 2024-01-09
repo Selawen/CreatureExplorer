@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(Rigidbody), typeof(PhysicsStepper))]
 public class WalkingState : State
 {
     [SerializeField] private float walkSpeed = 5f;
@@ -16,10 +16,12 @@ public class WalkingState : State
     private Vector2 moveInput;
 
     private new Rigidbody rigidbody;
+    private PhysicsStepper stepper;
 
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
+        stepper = GetComponent<PhysicsStepper>();
         if(strafeSprintSpeed >= sprintSpeed)
         {
             throw new System.Exception("Strafe Sprint Speed can't be higher than or as fast as sprint speed! Strafing must be slower than forward sprinting!");
@@ -68,6 +70,8 @@ public class WalkingState : State
             }
 
             Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+
+            stepper.HandleStep(ref rigidbody, moveDirection);
 
             float verticalVelocity = rigidbody.velocity.y;
 
