@@ -9,8 +9,7 @@ public class GrandTemple : MonoBehaviour
     public static System.Action OnStatueCleared;
     public static System.Action OnRingExtended;
 
-    [SerializeField] private Animator topRing, middleRing, bottomRing;
-    [SerializeField] private Animator stairDisk;
+    [SerializeField] private Animator templeAnimator;
 
     [SerializeField] private string[] firstStageDialogue, secondStageDialogue, thirdStageDialogue;
 
@@ -30,24 +29,21 @@ public class GrandTemple : MonoBehaviour
         if(statuesCleared == firstStageRequirement)
         {
             OnRingExtended?.Invoke();
-            topRing.SetTrigger("Extend");
-            stairDisk.SetTrigger("Extend");
+            templeAnimator.SetTrigger("1stLayer");
 
             DialogueUI.ShowText(firstStageDialogue);
         }
         if(statuesCleared == secondStageRequirement)
         {
             OnRingExtended?.Invoke();
-            middleRing.SetTrigger("Extend");
-            stairDisk.SetTrigger("Extend");
+            templeAnimator.SetTrigger("2stLayer");
 
             DialogueUI.ShowText(secondStageDialogue);
         }
         if (statuesCleared == thirdStageRequirement)
         {
             OnRingExtended?.Invoke();
-            bottomRing.SetTrigger("Extend");
-            Destroy(stairDisk.gameObject);
+            templeAnimator.SetTrigger("FullyComplete");
 
             DialogueUI.ShowText(thirdStageDialogue);
         }
