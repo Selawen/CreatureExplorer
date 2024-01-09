@@ -21,15 +21,24 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private UnityEvent onScrapbookOpened;
     [SerializeField] private UnityEvent onCameraOpened;
     [SerializeField] private UnityEvent onCameraClosed;
-
     [SerializeField] private UnityEvent<string> onInteractableFound;
     [SerializeField] private UnityEvent onInteractableOutOfRange;
+
+    [SerializeField] private UnityEngine.UI.Image climbControlImage;
+    [SerializeField] private Sprite climbDisabledSprite;
+    [SerializeField] private Sprite climbEnabledSprite;
+
+    [SerializeField] private UnityEvent onPouchUnlocked;
+    [SerializeField] private UnityEvent onClimbingUnlocked;
 
     [SerializeField] private Transform throwPoint;
 
     private BerryPouch pouch;
     //[SerializeField] private Camera pictureCamera;
-    private bool climbingUnlocked;
+    [Tooltip("Serialized for testing purposes")]
+    [SerializeField] private bool climbingUnlocked;
+    [Tooltip("Only present for testing purposes")]
+    [SerializeField] private bool pouchUnlocked;
 
     private float verticalRotation;
 
@@ -71,6 +80,10 @@ public class PlayerController : MonoBehaviour
             playerInput.SwitchCurrentActionMap("Overworld");
             stateMachine.SwitchState(typeof(WalkingState));
         };
+
+        if (pouchUnlocked) UnlockPouch();
+
+        if (climbingUnlocked) UnlockClimb();
     }
 
     private void Start()
@@ -135,6 +148,7 @@ public class PlayerController : MonoBehaviour
                 onInteractableOutOfRange?.Invoke();
                 stateMachine.SwitchState(typeof(ClimbingState));
                 transform.SetParent(ladder.transform);
+                climbControlImage.sprite = climbDisabledSprite;
                 return;
             }
             if (interactableInRange.GetType() == typeof(Throwable))
@@ -235,7 +249,12 @@ public class PlayerController : MonoBehaviour
                 ladder.ContactPoint = climb.point;
                 interactableInRange = ladder;
                 onInteractableFound?.Invoke(interactableInRange.InteractionPrompt);
+                climbControlImage.sprite = climbEnabledSprite;
                 return;
+            }
+            else
+            {
+                climbControlImage.sprite = climbDisabledSprite;
             }
         }
         Collider[] collisions = Physics.OverlapSphere(transform.position + transform.forward * interactionDistance + Vector3.up * interactHeight, interactionRadius, interactionLayers);
@@ -277,11 +296,13 @@ public class PlayerController : MonoBehaviour
     private void UnlockClimb()
     {
         climbingUnlocked = true;
+        onClimbingUnlocked?.Invoke();
         GrandTemple.OnRingExtended -= UnlockClimb;
     }
     private void UnlockPouch()
     {
         pouch.Unlock();
+        onPouchUnlocked?.Invoke();
         GrandTemple.OnRingExtended -= UnlockPouch;
         GrandTemple.OnRingExtended += UnlockClimb;
     }
