@@ -10,8 +10,12 @@ public class FiniteStateMachine
     private List<StateTransition> allTransitions;
     private List<StateTransition> activeTransitions;
 
+    private bool running;
+
     public FiniteStateMachine(Type startState, params IState[] states)
     {
+        running = true;
+
         allTransitions = new();
 
         foreach (IState state in states)
@@ -22,8 +26,20 @@ public class FiniteStateMachine
         SwitchState(startState);
     }
 
+    public void Pause()
+    {
+        running = false;
+    }
+
+    public void Resume()
+    {
+        running = true;
+    }
+
     public void OnUpdate()
     {
+        if (!running) return;
+
         CurrentState?.OnStateUpdate();
         foreach(StateTransition transition in activeTransitions)
         {
