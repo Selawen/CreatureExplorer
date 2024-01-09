@@ -613,7 +613,19 @@ MonoBehaviour:
     m_ActionId: 26fabf98-229e-4f76-bcdc-3e9810ea39e6
     m_ActionName: Camera/Zoom[/Mouse/scroll]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8723811626375387891}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: GetThrowInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: de2e3c9c-3626-40f2-a8ef-63dba470dee0
     m_ActionName: Overworld/Throw[/Mouse/rightButton]
   - m_PersistentCalls:
@@ -774,10 +786,10 @@ MonoBehaviour:
   onZoomLevelChanged:
     m_PersistentCalls:
       m_Calls: []
-  camZoomSlider: {fileID: 0}
+  camZoomSlider: {fileID: 4596222521404487438}
   picturePrefab: {fileID: 1099497629079080459, guid: 62a69665ffa767549a3ee2178569ccc7,
     type: 3}
-  storage: {fileID: 0}
+  storage: {fileID: 8890486903283929159}
   defaultMaxScanDistance: 20
   ignoredPhotoLayers:
     serializedVersion: 2
@@ -929,8 +941,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79dcf85d4d718d649bb363b53002f8b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxStepHeight: 0
-  stepSmooth: 0
+  maxStepHeight: 0.3
+  maxStepDistance: 0.4
+  stepSmooth: 2
+  ignoredStepLayers:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!54 &7807978120469739685
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1104,6 +1120,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7807978120469739683}
     m_Modifications:
+    - target: {fileID: 208517320491708331, guid: b2cfcc85f49a1414285b5d0a45e1768e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2416451061615919986, guid: b2cfcc85f49a1414285b5d0a45e1768e,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1209,6 +1230,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7334608194013918730, guid: b2cfcc85f49a1414285b5d0a45e1768e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -34.376953
+      objectReference: {fileID: 0}
     - target: {fileID: 8680828101543595721, guid: b2cfcc85f49a1414285b5d0a45e1768e,
         type: 3}
       propertyPath: m_Name
@@ -1252,9 +1278,33 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 5014709271512373346}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4596222521404487438 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8817700123894919020, guid: b2cfcc85f49a1414285b5d0a45e1768e,
+    type: 3}
+  m_PrefabInstance: {fileID: 5014709271512373346}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &7214527954882255632 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2416451061615919986, guid: b2cfcc85f49a1414285b5d0a45e1768e,
     type: 3}
   m_PrefabInstance: {fileID: 5014709271512373346}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8890486903283929159 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4536964580359407653, guid: b2cfcc85f49a1414285b5d0a45e1768e,
+    type: 3}
+  m_PrefabInstance: {fileID: 5014709271512373346}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b75c1f22cdf80e4d8be5ec5c44490ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
