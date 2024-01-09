@@ -13,10 +13,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float interactionRadius = 1.25f;
     [SerializeField] private float climbDistance = 0.25f;
     [SerializeField] private float throwForce = 4f;
+    [SerializeField] private float drowningHeight = 1.2f;
+
 
     [SerializeField] private GameSettings gameSettings;
 
     [SerializeField] private LayerMask interactionLayers;
+    [SerializeField] private LayerMask waterLayer;
 
     [SerializeField] private UnityEvent onScrapbookOpened;
     [SerializeField] private UnityEvent onCameraOpened;
@@ -98,6 +101,10 @@ public class PlayerController : MonoBehaviour
         HandleRotation(rotationInput);
         HandleInteract();
 
+        if (Physics.CheckSphere(transform.position + Vector3.up * drowningHeight, 0.2f, waterLayer))
+        {
+            Debug.Log("You died");
+        }
         //if (Physics.SphereCast(transform.position, interactionRadius, transform.forward, out RaycastHit hit, interactionDistance, interactionLayers))
         //{
         //    if (hit.transform.TryGetComponent(out IInteractable interactable))
@@ -314,5 +321,11 @@ public class PlayerController : MonoBehaviour
 
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position + (transform.forward * interactionDistance) + Vector3.up * interactHeight, interactionRadius);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireSphere(transform.position + Vector3.up * drowningHeight, 0.2f);
     }
 }
