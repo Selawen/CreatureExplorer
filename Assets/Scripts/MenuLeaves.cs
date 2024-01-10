@@ -22,6 +22,23 @@ public class MenuLeaves : MonoBehaviour
         progressBar.gameObject.SetActive(false);
     }
 
+    public void OpenPauseMenu()
+    {
+        Cursor.lockState = CursorLockMode.Confined;
+        onAnimationEnded = null;
+        mainMenuPanel.SetActive(false);
+        animator.Play("LeavesScrollPauseMenu");
+        onAnimationEnded += () => mainMenuPanel.SetActive(true);
+    }
+
+    public void ClosePauseMenu()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        onAnimationEnded = null;
+        mainMenuPanel.SetActive(false);
+        animator.Play("LeavesScrollContinuePlaying");
+    }
+
     public void OpenOptions()
     {
         onAnimationEnded = null;
@@ -38,7 +55,7 @@ public class MenuLeaves : MonoBehaviour
         onAnimationEnded += () => mainMenuPanel.SetActive(true);
     }
 
-    public void StartGame()
+    public void LoadScene(int sceneBuildIndex = 1)
     {
         onAnimationEnded = null;
         mainMenuPanel.SetActive(false);
@@ -53,7 +70,7 @@ public class MenuLeaves : MonoBehaviour
 
         onAnimationEnded += () =>
         {
-            sceneHandler.LoadSceneAsync(1, UnityEngine.SceneManagement.LoadSceneMode.Additive);
+            sceneHandler.LoadSceneAsync(sceneBuildIndex, UnityEngine.SceneManagement.LoadSceneMode.Additive);
             progressBar.gameObject.SetActive(true);
             menuHandler.ShowLoadingScreenTips();
             sceneHandler.onProgressChanged += (float progress) => progressBar.value = progress;
