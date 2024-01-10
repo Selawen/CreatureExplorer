@@ -28,9 +28,12 @@ public class HurtState : State
 
     public override void OnStateEnter()
     {
-        base.OnStateEnter();
         sharedPlayerSource.clip = hurtSound;
         sharedPlayerSource.Play();
+        if(volume == null)
+        {
+            return;
+        }
         if(volume.profile.TryGet(out Vignette vignette))
         {
             vignette.intensity.value = vignetteStrength;
@@ -39,8 +42,6 @@ public class HurtState : State
 
     public override void OnStateUpdate()
     {
-        base.OnStateUpdate();
-
         timer += Time.deltaTime;
         if (timer >= hurtTime)
         {
@@ -52,7 +53,10 @@ public class HurtState : State
     }
     public override void OnStateExit()
     {
-        base.OnStateExit();
+        if (volume == null)
+        {
+            return;
+        }
         if (volume.profile.TryGet(out Vignette vignette))
         {
             vignette.intensity.value = 0;

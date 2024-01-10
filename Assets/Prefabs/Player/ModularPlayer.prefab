@@ -185,6 +185,7 @@ GameObject:
   - component: {fileID: 7350991342370016960}
   - component: {fileID: 2147163380072519130}
   - component: {fileID: 713042150082180029}
+  - component: {fileID: 1817315798}
   m_Layer: 6
   m_Name: ModularPlayer
   m_TagString: Untagged
@@ -370,6 +371,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 6911812891285862678}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 5f9f94be-ffd7-4f30-8b74-2e69d830c35c
     m_ActionName: Overworld/OpenBook[/Keyboard/space]
   - m_PersistentCalls:
@@ -410,12 +423,36 @@ MonoBehaviour:
           m_StringArgument: Overworld
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 6911812891285862678}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
     m_ActionId: ab7f8bfa-d246-4093-9d5c-9afd402d0ea2
     m_ActionName: Scrapbook/QuickCloseBook[/Keyboard/space]
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 4733703374740454852}
         m_TargetAssemblyTypeName: WalkingState, Assembly-CSharp
+        m_MethodName: GetJumpInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5220420252872243190}
+        m_TargetAssemblyTypeName: CrouchingState, Assembly-CSharp
         m_MethodName: GetJumpInput
         m_Mode: 0
         m_Arguments:
@@ -686,11 +723,15 @@ MonoBehaviour:
   interactHeight: 0.875
   interactionRadius: 3
   climbDistance: 1
-  throwForce: 4
-  gameSettings: {fileID: 11400000, guid: 0e36501920850ee48a198c6521c2d486, type: 2}
+  throwForce: 200
+  throwPoint: {fileID: 6216565353872296132}
   interactionLayers:
     serializedVersion: 2
     m_Bits: 191
+  waterLayer:
+    serializedVersion: 2
+    m_Bits: 16
+  gameSettings: {fileID: 11400000, guid: 0e36501920850ee48a198c6521c2d486, type: 2}
   onScrapbookOpened:
     m_PersistentCalls:
       m_Calls:
@@ -706,6 +747,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+  onScrapbookClosed:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3777776730014492702}
+        m_TargetAssemblyTypeName: Scrapbook, Assembly-CSharp
+        m_MethodName: ClosePages
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onCameraOpened:
     m_PersistentCalls:
       m_Calls:
@@ -720,18 +776,6 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 6911812891285862678}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
         m_CallState: 2
   onCameraClosed:
     m_PersistentCalls:
@@ -759,18 +803,6 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 6911812891285862678}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
         m_CallState: 2
   onInteractableFound:
     m_PersistentCalls:
@@ -814,10 +846,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  climbControlImage: {fileID: 6281390158045617066}
-  climbDisabledSprite: {fileID: 21300000, guid: 5784ab0a67f83aa44804b44d83cf8cee,
-    type: 3}
-  climbEnabledSprite: {fileID: 21300000, guid: b4c97de37efd73948b7007a5612b6a0f, type: 3}
   onPouchUnlocked:
     m_PersistentCalls:
       m_Calls:
@@ -848,7 +876,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-  throwPoint: {fileID: 6216565353872296132}
+  climbControlImage: {fileID: 6281390158045617066}
+  climbDisabledSprite: {fileID: 21300000, guid: 5784ab0a67f83aa44804b44d83cf8cee,
+    type: 3}
+  climbEnabledSprite: {fileID: 21300000, guid: b4c97de37efd73948b7007a5612b6a0f, type: 3}
+  respawnDuration: 3
+  drowningHeight: 1.6
+  respawnTransform: {fileID: 0}
+  deathScreen: {fileID: 1209781312134360414, guid: 3c9e6cabaeb96a049aa8bbc291bc6658,
+    type: 3}
+  respawnOccluder: {fileID: 919132149155446097, guid: 011f046753e882848b1beffb3ae199e3,
+    type: 3}
   climbingUnlocked: 0
   pouchUnlocked: 1
 --- !u!114 &1310373100559079289
@@ -917,6 +955,9 @@ MonoBehaviour:
   sneakSpeed: 2
   crouchHeight: 1
   crouchEyeHeight: 0.8
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!114 &8802313589631307658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -947,9 +988,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11fe5c6b3164c2a46b9564a51315e656, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  painfulVelocity: 18
-  cripplingVelocity: 22
-  lethalVelocity: 30
+  painfulVelocity: 9
+  cripplingVelocity: 13
+  lethalVelocity: 18
   aerialSpeed: 5
   maxHorizontalVelocity: 8
   dbg_SharedSource: {fileID: 5861372465537932847}
@@ -959,7 +1000,19 @@ MonoBehaviour:
     m_Bits: 64
   onLethalLanding:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8723811626375387891}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: GoDie
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &9190787582883160938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1040,13 +1093,13 @@ Rigidbody:
   m_GameObject: {fileID: 7807978120469739682}
   serializedVersion: 2
   m_Mass: 85
-  m_Drag: 0
+  m_Drag: 0.2
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
 --- !u!136 &7807978120469739687
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1197,6 +1250,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3094374b87aa17941be79d4af5a87893, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1817315798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7807978120469739682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32b75e9165e6c2541bbfc64f00d66b33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5014709271512373346
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1237,7 +1302,7 @@ PrefabInstance:
     - target: {fileID: 208517320491708331, guid: b2cfcc85f49a1414285b5d0a45e1768e,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 512671070220652491, guid: b2cfcc85f49a1414285b5d0a45e1768e,
         type: 3}
@@ -1302,7 +1367,7 @@ PrefabInstance:
     - target: {fileID: 561260431312665517, guid: b2cfcc85f49a1414285b5d0a45e1768e,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -36.3
+      value: -36.30005
       objectReference: {fileID: 0}
     - target: {fileID: 1201599380235703686, guid: b2cfcc85f49a1414285b5d0a45e1768e,
         type: 3}
@@ -1353,7 +1418,7 @@ PrefabInstance:
     - target: {fileID: 1939352986460531094, guid: b2cfcc85f49a1414285b5d0a45e1768e,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2416451061615919986, guid: b2cfcc85f49a1414285b5d0a45e1768e,
         type: 3}

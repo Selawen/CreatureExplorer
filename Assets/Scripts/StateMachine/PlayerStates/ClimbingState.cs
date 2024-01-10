@@ -19,19 +19,18 @@ public class ClimbingState : State
     public override void OnStateEnter()
     {
         rb.useGravity = false;
+        rb.isKinematic = true;
     }
     public override void OnStateFixedUpdate()
     {
         if(Physics.Raycast(transform.position, Vector3.up * -1, 0.5f, ~playerLayer) && moveInput.y < 0)
         {
-            transform.SetParent(null);
             Owner.SwitchState(typeof(FallingState));
             return;
         }
         if(!Physics.Raycast(transform.position, transform.forward, 1f, ~playerLayer) && !Physics.Raycast(transform.position + Vector3.up, transform.forward, 1f, ~playerLayer))
         {
             rb.AddForce(transform.forward * 5f, ForceMode.VelocityChange);
-            transform.SetParent(null);
             Owner.SwitchState(typeof(FallingState));
             return;
         }
@@ -41,6 +40,8 @@ public class ClimbingState : State
 
     public override void OnStateExit()
     {
+        transform.SetParent(null);
+        rb.isKinematic = false;
         rb.useGravity = true;
     }
     public void GetMoveInput(InputAction.CallbackContext context)

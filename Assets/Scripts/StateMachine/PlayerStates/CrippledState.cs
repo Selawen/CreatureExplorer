@@ -29,11 +29,14 @@ public class CrippledState : State
 
     public override void OnStateEnter()
     {
-        base.OnStateEnter();
         sharedPlayerSource.clip = painSound;
         sharedPlayerSource.Play();
         sharedPlayerSource.clip = boneCrackSound;
         sharedPlayerSource.Play();
+        if (volume == null)
+        {
+            return;
+        }
         if (volume.profile.TryGet(out Vignette vignette))
         {
             vignette.intensity.value = vignetteStrength;
@@ -53,7 +56,10 @@ public class CrippledState : State
     }
     public override void OnStateExit()
     {
-        base.OnStateExit();
+        if (volume == null)
+        {
+            return;
+        }
         if (volume.profile.TryGet(out Vignette vignette))
         {
             vignette.intensity.value = 0;

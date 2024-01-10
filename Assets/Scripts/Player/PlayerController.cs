@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -7,34 +8,42 @@ public class PlayerController : MonoBehaviour
 {
     public float Loudness { get; private set; }
 
+    [Header("Interaction and Physicality")]
     [SerializeField] private float maximumViewAngle = 70f;
     [SerializeField] private float interactionDistance = 2f;
     [SerializeField] private float interactHeight = 0.875f;
     [SerializeField] private float interactionRadius = 1.25f;
     [SerializeField] private float climbDistance = 0.25f;
     [SerializeField] private float throwForce = 4f;
-    [SerializeField] private float drowningHeight = 1.2f;
-
-
-    [SerializeField] private GameSettings gameSettings;
+    [SerializeField] private Transform throwPoint;
 
     [SerializeField] private LayerMask interactionLayers;
     [SerializeField] private LayerMask waterLayer;
 
+    [SerializeField] private GameSettings gameSettings;
+
+    [Header("Events")]
     [SerializeField] private UnityEvent onScrapbookOpened;
+    [SerializeField] private UnityEvent onScrapbookClosed;
     [SerializeField] private UnityEvent onCameraOpened;
     [SerializeField] private UnityEvent onCameraClosed;
     [SerializeField] private UnityEvent<string> onInteractableFound;
     [SerializeField] private UnityEvent onInteractableOutOfRange;
+    [SerializeField] private UnityEvent onPouchUnlocked;
+    [SerializeField] private UnityEvent onClimbingUnlocked;
 
+    [Header("Climbing UI")]
     [SerializeField] private UnityEngine.UI.Image climbControlImage;
     [SerializeField] private Sprite climbDisabledSprite;
     [SerializeField] private Sprite climbEnabledSprite;
 
-    [SerializeField] private UnityEvent onPouchUnlocked;
-    [SerializeField] private UnityEvent onClimbingUnlocked;
 
-    [SerializeField] private Transform throwPoint;
+    [Header("Death and Respawn")]
+    [SerializeField] private float respawnDuration = 0.5f;
+    [SerializeField] private float drowningHeight = 1.2f;
+    [SerializeField] private Transform respawnTransform;
+    [SerializeField] private GameObject deathScreen;
+    [SerializeField] private GameObject respawnOccluder;
 
     private BerryPouch pouch;
     //[SerializeField] private Camera pictureCamera;
@@ -43,13 +52,16 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Only present for testing purposes")]
     [SerializeField] private bool pouchUnlocked;
 
+    private bool died;
     private float verticalRotation;
 
     private Vector2 rotationInput;
 
+    private Rigidbody rb;
     private FiniteStateMachine stateMachine;
 
     private Camera firstPersonCamera;
+    private MeshRenderer respawnFadeRenderer;
 
     private PlayerInput playerInput;
 
@@ -58,9 +70,14 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        rb = GetComponent<Rigidbody>();
         stateMachine = new FiniteStateMachine(typeof(WalkingState), GetComponents<IState>());
         firstPersonCamera = Camera.main;
         verticalRotation = firstPersonCamera.transform.eulerAngles.x;
+
+        respawnFadeRenderer = Instantiate(respawnOccluder, firstPersonCamera.transform).GetComponent<MeshRenderer>();
+        deathScreen = Instantiate(deathScreen);
+        deathScreen.SetActive(false);
 
         playerInput = GetComponent<PlayerInput>();
         Cursor.lockState = CursorLockMode.Locked;
@@ -97,13 +114,15 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        if (died) return;
+
         stateMachine.OnUpdate();
         HandleRotation(rotationInput);
         HandleInteract();
 
         if (Physics.CheckSphere(transform.position + Vector3.up * drowningHeight, 0.2f, waterLayer))
         {
-            Debug.Log("You died");
+            StartCoroutine(Die());
         }
         //if (Physics.SphereCast(transform.position, interactionRadius, transform.forward, out RaycastHit hit, interactionDistance, interactionLayers))
         //{
@@ -222,6 +241,8 @@ public class PlayerController : MonoBehaviour
         CarryThrowable(berry);
     }
 
+    public void GoDie() => StartCoroutine(Die());
+
     private void CarryThrowable(Throwable throwable)
     {
         heldThrowable = throwable;
@@ -313,7 +334,56 @@ public class PlayerController : MonoBehaviour
         GrandTemple.OnRingExtended -= UnlockPouch;
         GrandTemple.OnRingExtended += UnlockClimb;
     }
+    private IEnumerator Die()
+    {
+        died = true;
+        rb.velocity = Vector3.zero;
+        verticalRotation = 0;
+        //verticalSpeed = -0.5f;
 
+        GameObject canvas = GetComponentInChildren<Canvas>().gameObject;
+        canvas.SetActive(false);
+
+        StartCoroutine(deathScreen.GetComponent<RandomMessage>().FadeIn(respawnDuration * 0.1f));
+        deathScreen.SetActive(true);
+
+        GetComponent<PlayerCamera>().DeleteCameraRoll();
+
+        Material fadeMaterial = respawnFadeRenderer.material;
+        Color fadeColor = fadeMaterial.color;
+
+        float timer = 0.001f;
+
+        // Fade in vision obscurer, move player, then fade it out again
+        while (timer < respawnDuration * 0.3f)
+        {
+            fadeColor.a = Mathf.InverseLerp(0, 0.3f * respawnDuration, timer);
+            fadeMaterial.color = fadeColor;
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.position = respawnTransform.position;
+
+        onCameraClosed?.Invoke();
+        onScrapbookClosed?.Invoke();
+
+        StartCoroutine(deathScreen.GetComponent<RandomMessage>().FadeOut(respawnDuration * 0.1f, respawnDuration * 0.6f));
+
+        while (timer < respawnDuration)
+        {
+            fadeColor.a = Mathf.InverseLerp(respawnDuration, 0.6f * respawnDuration, timer);
+            fadeMaterial.color = fadeColor;
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        deathScreen.SetActive(false);
+
+        canvas.SetActive(true);
+        died = false;
+    }
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
