@@ -143,9 +143,10 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _GradientSize: 0.12
+    - _GradientSize: 0.65
     - _Leaf_Size: 1
     - _Metallic: 0
+    - _Noise_Scale: 1
     - _OcclusionStrength: 1
     - _OpaqueCullMode: 2
     - _Parallax: 0.005
@@ -155,6 +156,7 @@ Material:
     - _ReceiveShadows: 1
     - _RenderQueueType: 1
     - _Scale: -1.67
+    - _Seed: 0
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -189,13 +191,13 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 0.60047716, g: 0.9811321, b: 0.56924176, a: 1}
-    - _BottomColor: {r: 0.7075472, g: 0.25698647, b: 0.34884843, a: 0}
+    - _BottomColor: {r: 0.4056604, g: 0.21112199, b: 0.08993414, a: 1}
     - _Color: {r: 0.60047716, g: 0.9811321, b: 0.56924176, a: 1}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _LeafColorVariation: {r: 0.8773585, g: 0.51125413, b: 0.39315593, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _TopColor: {r: 1, g: 0.5613208, b: 0.66137046, a: 0}
+    - _TopColor: {r: 0.7735849, g: 0.36854753, b: 0.44254482, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &4039150516498322876
 MonoBehaviour:
