@@ -38,6 +38,7 @@ public class Creature : MonoBehaviour
 
     protected virtual void Start()
     {
+        GetComponent<NavMeshAgent>().updateUpAxis = false;
         foreach (Collider col in GetComponentsInChildren<Collider>())
         {
             Physics.IgnoreCollision(GetComponent<Collider>(), col);
@@ -66,6 +67,19 @@ public class Creature : MonoBehaviour
     protected virtual void FixedUpdate()
     {
         UpdateValues();
+
+        
+        Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit);
+        if (transform.up != hit.normal)
+        {
+            Vector3 tempForward = Vector3.Cross(hit.normal, transform.right);
+            if ((transform.forward - tempForward).magnitude > 1)
+            {
+                tempForward *= -1;
+            }
+            transform.up = hit.normal;
+            transform.forward = tempForward; 
+        }
 
         if (CurrentAction != null)
         {

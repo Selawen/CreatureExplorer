@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1598545511973874179}
   - component: {fileID: 5355103835322572303}
   - component: {fileID: 7068982951341126318}
+  - component: {fileID: 5741637092542893201}
   m_Layer: 0
   m_Name: TestBushA
   m_TagString: Untagged
@@ -83,3 +84,25 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2118094805674176697}
   m_Mesh: {fileID: 4816649136291191299, guid: b4bb377ef0074124dad81d80e56f3839, type: 3}
+--- !u!205 &5741637092542893201
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2118094805674176697}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0, y: 0, z: 0}
+  m_Size: 1
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.01
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 5355103835322572303}
+  - screenRelativeHeight: 0.01
+    fadeTransitionWidth: 0
+    renderers: []
+  m_Enabled: 1
