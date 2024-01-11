@@ -21,10 +21,13 @@ public class CrippledState : State
     private Vector2 moveInput;
 
     private new Rigidbody rigidbody;
+    private PhysicsStepper stepper;
+
 
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
+        stepper = GetComponent<PhysicsStepper>();
     }
 
     public override void OnStateEnter()
@@ -78,6 +81,8 @@ public class CrippledState : State
 
             Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
 
+            stepper.HandleStep(ref rigidbody, moveDirection);
+
             float verticalVelocity = rigidbody.velocity.y;
 
             Vector3 newVelocity = moveDirection.normalized * crippleMoveSpeed;
@@ -88,6 +93,6 @@ public class CrippledState : State
 
             return;
         }
-        rigidbody.velocity = rigidbody.velocity.y * Vector3.up;
+        //rigidbody.velocity = rigidbody.velocity.y * Vector3.up;
     }
 }

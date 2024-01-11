@@ -30,7 +30,7 @@ public class WalkingState : State
 
     public override void OnStateFixedUpdate()
     {
-        if(!Physics.CheckSphere(transform.position, 0.25f, ~playerLayer))
+        if(!Physics.CheckSphere(transform.position, 0.25f, ~playerLayer, QueryTriggerInteraction.Ignore))
         {
             Owner.SwitchState(typeof(FallingState));
             return;

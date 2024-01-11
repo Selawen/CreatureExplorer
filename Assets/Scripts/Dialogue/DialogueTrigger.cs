@@ -17,7 +17,7 @@ public class DialogueTrigger : MonoBehaviour, IDialogue
 
     private void OnTriggerEnter(Collider other)
     {
-        if ((!showOnce || (showOnce && !hasBeenShown))&& other.TryGetComponent(out CC_PlayerController player))
+        if ((!showOnce || (showOnce && !hasBeenShown))&& other.TryGetComponent(out PlayerCamera player))
         {
             DialogueUI.ShowText(dialogueText);
             hasBeenShown = true;
@@ -26,7 +26,7 @@ public class DialogueTrigger : MonoBehaviour, IDialogue
 
     private void OnTriggerExit(Collider other)
     {
-        if (hideOnExit && other.TryGetComponent(out CC_PlayerController player))
+        if (hideOnExit && other.TryGetComponent(out PlayerCamera player))
         {
             DialogueUI.HideText();
         }

@@ -27,12 +27,12 @@ public class JumpingState : State
 
     public override void OnStateUpdate()
     {
-        if(!Physics.CheckSphere(transform.position, 0.25f, ~playerLayer) && rigidbody.velocity.y <= 0)
+        if(!Physics.CheckSphere(transform.position, 0.25f, ~playerLayer, QueryTriggerInteraction.Ignore) && rigidbody.velocity.y <= 0)
         {
             Owner.SwitchState(typeof(FallingState));
             return;
         }
-        if(Physics.CheckSphere(transform.position, 0.25f, ~playerLayer))
+        if(Physics.CheckSphere(transform.position, 0.25f, ~playerLayer, QueryTriggerInteraction.Ignore))
         {
             Owner.SwitchState(typeof(WalkingState));
         }

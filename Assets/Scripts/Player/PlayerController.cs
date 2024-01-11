@@ -85,20 +85,18 @@ public class PlayerController : MonoBehaviour
 
         GrandTemple.OnRingExtended += UnlockPouch;
 
-        StaticQuestHandler.OnQuestInputDisabled += () =>
-        {
-            playerInput.SwitchCurrentActionMap("Await");
-        };
-
         StaticQuestHandler.OnQuestOpened += () =>
         {
             playerInput.SwitchCurrentActionMap("Scrapbook");
+            Debug.Log(playerInput.currentActionMap);
             onInteractableOutOfRange?.Invoke();
         };
         StaticQuestHandler.OnQuestClosed += () =>
         {
             playerInput.SwitchCurrentActionMap("Overworld");
+            Debug.Log(playerInput.currentActionMap);
             stateMachine.SwitchState(typeof(WalkingState));
+            Debug.Log(stateMachine.CurrentState);
         };
 
         if (pouchUnlocked) UnlockPouch();

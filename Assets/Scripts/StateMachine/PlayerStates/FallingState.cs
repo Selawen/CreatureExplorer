@@ -39,7 +39,7 @@ public class FallingState : State
 
     public override void OnStateUpdate()
     {
-        if (Physics.Raycast(transform.position, Vector3.up * -1f, out RaycastHit hit, 1f, ~playerLayer))
+        if (Physics.Raycast(transform.position, Vector3.up * -1f, out RaycastHit hit, 1f, ~playerLayer, QueryTriggerInteraction.Ignore))
         {
             if (hit.transform.TryGetComponent(out BounceSurface surface))
             {
@@ -51,9 +51,8 @@ public class FallingState : State
                 }
             }
         }
-        if (Physics.CheckSphere(transform.position, 0.25f, ~playerLayer))
+        if (Physics.CheckSphere(transform.position, 0.25f, ~playerLayer, QueryTriggerInteraction.Ignore))
         {
-            Debug.Log(fallVelocity);
             if (fallVelocity <= -lethalVelocity)
             {
                 // Die
