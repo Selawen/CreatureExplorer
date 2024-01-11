@@ -57,6 +57,8 @@ public class MenuLeaves : MonoBehaviour
 
     public void LoadScene(int sceneBuildIndex = 1)
     {
+        // TODO: maybe make this more generic in case we add more scenes later
+        int currentScene = sceneBuildIndex == 1 ? 0 : 1;
         onAnimationEnded = null;
         mainMenuPanel.SetActive(false);
         animator.Play("LeavesScrollFillScreen");
@@ -64,8 +66,13 @@ public class MenuLeaves : MonoBehaviour
         sceneHandler.onLoadCompleted += (AsyncOperation op) => 
         {
             onAnimationEnded = null;
-            onAnimationEnded += () => sceneHandler.UnloadSceneAsync(0);
-            animator.Play("LeavesScrollStartGame");
+            onAnimationEnded += () => sceneHandler.UnloadSceneAsync(currentScene);
+
+            // TODO: maybe make this more generic in case we add more scenes later
+            if (sceneBuildIndex == 1) 
+                animator.Play("LeavesScrollStartGame");  
+            else 
+                animator.Play("ResetLeavesAnimation"); 
         };
 
         onAnimationEnded += () =>
