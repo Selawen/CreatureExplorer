@@ -14,6 +14,9 @@ public class PagePicture : PageComponent, IPointerClickHandler
     [SerializeField] private Image pictureGraphic;
     [SerializeField] private float pageScaleFactor = 2.5f;
 
+    [field: SerializeField] private AudioClip dragSound, stickSound;
+    private SoundPlayer soundPlayer;
+
     private bool dragging;
     private Transform stepBackParent;
     private Canvas parentCanvas;
@@ -21,11 +24,15 @@ public class PagePicture : PageComponent, IPointerClickHandler
 
     private void Awake()
     {
-        if(_rectTransform == null)
+        if (_rectTransform == null)
         {
             _rectTransform = GetComponent<RectTransform>();
         }
         parentCanvas = GetComponentInParent<Canvas>();
+
+        soundPlayer = GetComponent<SoundPlayer>();
+        if (soundPlayer == null)
+            soundPlayer = GetComponentInParent<SoundPlayer>();
     }
 
     public void SetPicture(Sprite pictureSprite)
@@ -40,6 +47,11 @@ public class PagePicture : PageComponent, IPointerClickHandler
 
     public override void OnBeginDrag(PointerEventData eventData)
     {
+        if (soundPlayer != null)
+        {
+            soundPlayer.PlaySound(dragSound, true);
+        }
+
         dragging = true;
         OnBeginPictureDrag?.Invoke();
         base.OnBeginDrag(eventData);
@@ -55,6 +67,11 @@ public class PagePicture : PageComponent, IPointerClickHandler
 
     public override void OnEndDrag(PointerEventData eventData)
     {
+        if (soundPlayer != null)
+        {
+            soundPlayer.PlaySound(stickSound, true);
+        }
+
         base.OnEndDrag(eventData);
         OnEndPictureDrag?.Invoke();
         dragging = false;

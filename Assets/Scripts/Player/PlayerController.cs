@@ -215,6 +215,7 @@ public class PlayerController : MonoBehaviour
         if (callbackContext.started)
         {
             playerInput.SwitchCurrentActionMap("Overworld");
+            onScrapbookClosed?.Invoke();
             Cursor.lockState = CursorLockMode.Locked;
         }
     }
