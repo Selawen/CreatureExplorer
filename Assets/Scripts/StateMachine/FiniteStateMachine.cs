@@ -52,6 +52,8 @@ public class FiniteStateMachine
 
     public void OnFixedUpdate()
     {
+        if (!running) return;
+
         CurrentState?.OnStateFixedUpdate();
     }
 

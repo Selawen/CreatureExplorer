@@ -9,6 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5048717784379099065}
+  - component: {fileID: -7312566528327951134}
+  - component: {fileID: 220829161237279414}
   - component: {fileID: 8981857977544849672}
   - component: {fileID: 6414090038665009470}
   - component: {fileID: 4627498716773838311}
@@ -36,6 +38,42 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-7312566528327951134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8813846894892180988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e35b46d6a1d76840b89ed7c5286d520, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StatusEffectName: 
+  oneShot: 1
+  effectDuration: 0.1
+  statusEffect:
+    <CreatureStates>k__BackingField: []
+  <InteractionPrompt>k__BackingField: Pick Up [E]
+  splatVelocity: 2
+  inventoryGraphic: {fileID: 21300000, guid: 1da57cacfd902c347ac6287903f8ec7c, type: 3}
+  hoverGraphic: {fileID: 21300000, guid: 615ae8d216722d4408ccf53f2b378c63, type: 3}
+--- !u!114 &220829161237279414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8813846894892180988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d61bc7dc05c0ce44b9240530be9c6aa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <QuestObjectID>k__BackingField: normalberry
+  <GivenName>k__BackingField: 
+  <GivenDescription>k__BackingField: 
 --- !u!114 &8981857977544849672
 MonoBehaviour:
   m_ObjectHideFlags: 0

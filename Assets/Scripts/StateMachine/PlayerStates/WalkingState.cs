@@ -30,7 +30,7 @@ public class WalkingState : State
 
     public override void OnStateFixedUpdate()
     {
-        if(!Physics.CheckSphere(transform.position, 0.25f, ~playerLayer))
+        if(!Physics.CheckSphere(transform.position, 0.25f, ~playerLayer, QueryTriggerInteraction.Ignore))
         {
             Owner.SwitchState(typeof(FallingState));
             return;
@@ -50,7 +50,7 @@ public class WalkingState : State
 
     public void GetJumpInput(InputAction.CallbackContext callbackContext)
     {
-        if (callbackContext.started && Physics.CheckSphere(transform.position, 0.25f, ~playerLayer) && Owner.CurrentState.GetType() == GetType())
+        if (callbackContext.started && Physics.CheckSphere(transform.position, 0.25f, ~playerLayer, QueryTriggerInteraction.Ignore) && Owner.CurrentState.GetType() == GetType())
         {
             Owner.SwitchState(typeof(JumpingState));
         }

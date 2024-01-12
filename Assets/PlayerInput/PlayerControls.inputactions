@@ -87,19 +87,19 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "RetrieveBerry",
+                    "name": "OpenPouch",
                     "type": "Button",
-                    "id": "8b479849-424c-4285-b503-a5407b8a9dd0",
+                    "id": "5e796a8d-00c1-43f2-832b-cbc1d37d32ab",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "OpenPouch",
-                    "type": "Button",
-                    "id": "5e796a8d-00c1-43f2-832b-cbc1d37d32ab",
-                    "expectedControlType": "Button",
+                    "name": "Point",
+                    "type": "PassThrough",
+                    "id": "84d93988-446f-44cb-903f-2dfd9e10093f",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -403,28 +403,6 @@
                 },
                 {
                     "name": "",
-                    "id": "3f2299d4-c7a0-4b8e-937e-b9be254a446a",
-                    "path": "<Gamepad>/rightShoulder",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "NintendoSwitch",
-                    "action": "RetrieveBerry",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "f68bd045-9124-4d02-8903-fa06bb3eee5e",
-                    "path": "<Keyboard>/q",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "RetrieveBerry",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "54f46edd-6f3d-4f9b-9e4f-a8e526c2d829",
                     "path": "<Keyboard>/r",
                     "interactions": "",
@@ -442,6 +420,28 @@
                     "processors": "",
                     "groups": "NintendoSwitch",
                     "action": "OpenPouch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d42e7123-2a2c-4534-8653-543c21025be1",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Point",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "47cf4e95-0d71-42e6-9da2-709804d523ce",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "NintendoSwitch",
+                    "action": "Point",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

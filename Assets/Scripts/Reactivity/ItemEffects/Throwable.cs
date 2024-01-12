@@ -5,7 +5,7 @@ public class Throwable : StatusEffect, IInteractable
 {
     public Sprite InventoryGraphic { get { return inventoryGraphic; } }
     public Sprite HoverGraphic { get { return hoverGraphic; } }
-    [field: SerializeField] public string InteractionPrompt { get; private set; } = "Pick up";
+    [field: SerializeField] public string InteractionPrompt { get; private set; } = "Pick Up [E]";
     
     [SerializeField] private float splatVelocity = 2;
     [SerializeField] private Sprite inventoryGraphic;

@@ -20,17 +20,23 @@ public class HurtState : State
     private Vector2 moveInput;
 
     private new Rigidbody rigidbody;
+    private PhysicsStepper stepper;
+
 
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
+        stepper = GetComponent<PhysicsStepper>();
     }
 
     public override void OnStateEnter()
     {
-        base.OnStateEnter();
         sharedPlayerSource.clip = hurtSound;
         sharedPlayerSource.Play();
+        if(volume == null)
+        {
+            return;
+        }
         if(volume.profile.TryGet(out Vignette vignette))
         {
             vignette.intensity.value = vignetteStrength;
@@ -39,8 +45,6 @@ public class HurtState : State
 
     public override void OnStateUpdate()
     {
-        base.OnStateUpdate();
-
         timer += Time.deltaTime;
         if (timer >= hurtTime)
         {
@@ -52,7 +56,10 @@ public class HurtState : State
     }
     public override void OnStateExit()
     {
-        base.OnStateExit();
+        if (volume == null)
+        {
+            return;
+        }
         if (volume.profile.TryGet(out Vignette vignette))
         {
             vignette.intensity.value = 0;
@@ -72,6 +79,8 @@ public class HurtState : State
 
             Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
 
+            stepper.HandleStep(ref rigidbody, moveDirection);
+
             float verticalVelocity = rigidbody.velocity.y;
 
             Vector3 newVelocity = moveDirection.normalized * hurtMoveSpeed;
@@ -82,6 +91,6 @@ public class HurtState : State
 
             return;
         }
-        rigidbody.velocity = rigidbody.velocity.y * Vector3.up;
+        //rigidbody.velocity = rigidbody.velocity.y * Vector3.up;
     }
 }

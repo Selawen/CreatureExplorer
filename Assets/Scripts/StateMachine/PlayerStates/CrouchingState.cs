@@ -8,6 +8,8 @@ public class CrouchingState : State
     [SerializeField] private float crouchHeight = 1f;
     [SerializeField] private float crouchEyeHeight = 0.8f;
 
+    [SerializeField] private LayerMask playerLayer;
+
     private float defaultEyeHeight;
     private float standardColliderHeight;
 
@@ -79,7 +81,13 @@ public class CrouchingState : State
             }
         }
     }
-
+    public void GetJumpInput(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.started && Physics.CheckSphere(transform.position, 0.25f, ~playerLayer, QueryTriggerInteraction.Ignore) && Owner.CurrentState.GetType() == GetType())
+        {
+            Owner.SwitchState(typeof(JumpingState));
+        }
+    }
     private void Move()
     {
         if (moveInput.sqrMagnitude >= 0.1f)

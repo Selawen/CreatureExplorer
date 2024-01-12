@@ -19,6 +19,7 @@ public class FallingState : State
 
     [SerializeField] private UnityEvent onLethalLanding;
 
+    private float fallVelocity;
     private new Rigidbody rigidbody;
 
     private Vector2 moveInput;
@@ -28,24 +29,31 @@ public class FallingState : State
         rigidbody = GetComponent<Rigidbody>();
     }
 
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if(other.gameObject != gameObject)
+    //    {
+    //        Debug.Log(rigidbody.velocity.y);
+    //    }
+    //}
+
     public override void OnStateUpdate()
     {
-        if (Physics.Raycast(transform.position, Vector3.up * -1f, out RaycastHit hit, 1f, ~playerLayer))
+        if (Physics.Raycast(transform.position, Vector3.up * -1f, out RaycastHit hit, 1f, ~playerLayer, QueryTriggerInteraction.Ignore))
         {
             if (hit.transform.TryGetComponent(out BounceSurface surface))
             {
                 if (surface.Bounce(rigidbody.velocity.y * -1, out float exitForce))
                 {
-                    //controller.Move(Vector3.up * exitForce);
                     rigidbody.velocity = new(rigidbody.velocity.x, 0, rigidbody.velocity.z);
                     rigidbody.AddForce(exitForce * Vector3.up, ForceMode.VelocityChange);
                     return;
                 }
             }
         }
-        if (Physics.CheckSphere(transform.position, 0.25f, ~playerLayer))
+        if (Physics.CheckSphere(transform.position, 0.25f, ~playerLayer, QueryTriggerInteraction.Ignore))
         {
-            if (rigidbody.velocity.y <= -lethalVelocity)
+            if (fallVelocity <= -lethalVelocity)
             {
                 // Die
                 dbg_SharedSource.clip = dbg_DeathSound;
@@ -53,13 +61,13 @@ public class FallingState : State
                 onLethalLanding?.Invoke();
                 return;
             }
-            if (rigidbody.velocity.y <= -cripplingVelocity)
+            if (fallVelocity <= -cripplingVelocity)
             {
                 // Incapacitate the player for a while
                 Owner.SwitchState(typeof(CrippledState));
                 return;
             }
-            if(rigidbody.velocity.y <= -painfulVelocity)
+            if(fallVelocity <= -painfulVelocity)
             {
                 // This hurts the player a bit for a short while.
                 Owner.SwitchState(typeof(HurtState));
@@ -71,6 +79,15 @@ public class FallingState : State
     public override void OnStateFixedUpdate()
     {
         Move();
+        if(fallVelocity > rigidbody.velocity.y)
+        {
+            fallVelocity = rigidbody.velocity.y;
+        }
+    }
+
+    public override void OnStateExit()
+    {
+        fallVelocity = 0;
     }
 
     public void GetMoveInput(InputAction.CallbackContext callbackContext)
