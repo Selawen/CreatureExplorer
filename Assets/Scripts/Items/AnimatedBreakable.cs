@@ -2,9 +2,12 @@ using UnityEngine;
 
 public class AnimatedBreakable : MonoBehaviour, IBreakable
 {
+    [field: SerializeField] private AudioClip breakingSound;
     [SerializeField] private Animator animator;
     [SerializeField] private string animationTrigger = "Break";
     [ShowOnly] private bool broken = false;
+
+    private SoundPlayer soundPlayer;
 
     private void Awake()
     {
@@ -12,12 +15,21 @@ public class AnimatedBreakable : MonoBehaviour, IBreakable
         {
             animator = GetComponent<Animator>();
         }
+
+        soundPlayer = GetComponent<SoundPlayer>();
+        if (soundPlayer == null)
+            soundPlayer = GetComponentInParent<SoundPlayer>();
     }
 
     public void Break()
     {
         if (broken)
             return;
+
+        if (soundPlayer != null)
+        {
+            soundPlayer.PlaySound(breakingSound, true);
+        }
 
         animator.SetTrigger(animationTrigger);
         broken = true;

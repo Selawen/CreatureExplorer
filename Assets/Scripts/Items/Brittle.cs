@@ -3,8 +3,20 @@ using UnityEngine;
 
 public class Brittle : MonoBehaviour, IBreakable
 {
+    [field: SerializeField] private AudioClip breakingSound;
+    private SoundPlayer soundPlayer;
+
     public void Break()
     {
+        soundPlayer = GetComponent<SoundPlayer>();
+        if (soundPlayer == null)
+            soundPlayer = GetComponentInParent<SoundPlayer>();
+        
+        if (soundPlayer != null)
+        {
+            soundPlayer.PlaySound(breakingSound, true);
+        }
+
         // TODO: make object break properly
         if (Vector3.Dot(transform.up, Vector3.up) > 0.5f)
             StartCoroutine(FallOver(2));

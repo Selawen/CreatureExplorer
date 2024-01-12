@@ -13,6 +13,14 @@ public class SoundPlayer : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
+    public void PlayOnClick(AudioClip clip)
+    {
+        if (clip != null)
+        {
+            audioSource.PlayOneShot(clip);
+        }
+    }
+
     public void PlaySound(AudioClip clip, bool playOneshot = false)
     {
         if (clip != null)

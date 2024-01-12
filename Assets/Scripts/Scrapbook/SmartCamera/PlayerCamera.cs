@@ -28,7 +28,11 @@ public class PlayerCamera : MonoBehaviour
 
     [Header("Effects")]
     [SerializeField] private AudioClip shutterSound;
+    [SerializeField] private AudioClip storageFullSound;
+    [field: SerializeField] private AudioClip zoomInSound, zoomOutSound;
     [SerializeField] private Animator shutterTop, shutterBottom;
+
+    private SoundPlayer soundPlayer;
 
     private float originalZoom;
 
@@ -50,6 +54,11 @@ public class PlayerCamera : MonoBehaviour
 
     private void Awake()
     {
+        soundPlayer = GetComponent<SoundPlayer>();
+        if (soundPlayer == null)
+            soundPlayer = GetComponentInParent<SoundPlayer>();
+
+
         originalZoom = pictureCamera.fieldOfView;
 
         camZoomSlider.minValue = minimumFieldOfView;
@@ -78,6 +87,11 @@ public class PlayerCamera : MonoBehaviour
     {
         if (callbackContext.started)
         {
+            if (soundPlayer != null)
+            {
+                soundPlayer.PlaySound(callbackContext.ReadValue<Vector2>().y > 0 ? zoomInSound:zoomOutSound, true); 
+            }
+
             pictureCamera.fieldOfView -= callbackContext.ReadValue<Vector2>().y * zoomSensitivity;
             pictureCamera.fieldOfView = Mathf.Clamp(pictureCamera.fieldOfView, minimumFieldOfView, maximumFieldOfView);
             camZoomSlider.value = pictureCamera.fieldOfView;
@@ -96,6 +110,9 @@ public class PlayerCamera : MonoBehaviour
                 //shutterTop.SetTrigger("Snap");
                 //shutterBottom.SetTrigger("Snap");
                 StartCoroutine(Snap());
+            } else if (storage.StorageIsFull() && !snapping && soundPlayer != null)
+            {
+                soundPlayer.PlaySound(storageFullSound, true);
             }
         }
     }
@@ -104,9 +121,9 @@ public class PlayerCamera : MonoBehaviour
     
     private IEnumerator Snap()
     {
-        if (TryGetComponent(out SoundPlayer player))
+        if (soundPlayer != null)
         {
-            player.PlaySound(shutterSound, true);
+            soundPlayer.PlaySound(shutterSound, true);
         }
 
         if (pictureCamera != Camera.main)

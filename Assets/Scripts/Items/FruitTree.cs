@@ -2,9 +2,17 @@ using UnityEngine;
 
 public class FruitTree : Tree, IBreakable
 {
+    [field: SerializeField] private AudioClip breakingSound;
+    private SoundPlayer soundPlayer;
 
     public void Break()
     {
+        soundPlayer = GetComponentInParent<SoundPlayer>();
+        if (soundPlayer != null)
+        {
+            soundPlayer.PlaySound(breakingSound, true);
+        }
+
         foreach (Food berry in GetComponentsInChildren<Food>())
         {
             berry.ActivatePhysics();
