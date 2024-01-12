@@ -12,14 +12,14 @@ public class BerryPouch : MonoBehaviour
     [SerializeField] private Transform[] berrySpots;
     [SerializeField] private Button berryButtonPrefab;
 
-    private CC_PlayerController controller;
+    private PlayerController controller;
     private Inventory<Throwable> berryPouch;
     private PlayerInput input;
 
     private void Awake()
     {
         pouchGraphic.SetActive(false);
-        controller = GetComponentInParent<CC_PlayerController>();
+        controller = GetComponentInParent<PlayerController>();
         input = GetComponentInParent<PlayerInput>();
     }
     public void Unlock()

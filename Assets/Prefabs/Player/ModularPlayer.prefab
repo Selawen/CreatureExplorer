@@ -479,6 +479,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 3807586465488219682}
+        m_TargetAssemblyTypeName: DialogueUI, Assembly-CSharp
+        m_MethodName: GetContinueInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 43ded661-b387-47cc-bd57-884071db4db5
     m_ActionName: Overworld/Interact[/Keyboard/z]
   - m_PersistentCalls:
@@ -666,10 +678,6 @@ MonoBehaviour:
     m_ActionId: de2e3c9c-3626-40f2-a8ef-63dba470dee0
     m_ActionName: Overworld/Throw[/Mouse/rightButton]
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 8b479849-424c-4285-b503-a5407b8a9dd0
-    m_ActionName: Overworld/RetrieveBerry[/Keyboard/q]
-  - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 282077644230007770}
         m_TargetAssemblyTypeName: BerryPouch, Assembly-CSharp
@@ -681,6 +689,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 7807978120469739686}
+        m_TargetAssemblyTypeName: UnityEngine.InputSystem.PlayerInput, Unity.InputSystem
+        m_MethodName: SwitchCurrentActionMap
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Scrapbook
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: 5e796a8d-00c1-43f2-832b-cbc1d37d32ab
@@ -699,8 +719,24 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 7807978120469739686}
+        m_TargetAssemblyTypeName: UnityEngine.InputSystem.PlayerInput, Unity.InputSystem
+        m_MethodName: SwitchCurrentActionMap
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Overworld
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 4d6d8e69-7865-4208-9a27-96afdf1ed713
     m_ActionName: Pouch/Close[/Keyboard/r]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 84d93988-446f-44cb-903f-2dfd9e10093f
+    m_ActionName: Overworld/Point[/Mouse/position]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Overworld
@@ -888,7 +924,7 @@ MonoBehaviour:
   respawnOccluder: {fileID: 919132149155446097, guid: 011f046753e882848b1beffb3ae199e3,
     type: 3}
   climbingUnlocked: 0
-  pouchUnlocked: 1
+  pouchUnlocked: 0
 --- !u!114 &1310373100559079289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -902,12 +938,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pictureCamera: {fileID: 0}
-  zoomSensitivity: 0.01
+  zoomSensitivity: 0.1
   minimumFieldOfView: 5
   maximumFieldOfView: 60
   onZoomLevelChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8723811626375387891}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: SetRotationSpeed
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   camZoomSlider: {fileID: 4596222521404487438}
   picturePrefab: {fileID: 1099497629079080459, guid: 62a69665ffa767549a3ee2178569ccc7,
     type: 3}
@@ -1083,7 +1131,7 @@ MonoBehaviour:
   stepSmooth: 2
   ignoredStepLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 118
 --- !u!54 &7807978120469739685
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1093,13 +1141,13 @@ Rigidbody:
   m_GameObject: {fileID: 7807978120469739682}
   serializedVersion: 2
   m_Mass: 85
-  m_Drag: 0.2
+  m_Drag: 0.4
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!136 &7807978120469739687
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1125,8 +1173,8 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.25
-  m_Center: {x: 0, y: 0.25, z: 0}
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!114 &7350991342370016960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1385,6 +1433,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1799873217309327337, guid: b2cfcc85f49a1414285b5d0a45e1768e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 7807978120469739686}
     - target: {fileID: 1927122268315493986, guid: b2cfcc85f49a1414285b5d0a45e1768e,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -1601,6 +1654,11 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6375652810742647362, guid: b2cfcc85f49a1414285b5d0a45e1768e,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7158146682654556991, guid: b2cfcc85f49a1414285b5d0a45e1768e,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -1699,6 +1757,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 16bc3559ebc27fa418bc92234ca877c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3807586465488219682 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8160681081756513856, guid: b2cfcc85f49a1414285b5d0a45e1768e,
+    type: 3}
+  m_PrefabInstance: {fileID: 5014709271512373346}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58dc02546ad547943bcb7cf1ddba6969, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4329023972882074114 stripped

@@ -56,6 +56,7 @@ public class PlayerController : MonoBehaviour
     private float verticalRotation;
 
     private Vector2 rotationInput;
+    private float rotationSpeed = 1f;
 
     private Rigidbody rb;
     private FiniteStateMachine stateMachine;
@@ -85,18 +86,23 @@ public class PlayerController : MonoBehaviour
 
         GrandTemple.OnRingExtended += UnlockPouch;
 
+
+        StaticQuestHandler.OnQuestInputDisabled += () =>
+        {
+            playerInput.SwitchCurrentActionMap("Await");
+            rb.isKinematic = true;
+        };
+
         StaticQuestHandler.OnQuestOpened += () =>
         {
             playerInput.SwitchCurrentActionMap("Scrapbook");
-            Debug.Log(playerInput.currentActionMap);
             onInteractableOutOfRange?.Invoke();
         };
         StaticQuestHandler.OnQuestClosed += () =>
         {
             playerInput.SwitchCurrentActionMap("Overworld");
-            Debug.Log(playerInput.currentActionMap);
+            rb.isKinematic = false;
             stateMachine.SwitchState(typeof(WalkingState));
-            Debug.Log(stateMachine.CurrentState);
         };
 
         if (pouchUnlocked) UnlockPouch();
@@ -241,6 +247,8 @@ public class PlayerController : MonoBehaviour
 
     public void GoDie() => StartCoroutine(Die());
 
+    public void SetRotationSpeed(float newSpeed) => rotationSpeed = newSpeed;
+
     private void CarryThrowable(Throwable throwable)
     {
         heldThrowable = throwable;
@@ -254,8 +262,8 @@ public class PlayerController : MonoBehaviour
 
     private void HandleRotation(Vector2 lookInput)
     { 
-        verticalRotation = Mathf.Clamp(verticalRotation - (lookInput.y * gameSettings.LookSensitivity), -maximumViewAngle, maximumViewAngle);
-        transform.Rotate(new Vector3(0, lookInput.x * gameSettings.LookSensitivity, 0));
+        verticalRotation = Mathf.Clamp(verticalRotation - (lookInput.y * gameSettings.LookSensitivity * rotationSpeed), -maximumViewAngle, maximumViewAngle);
+        transform.Rotate(new Vector3(0, lookInput.x * gameSettings.LookSensitivity * rotationSpeed, 0));
     }
     private void HandleInteract()
     {
