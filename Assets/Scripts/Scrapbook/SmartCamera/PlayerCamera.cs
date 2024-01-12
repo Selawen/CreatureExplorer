@@ -32,7 +32,7 @@ public class PlayerCamera : MonoBehaviour
     [field: SerializeField] private AudioClip zoomInSound, zoomOutSound;
     [SerializeField] private Animator shutterTop, shutterBottom;
 
-    private SoundPlayer soundPlayer;
+    [SerializeField] private SoundPlayer soundPlayer;
 
     private float originalZoom;
 
@@ -54,7 +54,8 @@ public class PlayerCamera : MonoBehaviour
 
     private void Awake()
     {
-        soundPlayer = GetComponent<SoundPlayer>();
+        if (soundPlayer == null)
+            soundPlayer = GetComponent<SoundPlayer>();
         if (soundPlayer == null)
             soundPlayer = GetComponentInParent<SoundPlayer>();
 
