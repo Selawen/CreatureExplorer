@@ -8,6 +8,8 @@ public class CrouchingState : State
     [SerializeField] private float crouchHeight = 1f;
     [SerializeField] private float crouchEyeHeight = 0.8f;
 
+    [SerializeField] private float sneakLoudness = 1f;
+
     [SerializeField] private LayerMask playerLayer;
 
     private float defaultEyeHeight;
@@ -92,6 +94,8 @@ public class CrouchingState : State
     {
         if (moveInput.sqrMagnitude >= 0.1f)
         {
+            PlayerController.SetLoudness(sneakLoudness);
+
             float targetAngle = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg + rigidbody.transform.eulerAngles.y;
             Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
 
@@ -106,6 +110,10 @@ public class CrouchingState : State
             rigidbody.velocity = newVelocity;
 
             return;
+        }
+        else
+        {
+            PlayerController.SetLoudness(0);
         }
         rigidbody.velocity = rigidbody.velocity.y * Vector3.up;
     }

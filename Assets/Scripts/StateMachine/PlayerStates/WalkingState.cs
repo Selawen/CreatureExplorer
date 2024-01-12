@@ -9,6 +9,9 @@ public class WalkingState : State
     [SerializeField] private float strafeSprintSpeed = 8f;
     [SerializeField] private float maxSprintAngle = 15f;
 
+    [SerializeField] private float walkLoudness = 5f;
+    [SerializeField] private float sprintLoudness = 15f;
+
     [SerializeField] private LayerMask playerLayer;
 
     private bool isSprinting;
@@ -60,6 +63,8 @@ public class WalkingState : State
     {
         if (moveInput.sqrMagnitude >= 0.1f)
         {
+            PlayerController.SetLoudness(isSprinting ? sprintLoudness : walkLoudness);
+
             float speed = walkSpeed;
             float inputAngle = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg;
             float targetAngle = inputAngle + rigidbody.transform.eulerAngles.y;
@@ -80,6 +85,9 @@ public class WalkingState : State
             newVelocity.y = verticalVelocity;
 
             rigidbody.velocity = newVelocity;
+        } else
+        {
+            PlayerController.SetLoudness(0);
         }
     }
 }

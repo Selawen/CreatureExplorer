@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
-    public float Loudness { get; private set; }
+    public static float Loudness { get; private set; } = 5;
 
     [Header("Interaction and Physicality")]
     [SerializeField] private float maximumViewAngle = 70f;
@@ -228,7 +228,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void SetLoudness(float newLoudness) => Loudness = newLoudness;
+    public static void SetLoudness(float newLoudness) => Loudness = newLoudness;
 
     public void GetThrowInput(InputAction.CallbackContext context)
     {
