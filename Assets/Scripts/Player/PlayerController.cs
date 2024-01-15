@@ -100,7 +100,8 @@ public class PlayerController : MonoBehaviour
         };
         StaticQuestHandler.OnQuestClosed += () =>
         {
-            playerInput.SwitchCurrentActionMap("Overworld");
+            if (playerInput.currentActionMap.name != "Dialogue")
+                playerInput.SwitchCurrentActionMap("Overworld");
             rb.isKinematic = false;
             stateMachine.SwitchState(typeof(WalkingState));
         };

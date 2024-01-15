@@ -482,18 +482,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 3807586465488219682}
-        m_TargetAssemblyTypeName: DialogueUI, Assembly-CSharp
-        m_MethodName: GetContinueInput
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
     m_ActionId: 43ded661-b387-47cc-bd57-884071db4db5
     m_ActionName: Overworld/Interact[/Keyboard/z]
   - m_PersistentCalls:
@@ -821,6 +809,34 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 9158ffa4-3c14-4818-bdce-5e3d09ca6a94
     m_ActionName: Menu/Point[/Mouse/position,/DualSenseGamepadHID/leftStick]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3807586465488219682}
+        m_TargetAssemblyTypeName: DialogueUI, Assembly-CSharp
+        m_MethodName: GetContinueInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 9e7d65ff-b3b9-4f5a-98f1-b68e10f1e810
+    m_ActionName: Dialogue/Continue[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: fec8d72d-6a2d-4352-b7ff-5c3f04bac9ba
+    m_ActionName: Dialogue/Click[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ee7cf271-7081-4955-93c1-c84fd25f7285
+    m_ActionName: Dialogue/Point[/Mouse/position]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0a45fc67-99f0-40e8-a2e0-84b05f0430e5
+    m_ActionName: Dialogue/Move
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Overworld

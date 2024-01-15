@@ -49,12 +49,12 @@ public class TitanStatue : MonoBehaviour, IInteractable
             StaticQuestHandler.OnQuestCompleted?.Invoke();
 
             // Will be removed when correct visual feedback is implemented
+            questFinished = true;
+            InteractionPrompt = string.Empty;
             DebugChangeMaterialVisuals();
             GrandTemple.OnStatueCleared?.Invoke();
 
             Cursor.lockState = CursorLockMode.Locked;
-            questFinished = true;
-            InteractionPrompt = string.Empty;
             onQuestCompleted?.Invoke();
 
             PagePicture.OnPictureClicked = null;

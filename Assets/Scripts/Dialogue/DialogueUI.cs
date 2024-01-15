@@ -15,9 +15,14 @@ public class DialogueUI : MonoBehaviour
     private static string[] dialogueStrings;
     private static int dialogueIndex = 0;
 
+    private static PlayerInput playerInput;
+
     private void Awake()
     {
         Instance = this;
+
+        playerInput = GetComponentInParent<PlayerInput>();
+
         textField = GetComponentInChildren<TextMeshProUGUI>();
         if (UIObject == null)
         {
@@ -37,6 +42,9 @@ public class DialogueUI : MonoBehaviour
     {
         if (shownTexts.Length > 0)
         {
+            playerInput.SwitchCurrentActionMap("Dialogue");
+            Cursor.lockState = CursorLockMode.None;
+
             dialogueIndex = 0;
             dialogueStrings = shownTexts;
             textField.text = shownTexts[0];
@@ -51,6 +59,9 @@ public class DialogueUI : MonoBehaviour
     {
         textField.text = "Dialogue box should be disabled";
         UIObject.SetActive(false);
+
+        playerInput.SwitchCurrentActionMap("Overworld");
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void GetContinueInput(InputAction.CallbackContext context)
