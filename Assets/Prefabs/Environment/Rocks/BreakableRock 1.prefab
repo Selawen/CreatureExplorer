@@ -45,9 +45,9 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
+  m_Mesh: {fileID: 6329158148709259305, guid: 433acff57a6ea2640af89fec4c047631, type: 3}
 --- !u!114 &1015662098023084741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60,6 +60,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e4ac796b8da64044a25ef4eb6a63137, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  breakingSound: {fileID: 0}
   animator: {fileID: 0}
   animationTrigger: Break
 --- !u!1001 &1359126519095922566
