@@ -90,7 +90,9 @@ public class PlayerController : MonoBehaviour
         StaticQuestHandler.OnQuestInputDisabled += () =>
         {
             playerInput.SwitchCurrentActionMap("Await");
-            rb.isKinematic = true;
+            //if (playerInput.currentActionMap.name != "Dialogue")
+            //    playerInput.SwitchCurrentActionMap("Overworld");
+            //rb.isKinematic = true;
         };
 
         StaticQuestHandler.OnQuestOpened += () =>
@@ -102,7 +104,8 @@ public class PlayerController : MonoBehaviour
         {
             if (playerInput.currentActionMap.name != "Dialogue")
                 playerInput.SwitchCurrentActionMap("Overworld");
-            rb.isKinematic = false;
+            // rb.isKinematic = false;
+            Cursor.lockState = CursorLockMode.Locked;
             stateMachine.SwitchState(typeof(WalkingState));
         };
 
@@ -173,7 +176,7 @@ public class PlayerController : MonoBehaviour
     {
         if (callbackContext.started && interactableInRange != null)
         {
-            if (interactableInRange.GetType() == typeof(JellyfishLadder) && climbingUnlocked)
+            if (climbingUnlocked && interactableInRange.GetType() == typeof(JellyfishLadder))
             {
                 JellyfishLadder ladder = interactableInRange as JellyfishLadder;
                 onInteractableOutOfRange?.Invoke();
