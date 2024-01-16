@@ -29,9 +29,8 @@ public class Search : Action
                 break;
 
             case (SearchTarget.Tree):
-
-                Tree t = new Tree();
-                if (LookForObjects<Tree>.TryGetClosestObject(t, creature.transform.position, searchRadius, out t))
+                IBreakable t = new FruitTree();
+                if (LookForObjects<IBreakable>.TryGetClosestObject(t, creature.transform.position, searchRadius, out t))
                 {
                     DoAction();
                     return t.gameObject;

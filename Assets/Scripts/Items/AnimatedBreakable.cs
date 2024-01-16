@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class AnimatedBreakable : MonoBehaviour, IBreakable
 {
+
     [field: SerializeField] private AudioClip breakingSound;
     [SerializeField] private Animator animator;
     [SerializeField] private string animationTrigger = "Break";
