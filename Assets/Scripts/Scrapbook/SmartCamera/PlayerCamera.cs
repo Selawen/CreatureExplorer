@@ -88,7 +88,7 @@ public class PlayerCamera : MonoBehaviour
     {
         if (callbackContext.started)
         {
-            if (soundPlayer != null)
+            if (soundPlayer != null && !soundPlayer.AlreadyPlaying())
             {
                 soundPlayer.PlaySound(callbackContext.ReadValue<Vector2>().y > 0 ? zoomInSound:zoomOutSound, true); 
             }

@@ -21,6 +21,11 @@ public class SoundPlayer : MonoBehaviour
         }
     }
 
+    public bool AlreadyPlaying()
+    {
+        return audioSource.isPlaying;
+    }
+
     public void PlaySound(AudioClip clip, bool playOneshot = false)
     {
         if (clip != null)

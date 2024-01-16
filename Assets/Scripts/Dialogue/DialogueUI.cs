@@ -50,7 +50,8 @@ public class DialogueUI : MonoBehaviour
             textField.text = shownTexts[0];
         } else
         {
-            textField.text = "Something went wrong";
+            Debug.Log("Something went wrong, Dialogue was triggered but no text was given");
+            return;
         }
         UIObject.SetActive(true);
     }

@@ -11,7 +11,7 @@ public class QuestPictureInterface : PageComponentInteractor
     [SerializeField] private TMP_Text descriptionText;
     [SerializeField] private TMP_Text feedbackText;
 
-    [SerializeField] private Image handInBackground;
+    [SerializeField] private Image handInBackground, descriptionBackground;
     [SerializeField] private Sprite defaultBackground, incorrectBackground, correctBackground;
 
     [SerializeField] private Image handInFrame;
@@ -25,6 +25,7 @@ public class QuestPictureInterface : PageComponentInteractor
     {
         StaticQuestHandler.OnQuestOpened += () => 
         {
+            descriptionBackground.color = Color.white;
             handInBackground.color = Color.white;
             pictureSlot.SetActive(true);
             
@@ -55,6 +56,7 @@ public class QuestPictureInterface : PageComponentInteractor
 
         StaticQuestHandler.OnQuestClosed += () => 
         {
+            descriptionBackground.color = new Color(1, 1, 1, 0);
             handInBackground.color = new Color(1, 1, 1, 0);
             handInBackground.sprite = defaultBackground;
             handInFrame.sprite = defaultFrame;

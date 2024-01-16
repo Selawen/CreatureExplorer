@@ -20,6 +20,9 @@ public class GrandTemple : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        if (templeAnimator == null)
+            templeAnimator = GetComponentInChildren<Animator>();
+
         OnStatueCleared += EvaluateStatue;
     }
 
