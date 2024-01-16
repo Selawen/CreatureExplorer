@@ -2,11 +2,13 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
     public static float Loudness { get; private set; } = 5;
+    public InputSystemUIInputModule InputModule { get { return module; } }
 
     [Header("Interaction and Physicality")]
     [SerializeField] private float maximumViewAngle = 70f;
@@ -52,6 +54,8 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Only present for testing purposes")]
     [SerializeField] private bool pouchUnlocked;
 
+    [SerializeField] private InputSystemUIInputModule module;
+
     private bool died;
     private float verticalRotation;
 
@@ -71,6 +75,10 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        if (!module)
+        {
+            throw new System.Exception("No Input Module assigned, this will break the interface handling and should not be skipped!");
+        }
         rb = GetComponent<Rigidbody>();
         stateMachine = new FiniteStateMachine(typeof(WalkingState), GetComponents<IState>());
         firstPersonCamera = Camera.main;

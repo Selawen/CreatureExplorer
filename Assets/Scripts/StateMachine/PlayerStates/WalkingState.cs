@@ -31,13 +31,16 @@ public class WalkingState : State
         }
     }
 
-    public override void OnStateFixedUpdate()
+    public override void OnStateUpdate()
     {
-        if(!Physics.CheckSphere(transform.position, 0.25f, ~playerLayer, QueryTriggerInteraction.Ignore))
+        if (!Physics.CheckSphere(transform.position, 0.25f, ~playerLayer, QueryTriggerInteraction.Ignore))
         {
             Owner.SwitchState(typeof(FallingState));
-            return;
         }
+    }
+    public override void OnStateFixedUpdate()
+    {
+
         Move();
     }
 
@@ -87,6 +90,7 @@ public class WalkingState : State
             rigidbody.velocity = newVelocity;
         } else
         {
+            rigidbody.velocity = Vector3.up * rigidbody.velocity.y;
             PlayerController.SetLoudness(0);
         }
     }
