@@ -36,7 +36,7 @@ public class GrandTemple : MonoBehaviour
         if(statuesCleared == secondStageRequirement)
         {
             OnRingExtended?.Invoke();
-            templeAnimator.SetTrigger("2stLayer");
+            templeAnimator.SetTrigger("2ndLayer");
 
             DialogueUI.ShowText(secondStageDialogue);
         }

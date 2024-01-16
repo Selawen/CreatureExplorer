@@ -274,8 +274,9 @@ public class PlayerController : MonoBehaviour
     {
         System.Type stateType = stateMachine.CurrentState.GetType();
 
-        if (stateType != typeof(WalkingState) && stateType != typeof(FallingState) && stateType != typeof(JumpingState))
+        if ((stateType != typeof(WalkingState) && stateType != typeof(FallingState) && stateType != typeof(JumpingState)) || playerInput.currentActionMap.name != "Overworld")
         {
+            onInteractableOutOfRange?.Invoke();
             return;
         }
 
