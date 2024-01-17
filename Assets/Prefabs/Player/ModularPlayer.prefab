@@ -826,6 +826,18 @@ MonoBehaviour:
           m_StringArgument: Overworld
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2560096533833296785}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 8e87bd79-a51a-40fe-be16-6c231b85a225
     m_ActionName: Menu/UnPause[/Keyboard/escape,/DualSenseGamepadHID/start]
   - m_PersistentCalls:
@@ -3426,6 +3438,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &2560096533833296785 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8695079949962291102, guid: 66818856939f3fc44879a34466502a7b,
+    type: 3}
+  m_PrefabInstance: {fileID: 6569743735549594639}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2560096533973440068 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8695079949523622475, guid: 66818856939f3fc44879a34466502a7b,
