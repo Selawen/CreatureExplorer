@@ -19,7 +19,7 @@ public class FallingState : State
 
     [SerializeField] private UnityEvent onLethalLanding;
 
-    private float fallVelocity;
+    //private float fallVelocity;
     private new Rigidbody rigidbody;
 
     private Vector2 moveInput;
@@ -53,7 +53,7 @@ public class FallingState : State
         }
         if (Physics.CheckSphere(transform.position, 0.25f, ~playerLayer, QueryTriggerInteraction.Ignore))
         {
-            if (fallVelocity <= -lethalVelocity)
+            if (rigidbody.velocity.y <= -lethalVelocity)
             {
                 // Die
                 dbg_SharedSource.clip = dbg_DeathSound;
@@ -61,13 +61,13 @@ public class FallingState : State
                 onLethalLanding?.Invoke();
                 return;
             }
-            if (fallVelocity <= -cripplingVelocity)
+            if (rigidbody.velocity.y <= -cripplingVelocity)
             {
                 // Incapacitate the player for a while
                 Owner.SwitchState(typeof(CrippledState));
                 return;
             }
-            if(fallVelocity <= -painfulVelocity)
+            if(rigidbody.velocity.y <= -painfulVelocity)
             {
                 // This hurts the player a bit for a short while.
                 Owner.SwitchState(typeof(HurtState));
@@ -79,16 +79,12 @@ public class FallingState : State
     public override void OnStateFixedUpdate()
     {
         Move();
-        if(fallVelocity > rigidbody.velocity.y)
-        {
-            fallVelocity = rigidbody.velocity.y;
-        }
     }
 
-    public override void OnStateExit()
-    {
-        fallVelocity = 0;
-    }
+    //public override void OnStateExit()
+    //{
+    //    fallVelocity = 0;
+    //}
 
     public void GetMoveInput(InputAction.CallbackContext callbackContext)
     {

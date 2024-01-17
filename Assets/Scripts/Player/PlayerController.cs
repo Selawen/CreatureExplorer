@@ -61,6 +61,7 @@ public class PlayerController : MonoBehaviour
 
     private Vector2 rotationInput;
     private float rotationSpeed = 1f;
+    private bool berryPouchIsOpen;
 
     private Rigidbody rb;
     private FiniteStateMachine stateMachine;
@@ -98,6 +99,7 @@ public class PlayerController : MonoBehaviour
         StaticQuestHandler.OnQuestInputDisabled += () =>
         {
             playerInput.SwitchCurrentActionMap("Await");
+            //module
             //if (playerInput.currentActionMap.name != "Dialogue")
             //    playerInput.SwitchCurrentActionMap("Overworld");
             //rb.isKinematic = true;
@@ -105,6 +107,7 @@ public class PlayerController : MonoBehaviour
 
         StaticQuestHandler.OnQuestOpened += () =>
         {
+            LinkModuleToScrapbook();
             playerInput.SwitchCurrentActionMap("Scrapbook");
             onInteractableOutOfRange?.Invoke();
         };
@@ -112,6 +115,7 @@ public class PlayerController : MonoBehaviour
         {
             if (playerInput.currentActionMap.name != "Dialogue")
                 playerInput.SwitchCurrentActionMap("Overworld");
+            LinkModuleToOverworld();
             // rb.isKinematic = false;
             Cursor.lockState = CursorLockMode.Locked;
             stateMachine.SwitchState(typeof(WalkingState));
@@ -235,6 +239,7 @@ public class PlayerController : MonoBehaviour
     {
         if (callbackContext.started)
         {
+            LinkModuleToScrapbook();
             playerInput.SwitchCurrentActionMap("Scrapbook");
             onScrapbookOpened?.Invoke();
             Cursor.lockState = CursorLockMode.None;
@@ -262,6 +267,57 @@ public class PlayerController : MonoBehaviour
 
     public void SetRotationSpeed(float newSpeed) => rotationSpeed = newSpeed;
 
+    public void ToggleBerryPouch(InputAction.CallbackContext context)
+    {
+        if (!pouchUnlocked) return;
+
+        if (context.started)
+        {
+            berryPouchIsOpen = !berryPouchIsOpen;
+            if (berryPouchIsOpen)
+            {
+                pouch.OpenPouch();
+                return;
+            }
+            pouch.ClosePouch();
+        }
+    }
+
+    public void ToggleBerryPouch(bool newState)
+    {
+        if (!pouchUnlocked) return;
+
+        berryPouchIsOpen = newState;
+        if (berryPouchIsOpen)
+        {
+            pouch.OpenPouch();
+            return;
+        }
+        pouch.ClosePouch();
+    }
+
+    public void LinkModuleToOverworld()
+    {
+        // The move element needs to be set for gamepad controls. Implement this later, as you won't be able to select berries without this.
+        module.leftClick = InputActionReference.Create(playerInput.actions.FindActionMap("Overworld").FindAction("Click"));
+        module.point = InputActionReference.Create(playerInput.actions.FindActionMap("Overworld").FindAction("Point"));
+    }
+
+    public void LinkModuleToScrapbook()
+    {
+        module.leftClick = InputActionReference.Create(playerInput.actions.FindActionMap("Scrapbook").FindAction("Click"));
+        module.point = InputActionReference.Create(playerInput.actions.FindActionMap("Scrapbook").FindAction("Point"));
+        module.move = InputActionReference.Create(playerInput.actions.FindActionMap("Scrapbook").FindAction("Move"));
+
+    }
+
+    public void LinkModuleToPauseMenu()
+    {
+        module.leftClick = InputActionReference.Create(playerInput.actions.FindActionMap("Menu").FindAction("Click"));
+        module.point = InputActionReference.Create(playerInput.actions.FindActionMap("Menu").FindAction("Point"));
+        module.move = InputActionReference.Create(playerInput.actions.FindActionMap("Menu").FindAction("Move"));
+    }
+
     private void CarryThrowable(Throwable throwable)
     {
         heldThrowable = throwable;
@@ -274,7 +330,9 @@ public class PlayerController : MonoBehaviour
     }
 
     private void HandleRotation(Vector2 lookInput)
-    { 
+    {
+        if (berryPouchIsOpen) return;
+
         verticalRotation = Mathf.Clamp(verticalRotation - (lookInput.y * gameSettings.LookSensitivity * rotationSpeed), -maximumViewAngle, maximumViewAngle);
         transform.Rotate(new Vector3(0, lookInput.x * gameSettings.LookSensitivity * rotationSpeed, 0));
     }
@@ -349,10 +407,12 @@ public class PlayerController : MonoBehaviour
     }
     private void UnlockPouch()
     {
+        pouchUnlocked = true;
         pouch.Unlock();
         onPouchUnlocked?.Invoke();
         GrandTemple.OnRingExtended -= UnlockPouch;
         GrandTemple.OnRingExtended += UnlockClimb;
+        LinkModuleToOverworld();
     }
     private IEnumerator Die()
     {

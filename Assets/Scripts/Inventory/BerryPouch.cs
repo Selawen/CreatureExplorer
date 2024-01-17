@@ -33,7 +33,6 @@ public class BerryPouch : MonoBehaviour
         {
             pouchGraphic.SetActive(true);
             Cursor.lockState = CursorLockMode.Confined;
-            input.SwitchCurrentActionMap("Pouch");
         }
     }
 
@@ -41,7 +40,6 @@ public class BerryPouch : MonoBehaviour
     {
         pouchGraphic.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
-        input.SwitchCurrentActionMap("Overworld");
     }
 
     public bool AddBerry(Throwable berry)
@@ -66,7 +64,7 @@ public class BerryPouch : MonoBehaviour
                             HoldingBerry = true;
                             berryPouch.RemoveItemFromInventory(berry);
                             controller.ReceiveRetrievedBerry(berry);
-                            ClosePouch();
+                            controller.ToggleBerryPouch(false);
                             Destroy(berryButton.gameObject);
                         }
                     });
