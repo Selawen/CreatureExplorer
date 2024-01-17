@@ -68,18 +68,6 @@ public class Creature : MonoBehaviour
     {
         UpdateValues();
 
-        
-        Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit);
-        if (transform.up != hit.normal)
-        {
-            Vector3 tempForward = Vector3.Cross(hit.normal, transform.right);
-            if ((transform.forward - tempForward).magnitude > 1)
-            {
-                tempForward *= -1;
-            }
-            transform.up = hit.normal;
-            transform.forward = tempForward; 
-        }
 
         if (CurrentAction != null)
         {
@@ -100,6 +88,7 @@ public class Creature : MonoBehaviour
     private void StartCoroutines()
     {
         StartCoroutine(LookAtSurroundings());
+        StartCoroutine(TiltWithGround());
     }
 
     private void OnDisable()
@@ -410,6 +399,23 @@ public class Creature : MonoBehaviour
         currentCreatureState.AddValue(foodcount, StateType.Hunger);
 
         //DebugMessage($"found {foodcount} {FoodSource}, hunger is now {currentCreatureState.Find(StateType.Hunger).StateValue}");
+    }
+
+    protected IEnumerator TiltWithGround()
+    {
+        yield return new WaitForSeconds(data.GroundTiltTimer);
+        StartCoroutine(TiltWithGround());
+        Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit);
+        if (transform.up != hit.normal)
+        {
+            Vector3 tempForward = Vector3.Cross(hit.normal, transform.right);
+            if ((transform.forward - tempForward).magnitude > 1)
+            {
+                tempForward *= -1;
+            }
+            transform.up = hit.normal;
+            transform.forward = tempForward;
+        }
     }
 
     protected Condition SetConditionTrue(Condition currentState, Condition flagToSet)

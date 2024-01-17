@@ -11,6 +11,7 @@ public class CreatureData : ScriptableObject
     [field: SerializeField] public DistantLands.Cozy.MeridiemTime WakeTime { get; private set; }
     [field: SerializeField] public float HearingSensitivity { get; private set; }
     [field: SerializeField] public float CheckSurroundingsTimer { get; private set; } 
+    [field: SerializeField] public float GroundTiltTimer { get; private set; } 
 
     [field: SerializeField] public float DecayTimer { get; private set; }
 
