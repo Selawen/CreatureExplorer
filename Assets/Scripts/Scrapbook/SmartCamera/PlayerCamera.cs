@@ -150,6 +150,10 @@ public class PlayerCamera : MonoBehaviour
 
             byte[] byteArray = renderedTexture.EncodeToPNG();
             File.WriteAllBytes(savingPath, byteArray);
+            pictureInfo.PicturePath = savingPath;
+
+            // To do: After implementing saving, make sure to not remove the pictures that are still used by the player.
+            Application.quitting += () => RemovePicturesFromSystem(savingPath);
 
             Texture2D png = LoadTexture(savingPath);
             Sprite spr = Sprite.Create(png, new Rect(0, 0, png.width, png.height), Vector2.one * 0.5f);
@@ -225,6 +229,17 @@ public class PlayerCamera : MonoBehaviour
         return result;
     }
 
+    private void RemovePicturesFromSystem(string path)
+    {
+        if (File.Exists(path))
+        {
+            File.Delete(path);
+            if(File.Exists(path + ".meta"))
+            {
+                File.Delete(path + ".meta");
+            }
+        }
+    }
 
     private Texture2D LoadTexture(string FilePath)
     {

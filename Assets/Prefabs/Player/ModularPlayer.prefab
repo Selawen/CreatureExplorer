@@ -537,6 +537,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 6911812891285862678}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: fa95438a-cb8d-4fbd-af8d-970e8551fc7b
     m_ActionName: Overworld/CameraMode[/Keyboard/c]
   - m_PersistentCalls:
@@ -572,6 +584,18 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 6911812891285862678}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
         m_CallState: 2
     m_ActionId: c2f94bbc-80a8-479f-9411-8b089eeee127
     m_ActionName: Camera/Exit[/Mouse/rightButton]
@@ -2970,6 +2994,11 @@ PrefabInstance:
       propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8695079948551046709, guid: 66818856939f3fc44879a34466502a7b,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8695079948592149499, guid: 66818856939f3fc44879a34466502a7b,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -3080,6 +3109,11 @@ PrefabInstance:
       propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8695079949523622475, guid: 66818856939f3fc44879a34466502a7b,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8695079949525367799, guid: 66818856939f3fc44879a34466502a7b,
         type: 3}
       propertyPath: menuHandler
@@ -3113,6 +3147,11 @@ PrefabInstance:
     - target: {fileID: 8695079949579426045, guid: 66818856939f3fc44879a34466502a7b,
         type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8695079949707663822, guid: 66818856939f3fc44879a34466502a7b,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8695079949917361436, guid: 66818856939f3fc44879a34466502a7b,
@@ -3357,7 +3396,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 6569743735549594639}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
@@ -3393,7 +3432,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 6569743735549594639}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
@@ -3417,7 +3456,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 6569743735549594639}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
