@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float interactHeight = 0.875f;
     [SerializeField] private float interactionRadius = 1.25f;
     [SerializeField] private float climbDistance = 0.25f;
+    [SerializeField] private float readingDistance = 15f;
     [SerializeField] private float throwForce = 4f;
     [SerializeField] private Transform throwPoint;
 
@@ -363,6 +364,17 @@ public class PlayerController : MonoBehaviour
                 climbControlImage.sprite = climbDisabledSprite;
             }
         }
+
+        if (Physics.Raycast(transform.position + Vector3.up * interactHeight, transform.forward, out RaycastHit mural, readingDistance, interactionLayers))
+        {
+                if (mural.transform.TryGetComponent(out InteractableDialogue muralText))
+                {
+                    interactableInRange = muralText;
+                    onInteractableFound?.Invoke(interactableInRange.InteractionPrompt);
+                }
+
+        }
+        
         Collider[] collisions = Physics.OverlapSphere(transform.position + transform.forward * interactionDistance + Vector3.up * interactHeight, interactionRadius, interactionLayers);
         if (collisions.Length > 0)
         {

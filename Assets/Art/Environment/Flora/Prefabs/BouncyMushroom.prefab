@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 2177024079779399261}
   - component: {fileID: 4166569164207157911}
   - component: {fileID: 7404848453656543168}
-  - component: {fileID: -970120703102766988}
   - component: {fileID: -5826943803364984933}
+  - component: {fileID: 1365504543769065003}
   m_Layer: 0
   m_Name: BouncyMushroom
   m_TagString: Untagged
@@ -103,20 +103,6 @@ MonoBehaviour:
   bounceModifier: 0.7
   minimumExitForce: 2
   maximumExitForce: 10
---- !u!64 &-970120703102766988
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2509170078365668162}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -8763475145305570103, guid: 3e2b67c15b5524e4b9faa5ba12bdc29f, type: 3}
 --- !u!205 &-5826943803364984933
 LODGroup:
   m_ObjectHideFlags: 0
@@ -136,3 +122,17 @@ LODGroup:
     renderers:
     - renderer: {fileID: 4166569164207157911}
   m_Enabled: 1
+--- !u!136 &1365504543769065003
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2509170078365668162}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.6745493
+  m_Height: 1.1397506
+  m_Direction: 1
+  m_Center: {x: -0.0051287413, y: 0.5400019, z: 0.0039134026}
