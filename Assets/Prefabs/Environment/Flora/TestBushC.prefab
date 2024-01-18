@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2844046998924221889}
+  - component: {fileID: -5329420809185511736}
   m_Layer: 0
   m_Name: TestBushC
   m_TagString: Untagged
@@ -32,6 +33,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!205 &-5329420809185511736
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3185105973019969403}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0, y: 0, z: 0}
+  m_Size: 1
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.033644896
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 7833039620512974881}
+  - screenRelativeHeight: 0.01
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 6036567005691081613}
+  - screenRelativeHeight: 0.01
+    fadeTransitionWidth: 0
+    renderers: []
+  m_Enabled: 1
 --- !u!1001 &5727099055302403674
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -144,6 +171,18 @@ PrefabInstance:
 --- !u!4 &998921580943683135 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4802631459562637413, guid: 953488a5487c66145ab33757139f014c,
+    type: 3}
+  m_PrefabInstance: {fileID: 5727099055302403674}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &6036567005691081613 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2070687752454215127, guid: 953488a5487c66145ab33757139f014c,
+    type: 3}
+  m_PrefabInstance: {fileID: 5727099055302403674}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &7833039620512974881 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2580054851773460091, guid: 953488a5487c66145ab33757139f014c,
     type: 3}
   m_PrefabInstance: {fileID: 5727099055302403674}
   m_PrefabAsset: {fileID: 0}
