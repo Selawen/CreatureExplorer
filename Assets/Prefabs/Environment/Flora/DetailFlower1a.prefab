@@ -11,12 +11,13 @@ GameObject:
   - component: {fileID: 6959002109991303630}
   - component: {fileID: 6286053219763664491}
   - component: {fileID: 8131384714388193953}
+  - component: {fileID: 3868904217127415536}
   m_Layer: 0
   m_Name: DetailFlower1a
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 119
   m_IsActive: 1
 --- !u!4 &6959002109991303630
 Transform:
@@ -84,3 +85,25 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!205 &3868904217127415536
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7771109732555285364}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0, y: 0, z: 0}
+  m_Size: 1
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.005
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 8131384714388193953}
+  - screenRelativeHeight: 0.005
+    fadeTransitionWidth: 0
+    renderers: []
+  m_Enabled: 1
