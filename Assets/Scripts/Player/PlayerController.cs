@@ -34,6 +34,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private UnityEvent onInteractableOutOfRange;
     [SerializeField] private UnityEvent onPouchUnlocked;
     [SerializeField] private UnityEvent onClimbingUnlocked;
+    [SerializeField] private UnityEvent onBerryThrown;
+    [SerializeField] private UnityEvent onBerryPickup;
 
     [Header("Climbing UI")]
     [SerializeField] private UnityEngine.UI.Image climbControlImage;
@@ -205,11 +207,13 @@ public class PlayerController : MonoBehaviour
                 {
                     CarryThrowable(berry);
                     pouch.HoldingBerry = true;
+                    onBerryPickup?.Invoke();
                     return;
                 }
                 else if (pouch.AddBerry(berry))
                 {
                     berry.gameObject.SetActive(false);
+                    onBerryPickup?.Invoke();
                     return;
                 }
             }
@@ -257,6 +261,7 @@ public class PlayerController : MonoBehaviour
             heldThrowable.Throw(firstPersonCamera.transform.forward, throwForce);
             pouch.HoldingBerry = false;
             heldThrowable = null;
+            onBerryThrown?.Invoke();
         }
     }
     public void ReceiveRetrievedBerry(Throwable berry)

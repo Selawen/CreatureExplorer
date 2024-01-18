@@ -1112,6 +1112,38 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+  onBerryThrown:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7145836987390312232}
+        m_TargetAssemblyTypeName: SoundPlayer, Assembly-CSharp
+        m_MethodName: PlayOnClick
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: c1fb1ee8f5f9d7b458d7e0a3252488fd,
+            type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onBerryPickup:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7145836987390312232}
+        m_TargetAssemblyTypeName: SoundPlayer, Assembly-CSharp
+        m_MethodName: PlayOnClick
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: 1f333b83e9161084094b0f9efcd63c34,
+            type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   climbControlImage: {fileID: 6281390158045617066}
   climbDisabledSprite: {fileID: 21300000, guid: 5784ab0a67f83aa44804b44d83cf8cee,
     type: 3}
