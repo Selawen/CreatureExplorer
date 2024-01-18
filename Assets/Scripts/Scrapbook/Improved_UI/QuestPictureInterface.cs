@@ -20,11 +20,13 @@ public class QuestPictureInterface : PageComponentInteractor
     [SerializeField] private GameObject pictureSlot;
 
     private PagePicture slottedPicture;
+    private bool questInterfaceOpened;
 
     private void Awake()
     {
         StaticQuestHandler.OnQuestOpened += () => 
         {
+            questInterfaceOpened = true;
             descriptionBackground.color = Color.white;
             handInBackground.color = Color.white;
             pictureSlot.SetActive(true);
@@ -54,8 +56,9 @@ public class QuestPictureInterface : PageComponentInteractor
             }
         };
 
-        StaticQuestHandler.OnQuestClosed += () => 
+        StaticQuestHandler.OnQuestClosed += () =>
         {
+            questInterfaceOpened = false;
             descriptionBackground.color = new Color(1, 1, 1, 0);
             handInBackground.color = new Color(1, 1, 1, 0);
             handInBackground.sprite = defaultBackground;
@@ -77,7 +80,7 @@ public class QuestPictureInterface : PageComponentInteractor
 
     public override bool OnComponentDroppedOn(PageComponent component)
     {
-        if (component.GetType() != typeof(PagePicture) || slottedPicture != null) 
+        if (!questInterfaceOpened || component.GetType() != typeof(PagePicture) || slottedPicture != null) 
             return false;
 
         PagePicture picture = component as PagePicture;

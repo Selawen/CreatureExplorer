@@ -59,6 +59,7 @@ public class Scrapbook : MonoBehaviour
     {
         ClosePages(); 
         CloseTracker();
+        StaticQuestHandler.OnPictureClicked += DockDelegate;
     }
 
     public void ClosePages()
@@ -197,6 +198,7 @@ public class Scrapbook : MonoBehaviour
         progressTrackerTab.SetActive(true);
         previousPageButton.SetActive(false);
         nextPageButton.SetActive(false);
+        CurrentPage.gameObject.SetActive(false);
     }
 
     private void CloseTracker()
@@ -210,7 +212,7 @@ public class Scrapbook : MonoBehaviour
         {
             nextPageButton.SetActive(true);
         }
-
+        CurrentPage.gameObject.SetActive(true);
     }
 
 }
