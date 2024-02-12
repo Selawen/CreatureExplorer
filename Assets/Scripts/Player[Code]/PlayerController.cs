@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
+using UnityEngine.XR;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
@@ -340,7 +341,16 @@ public class PlayerController : MonoBehaviour
         if (berryPouchIsOpen) return;
 
         verticalRotation = Mathf.Clamp(verticalRotation - (lookInput.y * gameSettings.LookSensitivity * rotationSpeed), -maximumViewAngle, maximumViewAngle);
-        transform.Rotate(new Vector3(0, lookInput.x * gameSettings.LookSensitivity * rotationSpeed, 0));
+        System.Collections.Generic.List<UnityEngine.XR.InputDevice> inputDevices = new System.Collections.Generic.List<UnityEngine.XR.InputDevice>();
+        UnityEngine.XR.InputDevices.GetDevicesWithCharacteristics(UnityEngine.XR.InputDeviceCharacteristics.HeadMounted, inputDevices);
+        if (inputDevices.Count < 1)
+        {
+            transform.Rotate(new Vector3(0, lookInput.x * gameSettings.LookSensitivity * rotationSpeed, 0));
+        }
+        else
+        {
+            //TODO: set player forward to direction headset is looking
+        }
     }
     private void HandleInteract()
     {

@@ -47,7 +47,10 @@ public class CrouchingState : State
         capsuleCollider.height = crouchHeight;
         capsuleCollider.center = Vector3.up * (crouchHeight * 0.5f);
 
-        firstPersonCamera.GetComponent<FollowTarget>().ChangeOffset(new Vector3(0, crouchEyeHeight, 0));
+        if (firstPersonCamera.TryGetComponent(out FollowTarget target))
+            target.ChangeOffset(new Vector3(0, crouchEyeHeight, 0));
+        else
+            firstPersonCamera.GetComponentInParent<FollowTarget>().ChangeOffset(new Vector3(0, crouchEyeHeight, 0));
     }
 
     public override void OnStateFixedUpdate()

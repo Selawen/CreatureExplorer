@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class FollowTarget : MonoBehaviour
 {
-    public Vector3 TrueOffset { get; private set;}
+    [field: ShowOnly] public Vector3 TrueOffset { get; private set;}
 
     [SerializeField] private bool followPosition;
     [SerializeField] private bool maintainCurrentOffset;
