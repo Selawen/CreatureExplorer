@@ -331,7 +331,6 @@ public class Creature : MonoBehaviour
 
             if (showThoughts)
             {
-                // TODO: implement proper reaction
                 goalText.text = "DEAD";
                 soundText.text = "DEAD";
                 actionText.text = "";

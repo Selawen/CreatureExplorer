@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private UnityEvent onInteractableOutOfRange;
     [SerializeField] private UnityEvent onPouchUnlocked;
     [SerializeField] private UnityEvent onClimbingUnlocked;
+    [SerializeField] private UnityEvent onHurt;
     [SerializeField] private UnityEvent onBerryThrown;
     [SerializeField] private UnityEvent onBerryPickup;
 
@@ -203,7 +204,11 @@ public class PlayerController : MonoBehaviour
                 transform.SetParent(ladder.transform);
                 climbControlImage.sprite = climbDisabledSprite;
                 return;
+            } else if (interactableInRange.GetType() == typeof(JellyfishLadder))
+            {
+                onHurt?.Invoke();
             }
+
             if (interactableInRange.GetType() == typeof(Throwable))
             {
                 Throwable berry = interactableInRange as Throwable;
@@ -355,7 +360,6 @@ public class PlayerController : MonoBehaviour
 
         if (VRChecker.IsVR)
         {
-            //TODO: set player forward to direction headset is looking
             Vector3 lookingForward = firstPersonCamera.transform.forward;
             lookingForward.y = 0;
             lookingForward = lookingForward.normalized;

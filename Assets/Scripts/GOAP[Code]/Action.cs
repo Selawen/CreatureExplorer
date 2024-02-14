@@ -297,6 +297,7 @@ abstract public class Action : MonoBehaviour
         }
     }
 
+    // TODO: change to animated event 
     protected async Task EndAnimation()
     {
         if (animator == null || animator.GetBool("Die")) return;
