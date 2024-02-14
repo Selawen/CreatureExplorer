@@ -1,0 +1,23 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class SlowRotate : MonoBehaviour
+{
+    [SerializeField] private float rotationSensitivity;
+    [SerializeField] private Transform rotationTarget;
+
+    
+    void LateUpdate()
+    {
+        Vector3 rotatedDirection = transform.position - rotationTarget.position;
+        float currentAngle = Vector3.SignedAngle(new Vector3(rotatedDirection.x, 0, rotatedDirection.z), new Vector3(rotationTarget.forward.x ,  0 , rotationTarget.forward.z), Vector3.up);
+        
+        //Debug.Log($"Angle: {currentAngle}, rotated direction: {rotatedDirection}, camRotation: {rotationTarget.rotation.y}");
+
+        if (Mathf.Abs(currentAngle) > rotationSensitivity)
+            transform.RotateAround(rotationTarget.position, transform.parent.up, rotationTarget.rotation.y+(currentAngle * 0.01f));
+
+        transform.LookAt(Camera.main.transform.position, Vector3.up);
+    }
+}

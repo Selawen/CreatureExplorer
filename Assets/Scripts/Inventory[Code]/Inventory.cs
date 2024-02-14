@@ -55,6 +55,8 @@ public class Inventory<T>
     public ushort GetItemCount() => (ushort)inventoryItems.Count;
 
     public ushort GetCapacity() => capacity;
+
+    public void AdjustCapacity(ushort addedAmount) => capacity += addedAmount;
     
     public List<T> GetContents() => inventoryItems;
 
