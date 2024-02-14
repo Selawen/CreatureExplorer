@@ -30,7 +30,6 @@ public class PlayerEventCaster : EventCaster
         {
             await Task.Delay((int)(frequentInvokeTimer * 1000));
 
-            // TODO: change hardcoded loudness to one dictated by player statemachine
             makeSound.Invoke(transform.position, PlayerController.Loudness);
         }
     }
