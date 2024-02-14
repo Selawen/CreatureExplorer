@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(Rigidbody), typeof(PhysicsStepper))]
+//[RequireComponent(typeof(Rigidbody), typeof(PhysicsStepper))]
 public class WalkingState : State
 {
     [SerializeField] private float walkSpeed = 5f;
@@ -18,12 +18,12 @@ public class WalkingState : State
 
     private Vector2 moveInput;
 
-    private new Rigidbody rigidbody;
+    [SerializeField] private new Rigidbody rigidbody;
     private PhysicsStepper stepper;
 
     private void Awake()
     {
-        rigidbody = GetComponent<Rigidbody>();
+        //rigidbody = GetComponent<Rigidbody>();
         stepper = GetComponent<PhysicsStepper>();
         if(strafeSprintSpeed >= sprintSpeed)
         {
@@ -33,7 +33,7 @@ public class WalkingState : State
 
     public override void OnStateUpdate()
     {
-        if (!Physics.CheckSphere(transform.position, 0.25f, ~playerLayer, QueryTriggerInteraction.Ignore))
+        if (!Physics.CheckSphere(rigidbody.transform.position, 0.25f, ~playerLayer, QueryTriggerInteraction.Ignore))
         {
             Owner.SwitchState(typeof(FallingState));
         }

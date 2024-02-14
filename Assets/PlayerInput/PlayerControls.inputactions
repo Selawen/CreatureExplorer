@@ -237,6 +237,17 @@
                 {
                     "name": "",
                     "id": "d84ea603-e5c1-4c8a-ae3e-e55b58f21992",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "OpenBook",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e61bec5a-bd70-4fda-abaf-052ee51082bc",
                     "path": "<Keyboard>/b",
                     "interactions": "",
                     "processors": "",
@@ -413,7 +424,7 @@
                 {
                     "name": "",
                     "id": "54f46edd-6f3d-4f9b-9e4f-a8e526c2d829",
-                    "path": "<Keyboard>/r",
+                    "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
@@ -588,6 +599,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "CloseQuest",
+                    "type": "Button",
+                    "id": "8653d67f-bdea-4211-a0f1-00653926b143",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -692,6 +712,17 @@
                 },
                 {
                     "name": "",
+                    "id": "3c553663-f3a3-48df-ab82-6bcee19826d8",
+                    "path": "<Keyboard>/b",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "QuickCloseBook",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "152c5d6c-7927-4456-b286-5f7ce2a514eb",
                     "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
@@ -704,7 +735,7 @@
                 {
                     "name": "",
                     "id": "11f7d896-c55b-45ca-bb87-2b6eb8dcd764",
-                    "path": "<Keyboard>/b",
+                    "path": "<Keyboard>/tab",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
@@ -753,6 +784,28 @@
                     "processors": "",
                     "groups": "XR",
                     "action": "TrackedOrientation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "dd34bc55-a614-48e3-af7c-fec86404acdf",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "CloseQuest",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9f42fe6d-0622-403b-bc75-d6f52444b0cd",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "CloseQuest",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

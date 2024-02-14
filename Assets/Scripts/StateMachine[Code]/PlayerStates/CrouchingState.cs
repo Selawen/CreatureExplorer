@@ -39,7 +39,8 @@ public class CrouchingState : State
 
     private void Start()
     {
-        defaultEyeHeight = firstPersonCamera.GetComponent<FollowTarget>().TrueOffset.y;
+        //if (!VRChecker.IsVR)
+            //defaultEyeHeight = firstPersonCamera.GetComponent<FollowTarget>().TrueOffset.y;
     }
 
     public override void OnStateEnter()
@@ -63,7 +64,8 @@ public class CrouchingState : State
         capsuleCollider.height = standardColliderHeight;
         capsuleCollider.center = Vector3.up * (standardColliderHeight * 0.5f);
 
-        firstPersonCamera.GetComponent<FollowTarget>().ChangeOffset(new Vector3(0, defaultEyeHeight, 0));
+        if (!VRChecker.IsVR)
+            firstPersonCamera.GetComponent<FollowTarget>().ChangeOffset(new Vector3(0, defaultEyeHeight, 0));
     }
 
     public void GetMoveInput(InputAction.CallbackContext callbackContext)

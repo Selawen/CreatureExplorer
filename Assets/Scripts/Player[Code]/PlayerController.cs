@@ -31,10 +31,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private UnityEvent onScrapbookClosed;
     [SerializeField] private UnityEvent onCameraOpened;
     [SerializeField] private UnityEvent onCameraClosed;
-    [SerializeField] private UnityEvent<string> onInteractableFound;
+    [SerializeField] private UnityEvent<string, Vector3> onInteractableFound;
     [SerializeField] private UnityEvent onInteractableOutOfRange;
     [SerializeField] private UnityEvent onPouchUnlocked;
     [SerializeField] private UnityEvent onClimbingUnlocked;
+    [SerializeField] private UnityEvent onHurt;
     [SerializeField] private UnityEvent onBerryThrown;
     [SerializeField] private UnityEvent onBerryPickup;
 
@@ -84,6 +85,7 @@ public class PlayerController : MonoBehaviour
         {
             throw new System.Exception("No Input Module assigned, this will break the interface handling and should not be skipped!");
         }
+
         rb = GetComponent<Rigidbody>();
         stateMachine = new FiniteStateMachine(typeof(WalkingState), GetComponents<IState>());
         firstPersonCamera = Camera.main;
@@ -166,7 +168,9 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         stateMachine.OnFixedUpdate();
-        firstPersonCamera.transform.rotation = Quaternion.Euler(new Vector3(verticalRotation, transform.eulerAngles.y, 0));
+
+        if (!VRChecker.IsVR)
+            firstPersonCamera.transform.rotation = Quaternion.Euler(new Vector3(verticalRotation, transform.eulerAngles.y, 0));
         //pictureCamera.transform.rotation = Quaternion.Euler(new Vector3(verticalRotation, transform.eulerAngles.y, 0));
     }
 
@@ -200,7 +204,11 @@ public class PlayerController : MonoBehaviour
                 transform.SetParent(ladder.transform);
                 climbControlImage.sprite = climbDisabledSprite;
                 return;
+            } else if (interactableInRange.GetType() == typeof(JellyfishLadder))
+            {
+                onHurt?.Invoke();
             }
+
             if (interactableInRange.GetType() == typeof(Throwable))
             {
                 Throwable berry = interactableInRange as Throwable;
@@ -232,6 +240,16 @@ public class PlayerController : MonoBehaviour
         rotationInput = callbackContext.ReadValue<Vector2>();
     }
     
+    public void GetCloseQuestInput(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.started)
+        {
+            playerInput.SwitchCurrentActionMap("Overworld");
+            StaticQuestHandler.OnQuestClosed.Invoke();
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+    }
+
     public void GetCloseScrapbookInput(InputAction.CallbackContext callbackContext)
     {
         if (callbackContext.started)
@@ -340,16 +358,18 @@ public class PlayerController : MonoBehaviour
     {
         if (berryPouchIsOpen) return;
 
-        verticalRotation = Mathf.Clamp(verticalRotation - (lookInput.y * gameSettings.LookSensitivity * rotationSpeed), -maximumViewAngle, maximumViewAngle);
-        System.Collections.Generic.List<UnityEngine.XR.InputDevice> inputDevices = new System.Collections.Generic.List<UnityEngine.XR.InputDevice>();
-        UnityEngine.XR.InputDevices.GetDevicesWithCharacteristics(UnityEngine.XR.InputDeviceCharacteristics.HeadMounted, inputDevices);
-        if (inputDevices.Count < 1)
+        if (VRChecker.IsVR)
         {
-            transform.Rotate(new Vector3(0, lookInput.x * gameSettings.LookSensitivity * rotationSpeed, 0));
+            Vector3 lookingForward = firstPersonCamera.transform.forward;
+            lookingForward.y = 0;
+            lookingForward = lookingForward.normalized;
+
+            transform.forward = lookingForward;
         }
         else
         {
-            //TODO: set player forward to direction headset is looking
+            verticalRotation = Mathf.Clamp(verticalRotation - (lookInput.y * gameSettings.LookSensitivity * rotationSpeed), -maximumViewAngle, maximumViewAngle);
+            transform.Rotate(new Vector3(0, lookInput.x * gameSettings.LookSensitivity * rotationSpeed, 0));
         }
     }
     private void HandleInteract()
@@ -370,7 +390,7 @@ public class PlayerController : MonoBehaviour
             {
                 ladder.ContactPoint = climb.point;
                 interactableInRange = ladder;
-                onInteractableFound?.Invoke(interactableInRange.InteractionPrompt);
+                onInteractableFound?.Invoke(interactableInRange.InteractionPrompt, climb.transform.position);
                 climbControlImage.sprite = climbEnabledSprite;
                 return;
             }
@@ -385,15 +405,15 @@ public class PlayerController : MonoBehaviour
                 if (mural.transform.TryGetComponent(out InteractableDialogue muralText))
                 {
                     interactableInRange = muralText;
-                    onInteractableFound?.Invoke(interactableInRange.InteractionPrompt);
+                    onInteractableFound?.Invoke(interactableInRange.InteractionPrompt, mural.transform.position);
                 }
 
         }
         
         Collider[] collisions = Physics.OverlapSphere(transform.position + transform.forward * interactionDistance + Vector3.up * interactHeight, interactionRadius, interactionLayers);
+        Collider closest = null;
         if (collisions.Length > 0)
         {
-            Collider closest = null;
             foreach (Collider c in collisions)
             {
                 // First, we check if the collisions we found can actually be seen from the player's perspective and aren't obscured by another object
@@ -420,7 +440,7 @@ public class PlayerController : MonoBehaviour
 
         if (interactableInRange != null)
         {
-            onInteractableFound?.Invoke(interactableInRange.InteractionPrompt);
+            onInteractableFound?.Invoke(interactableInRange.InteractionPrompt, closest.transform.position);
             return;
         }
         onInteractableOutOfRange?.Invoke();
