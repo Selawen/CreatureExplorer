@@ -884,6 +884,14 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: dc4cdec5-c1b4-4e0d-a03b-310dd4e5294b
     m_ActionName: Overworld/Click[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 5558f673-11c3-4046-9e28-815cc1c19d92
+    m_ActionName: Scrapbook/TrackedPosition
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 1aadcdea-c95e-4ff7-9e48-1df87d9cb94d
+    m_ActionName: Scrapbook/TrackedOrientation
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Overworld
@@ -1227,6 +1235,7 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
+  rigidbody: {fileID: 7807978120469739685}
 --- !u!114 &5220420252872243190
 MonoBehaviour:
   m_ObjectHideFlags: 0
