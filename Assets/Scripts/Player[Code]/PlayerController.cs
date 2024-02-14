@@ -235,6 +235,16 @@ public class PlayerController : MonoBehaviour
         rotationInput = callbackContext.ReadValue<Vector2>();
     }
     
+    public void GetCloseQuestInput(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.started)
+        {
+            playerInput.SwitchCurrentActionMap("Overworld");
+            StaticQuestHandler.OnQuestClosed.Invoke();
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+    }
+
     public void GetCloseScrapbookInput(InputAction.CallbackContext callbackContext)
     {
         if (callbackContext.started)
