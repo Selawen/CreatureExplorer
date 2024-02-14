@@ -21,8 +21,9 @@ public class PictureStorage : PageComponentInteractor
 
     private void Awake()
     {
-        pictureInventory = new Inventory<PagePicture>((ushort)photoSpots.Length);
-        maxStorageText.text = pictureInventory.GetCapacity().ToString();
+        pictureInventory = new Inventory<PagePicture>(2);
+        //pictureInventory = new Inventory<PagePicture>((ushort)photoSpots.Length);
+        //maxStorageText.text = pictureInventory.GetCapacity().ToString();
         UpdateCameraStorageText();
 
         storageRaycastImage = GetComponent<Image>();
@@ -32,6 +33,16 @@ public class PictureStorage : PageComponentInteractor
     }
 
     public bool StorageIsFull() => pictureInventory.InventoryIsFull();
+
+    public void AddStorageCapacity(ushort addedCapacity = 1)
+    {
+        if (pictureInventory.GetCapacity() < photoSpots.Length)
+            pictureInventory.AdjustCapacity(addedCapacity);
+        else
+        {
+            Debug.Log("Camera storage is already at max capacity");
+        }
+    }
 
     public void CreatePictureFromCamera(PagePicture picture)
     {
@@ -119,6 +130,6 @@ public class PictureStorage : PageComponentInteractor
             storageBackgroundImage.sprite = storageBackgroundDefault;
         }
         camStorageText.text = pictureInventory.GetItemCount().ToString();
-
+        maxStorageText.text = pictureInventory.GetCapacity().ToString();
     }
 }
