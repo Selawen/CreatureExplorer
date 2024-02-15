@@ -11,9 +11,7 @@ public class FindHerdCenter : Action
     {
         FailCheck(failToken);
 
-        Charger charger = new Charger();
-
-        List<Charger> herd = LookForObjects<Charger>.CheckForObjects(charger, creature.transform.position, searchRadius);
+        List<Charger> herd = LookForObjects<Charger>.CheckForObjects(creature.transform.position, searchRadius);
 
         if (herd.Count > 0)
         {

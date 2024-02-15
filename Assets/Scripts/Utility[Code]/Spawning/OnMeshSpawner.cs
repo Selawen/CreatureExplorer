@@ -33,7 +33,7 @@ public class OnMeshSpawner : Spawner
     protected override void Spawn()
     {
         // TODO: figure out better way to have objects spawn on mesh (not inside)
-        Vector3 spawnpos = transform.position + new Vector3(Random.Range(-spawnrange, spawnrange), Random.Range(-spawnrange, spawnrange), Random.Range(-spawnrange, spawnrange))*10;
+        Vector3 spawnpos = transform.position + new Vector3(Random.Range(-spawnRange, spawnRange), Random.Range(-spawnRange, spawnRange), Random.Range(-spawnRange, spawnRange))*10;
         Vector3 spawnPoint = spawnCollider.ClosestPoint(spawnpos);
         
         Quaternion spawnRotation = transform.rotation;
@@ -50,7 +50,7 @@ public class OnMeshSpawner : Spawner
     }
 
 #if UNITY_EDITOR
-    protected override void OnDrawGizmos()
+    protected override void OnDrawGizmosSelected()
     {
         Matrix4x4 originalMatrix = Gizmos.matrix;
         Gizmos.matrix = Matrix4x4.TRS(transform.position, transform.rotation, transform.lossyScale);

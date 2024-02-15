@@ -7,7 +7,7 @@ public class HeightLockSpawner : Spawner
 
     protected override void Spawn()
     {
-        Vector3 spawnpos = transform.position + new Vector3(Random.Range(-spawnrange, spawnrange), 0, Random.Range(-spawnrange, spawnrange));
+        Vector3 spawnpos = transform.position + new Vector3(Random.Range(-spawnRange, spawnRange), 0, Random.Range(-spawnRange, spawnRange));
 
         if (Physics.Raycast(spawnpos + Vector3.up * tolerance, Vector3.down, out RaycastHit hit, 2*tolerance, canspawnOn))
         {

@@ -34,8 +34,7 @@ public class Charger : Prey
     /// </summary>
     protected void CheckForChargers()
     {
-        Charger charger = null;
-        int herdCount = LookForObjects<Charger>.CheckForObjects(charger, transform.position, data.HearingSensitivity).Count;
+        int herdCount = LookForObjects<Charger>.CheckForObjects(transform.position, data.HearingSensitivity).Count;
 
         UpdateValues(StateType.Fear, reactionToOtherChargers.StateValue * herdCount, StateOperant.Subtract);
     }

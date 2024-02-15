@@ -10,7 +10,7 @@ public abstract class Spawner : MonoBehaviour
     [SerializeField] protected LayerMask canspawnOn;
     [SerializeField] protected GameObject spawnedObject;
 
-    [SerializeField] protected float spawnrange;
+    [SerializeField] protected float spawnRange;
     [SerializeField] protected float spawnDelay;
     [SerializeField] protected int maxSpawnAmount = 10;
     [SerializeField] protected bool continous;
@@ -39,12 +39,9 @@ public abstract class Spawner : MonoBehaviour
     }
 
 #if UNITY_EDITOR
-    protected virtual void OnDrawGizmos()
+    protected virtual void OnDrawGizmosSelected()
     {
-        Color originalColour = Gizmos.color;
-        Gizmos.color = gizmoColour;
-        Gizmos.DrawWireSphere(transform.position, (spawnrange+1)); 
-        Gizmos.color = originalColour;
+        GizmoDrawer.DrawPrimitive(transform.position, Vector3.one * (spawnRange+1), GizmoType.WireSphere, gizmoColour);
     }
 #endif
 }
