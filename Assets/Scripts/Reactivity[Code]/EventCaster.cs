@@ -21,7 +21,7 @@ public abstract class EventCaster : MonoBehaviour
     {
         UpdateListeners();
         StartInvokingEvents();
-        SyncListeners(token);
+        Task.Run(()=>SyncListeners(token));
     }
 
     private void OnDisable()
@@ -38,7 +38,7 @@ public abstract class EventCaster : MonoBehaviour
         source = new CancellationTokenSource();
         token = source.Token;
 
-        InvokeFrequentEvents(token);
+        Task.Run(()=> InvokeFrequentEvents(token));
 
         // TODO: decomment if standard or slow events are added
         //invokeStandardEvents(token);

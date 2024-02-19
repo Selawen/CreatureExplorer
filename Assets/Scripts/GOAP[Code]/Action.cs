@@ -1,6 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Events;
 
 abstract public class Action : MonoBehaviour
 {
@@ -21,16 +22,18 @@ abstract public class Action : MonoBehaviour
     [field: SerializeField] public float BaseReward { get; private set; }
     [field: SerializeField] public float Reward { get; protected set; }
 
+    [SerializeField] protected float actionDuration = 2;
+
     [field: Header("GOAP")]
     [field: SerializeField] public CreatureState GoalEffects { get; private set; }
     [field: SerializeField] public ActionKey[] ActionEffects { get; private set; }
     [field: SerializeField] public ActionKey[] Prerequisites { get; private set; }
 
+    [field: SerializeField] protected UnityEvent OnFinish;
+    [field: SerializeField] protected UnityEvent OnFail;
 
     [ShowOnly] public bool finished = false;
     [ShowOnly] public bool failed = false;
-
-    [SerializeField] protected float actionDuration = 2;
 
     [field: Header("Animator")]
     [Button("SetAnimator", 30)]
@@ -148,6 +151,7 @@ abstract public class Action : MonoBehaviour
         token = failSource.Token;
     }
 
+    #region GOAP
     public virtual void CalculateCostAndReward(CreatureState currentState, MoodState targetMood, float targetMoodPrio)
     {
         Reward = BaseReward;
@@ -246,6 +250,8 @@ abstract public class Action : MonoBehaviour
         return (targetsReached >= Prerequisites.Length);
     }
 
+    #endregion
+
     /// <summary>
     /// If the action takes more than 50 percent longer than it's supposed to, assume it has failed
     /// </summary>
@@ -267,6 +273,17 @@ abstract public class Action : MonoBehaviour
                     await EndAnimation();
 
                     failed = true;
+                    try
+                    {
+                        OnFail.Invoke();
+                    }
+                    catch (System.Exception e)
+                    {
+                        if (GetComponentInParent<Creature>().LogDebugs)
+                        {
+                            Debug.LogError("Failed invoking finish because of " + e.Message);
+                        }
+                    }
                 }
             }
         } catch (TaskCanceledException)
@@ -294,6 +311,17 @@ abstract public class Action : MonoBehaviour
 
             await EndAnimation();
             finished = true;
+            try
+            {
+                OnFinish.Invoke();
+            }
+            catch (System.Exception e)
+            {
+                if (GetComponentInParent<Creature>().LogDebugs)
+                {
+                    Debug.LogError("Failed invoking finish because of " + e.Message);
+                }
+            }
         }
     }
 

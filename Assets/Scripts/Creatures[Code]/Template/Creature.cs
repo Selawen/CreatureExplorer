@@ -67,22 +67,6 @@ public class Creature : MonoBehaviour
     protected virtual void FixedUpdate()
     {
         UpdateValues();
-
-
-        if (CurrentAction != null)
-        {
-            // if an action has failed try and generate a new goal
-            if (CurrentAction.failed)
-            {
-                DebugMessage("Action failed! " + CurrentAction.Name);
-
-                GenerateNewGoal();
-            }
-            else if (CurrentAction.finished)
-            {
-                FinishAction();
-            }
-        } 
     }
 
     private void StartCoroutines()
@@ -105,7 +89,6 @@ public class Creature : MonoBehaviour
             CurrentAction.enabled = true;
     }
 
-
     #region GOAP
     protected virtual void StartAction()
     {
@@ -122,22 +105,42 @@ public class Creature : MonoBehaviour
         } 
     }
 
-    private void FinishAction()
+    public void FinishAction()
     {
-        // Update creatureState with effects of finished action
-        UpdateValues(CurrentAction.GoalEffects);
-
-        // check if goal has been reached
-        if (currentPlan.Count <= 1)
+        if (CurrentAction != null)
         {
-            GenerateNewGoal();
-            return;
-        }
+            if (CurrentAction.finished)
+            {
+                // Update creatureState with effects of finished action
+                UpdateValues(CurrentAction.GoalEffects);
         
-        // remove the action that has now finished from the plan
-        currentPlan.RemoveAt(0);
+                // check if goal has been reached
+                if (currentPlan.Count <= 1)
+                {
+                    GenerateNewGoal();
+                    return;
+                }
+                
+                // remove the action that has now finished from the plan
+                currentPlan.RemoveAt(0);
+        
+                StartAction();
+            }
+        }
+    }
 
-        StartAction();
+    public void FailAction()
+    {
+        if (CurrentAction != null)
+        {
+            // if an action has failed try and generate a new goal
+            if (CurrentAction.failed)
+            {
+                DebugMessage("Action failed! " + CurrentAction.Name);
+
+                GenerateNewGoal();
+            }
+        }
     }
 
     private void GenerateNewGoal()
