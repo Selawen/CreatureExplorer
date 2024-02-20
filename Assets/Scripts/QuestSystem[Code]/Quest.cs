@@ -8,9 +8,9 @@ public class Quest : ScriptableObject
      public string QuestDescription { get => questDescription; }
 
     [SerializeField, TextArea(2, 4)] private string questDescription;
-    [SerializeField] private QuestCondition[] requiredConditions;
+    [SerializeField] protected QuestCondition[] requiredConditions { get; private set; }
 
-    public bool EvaluateQuestStatus(PictureInfo pictureInfo)
+    public virtual bool EvaluateQuestStatus(PictureInfo pictureInfo)
     {
         foreach(QuestCondition condition in requiredConditions)
         {
