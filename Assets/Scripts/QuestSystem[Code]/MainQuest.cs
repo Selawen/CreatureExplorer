@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewMainQuest", menuName = "Titan Quests/New Main Quest")]
 public class MainQuest : Quest
 {
-    [ShowOnly] private string[] pictureNames;
+    [SerializeField] private string[] pictureNames;
 
     private int completedCount;
 
@@ -16,6 +16,16 @@ public class MainQuest : Quest
     {
         pictureNames = new string[requiredConditions.Length];
         completedCount = 0;
+    }
+
+    public bool HasBeenEvaluated(string pictureName)
+    {
+        foreach (string s in pictureNames)
+        {
+            if (s == pictureName)
+                return true;
+        }
+        return false;
     }
 
     public override bool EvaluateQuestStatus(PictureInfo pictureInfo)

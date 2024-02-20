@@ -16,4 +16,7 @@ public static class StaticQuestHandler
 
     public static TitanStatue CurrentQuestStatue;
 
+    // Altar
+    public static QuestStatusHandler OnAltarActivated;
+    public static QuestPictureHandler OnPictureInScrapbook;
 }

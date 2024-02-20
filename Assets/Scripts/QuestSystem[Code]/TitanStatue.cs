@@ -11,6 +11,8 @@ public class TitanStatue : MonoBehaviour, IInteractable
     //[Tooltip("To which ring does this statue belong? 0 = Top Ring")]
     //[SerializeField] private int ringIndex;
 
+    [SerializeField] private Renderer pictureRenderer;
+
     [SerializeField] private Material debugSwapMaterial;
     [SerializeField] private UnityEvent onQuestCompleted;
 
@@ -42,19 +44,17 @@ public class TitanStatue : MonoBehaviour, IInteractable
     }
     public void ShowPicture(PagePicture picture)
     {
-        // To do: Evaluate whether any of the objects in the picture info is the object that we're looking for/
+        // Evaluate whether any of the objects in the picture info is the object that we're looking for/
         // Also check if there are additional conditions and evaluate these too.
         if (TitanQuest.EvaluateQuestStatus(picture.PictureInfo))
         {
             StaticQuestHandler.OnQuestCompleted?.Invoke();
 
+            // TODO: show picture that was handed in
             // Will be removed when correct visual feedback is implemented
             questFinished = true;
             InteractionPrompt = string.Empty;
             DebugChangeMaterialVisuals();
-
-            // TODO: change to shrine
-            GrandTemple.OnStatueCleared?.Invoke();
 
             Cursor.lockState = CursorLockMode.Locked;
             onQuestCompleted?.Invoke();
@@ -63,9 +63,6 @@ public class TitanStatue : MonoBehaviour, IInteractable
             return;
         }
         StaticQuestHandler.OnQuestFailed?.Invoke();
-
-
-
     }
 
     // Will be removed when correct visual feedback is implemented
@@ -76,8 +73,4 @@ public class TitanStatue : MonoBehaviour, IInteractable
             renderer.material = debugSwapMaterial;
         }
     }
-
-        // Question: Does showing the picture consume it? => It shouldn't, it should stay slotted in the statue
-    
-
 }

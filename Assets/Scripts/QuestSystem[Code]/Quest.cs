@@ -8,7 +8,7 @@ public class Quest : ScriptableObject
      public string QuestDescription { get => questDescription; }
 
     [SerializeField, TextArea(2, 4)] private string questDescription;
-    [SerializeField] protected QuestCondition[] requiredConditions { get; private set; }
+    [field: SerializeField] protected QuestCondition[] requiredConditions { get; private set; }
 
     public virtual bool EvaluateQuestStatus(PictureInfo pictureInfo)
     {

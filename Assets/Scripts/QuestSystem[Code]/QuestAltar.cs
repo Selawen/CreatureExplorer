@@ -10,70 +10,53 @@ public class QuestAltar : MonoBehaviour, IInteractable
     [field: SerializeField] public MainQuest AltarQuest { get; private set; }
     private string questPrompt { get => AltarQuest.QuestDescription;}
 
-    //[Tooltip("To which ring does this statue belong? 0 = Top Ring")]
-    //[SerializeField] private int ringIndex;
-
     [SerializeField] private Material debugSwapMaterial;
     [SerializeField] private UnityEvent onAltarCompleted;
 
-    private bool questFinished = false;
+    private bool altarActivated = false;
+    private bool AltarFinished = false;
 
     public void Interact()
     {
-        if (questFinished) return;
+        if (AltarFinished) return;
 
         DialogueUI.ShowText(questPrompt);
 
-        //Cursor.lockState = CursorLockMode.Confined;
-
-        // Move this to the player and subscribe to the QuestHandler's event there.
-        //input.SwitchCurrentActionMap("Scrapbook");
-
-        //questInfoText.gameObject.SetActive(true);
-        //questShowButton.gameObject.SetActive(true);
-
-        //StaticQuestHandler.OnPictureDisplayed += ShowPicture;
-        //StaticQuestHandler.CurrentQuestStatue = this;
-        StaticQuestHandler.OnQuestClosed += () =>
-        {
-            PagePicture.OnPictureClicked -= StaticQuestHandler.OnPictureClicked.Invoke;
-            //StaticQuestHandler.OnPictureDisplayed -= ShowPicture;
-        };
-
-        PagePicture.OnPictureClicked += StaticQuestHandler.OnPictureClicked.Invoke;
-
-        StaticQuestHandler.OnQuestOpened?.Invoke();
+        Activate();
     }
 
     public void Activate()
     {
         // TODO: add quest to quest tracker
+        altarActivated = true;
+
+        StaticQuestHandler.OnPictureInScrapbook += AddPicture;
+
+        StaticQuestHandler.OnAltarActivated.Invoke();
     }
 
-    public void ShowPicture(PagePicture picture)
+    public void AddPicture(PagePicture picture)
     {
+        if (!altarActivated || AltarQuest.HasBeenEvaluated(picture.PictureInfo.PicturePath))
+            return;
+
         // To do: Evaluate whether any of the objects in the picture info is the object that we're looking for/
         // Also check if there are additional conditions and evaluate these too.
         if (AltarQuest.EvaluateQuestStatus(picture.PictureInfo))
         {
-            StaticQuestHandler.OnQuestCompleted?.Invoke();
-            questFinished = true;
+            AltarFinished = true;
 
             // Will be removed when correct visual feedback is implemented
             InteractionPrompt = string.Empty;
             DebugChangeMaterialVisuals();
 
-            // TODO: change to shrine
-            GrandTemple.OnStatueCleared?.Invoke();
+            GrandTemple.OnAltarCleared?.Invoke();
 
-            Cursor.lockState = CursorLockMode.Locked;
             onAltarCompleted?.Invoke();
 
-            PagePicture.OnPictureClicked = null;
+            //PagePicture.OnPictureClicked = null;
             return;
         }
-        StaticQuestHandler.OnQuestFailed?.Invoke();
-
     }
 
     // Will be removed when correct visual feedback is implemented

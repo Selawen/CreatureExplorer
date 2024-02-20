@@ -51,6 +51,8 @@ public class Scrapbook : MonoBehaviour
         StaticQuestHandler.OnQuestOpened += OpenBookForQuest;
         StaticQuestHandler.OnQuestClosed += CloseBookForQuest;
 
+        StaticQuestHandler.OnAltarActivated += CheckAllMainQuestProgress;
+
         SetupScrapbook();
 
         previousPageButton.SetActive(false);
@@ -62,6 +64,19 @@ public class Scrapbook : MonoBehaviour
         StaticQuestHandler.OnPictureClicked += DockDelegate;
     }
 
+    private void SetupScrapbook()
+    {
+        allPages = new ScrapbookPage[scrapbookPageCount];
+
+        for (int i = 0; i < scrapbookPageCount; i++)
+        {
+            ScrapbookPage newPage = Instantiate(scrapbookPagePrefab, pagesParent);
+            newPage.SetPageNumber(i + 1);
+            newPage.gameObject.SetActive(i == 0);
+            allPages[i] = newPage;
+        }
+    }
+
     public void ClosePages()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -69,7 +84,6 @@ public class Scrapbook : MonoBehaviour
         elementsPanel.gameObject.SetActive(false);
 
         StaticQuestHandler.OnQuestClosed?.Invoke();
-
     }
 
     public void OpenPages()
@@ -128,6 +142,14 @@ public class Scrapbook : MonoBehaviour
         newText.TextField.onDeselect.AddListener((string s) => OnEndType?.Invoke());
     }
 
+    private void CheckAllMainQuestProgress()
+    {
+        foreach(ScrapbookPage page in allPages)
+        {
+            page.CheckPicsForQuest();
+        }
+    }
+
     private void OpenBookForQuest()
     {
         CloseTracker();
@@ -177,20 +199,6 @@ public class Scrapbook : MonoBehaviour
         bookQuestButton.onClick.RemoveListener(DockBook);
         bookQuestButton.onClick.AddListener(UndockBook);
         bookQuestButton.transform.rotation = Quaternion.Euler(Vector3.forward * -90);
-    }
-
-    private void SetupScrapbook()
-    {
-
-        allPages = new ScrapbookPage[scrapbookPageCount];
-
-        for (int i = 0; i < scrapbookPageCount; i++)
-        {
-            ScrapbookPage newPage = Instantiate(scrapbookPagePrefab, pagesParent);
-            newPage.SetPageNumber(i + 1);
-            newPage.gameObject.SetActive(i == 0);
-            allPages[i] = newPage;
-        }
     }
 
     private void OpenTracker()

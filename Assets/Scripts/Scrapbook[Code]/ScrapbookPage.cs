@@ -28,8 +28,18 @@ public class ScrapbookPage : PageComponentInteractor
         {
             addedComponent.transform.SetParent(textLayer, true);
         }
-        else
+        else if (addedComponent.GetType() == typeof(PagePicture))
         {
+            // TODO: evaluate picture
+            PagePicture picture = addedComponent as PagePicture;
+            if (!picture.evaluated)
+            {
+                picture.evaluated = true;
+
+                if(StaticQuestHandler.OnPictureInScrapbook != null)
+                    StaticQuestHandler.OnPictureInScrapbook.Invoke(picture);
+            }
+
             addedComponent.transform.SetParent(photoLayer, true);
         }
     }
@@ -51,5 +61,13 @@ public class ScrapbookPage : PageComponentInteractor
     public override void RemoveFromInteractor(PageComponent component)
     {
         RemoveComponentFromPage(component);
+    }
+
+    public void CheckPicsForQuest()
+    {
+        foreach (PagePicture picture in photoLayer.GetComponentsInChildren<PagePicture>())
+        {
+            StaticQuestHandler.OnPictureInScrapbook.Invoke(picture);
+        }
     }
 }
