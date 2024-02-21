@@ -6,13 +6,14 @@ using UnityEngine;
 public class MainQuest : Quest
 {
     [SerializeField] private string[] pictureNames;
+    public string QuestProgress {get => $"{completedCount}/{requiredConditions.Length}";}
 
     private int completedCount;
 
     [Button("Initialise")]
     public bool Update;
 
-    private void Initialise()
+    public void Initialise()
     {
         pictureNames = new string[requiredConditions.Length];
         completedCount = 0;
@@ -47,7 +48,6 @@ public class MainQuest : Quest
             }
             x++;
         }
-
         return completedCount >= pictureNames.Length;
     }
 

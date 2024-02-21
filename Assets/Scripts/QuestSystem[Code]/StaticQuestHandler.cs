@@ -2,6 +2,7 @@ public static class StaticQuestHandler
 {
     public delegate void QuestStatusHandler();
     public delegate void QuestPictureHandler(PagePicture picture);
+    public delegate void AltarUpdateHandler(MainQuest altarQuest);
 
     public static QuestStatusHandler OnQuestOpened;
     public static QuestStatusHandler OnQuestClosed;
@@ -17,6 +18,8 @@ public static class StaticQuestHandler
     public static TitanStatue CurrentQuestStatue;
 
     // Altar
-    public static QuestStatusHandler OnAltarActivated;
+    public static AltarUpdateHandler OnAltarActivated;
+
     public static QuestPictureHandler OnPictureInScrapbook;
+    public static AltarUpdateHandler OnAltarProgress;
 }

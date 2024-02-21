@@ -32,7 +32,7 @@ public class QuestAltar : MonoBehaviour, IInteractable
 
         StaticQuestHandler.OnPictureInScrapbook += AddPicture;
 
-        StaticQuestHandler.OnAltarActivated.Invoke();
+        StaticQuestHandler.OnAltarActivated.Invoke(AltarQuest);
     }
 
     public void AddPicture(PagePicture picture)
@@ -55,8 +55,8 @@ public class QuestAltar : MonoBehaviour, IInteractable
             onAltarCompleted?.Invoke();
 
             //PagePicture.OnPictureClicked = null;
-            return;
         }
+        StaticQuestHandler.OnAltarProgress.Invoke(AltarQuest);
     }
 
     // Will be removed when correct visual feedback is implemented
@@ -66,5 +66,10 @@ public class QuestAltar : MonoBehaviour, IInteractable
         {
             renderer.material = debugSwapMaterial;
         }
+    }
+
+    private void OnApplicationQuit()
+    {
+        AltarQuest.Initialise();
     }
 }
