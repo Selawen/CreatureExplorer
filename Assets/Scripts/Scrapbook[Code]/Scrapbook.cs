@@ -90,7 +90,7 @@ public class Scrapbook : MonoBehaviour
 
     public void OpenPages()
     {
-        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.lockState = CursorLockMode.None;
         elementsPanel.gameObject.SetActive(true);
         extrasGroup.SetActive(true);
     }

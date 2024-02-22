@@ -28,7 +28,9 @@ public class ProgressUIHandler : MonoBehaviour
 
     private void Awake()
     {
+        progressCategoryGrid.SetActive(false);
         GetProgressCategories();
+        progressCategoryGrid.SetActive(true);
     }
 
     private void GetProgressCategories()

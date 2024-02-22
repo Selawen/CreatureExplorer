@@ -17,6 +17,8 @@ public class DialogueUI : MonoBehaviour
 
     private static PlayerInput playerInput;
 
+    private static string previousActionMap;
+
     private void Awake()
     {
         Instance = this;
@@ -57,6 +59,7 @@ public class DialogueUI : MonoBehaviour
 
     private static void SwitchInputs()
     {
+        previousActionMap = playerInput.currentActionMap.name;
         // TODO: remove gameobject.find
         GameObject.FindObjectOfType<PlayerController>().LinkModuleToDialogue();
         playerInput.SwitchCurrentActionMap("Dialogue");
@@ -68,10 +71,25 @@ public class DialogueUI : MonoBehaviour
         textField.text = "Dialogue box should be disabled";
         UIObject.SetActive(false);
 
-        // TODO: remove gameobject.find
-        GameObject.FindObjectOfType<PlayerController>().LinkModuleToOverworld();
-        playerInput.SwitchCurrentActionMap("Overworld");
-        Cursor.lockState = CursorLockMode.Locked;
+        switch (previousActionMap)
+        {
+            case "Scrapbook":
+                {
+                    // TODO: remove gameobject.find
+                    GameObject.FindObjectOfType<PlayerController>().LinkModuleToScrapbook();
+                    playerInput.SwitchCurrentActionMap("Scrapbook");
+                    Cursor.lockState = CursorLockMode.None;
+                    break;
+                }
+            default:
+                {
+                    // TODO: remove gameobject.find
+                    GameObject.FindObjectOfType<PlayerController>().LinkModuleToOverworld();
+                    playerInput.SwitchCurrentActionMap("Overworld");
+                    Cursor.lockState = CursorLockMode.Locked;
+                    break;
+                }
+        }
     }
 
     public void GetContinueInput(InputAction.CallbackContext context)
@@ -79,6 +97,7 @@ public class DialogueUI : MonoBehaviour
         if (dialogueStrings.Length< 1)
         {
             HideText();
+            UIObject.SetActive(false);
             return;
         }
 
@@ -90,6 +109,7 @@ public class DialogueUI : MonoBehaviour
         else
         {
             HideText();
+            UIObject.SetActive(false);
         }
     }
 }

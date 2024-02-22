@@ -257,8 +257,8 @@ public class PlayerController : MonoBehaviour
         if (callbackContext.started)
         {
             playerInput.SwitchCurrentActionMap("Overworld");
-            onScrapbookClosed?.Invoke();
             Cursor.lockState = CursorLockMode.Locked;
+            onScrapbookClosed?.Invoke();
         }
     }
     public void GetOpenScrapbookInput(InputAction.CallbackContext callbackContext)
@@ -267,8 +267,8 @@ public class PlayerController : MonoBehaviour
         {
             LinkModuleToScrapbook();
             playerInput.SwitchCurrentActionMap("Scrapbook");
-            onScrapbookOpened?.Invoke();
             Cursor.lockState = CursorLockMode.None;
+            onScrapbookOpened?.Invoke();
         }
     }
 
@@ -312,7 +312,7 @@ public class PlayerController : MonoBehaviour
 
     public void ToggleBerryPouch(bool newState)
     {
-        if (!pouchUnlocked) return;
+        if (!pouchUnlocked || berryPouchIsOpen == newState) return;
 
         berryPouchIsOpen = newState;
         if (berryPouchIsOpen)
