@@ -19,6 +19,9 @@ public class QuestTrackerPage : MonoBehaviour
 
     private void AddQuest(MainQuest altarQuest)
     {
+        if (quests.ContainsKey(altarQuest))
+            return;
+
         if (quests.Count == 0)
             StaticQuestHandler.OnAltarProgress += UpdateQuestProgress;
 

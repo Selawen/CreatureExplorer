@@ -120,8 +120,10 @@ public class PlayerController : MonoBehaviour
         StaticQuestHandler.OnQuestClosed += () =>
         {
             if (playerInput.currentActionMap.name != "Dialogue")
+            {
                 playerInput.SwitchCurrentActionMap("Overworld");
-            LinkModuleToOverworld();
+                LinkModuleToOverworld();
+            }
             // rb.isKinematic = false;
             Cursor.lockState = CursorLockMode.Locked;
             stateMachine.SwitchState(typeof(WalkingState));
@@ -333,7 +335,13 @@ public class PlayerController : MonoBehaviour
         module.leftClick = InputActionReference.Create(playerInput.actions.FindActionMap("Scrapbook").FindAction("Click"));
         module.point = InputActionReference.Create(playerInput.actions.FindActionMap("Scrapbook").FindAction("Point"));
         module.move = InputActionReference.Create(playerInput.actions.FindActionMap("Scrapbook").FindAction("Move"));
-
+    }
+    
+    public void LinkModuleToDialogue()
+    {
+        module.leftClick = InputActionReference.Create(playerInput.actions.FindActionMap("Dialogue").FindAction("Click"));
+        module.point = InputActionReference.Create(playerInput.actions.FindActionMap("Dialogue").FindAction("Point"));
+        module.move = InputActionReference.Create(playerInput.actions.FindActionMap("Dialogue").FindAction("Move"));
     }
 
     public void LinkModuleToPauseMenu()

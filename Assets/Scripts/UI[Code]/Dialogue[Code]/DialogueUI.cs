@@ -34,6 +34,7 @@ public class DialogueUI : MonoBehaviour
 
     public static void ShowText(string shownText)
     {
+        SwitchInputs();
         textField.text = shownText;
         UIObject.SetActive(true);
     }
@@ -42,9 +43,7 @@ public class DialogueUI : MonoBehaviour
     {
         if (shownTexts.Length > 0)
         {
-            playerInput.SwitchCurrentActionMap("Dialogue");
-            Cursor.lockState = CursorLockMode.None;
-
+            SwitchInputs();
             dialogueIndex = 0;
             dialogueStrings = shownTexts;
             textField.text = shownTexts[0];
@@ -56,11 +55,21 @@ public class DialogueUI : MonoBehaviour
         UIObject.SetActive(true);
     }
 
+    private static void SwitchInputs()
+    {
+        // TODO: remove gameobject.find
+        GameObject.FindObjectOfType<PlayerController>().LinkModuleToDialogue();
+        playerInput.SwitchCurrentActionMap("Dialogue");
+        Cursor.lockState = CursorLockMode.None;
+    }
+
     public static void HideText()
     {
         textField.text = "Dialogue box should be disabled";
         UIObject.SetActive(false);
 
+        // TODO: remove gameobject.find
+        GameObject.FindObjectOfType<PlayerController>().LinkModuleToOverworld();
         playerInput.SwitchCurrentActionMap("Overworld");
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -69,6 +78,7 @@ public class DialogueUI : MonoBehaviour
     {
         if (dialogueStrings.Length< 1)
         {
+            HideText();
             return;
         }
 
