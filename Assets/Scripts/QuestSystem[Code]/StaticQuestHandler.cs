@@ -7,7 +7,7 @@ public static class StaticQuestHandler
     public static QuestStatusHandler OnQuestOpened;
     public static QuestStatusHandler OnQuestClosed;
 
-    public static QuestStatusHandler OnQuestInputDisabled;
+    public static QuestStatusHandler OnShrineCompleted;
 
     public static QuestStatusHandler OnQuestCompleted;
     public static QuestStatusHandler OnQuestFailed;

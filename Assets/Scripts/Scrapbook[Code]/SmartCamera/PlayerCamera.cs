@@ -69,7 +69,7 @@ public class PlayerCamera : MonoBehaviour
         effectiveScanDistance = maximumFieldOfView / pictureCamera.fieldOfView * defaultMaxScanDistance;
         
         // TODO: don't make this happed every time a quest is completed?;
-        StaticQuestHandler.OnQuestInputDisabled += () => storage.AddStorageCapacity();
+        StaticQuestHandler.OnShrineCompleted += () => storage.AddStorageCapacity();
 
         input = GetComponent<PlayerInput>();
         if (Application.isEditor)

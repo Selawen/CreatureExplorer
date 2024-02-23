@@ -116,7 +116,7 @@ public class QuestPictureInterface : PageComponentInteractor
         handInFrame.sprite = correctFrame;
         feedbackText.text = "Ah! This is what I was looking for!";
 
-        StaticQuestHandler.OnQuestInputDisabled?.Invoke();
+        StaticQuestHandler.OnShrineCompleted?.Invoke();
 
         yield return new WaitForSeconds(questCompletionWaitTime);
 

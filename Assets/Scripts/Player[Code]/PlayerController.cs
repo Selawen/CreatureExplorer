@@ -101,8 +101,8 @@ public class PlayerController : MonoBehaviour
 
         GrandTemple.OnRingExtended += UnlockPouch;
 
-
-        StaticQuestHandler.OnQuestInputDisabled += () =>
+        /*
+        StaticQuestHandler.OnShrineCompleted += () =>
         {
             playerInput.SwitchCurrentActionMap("Await");
             //module
@@ -110,7 +110,7 @@ public class PlayerController : MonoBehaviour
             //    playerInput.SwitchCurrentActionMap("Overworld");
             //rb.isKinematic = true;
         };
-
+        */
         StaticQuestHandler.OnQuestOpened += () =>
         {
             LinkModuleToScrapbook();
