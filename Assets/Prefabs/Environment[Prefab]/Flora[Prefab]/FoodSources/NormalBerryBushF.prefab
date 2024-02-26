@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1163138881817136465}
   - component: {fileID: 7535299632497815302}
   - component: {fileID: 8863242971561843902}
+  - component: {fileID: 263050696632604709}
   m_Layer: 0
   m_Name: FruitSpawner
   m_TagString: Untagged
@@ -86,6 +87,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <QuestObjectID>k__BackingField: berryPlant
+  <GivenName>k__BackingField: 
+  <GivenDescription>k__BackingField: 
+--- !u!114 &263050696632604709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3019754381379306352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d61bc7dc05c0ce44b9240530be9c6aa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <QuestObjectID>k__BackingField: normalBerryBush
   <GivenName>k__BackingField: 
   <GivenDescription>k__BackingField: 
 --- !u!1 &6805541488476255185

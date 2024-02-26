@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4421049430612534917}
   - component: {fileID: 6146398446954131398}
   - component: {fileID: 7508258828562188150}
+  - component: {fileID: 1175718592339248119}
   m_Layer: 0
   m_Name: BerryTree
   m_TagString: Untagged
@@ -228,6 +229,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3094374b87aa17941be79d4af5a87893, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1175718592339248119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3171934193617622812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d61bc7dc05c0ce44b9240530be9c6aa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <QuestObjectID>k__BackingField: tree
+  <GivenName>k__BackingField: 
+  <GivenDescription>k__BackingField: 
 --- !u!1 &8333561885472221612
 GameObject:
   m_ObjectHideFlags: 0
@@ -285,7 +301,7 @@ MonoBehaviour:
   maxSpawnAmount: 5
   continous: 1
   spawnOn: {fileID: 1002589018937848096}
-  distanceFromMesh: 0.01
+  distanceFromMesh: 0.05
   rotateWithMesh: 1
 --- !u!64 &2601195429155561975
 MeshCollider:

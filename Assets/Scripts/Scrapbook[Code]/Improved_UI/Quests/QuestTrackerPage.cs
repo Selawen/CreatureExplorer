@@ -15,15 +15,15 @@ public class QuestTrackerPage : MonoBehaviour
         quests = new Dictionary<MainQuest, TrackedQuestUI>();
 
         StaticQuestHandler.OnAltarActivated += AddQuest;
+
+        if (quests.Count == 0)
+            StaticQuestHandler.OnAltarProgress += UpdateQuestProgress;
     }
 
     private void AddQuest(MainQuest altarQuest)
     {
         if (quests.ContainsKey(altarQuest))
             return;
-
-        if (quests.Count == 0)
-            StaticQuestHandler.OnAltarProgress += UpdateQuestProgress;
 
         TrackedQuestUI newQuestUI = Instantiate<GameObject>(questUIPrefab, questUIGrid).GetComponent<TrackedQuestUI>();
         
@@ -34,6 +34,7 @@ public class QuestTrackerPage : MonoBehaviour
 
     private void UpdateQuestProgress(MainQuest updatedQuest)
     {
-        quests[updatedQuest].UpdateQuest(updatedQuest.QuestProgress);
+        if (quests.ContainsKey(updatedQuest))
+            quests[updatedQuest].UpdateQuest(updatedQuest.QuestProgress);
     }
 }

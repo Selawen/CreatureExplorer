@@ -5,8 +5,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewMainQuest", menuName = "Titan Quests/New Main Quest")]
 public class MainQuest : Quest
 {
+    [field: SerializeField] public int requiredAmount { get; private set; }
+
     [SerializeField] private string[] pictureNames;
-    public string QuestProgress {get => $"{completedCount}/{requiredConditions.Length}";}
+    public string QuestProgress {get => $"{completedCount}/{requiredAmount}";}
 
     private int completedCount;
 
@@ -17,6 +19,8 @@ public class MainQuest : Quest
     {
         pictureNames = new string[requiredConditions.Length];
         completedCount = 0;
+
+        requiredAmount = (requiredAmount == 0)? requiredConditions.Length : requiredAmount;
     }
 
     public bool HasBeenEvaluated(string pictureName)
@@ -48,7 +52,7 @@ public class MainQuest : Quest
             }
             x++;
         }
-        return completedCount >= pictureNames.Length;
+        return completedCount >= requiredAmount;
     }
 
 }

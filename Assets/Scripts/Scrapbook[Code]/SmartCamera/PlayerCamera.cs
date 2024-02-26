@@ -155,7 +155,7 @@ public class PlayerCamera : MonoBehaviour
             File.WriteAllBytes(savingPath, byteArray);
             pictureInfo.PicturePath = savingPath;
 
-            // To do: After implementing saving, make sure to not remove the pictures that are still used by the player.
+            // TODO: After implementing saving, make sure to not remove the pictures that are still used by the player.
             Application.quitting += () => RemovePicturesFromSystem(savingPath);
 
             Texture2D png = LoadTexture(savingPath);

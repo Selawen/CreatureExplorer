@@ -37,7 +37,7 @@ public class QuestAltar : MonoBehaviour, IInteractable
 
     public void AddPicture(PagePicture picture)
     {
-        if (!altarActivated || AltarQuest.HasBeenEvaluated(picture.PictureInfo.PicturePath))
+        if (!altarActivated || AltarQuest.HasBeenEvaluated(picture.PictureInfo.PicturePath) || AltarFinished)
             return;
 
         // To do: Evaluate whether any of the objects in the picture info is the object that we're looking for/

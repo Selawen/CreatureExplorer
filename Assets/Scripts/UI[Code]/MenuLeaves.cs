@@ -65,8 +65,9 @@ public class MenuLeaves : MonoBehaviour
 
         sceneHandler.onLoadCompleted += (AsyncOperation op) => 
         {
-            onAnimationEnded = null;
-            onAnimationEnded += () => sceneHandler.UnloadSceneAsync(currentScene);
+            //onAnimationEnded = null;
+            //onAnimationEnded += () => sceneHandler.UnloadSceneAsync(currentScene);
+            sceneHandler.UnloadSceneAsync(currentScene);
 
             // TODO: maybe make this more generic in case we add more scenes later
             if (sceneBuildIndex == 1) 

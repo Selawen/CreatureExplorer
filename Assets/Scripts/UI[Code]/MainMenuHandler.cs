@@ -20,18 +20,18 @@ public class MainMenuHandler : MonoBehaviour
 
     private void Awake()
     {
+        if (Application.isEditor)
+            CreateEditorPrompt();
+        else
+            CreateRuntimePrompt();
+
         quitPromptPanel.SetActive(false);
         loadingScreenTipText.gameObject.SetActive(false);
     }
 
     public void OnQuitGamePrompted()
     {
-        if (Application.isEditor)
-        {
-            CreateEditorPrompt();
-            return;
-        }
-        CreateRuntimePrompt();
+        quitPromptPanel.SetActive(true);
     }
 
     public void ShowLoadingScreenTips()
@@ -52,8 +52,6 @@ public class MainMenuHandler : MonoBehaviour
         confirmButton.onClick.RemoveAllListeners();
         confirmButton.onClick.AddListener(() => quitPromptPanel.SetActive(false));
         confirmButton.GetComponentInChildren<TMP_Text>().text = "I understand";
-
-        quitPromptPanel.SetActive(true);
     }
 
     private void CreateRuntimePrompt()
@@ -68,8 +66,5 @@ public class MainMenuHandler : MonoBehaviour
         confirmButton.onClick.RemoveAllListeners();
         confirmButton.onClick.AddListener(() => Application.Quit());
         confirmButton.GetComponentInChildren<TMP_Text>().text = "Quit";
-
-        quitPromptPanel.SetActive(true);
     }
-
 }
