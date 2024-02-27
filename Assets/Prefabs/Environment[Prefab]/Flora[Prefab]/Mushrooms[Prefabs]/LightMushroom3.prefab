@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7689305720139324956}
+  - component: {fileID: 5852162092204893773}
   m_Layer: 0
   m_Name: LightMushroom3
   m_TagString: Untagged
@@ -32,6 +33,29 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!205 &5852162092204893773
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7061141174265365670}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: -0.008639216, y: 0.36623845, z: -0.18526497}
+  m_Size: 0.7891
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.196955
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 7529350605899677269}
+  - screenRelativeHeight: 0.005
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 6158234109333064987}
+  m_Enabled: 1
 --- !u!1001 &336743909737933309
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -117,35 +141,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 336743909737933309}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &607197722872222892 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e858706a570931c468de667bca390ad7,
-    type: 3}
-  m_PrefabInstance: {fileID: 336743909737933309}
-  m_PrefabAsset: {fileID: 0}
---- !u!205 &1614198973562516080
-LODGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 607197722872222892}
-  serializedVersion: 2
-  m_LocalReferencePoint: {x: -0.008639216, y: 0.36623845, z: -0.18526497}
-  m_Size: 0.7891
-  m_FadeMode: 0
-  m_AnimateCrossFading: 0
-  m_LastLODIsBillboard: 0
-  m_LODs:
-  - screenRelativeHeight: 0.196955
-    fadeTransitionWidth: 0
-    renderers:
-    - renderer: {fileID: 7529350605899677269}
-  - screenRelativeHeight: 0.030830434
-    fadeTransitionWidth: 0
-    renderers:
-    - renderer: {fileID: 6158234109333064987}
-  m_Enabled: 1
 --- !u!23 &6158234109333064987 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 5898074517364368614, guid: e858706a570931c468de667bca390ad7,

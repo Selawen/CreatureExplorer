@@ -11,7 +11,7 @@ abstract public class Action : MonoBehaviour
     [field: Header("Player Feedback")]
     [field: SerializeField] protected string startAnimationTrigger;
     [field: SerializeField] protected string duringAnimationTrigger;
-    [field: SerializeField] private string finishAnimationTrigger;
+    [field: SerializeField] protected string finishAnimationTrigger;
     [field: SerializeField] private AudioClip sound;
     [field: SerializeField] private bool oneShot;
 
@@ -124,7 +124,19 @@ abstract public class Action : MonoBehaviour
 
     public async Task InterruptAction()
     {
-        await EndAnimation();
+        if (!(animator == null || animator.GetBool("Die")) || finishAnimationTrigger == "")
+        {
+            animator.SetTrigger(finishAnimationTrigger);
+
+            int maxLoops = 100;
+            // wait for previous animation to finish       
+            while (!animator.GetCurrentAnimatorStateInfo(0).loop && !animator.GetNextAnimatorStateInfo(0).IsName("Idle") && maxLoops > 0)
+            {
+                maxLoops--;
+                await Task.Delay(100);
+            }
+        }
+
         Reset();
     }
 
@@ -270,7 +282,19 @@ abstract public class Action : MonoBehaviour
 
                     source.Cancel();
 
-                    await EndAnimation();
+
+                    if (!(animator == null || animator.GetBool("Die") || finishAnimationTrigger == ""))
+                    {
+                        animator.SetTrigger(finishAnimationTrigger);
+
+                        int maxLoops = 100;
+                        // wait for previous animation to finish       
+                        while (!animator.GetCurrentAnimatorStateInfo(0).loop && !animator.GetNextAnimatorStateInfo(0).IsName("Idle") && maxLoops > 0)
+                        {
+                            maxLoops--;
+                            await Task.Delay(100);
+                        }
+                    }
 
                     failed = true;
                     try
@@ -309,7 +333,20 @@ abstract public class Action : MonoBehaviour
 
             failSource.Cancel();
 
-            await EndAnimation();
+
+            if (!(animator == null || animator.GetBool("Die") || finishAnimationTrigger == ""))
+            {
+                animator.SetTrigger(finishAnimationTrigger);
+
+                int maxLoops = 100;
+                // wait for previous animation to finish       
+                while (!animator.GetCurrentAnimatorStateInfo(0).loop && !animator.GetNextAnimatorStateInfo(0).IsName("Idle") && maxLoops > 0)
+                {
+                    maxLoops--;
+                    await Task.Delay(100);
+                }
+            }
+
             finished = true;
             try
             {
@@ -322,22 +359,6 @@ abstract public class Action : MonoBehaviour
                     Debug.LogError("Failed invoking finish because of " + e.Message);
                 }
             }
-        }
-    }
-
-    // TODO: change to animated event 
-    protected async Task EndAnimation()
-    {
-        if (animator == null || animator.GetBool("Die")) return;
-
-        animator.SetTrigger(finishAnimationTrigger);
-
-        int maxLoops = 100;
-        // wait for previous animation to finish       
-        while (!animator.GetCurrentAnimatorStateInfo(0).loop && !animator.GetNextAnimatorStateInfo(0).IsName("Idle") &&  maxLoops > 0)
-        {
-            maxLoops--;
-            await Task.Delay(100);
         }
     }
 }

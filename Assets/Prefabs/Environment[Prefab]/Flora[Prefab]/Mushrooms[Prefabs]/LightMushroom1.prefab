@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4444238043186675375}
+  - component: {fileID: 7412244796692426044}
   m_Layer: 0
   m_Name: LightMushroom1
   m_TagString: Untagged
@@ -32,6 +33,29 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!205 &7412244796692426044
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3956071805216318485}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0.000000029802322, y: 0.27209723, z: 0}
+  m_Size: 0.73181254
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.20337127
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 7112538077541599736}
+  - screenRelativeHeight: 0.005
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 1736171984787220276}
+  m_Enabled: 1
 --- !u!1001 &1260312239095815555
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -123,35 +147,6 @@ MeshRenderer:
     type: 3}
   m_PrefabInstance: {fileID: 1260312239095815555}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &2142849877333188818 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: d796a053857ec6b4ba9339d4798b35dc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1260312239095815555}
-  m_PrefabAsset: {fileID: 0}
---- !u!205 &4566197567644704985
-LODGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2142849877333188818}
-  serializedVersion: 2
-  m_LocalReferencePoint: {x: 0.000000029802322, y: 0.27209723, z: 0}
-  m_Size: 0.73181254
-  m_FadeMode: 0
-  m_AnimateCrossFading: 0
-  m_LastLODIsBillboard: 0
-  m_LODs:
-  - screenRelativeHeight: 0.20337127
-    fadeTransitionWidth: 0
-    renderers:
-    - renderer: {fileID: 7112538077541599736}
-  - screenRelativeHeight: 0.028965157
-    fadeTransitionWidth: 0
-    renderers:
-    - renderer: {fileID: 1736171984787220276}
-  m_Enabled: 1
 --- !u!23 &7112538077541599736 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: -880091990808816517, guid: d796a053857ec6b4ba9339d4798b35dc,

@@ -67,7 +67,19 @@ public class Attack : NavigatedAction
 
             failSource.Cancel();
 
-            await EndAnimation();
+
+            if (!(animator == null || animator.GetBool("Die") || finishAnimationTrigger == ""))
+            {
+                animator.SetTrigger(finishAnimationTrigger);
+
+                int maxLoops = 100;
+                // wait for previous animation to finish       
+                while (!animator.GetCurrentAnimatorStateInfo(0).loop && !animator.GetNextAnimatorStateInfo(0).IsName("Idle") && maxLoops > 0)
+                {
+                    maxLoops--;
+                    await Task.Delay(100);
+                }
+            }
 
             failed = true;
             return;
@@ -105,7 +117,19 @@ public class Attack : NavigatedAction
 
                 failSource.Cancel();
 
-                await EndAnimation();
+
+                if (!(animator == null || animator.GetBool("Die") || finishAnimationTrigger == ""))
+                {
+                    animator.SetTrigger(finishAnimationTrigger);
+
+                    int maxLoops = 100;
+                    // wait for previous animation to finish       
+                    while (!animator.GetCurrentAnimatorStateInfo(0).loop && !animator.GetNextAnimatorStateInfo(0).IsName("Idle") && maxLoops > 0)
+                    {
+                        maxLoops--;
+                        await Task.Delay(100);
+                    }
+                }
 
                 failed = true;
                 return;
