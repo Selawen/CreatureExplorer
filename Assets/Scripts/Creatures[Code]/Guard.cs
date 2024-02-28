@@ -8,7 +8,7 @@ public class Guard : Torca
 
     private int patrolIndex = 0;
 
-
+    // TODO: figure out what causes crash
     // Start is called before the first frame update
     protected override void Start()
     {

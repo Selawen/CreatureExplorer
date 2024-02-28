@@ -60,6 +60,7 @@ public class Creature : MonoBehaviour
 
         GenerateNewGoal();
 
+        PlayerEventCaster.ListenForSounds(HearPlayer);
         surroundCheck = new CheckSurroundings(CheckForFood);
         StartCoroutines();
     }

@@ -61,8 +61,8 @@ public class ProgressUIHandler : MonoBehaviour
     {
         ProgressCategoryIcon iconObject = Instantiate(progressCategoryPrefab, progressCategoryGrid.transform).GetComponent<ProgressCategoryIcon>();
 
-        iconObject.Initialise(progressObject);
         IconObjects.Add(progressObject, iconObject);
+        iconObject.Initialise(progressObject);
     }
 
     /// <summary>
@@ -74,8 +74,8 @@ public class ProgressUIHandler : MonoBehaviour
     {
         ProgressIcon iconObject = Instantiate(progressIconPrefab, parentTransform).GetComponent<ProgressIcon>();
 
-        iconObject.Initialise(progressObject);
         IconObjects.Add(progressObject, iconObject);
+        iconObject.Initialise(progressObject);
 
         if (progressObject.DetailPage != null && progressDetailPages.transform.Find(progressObject.DetailPage.name + "(Clone)") == null) 
             Instantiate(progressObject.DetailPage, progressDetailPages.transform).SetActive(false);

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,8 +21,11 @@ public abstract class EventCaster : MonoBehaviour
     protected virtual void Start()
     {
         UpdateListeners();
+        // Create cancellation tokens and start tasks for invoking
+        source = new CancellationTokenSource();
+        token = source.Token;
         StartInvokingEvents();
-        Task.Run(()=>SyncListeners(token));
+        //Task.Run(()=>SyncListeners(token));
     }
 
     private void OnDisable()
@@ -34,11 +38,8 @@ public abstract class EventCaster : MonoBehaviour
 
     private void StartInvokingEvents()
     {
-        // Create cancellation tokens and start tasks for invoking
-        source = new CancellationTokenSource();
-        token = source.Token;
 
-        Task.Run(()=> InvokeFrequentEvents(token));
+        StartCoroutine(InvokeFrequentEvents(token));
 
         // TODO: decomment if standard or slow events are added
         //invokeStandardEvents(token);
@@ -55,16 +56,9 @@ public abstract class EventCaster : MonoBehaviour
         }
     }
 
-    protected virtual async Task InvokeFrequentEvents(CancellationToken cancelToken)
-    {
-        throw new System.NotImplementedException();
-    }
-    protected virtual async Task InvokeStandardEvents(CancellationToken cancelToken)
-    {
-        throw new System.NotImplementedException();
-    }
-    protected virtual async Task InvokeSlowEvents(CancellationToken cancelToken)
-    {
-        throw new System.NotImplementedException();
-    }
+    protected abstract IEnumerator InvokeFrequentEvents(CancellationToken cancelToken);
+
+    protected abstract Task InvokeStandardEvents(CancellationToken cancelToken);
+
+    protected abstract Task InvokeSlowEvents(CancellationToken cancelToken);
 }

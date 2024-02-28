@@ -91,7 +91,7 @@ public class WalkingState : State
         } else
         {
             rigidbody.velocity = Vector3.up * rigidbody.velocity.y;
-            PlayerController.SetLoudness(0);
+            PlayerController.SetLoudness(1);
         }
     }
 }

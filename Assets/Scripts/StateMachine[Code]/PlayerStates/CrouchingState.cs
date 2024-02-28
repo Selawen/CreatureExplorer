@@ -118,7 +118,7 @@ public class CrouchingState : State
         }
         else
         {
-            PlayerController.SetLoudness(0);
+            PlayerController.SetLoudness(1);
         }
         rigidbody.velocity = rigidbody.velocity.y * Vector3.up;
     }
