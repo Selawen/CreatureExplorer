@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.XR;
 
-[RequireComponent(typeof(Rigidbody))]
+//[RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
     public static float Loudness { get; private set; } = 5;
@@ -63,12 +63,13 @@ public class PlayerController : MonoBehaviour
 
     private bool died;
     private float verticalRotation;
+    private float horizontalRotation;
 
     private Vector2 rotationInput;
     private float rotationSpeed = 1f;
     private bool berryPouchIsOpen;
 
-    private Rigidbody rb;
+    [SerializeField] private Rigidbody rb;
     private FiniteStateMachine stateMachine;
 
     private Camera firstPersonCamera;
@@ -86,10 +87,11 @@ public class PlayerController : MonoBehaviour
             throw new System.Exception("No Input Module assigned, this will break the interface handling and should not be skipped!");
         }
 
-        rb = GetComponent<Rigidbody>();
+        //rb = GetComponent<Rigidbody>();
         stateMachine = new FiniteStateMachine(typeof(WalkingState), GetComponents<IState>());
         firstPersonCamera = Camera.main;
         verticalRotation = firstPersonCamera.transform.eulerAngles.x;
+        horizontalRotation = firstPersonCamera.transform.eulerAngles.y;
 
         respawnFadeRenderer = Instantiate(respawnOccluder, firstPersonCamera.transform).GetComponent<MeshRenderer>();
         deathScreen = Instantiate(deathScreen);
@@ -170,9 +172,10 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         stateMachine.OnFixedUpdate();
-
+        /*
         if (!VRChecker.IsVR)
-            firstPersonCamera.transform.rotation = Quaternion.Euler(new Vector3(verticalRotation, transform.eulerAngles.y, 0));
+            firstPersonCamera.transform.rotation = Quaternion.Euler(new Vector3(verticalRotation, horizontalRotation, 0));
+        */
         //pictureCamera.transform.rotation = Quaternion.Euler(new Vector3(verticalRotation, transform.eulerAngles.y, 0));
     }
 
@@ -377,7 +380,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             verticalRotation = Mathf.Clamp(verticalRotation - (lookInput.y * gameSettings.LookSensitivity * rotationSpeed), -maximumViewAngle, maximumViewAngle);
-            transform.Rotate(new Vector3(0, lookInput.x * gameSettings.LookSensitivity * rotationSpeed, 0));
+            rb.transform.Rotate(new Vector3(0, lookInput.x * gameSettings.LookSensitivity * rotationSpeed, 0));
         }
     }
     private void HandleInteract()

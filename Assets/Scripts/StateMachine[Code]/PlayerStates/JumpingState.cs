@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(Rigidbody))]
+//[RequireComponent(typeof(Rigidbody))]
 public class JumpingState : State
 {
     [SerializeField] private float jumpForce = 100f;
@@ -12,11 +12,11 @@ public class JumpingState : State
 
     private Vector2 moveInput;
 
-    private new Rigidbody rigidbody;
+    [SerializeField] private Rigidbody rigidbody;
 
     private void Awake()
     {
-        rigidbody = GetComponent<Rigidbody>();
+        //rigidbody = GetComponent<Rigidbody>();
     }
 
     public override void OnStateEnter()

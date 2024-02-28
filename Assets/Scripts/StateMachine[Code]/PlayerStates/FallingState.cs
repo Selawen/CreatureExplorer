@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(Rigidbody))]
+//[RequireComponent(typeof(Rigidbody))]
 public class FallingState : State
 {
     [SerializeField] private float painfulVelocity = 3f;
@@ -20,13 +20,13 @@ public class FallingState : State
     [SerializeField] private UnityEvent onLethalLanding;
 
     //private float fallVelocity;
-    private new Rigidbody rigidbody;
+    [SerializeField] private Rigidbody rigidbody;
 
     private Vector2 moveInput;
 
     private void Awake()
     {
-        rigidbody = GetComponent<Rigidbody>();
+        //rigidbody = GetComponent<Rigidbody>();
     }
 
     //private void OnTriggerEnter(Collider other)

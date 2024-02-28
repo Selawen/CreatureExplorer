@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
-[RequireComponent(typeof(Rigidbody))]
+//[RequireComponent(typeof(Rigidbody))]
 public class CrippledState : State
 {
     [SerializeField] private float crippleTime = 10f;
@@ -20,13 +20,13 @@ public class CrippledState : State
 
     private Vector2 moveInput;
 
-    private new Rigidbody rigidbody;
+    [SerializeField] private Rigidbody rigidbody;
     private PhysicsStepper stepper;
 
 
     private void Awake()
     {
-        rigidbody = GetComponent<Rigidbody>();
+        //rigidbody = GetComponent<Rigidbody>();
         stepper = GetComponent<PhysicsStepper>();
     }
 
