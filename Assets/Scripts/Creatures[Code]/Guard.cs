@@ -25,6 +25,7 @@ public class Guard : Torca
         surroundCheck = new CheckSurroundings(CheckForFood);
     }
 
+    /*
     protected override void FixedUpdate()
     {
         if (CurrentAction.GetType() == typeof(Move)&&(CurrentAction.failed || CurrentAction.finished))
@@ -38,6 +39,7 @@ public class Guard : Torca
 
         base.FixedUpdate();
     }
+    */
 
     protected override void StartAction()
     {

@@ -35,4 +35,9 @@ public class FollowTarget : MonoBehaviour
     {
         TrueOffset = newOffset;
     }
+
+    public void UpdateOffset()
+    {
+        TrueOffset = transform.position - target.position;
+    }
 }

@@ -46,6 +46,7 @@ public class Snorlax : Charger
         */
     }
 
+    /*
     // Update is called once per frame
     protected override void FixedUpdate()
     {        
@@ -73,6 +74,7 @@ public class Snorlax : Charger
             }
         }
     }
+    */
 
     protected override void ReactToThreat(Vector3 threatPosition, float threatLoudness)
     {

@@ -64,7 +64,7 @@ public class Creature : MonoBehaviour
         surroundCheck = new CheckSurroundings(CheckForFood);
         StartCoroutines();
     }
-
+    
     protected virtual void FixedUpdate()
     {
         UpdateValues();
@@ -177,8 +177,14 @@ public class Creature : MonoBehaviour
     {
         // TODO: get rid of magic number
         // Make creature tire faster when it's bedtime
-        if (DistantLands.Cozy.CozyWeather.instance.currentTime.IsBetweenTimes(data.Bedtime, data.WakeTime))
-            currentCreatureState.AddValue(2f * Time.deltaTime, StateType.Tiredness);
+        try
+        {
+            if (DistantLands.Cozy.CozyWeather.instance.currentTime.IsBetweenTimes(data.Bedtime, data.WakeTime))
+                currentCreatureState.AddValue(2f * Time.deltaTime, StateType.Tiredness);
+        } catch
+        {
+            DebugMessage("Cozyweather is not active");
+        }
 
         foreach (MoodState change in data.ChangesEverySecond.CreatureStates)
         {
@@ -219,11 +225,7 @@ public class Creature : MonoBehaviour
             else if (change.Operator == StateOperant.Subtract)
                 currentCreatureState.AddValue(-change.StateValue, change.MoodType);
 
-
-            if (LogDebugs)
-            {
-                Debug.Log("updated worldstate of " + change.MoodType.ToString());
-            }
+            DebugMessage("updated worldstate of " + change.MoodType.ToString());
         }
 
         UpdateCreatureState();
@@ -235,8 +237,14 @@ public class Creature : MonoBehaviour
     protected virtual void UpdateCreatureState()
     {
         CheckForInterruptions(StateType.Tiredness, GetComponentInChildren<Sleep>(), "Fell asleep");
-
-        worldState = DistantLands.Cozy.CozyWeather.instance.currentTime.IsBetweenTimes(data.Bedtime, data.WakeTime) ? SetConditionTrue(worldState, Condition.ShouldBeSleeping) : SetConditionFalse(worldState, Condition.ShouldBeSleeping);
+        try
+        {
+            worldState = DistantLands.Cozy.CozyWeather.instance.currentTime.IsBetweenTimes(data.Bedtime, data.WakeTime) ? SetConditionTrue(worldState, Condition.ShouldBeSleeping) : SetConditionFalse(worldState, Condition.ShouldBeSleeping);
+        }
+        catch
+        {
+            DebugMessage("Cozyweather is not active");
+        }
 
         worldState = (currentCreatureState.Find(StateType.Hunger).StateValue > 50) ? SetConditionTrue(worldState, Condition.IsHungry) : SetConditionFalse(worldState, Condition.IsHungry);
         worldState = (currentCreatureState.Find(StateType.Tiredness).StateValue > 50) ? SetConditionTrue(worldState, Condition.IsSleepy) : SetConditionFalse(worldState, Condition.IsSleepy);
