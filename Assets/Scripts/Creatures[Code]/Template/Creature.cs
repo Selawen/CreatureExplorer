@@ -44,6 +44,15 @@ public class Creature : MonoBehaviour
             Physics.IgnoreCollision(GetComponent<Collider>(), col);
         }
 
+        if (data.SkinVariants.Length > 0)
+        {
+            Material randomMat = data.SkinVariants[UnityEngine.Random.Range(0, data.SkinVariants.Length)];
+            foreach (SkinnedMeshRenderer renderer in GetComponentsInChildren<SkinnedMeshRenderer>())
+            {
+                renderer.material = randomMat;
+            }
+        }
+
         if (!showThoughts)
         {
             goalText.transform.parent.gameObject.SetActive(false);

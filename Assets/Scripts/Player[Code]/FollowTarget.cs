@@ -11,7 +11,6 @@ public class FollowTarget : MonoBehaviour
 
     [SerializeField] private Transform target;
 
-
     // Start is called before the first frame update
     void Awake()
     {

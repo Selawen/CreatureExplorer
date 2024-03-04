@@ -12,7 +12,7 @@ public class JumpingState : State
 
     private Vector2 moveInput;
 
-    [SerializeField] private Rigidbody rigidbody;
+    [SerializeField] private Rigidbody rb;
 
     private void Awake()
     {
@@ -21,13 +21,13 @@ public class JumpingState : State
 
     public override void OnStateEnter()
     {
-        rigidbody.velocity = new Vector3(rigidbody.velocity.x, 0, rigidbody.velocity.z);
-        rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
+        rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+        rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
     }
 
     public override void OnStateUpdate()
     {
-        if(!Physics.CheckSphere(transform.position, 0.25f, ~playerLayer, QueryTriggerInteraction.Ignore) && rigidbody.velocity.y <= 0)
+        if(!Physics.CheckSphere(transform.position, 0.25f, ~playerLayer, QueryTriggerInteraction.Ignore) && rb.velocity.y <= 0)
         {
             Owner.SwitchState(typeof(FallingState));
             return;
@@ -52,20 +52,20 @@ public class JumpingState : State
     {
         if (moveInput.sqrMagnitude >= 0.1f)
         {
-            float targetAngle = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg + rigidbody.transform.eulerAngles.y;
+            float targetAngle = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg + rb.transform.eulerAngles.y;
 
             Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
 
             Vector3 newVelocity = moveDirection.normalized * aerialSpeed;
 
-            rigidbody.AddForce(newVelocity, ForceMode.Acceleration);
+            rb.AddForce(newVelocity, ForceMode.Acceleration);
 
-            Vector2 horizontalVelocity = new(rigidbody.velocity.x, rigidbody.velocity.z);
+            Vector2 horizontalVelocity = new(rb.velocity.x, rb.velocity.z);
 
             if (horizontalVelocity.sqrMagnitude >= maxHorizontalVelocity * maxHorizontalVelocity)
             {
                 horizontalVelocity = horizontalVelocity.normalized * maxHorizontalVelocity;
-                rigidbody.velocity = new(horizontalVelocity.x, rigidbody.velocity.y, horizontalVelocity.y);
+                rb.velocity = new(horizontalVelocity.x, rb.velocity.y, horizontalVelocity.y);
             }
         }
     }

@@ -20,7 +20,7 @@ public class FallingState : State
     [SerializeField] private UnityEvent onLethalLanding;
 
     //private float fallVelocity;
-    [SerializeField] private Rigidbody rigidbody;
+    [SerializeField] private Rigidbody rb;
 
     private Vector2 moveInput;
 
@@ -43,17 +43,17 @@ public class FallingState : State
         {
             if (hit.transform.TryGetComponent(out BounceSurface surface))
             {
-                if (surface.Bounce(rigidbody.velocity.y * -1, out float exitForce))
+                if (surface.Bounce(rb.velocity.y * -1, out float exitForce))
                 {
-                    rigidbody.velocity = new(rigidbody.velocity.x, 0, rigidbody.velocity.z);
-                    rigidbody.AddForce(exitForce * Vector3.up, ForceMode.VelocityChange);
+                    rb.velocity = new(rb.velocity.x, 0, rb.velocity.z);
+                    rb.AddForce(exitForce * Vector3.up, ForceMode.VelocityChange);
                     return;
                 }
             }
         }
         if (Physics.CheckSphere(transform.position, 0.25f, ~playerLayer, QueryTriggerInteraction.Ignore))
         {
-            if (rigidbody.velocity.y <= -lethalVelocity)
+            if (rb.velocity.y <= -lethalVelocity)
             {
                 // Die
                 dbg_SharedSource.clip = dbg_DeathSound;
@@ -61,13 +61,13 @@ public class FallingState : State
                 onLethalLanding?.Invoke();
                 return;
             }
-            if (rigidbody.velocity.y <= -cripplingVelocity)
+            if (rb.velocity.y <= -cripplingVelocity)
             {
                 // Incapacitate the player for a while
                 Owner.SwitchState(typeof(CrippledState));
                 return;
             }
-            if(rigidbody.velocity.y <= -painfulVelocity)
+            if(rb.velocity.y <= -painfulVelocity)
             {
                 // This hurts the player a bit for a short while.
                 Owner.SwitchState(typeof(HurtState));
@@ -95,20 +95,20 @@ public class FallingState : State
     {
         if (moveInput.sqrMagnitude >= 0.1f)
         {
-            float targetAngle = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg + rigidbody.transform.eulerAngles.y;
+            float targetAngle = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg + rb.transform.eulerAngles.y;
 
             Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
 
             Vector3 newVelocity = moveDirection.normalized * aerialSpeed;
 
-            rigidbody.AddForce(newVelocity, ForceMode.Acceleration);
+            rb.AddForce(newVelocity, ForceMode.Acceleration);
 
-            Vector2 horizontalVelocity = new(rigidbody.velocity.x, rigidbody.velocity.z);
+            Vector2 horizontalVelocity = new(rb.velocity.x, rb.velocity.z);
 
             if(horizontalVelocity.sqrMagnitude >= maxHorizontalVelocity * maxHorizontalVelocity)
             {
                 horizontalVelocity = horizontalVelocity.normalized * maxHorizontalVelocity;
-                rigidbody.velocity = new(horizontalVelocity.x, rigidbody.velocity.y, horizontalVelocity.y);
+                rb.velocity = new(horizontalVelocity.x, rb.velocity.y, horizontalVelocity.y);
             }
 
         }

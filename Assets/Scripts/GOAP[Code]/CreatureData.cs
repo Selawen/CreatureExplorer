@@ -3,6 +3,7 @@ using UnityEngine;
 [CreateAssetMenuAttribute(fileName = "NewCreatureData", menuName = "GOAP/Create Creature Data")]
 public class CreatureData : ScriptableObject
 {
+    [field: SerializeField] public Material[] SkinVariants { get; private set; }
     [Tooltip("The name of the script that is on this creature's foodsource")]
     [field: SerializeField] public string FoodSource { get; private set; } 
     [Tooltip("The name of the script that is on this creature's sleeping spots")]

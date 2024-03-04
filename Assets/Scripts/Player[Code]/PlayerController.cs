@@ -373,9 +373,8 @@ public class PlayerController : MonoBehaviour
         {
             Vector3 lookingForward = firstPersonCamera.transform.forward;
             lookingForward.y = 0;
-            lookingForward = lookingForward.normalized;
 
-            transform.forward = lookingForward;
+            transform.forward = lookingForward.normalized;
         }
         else
         {

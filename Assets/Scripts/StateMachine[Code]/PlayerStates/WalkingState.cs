@@ -18,7 +18,7 @@ public class WalkingState : State
 
     private Vector2 moveInput;
 
-    [SerializeField] private new Rigidbody rigidbody;
+    [SerializeField] private Rigidbody rb;
     private PhysicsStepper stepper;
 
     private void Awake()
@@ -33,7 +33,7 @@ public class WalkingState : State
 
     public override void OnStateUpdate()
     {
-        if (!Physics.CheckSphere(rigidbody.transform.position, 0.25f, ~playerLayer, QueryTriggerInteraction.Ignore))
+        if (!Physics.CheckSphere(rb.transform.position, 0.25f, ~playerLayer, QueryTriggerInteraction.Ignore))
         {
             Owner.SwitchState(typeof(FallingState));
         }
@@ -70,7 +70,7 @@ public class WalkingState : State
 
             float speed = walkSpeed;
             float inputAngle = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg;
-            float targetAngle = inputAngle + rigidbody.transform.eulerAngles.y;
+            float targetAngle = inputAngle + rb.transform.eulerAngles.y;
 
             if (isSprinting)
             {
@@ -79,18 +79,18 @@ public class WalkingState : State
 
             Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
 
-            stepper.HandleStep(ref rigidbody, moveDirection);
+            stepper.HandleStep(ref rb, moveDirection);
 
-            float verticalVelocity = rigidbody.velocity.y;
+            float verticalVelocity = rb.velocity.y;
 
             Vector3 newVelocity = moveDirection.normalized * speed;
 
             newVelocity.y = verticalVelocity;
 
-            rigidbody.velocity = newVelocity;
+            rb.velocity = newVelocity;
         } else
         {
-            rigidbody.velocity = Vector3.up * rigidbody.velocity.y;
+            rb.velocity = Vector3.up * rb.velocity.y;
             PlayerController.SetLoudness(1);
         }
     }
