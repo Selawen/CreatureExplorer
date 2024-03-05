@@ -38,7 +38,12 @@ public class Planner : MonoBehaviour
         curvesPerMood.Add(StateType.Tiredness, TirednessPriority);
 
         moodPriorities = new Dictionary<float, StateType>();
+
+#if UNITY_EDITOR
         debug = GetComponent<Creature>().LogDebugs;
+        #else
+        debug = false;
+#endif
     }
 
     private void OnValidate()
@@ -140,7 +145,9 @@ public class Planner : MonoBehaviour
 
         if (goalPrioIndex < 0)
         {
+# if UNITY_EDITOR
             Debug.LogError("goalPrioIndex was <0");
+#endif
             return defaultGoal;
         }
 

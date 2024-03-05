@@ -60,8 +60,10 @@ public class Attack : NavigatedAction
         // If the torca can't reach target, fail attacking
         if ((target.transform.position - (moveAgent.destination + attackOrigin.localPosition)).magnitude > comparison)
         {
+# if UNITY_EDITOR
             if (GetComponentInParent<Creature>().LogDebugs)
                 Debug.Log($"Attack failed, further than {comparison} away");
+#endif
 
             ResetNavigation();
 
@@ -112,8 +114,10 @@ public class Attack : NavigatedAction
                 ResetNavigation();
             } else
             {
+# if UNITY_EDITOR
                 if (GetComponentInParent<Creature>().LogDebugs)
                     Debug.Log("Attack failed");
+#endif
 
                 failSource.Cancel();
 

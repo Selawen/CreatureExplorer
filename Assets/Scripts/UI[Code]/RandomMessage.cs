@@ -14,7 +14,9 @@ public class RandomMessage : MonoBehaviour
     {
         if (messages.Length <1)
         {
+# if UNITY_EDITOR
             Debug.LogError("No messages to choose from");
+#endif
             this.enabled = false;
             return;
         }

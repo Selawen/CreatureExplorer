@@ -14,7 +14,9 @@ public class Guard : Torca
     {
         if (patrolPoints.Length < 1 || patrolTarget == null)
         {
+# if UNITY_EDITOR
             Debug.LogError("No patrol points or target set");
+#endif
             this.enabled = false;
             return;
         }

@@ -105,10 +105,12 @@ public class ProgressUIHandler : MonoBehaviour
             otherPageNumber += (otherPageNumber % 2 == 1) ? 1:-1;       //looks like it's the wrong way around, but there is always a button that comes first in the hierarchy
             progressDetailPages.transform.GetChild(otherPageNumber).gameObject.SetActive(true);
         }
+# if UNITY_EDITOR
         else
         {
             Debug.Log("Page not found");
         }
+#endif
     }
 
     public void CloseDetailPage()

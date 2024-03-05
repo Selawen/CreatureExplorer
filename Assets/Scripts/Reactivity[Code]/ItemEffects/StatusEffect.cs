@@ -13,6 +13,7 @@ public class StatusEffect : MonoBehaviour
 
     //private Creature affectedCreature;
 
+#if UNITY_EDITOR
     private void OnValidate()
     {
         if (!oneShot && effectDuration == 0)
@@ -20,7 +21,7 @@ public class StatusEffect : MonoBehaviour
             Debug.LogError($"Effect of {gameObject.name} is set to have an effect over time, but the duration is set to 0");
         }
     }
-
+#endif
     protected virtual void TriggerStatusEffect(Creature toAffect)
     {
         if (oneShot)

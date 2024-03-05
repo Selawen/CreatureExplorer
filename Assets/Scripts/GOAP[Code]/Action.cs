@@ -303,10 +303,12 @@ abstract public class Action : MonoBehaviour
                     }
                     catch (System.Exception e)
                     {
+# if UNITY_EDITOR
                         if (GetComponentInParent<Creature>().LogDebugs)
                         {
                             Debug.LogError("Failed invoking finish because of " + e.Message);
                         }
+#endif
                     }
                 }
             }
@@ -314,8 +316,10 @@ abstract public class Action : MonoBehaviour
         {
             if (creatureDeactivated)
                 return;
+# if UNITY_EDITOR
             if (GetComponentInParent<Creature>().LogDebugs)
                 Debug.Log($"{this.name} has finished");
+#endif
         }
     }
 
@@ -354,10 +358,12 @@ abstract public class Action : MonoBehaviour
             }
             catch (System.Exception e)
             {
+# if UNITY_EDITOR
                 if (GetComponentInParent<Creature>().LogDebugs)
                 {
                     Debug.LogError("Failed invoking finish because of " + e.Message);
                 }
+#endif
             }
         }
     }

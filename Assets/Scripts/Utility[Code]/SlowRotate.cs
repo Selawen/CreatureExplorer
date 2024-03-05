@@ -12,8 +12,10 @@ public class SlowRotate : MonoBehaviour
     {
         Vector3 rotatedDirection = transform.position - rotationTarget.position;
         float currentAngle = Vector3.SignedAngle(new Vector3(rotatedDirection.x, 0, rotatedDirection.z), new Vector3(rotationTarget.forward.x ,  0 , rotationTarget.forward.z), Vector3.up);
-        
+
+#if UNITY_EDITOR
         //Debug.Log($"Angle: {currentAngle}, rotated direction: {rotatedDirection}, camRotation: {rotationTarget.rotation.y}");
+#endif
 
         if (Mathf.Abs(currentAngle) > rotationSensitivity)
             transform.RotateAround(rotationTarget.position, transform.parent.up, rotationTarget.rotation.y+(currentAngle * 0.01f));

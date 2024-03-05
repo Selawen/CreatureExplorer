@@ -49,7 +49,9 @@ namespace DistantLands.Cozy
 
                 GetComponent<CozyWeather>().InitializeModule(typeof(CozyMicrosplatModule));
                 DestroyImmediate(this);
+# if UNITY_EDITOR
                 Debug.LogWarning("Add modules in the settings tab in COZY 2!");
+#endif
                 return;
 
             }

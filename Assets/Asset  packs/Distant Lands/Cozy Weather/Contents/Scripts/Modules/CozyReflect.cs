@@ -91,7 +91,9 @@ namespace DistantLands.Cozy
 
             if (!weatherSphere.cozyCamera)
             {
+# if UNITY_EDITOR
                 Debug.LogError("COZY Reflections requires the cozy camera to be set in the settings tab!");
+#endif
                 return;
             }
 

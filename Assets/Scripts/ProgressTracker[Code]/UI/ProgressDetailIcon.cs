@@ -23,8 +23,10 @@ public class ProgressDetailIcon : ProgressIcon
             }
         }
 
+#if UNITY_EDITOR
         if (rightCategory == null)
             Debug.Log("Invalid category path");
+#endif
 
         if (rightCategory.HasID(splitPath[splitPath.Length-1], out progressData))
         {

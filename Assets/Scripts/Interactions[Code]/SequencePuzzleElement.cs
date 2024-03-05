@@ -39,7 +39,9 @@ public class SequencePuzzleElement : MonoBehaviour, IInteractable
     
     public void OnPuzzleClear()
     {
+# if UNITY_EDITOR
         Debug.Log("Cleared");
+#endif
         internalClear = true;
         StopCoroutine(nameof(MaterialShift));
         meshRenderer.material = completionMaterial;

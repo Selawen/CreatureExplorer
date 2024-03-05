@@ -7,6 +7,7 @@ public class Goal: ScriptableObject
 
     [field: SerializeField] public MoodState[] Target { get; private set; }
 
+#if UNITY_EDITOR
     private void OnValidate()
     {
         foreach (MoodState mood in Target)
@@ -17,4 +18,5 @@ public class Goal: ScriptableObject
             }
         }
     }
+#endif
 }

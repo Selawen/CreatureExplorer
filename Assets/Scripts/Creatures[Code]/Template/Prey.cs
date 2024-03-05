@@ -48,7 +48,9 @@ public class Prey : Creature
 
         if (LookForObjects<Torca>.TryGetClosestObject(predator, transform.position, predatorAwarenessRange*CurrentAction.Awareness, out predator))
         {
+# if UNITY_EDITOR
             DebugMessage("Sees Torca");
+#endif
             ReactToThreat(predator, 1);
         }
     }

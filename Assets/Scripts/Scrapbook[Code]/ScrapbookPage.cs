@@ -30,7 +30,6 @@ public class ScrapbookPage : PageComponentInteractor
         }
         else if (addedComponent.GetType() == typeof(PagePicture))
         {
-            // TODO: evaluate picture
             PagePicture picture = addedComponent as PagePicture;
             if (!picture.evaluated)
             {

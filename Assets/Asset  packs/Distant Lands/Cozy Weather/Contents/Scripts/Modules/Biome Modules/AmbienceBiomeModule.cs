@@ -37,7 +37,9 @@ namespace DistantLands.Cozy
 
             if (!CozyWeather.instance.GetModule<CozyAmbienceManager>())
             {
+# if UNITY_EDITOR
                 Debug.LogError("The ambience biome module requires the ambience module to be enabled on your weather sphere. Please add the ambience module before setting up your biome.");
+#endif
                 return false;
             }
             return true;

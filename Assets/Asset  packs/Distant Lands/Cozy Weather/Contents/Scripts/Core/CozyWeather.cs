@@ -655,7 +655,9 @@ namespace DistantLands.Cozy
 
             if (currentWeather == null || atmosphereProfile == null || perennialProfile == null)
             {
+# if UNITY_EDITOR
                 Debug.LogWarning("Cozy Weather requires an active weather profile, an active perennial profile and an active atmosphere profile to function properly.\nPlease ensure that the active CozyWeather script contains all necessary profile references.");
+#endif
                 return;
             }
 
@@ -679,7 +681,9 @@ namespace DistantLands.Cozy
 #if UNITY_EDITOR
                 if (!VFX)
                     if (currentWeatherProfiles[0].profile.FX.Length > 0)
+# if UNITY_EDITOR
                         Debug.LogWarning("VFX requires an active VFX module on the COZY system. Be sure to add it in the modules portion of the settings tab!");
+#endif
 #endif
 
                 currentLocalWeather = GetCurrentWeatherProfile();
@@ -1179,7 +1183,9 @@ namespace DistantLands.Cozy
 
             if (atmosphereControl == AtmosphereSelection.native)
             {
+# if UNITY_EDITOR
                 Debug.LogWarning("Atmosphere transitioning requires the atmosphere selection to be set to profile.");
+#endif
                 yield break;
             }
 

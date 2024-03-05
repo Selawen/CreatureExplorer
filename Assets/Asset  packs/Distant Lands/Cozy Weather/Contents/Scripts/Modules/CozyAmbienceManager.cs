@@ -63,7 +63,9 @@ namespace DistantLands.Cozy
 
                 GetComponent<CozyWeather>().InitializeModule(typeof(CozyAmbienceManager));
                 DestroyImmediate(this);
+# if UNITY_EDITOR
                 Debug.LogWarning("Add modules in the settings tab in COZY 2!");
+#endif
                 return;
 
             }
@@ -223,7 +225,9 @@ namespace DistantLands.Cozy
             if (totalChance == 0)
             {
                 i = (AmbienceProfile)Resources.Load("Default Ambience");
+# if UNITY_EDITOR
                 Debug.LogWarning("Could not find a suitable ambience given the current selected profiles and chance effectors. Defaulting to an empty ambience.");
+#endif
                 return i;
             }
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(Rigidbody))]
+//[RequireComponent(typeof(Rigidbody))]
 public class ClimbingState : State
 {
     [SerializeField] private float climbingSpeed = 3f;
@@ -11,11 +11,12 @@ public class ClimbingState : State
 
     private Vector2 moveInput;
     [SerializeField] private Rigidbody rb;
-
+    /*
     private void Awake()
     {
         //rb = GetComponent<Rigidbody>();
     }
+    */
     public override void OnStateEnter()
     {
         rb.useGravity = false;

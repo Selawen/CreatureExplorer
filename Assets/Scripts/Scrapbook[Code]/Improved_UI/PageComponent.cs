@@ -73,7 +73,7 @@ public abstract class PageComponent : MonoBehaviour, IBeginDragHandler, IDragHan
 
     private void Move(Vector2 position)
     {
-        _rectTransform.position = position;
+        _rectTransform.localPosition = position;
     }
 
     protected virtual void TurnAndScale(Vector2 delta)

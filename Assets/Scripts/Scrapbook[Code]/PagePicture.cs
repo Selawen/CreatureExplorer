@@ -88,18 +88,22 @@ public class PagePicture : PageComponent, IPointerClickHandler
 
         if (interactor == null)
         {
+# if UNITY_EDITOR
             Debug.Log(stepBackParent.name);
+#endif
             throw new System.NullReferenceException("Something went wrong, in the parent transform or one of their parent's transforms, there should be a Page Component Interactor");
         }
         if (interactor.OnComponentDroppedOn(this))
         {
             SetInteractor(interactor);
         }
+# if UNITY_EDITOR
         else
         {
             Debug.Log(interactor.name);
             Debug.LogError("For some reason, the picture cannot be return to it's parent, this shouldn't happen");
         }
+#endif
     }
 
     public void OnPointerClick(PointerEventData eventData)

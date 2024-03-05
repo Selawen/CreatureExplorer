@@ -205,7 +205,9 @@ namespace DistantLands.Cozy
                     weatherSphere = CozyWeather.instance;
                 else
                 {
+# if UNITY_EDITOR
                     Debug.LogError("Could not find an instance of COZY. Make sure that your scene is properly setup!");
+#endif
                     return;
                 }
 
@@ -242,7 +244,9 @@ namespace DistantLands.Cozy
 
             if (climateProfile == null)
             {
+# if UNITY_EDITOR
                 Debug.LogError($"Assign a climate profile on {this.name}!");
+#endif
                 return;
             }
 

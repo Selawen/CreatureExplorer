@@ -146,8 +146,10 @@ public class Creature : MonoBehaviour
             // if an action has failed try and generate a new goal
             if (CurrentAction.failed)
             {
-                DebugMessage("Action failed! " + CurrentAction.Name);
 
+#if UNITY_EDITOR
+                DebugMessage("Action failed! " + CurrentAction.Name);
+#endif
                 GenerateNewGoal();
             }
         }
@@ -157,7 +159,9 @@ public class Creature : MonoBehaviour
     {
         if (!planner.GeneratePlan(currentCreatureState, worldState, out currentGoal, out currentPlan) && LogDebugs)
         {
+# if UNITY_EDITOR
             Debug.Log("Failed in generating plan, resorting to deault action");
+#endif
         }
 
         // reset values on last action before starting new plan
@@ -170,7 +174,9 @@ public class Creature : MonoBehaviour
 
         if (LogDebugs)
         {
+# if UNITY_EDITOR
             Debug.Log("Generated new goal: " + currentGoal);
+#endif
         }
 
         if (showThoughts)
@@ -192,7 +198,10 @@ public class Creature : MonoBehaviour
                 currentCreatureState.AddValue(2f * Time.deltaTime, StateType.Tiredness);
         } catch
         {
+
+#if UNITY_EDITOR
             DebugMessage("Cozyweather is not active");
+#endif
         }
 
         foreach (MoodState change in data.ChangesEverySecond.CreatureStates)
@@ -234,7 +243,9 @@ public class Creature : MonoBehaviour
             else if (change.Operator == StateOperant.Subtract)
                 currentCreatureState.AddValue(-change.StateValue, change.MoodType);
 
+#if UNITY_EDITOR
             DebugMessage("updated worldstate of " + change.MoodType.ToString());
+#endif
         }
 
         UpdateCreatureState();
@@ -252,7 +263,10 @@ public class Creature : MonoBehaviour
         }
         catch
         {
+
+#if UNITY_EDITOR
             DebugMessage("Cozyweather is not active");
+#endif
         }
 
         worldState = (currentCreatureState.Find(StateType.Hunger).StateValue > 50) ? SetConditionTrue(worldState, Condition.IsHungry) : SetConditionFalse(worldState, Condition.IsHungry);
@@ -294,7 +308,9 @@ public class Creature : MonoBehaviour
 
     protected async void Interrupt(Action associatedAction, string debugText = "", bool waitForFinishAnimation = false)
     {
+#if UNITY_EDITOR
         DebugMessage($"interruption source: {associatedAction.Name}");
+#endif
 
         if (waitForFinishAnimation)
         {
@@ -332,7 +348,9 @@ public class Creature : MonoBehaviour
 
         if (UnityEngine.Random.Range(0, currentCreatureState.Find(StateType.Tiredness).StateValue) > 10)
         {
+#if UNITY_EDITOR
             DebugMessage("Die");
+#endif
 
             Animator animator = GetComponentInChildren<Animator>();
             CurrentAction.Stop();
@@ -372,7 +390,9 @@ public class Creature : MonoBehaviour
         UpdateValues(data.ReactionToAttack);
         worldState = SetConditionTrue(worldState, Condition.IsNearDanger);
 
+#if UNITY_EDITOR
         DebugMessage("Was Attacked");
+#endif
     }
 
     public void HearPlayer(Vector3 playerPos, float playerLoudness)
@@ -390,14 +410,18 @@ public class Creature : MonoBehaviour
         sawPlayer = true;
         UpdateValues(data.ReactionToPlayer);
 
+#if UNITY_EDITOR
         DebugMessage("Noticed Player");
+#endif
     }
 
     protected virtual void ReactToPlayerLeaving(Vector3 playerPos)
     {
         sawPlayer = false;
 
+#if UNITY_EDITOR
         DebugMessage("Lost sight of Player");
+#endif
     }
 
     protected IEnumerator LookAtSurroundings()

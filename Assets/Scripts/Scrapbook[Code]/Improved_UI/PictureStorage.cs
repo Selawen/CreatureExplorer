@@ -38,11 +38,16 @@ public class PictureStorage : PageComponentInteractor
     public void AddStorageCapacity(ushort addedCapacity = 1)
     {
         if (pictureInventory.GetCapacity() < photoSpots.Length)
+        {
             pictureInventory.AdjustCapacity(addedCapacity);
+            UpdateCameraStorageText();
+        }
+# if UNITY_EDITOR
         else
         {
             Debug.Log("Camera storage is already at max capacity");
         }
+#endif
     }
 
     public void CreatePictureFromCamera(PagePicture picture)
@@ -56,6 +61,7 @@ public class PictureStorage : PageComponentInteractor
 
                 picture.transform.SetPositionAndRotation(t.position, t.rotation);
                 picture.transform.SetParent(t, true);
+                picture.transform.localScale = Vector3.one;
 
                 picture.SetInteractor(this);
 
@@ -64,7 +70,9 @@ public class PictureStorage : PageComponentInteractor
                 return;
             }
         }
+# if UNITY_EDITOR
         Debug.LogWarning("An attempt to add a picture while there are no available photo spots has been made! This should be impossible!");
+#endif
     }
 
     public override bool OnComponentDroppedOn(PageComponent component)

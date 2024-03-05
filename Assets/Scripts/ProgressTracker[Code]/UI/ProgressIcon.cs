@@ -36,9 +36,11 @@ public class ProgressIcon : MonoBehaviour
             //Debug.Log($"Page found {progressData.DetailPage.name}");
             GetComponentInParent<ProgressUIHandler>().OpenPage(progressData.DetailPage);
         }
+# if UNITY_EDITOR
         else
         {
             Debug.Log("No page set");
         }
+#endif
     }
 }
