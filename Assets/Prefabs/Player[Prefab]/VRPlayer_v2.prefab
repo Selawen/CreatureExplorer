@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 1503432930725665888}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1616667484964944795}
@@ -574,7 +574,7 @@ Transform:
   m_GameObject: {fileID: 6309500712002347045}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1616667484964944795}
@@ -1400,6 +1400,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 1aadcdea-c95e-4ff7-9e48-1df87d9cb94d
     m_ActionName: Scrapbook/TrackedOrientation
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8653d67f-bdea-4211-a0f1-00653926b143
+    m_ActionName: Scrapbook/CloseQuest[/Keyboard/e,/Keyboard/escape]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Overworld
@@ -1618,7 +1622,33 @@ MonoBehaviour:
         m_CallState: 2
   onHurt:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: PlayOneShot
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: 6235c4b569fe9b448a6361810f53627f,
+            type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5131932798696487446}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: PlayOneShot
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: 6235c4b569fe9b448a6361810f53627f,
+            type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onBerryThrown:
     m_PersistentCalls:
       m_Calls:
@@ -1665,7 +1695,7 @@ MonoBehaviour:
   climbingUnlocked: 0
   pouchUnlocked: 0
   module: {fileID: 0}
-  rb: {fileID: 0}
+  rb: {fileID: 1616667484964944804}
 --- !u!114 &306508550141850432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1735,7 +1765,7 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
-  rigidbody: {fileID: 1616667484964944804}
+  rb: {fileID: 1616667484964944804}
 --- !u!114 &6781618450955129807
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1755,7 +1785,7 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
-  rigidbody: {fileID: 0}
+  rb: {fileID: 1616667484964944804}
 --- !u!114 &7802370982375549875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1774,7 +1804,7 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
-  rigidbody: {fileID: 0}
+  rb: {fileID: 1616667484964944804}
 --- !u!114 &4923018536014310705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1812,7 +1842,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  rigidbody: {fileID: 0}
+  rb: {fileID: 1616667484964944804}
 --- !u!114 &7630138044037482323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1831,7 +1861,7 @@ MonoBehaviour:
   sharedPlayerSource: {fileID: 5131932798696487446}
   hurtSound: {fileID: 8300000, guid: 6d8140b87acd220499955e8ee610ae7c, type: 3}
   volume: {fileID: 0}
-  rigidbody: {fileID: 0}
+  rb: {fileID: 1616667484964944804}
 --- !u!114 &6140142888040331764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1851,7 +1881,7 @@ MonoBehaviour:
   painSound: {fileID: 8300000, guid: 6235c4b569fe9b448a6361810f53627f, type: 3}
   boneCrackSound: {fileID: 8300000, guid: 019a61ec6cd40b548b5f5e0c3879c577, type: 3}
   volume: {fileID: 0}
-  rigidbody: {fileID: 0}
+  rb: {fileID: 1616667484964944804}
 --- !u!114 &2321048793371543371
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1868,7 +1898,7 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
-  rb: {fileID: 0}
+  rb: {fileID: 1616667484964944804}
 --- !u!114 &1700446812110142541
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2172,7 +2202,7 @@ PrefabInstance:
     - target: {fileID: 1836656334307969229, guid: 9443e86176b05594e87edb252eb3bf5d,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9443e86176b05594e87edb252eb3bf5d, type: 3}
@@ -2896,7 +2926,7 @@ PrefabInstance:
     - target: {fileID: 8695079949066847501, guid: 66818856939f3fc44879a34466502a7b,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8695079949111752923, guid: 66818856939f3fc44879a34466502a7b,
         type: 3}
@@ -3456,7 +3486,7 @@ PrefabInstance:
     - target: {fileID: 8695079950116303956, guid: 66818856939f3fc44879a34466502a7b,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8695079950140956834, guid: 66818856939f3fc44879a34466502a7b,
         type: 3}
@@ -4358,6 +4388,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4792705129927177449, guid: b2cfcc85f49a1414285b5d0a45e1768e,
         type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1616667486469123015}
+    - target: {fileID: 4792705129927177449, guid: b2cfcc85f49a1414285b5d0a45e1768e,
+        type: 3}
       propertyPath: m_RenderMode
       value: 2
       objectReference: {fileID: 0}
@@ -4936,20 +4971,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 6050688353979104347}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6223356329309225039
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3134542905863598738}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c4e100ce89d32c4da14b0778d624804, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rotationSensitivity: 20
-  rotationTarget: {fileID: 8805676606094892186}
 --- !u!114 &1725545282743925134
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4966,6 +4987,20 @@ MonoBehaviour:
   maintainCurrentOffset: 1
   customOffset: {x: 0, y: 0, z: 0}
   target: {fileID: 1616667484964944795}
+--- !u!114 &6223356329309225039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3134542905863598738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c4e100ce89d32c4da14b0778d624804, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationSensitivity: 20
+  rotationTarget: {fileID: 8805676606094892186}
 --- !u!1 &3962986871792776062 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7279794538870918949, guid: b2cfcc85f49a1414285b5d0a45e1768e,
