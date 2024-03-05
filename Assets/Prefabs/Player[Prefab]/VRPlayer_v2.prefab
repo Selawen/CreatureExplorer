@@ -1404,6 +1404,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 8653d67f-bdea-4211-a0f1-00653926b143
     m_ActionName: Scrapbook/CloseQuest[/Keyboard/e,/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8034064357314346698}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: GoDie
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: db6c4e48-58e0-44a3-82a8-32d8fd7b9937
+    m_ActionName: Overworld/Faint[/Keyboard/delete]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Overworld
