@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class PictureStorage : PageComponentInteractor
 {
     [SerializeField] private Transform[] photoSpots;
+    [SerializeField] private int startingCapacity = 1;
 
     [SerializeField] private TMP_Text camStorageText;
     [SerializeField] private TMP_Text maxStorageText;
@@ -21,7 +22,7 @@ public class PictureStorage : PageComponentInteractor
 
     private void Awake()
     {
-        pictureInventory = new Inventory<PagePicture>(2);
+        pictureInventory = new Inventory<PagePicture>((ushort)startingCapacity);
         //pictureInventory = new Inventory<PagePicture>((ushort)photoSpots.Length);
         //maxStorageText.text = pictureInventory.GetCapacity().ToString();
         UpdateCameraStorageText();

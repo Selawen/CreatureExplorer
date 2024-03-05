@@ -1,6 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Events;
 
 abstract public class Action : MonoBehaviour
 {
@@ -10,7 +11,7 @@ abstract public class Action : MonoBehaviour
     [field: Header("Player Feedback")]
     [field: SerializeField] protected string startAnimationTrigger;
     [field: SerializeField] protected string duringAnimationTrigger;
-    [field: SerializeField] private string finishAnimationTrigger;
+    [field: SerializeField] protected string finishAnimationTrigger;
     [field: SerializeField] private AudioClip sound;
     [field: SerializeField] private bool oneShot;
 
@@ -21,16 +22,18 @@ abstract public class Action : MonoBehaviour
     [field: SerializeField] public float BaseReward { get; private set; }
     [field: SerializeField] public float Reward { get; protected set; }
 
+    [SerializeField] protected float actionDuration = 2;
+
     [field: Header("GOAP")]
     [field: SerializeField] public CreatureState GoalEffects { get; private set; }
     [field: SerializeField] public ActionKey[] ActionEffects { get; private set; }
     [field: SerializeField] public ActionKey[] Prerequisites { get; private set; }
 
+    [field: SerializeField] protected UnityEvent OnFinish;
+    [field: SerializeField] protected UnityEvent OnFail;
 
     [ShowOnly] public bool finished = false;
     [ShowOnly] public bool failed = false;
-
-    [SerializeField] protected float actionDuration = 2;
 
     [field: Header("Animator")]
     [Button("SetAnimator", 30)]
@@ -121,7 +124,19 @@ abstract public class Action : MonoBehaviour
 
     public async Task InterruptAction()
     {
-        await EndAnimation();
+        if (!(animator == null || animator.GetBool("Die")) || finishAnimationTrigger == "")
+        {
+            animator.SetTrigger(finishAnimationTrigger);
+
+            int maxLoops = 100;
+            // wait for previous animation to finish       
+            while (!animator.GetCurrentAnimatorStateInfo(0).loop && !animator.GetNextAnimatorStateInfo(0).IsName("Idle") && maxLoops > 0)
+            {
+                maxLoops--;
+                await Task.Delay(100);
+            }
+        }
+
         Reset();
     }
 
@@ -148,6 +163,7 @@ abstract public class Action : MonoBehaviour
         token = failSource.Token;
     }
 
+    #region GOAP
     public virtual void CalculateCostAndReward(CreatureState currentState, MoodState targetMood, float targetMoodPrio)
     {
         Reward = BaseReward;
@@ -246,6 +262,8 @@ abstract public class Action : MonoBehaviour
         return (targetsReached >= Prerequisites.Length);
     }
 
+    #endregion
+
     /// <summary>
     /// If the action takes more than 50 percent longer than it's supposed to, assume it has failed
     /// </summary>
@@ -264,9 +282,32 @@ abstract public class Action : MonoBehaviour
 
                     source.Cancel();
 
-                    await EndAnimation();
+
+                    if (!(animator == null || animator.GetBool("Die") || finishAnimationTrigger == ""))
+                    {
+                        animator.SetTrigger(finishAnimationTrigger);
+
+                        int maxLoops = 100;
+                        // wait for previous animation to finish       
+                        while (!animator.GetCurrentAnimatorStateInfo(0).loop && !animator.GetNextAnimatorStateInfo(0).IsName("Idle") && maxLoops > 0)
+                        {
+                            maxLoops--;
+                            await Task.Delay(100);
+                        }
+                    }
 
                     failed = true;
+                    try
+                    {
+                        OnFail.Invoke();
+                    }
+                    catch (System.Exception e)
+                    {
+                        if (GetComponentInParent<Creature>().LogDebugs)
+                        {
+                            Debug.LogError("Failed invoking finish because of " + e.Message);
+                        }
+                    }
                 }
             }
         } catch (TaskCanceledException)
@@ -292,24 +333,32 @@ abstract public class Action : MonoBehaviour
 
             failSource.Cancel();
 
-            await EndAnimation();
+
+            if (!(animator == null || animator.GetBool("Die") || finishAnimationTrigger == ""))
+            {
+                animator.SetTrigger(finishAnimationTrigger);
+
+                int maxLoops = 100;
+                // wait for previous animation to finish       
+                while (!animator.GetCurrentAnimatorStateInfo(0).loop && !animator.GetNextAnimatorStateInfo(0).IsName("Idle") && maxLoops > 0)
+                {
+                    maxLoops--;
+                    await Task.Delay(100);
+                }
+            }
+
             finished = true;
-        }
-    }
-
-    // TODO: change to animated event 
-    protected async Task EndAnimation()
-    {
-        if (animator == null || animator.GetBool("Die")) return;
-
-        animator.SetTrigger(finishAnimationTrigger);
-
-        int maxLoops = 100;
-        // wait for previous animation to finish       
-        while (!animator.GetCurrentAnimatorStateInfo(0).loop && !animator.GetNextAnimatorStateInfo(0).IsName("Idle") &&  maxLoops > 0)
-        {
-            maxLoops--;
-            await Task.Delay(100);
+            try
+            {
+                OnFinish.Invoke();
+            }
+            catch (System.Exception e)
+            {
+                if (GetComponentInParent<Creature>().LogDebugs)
+                {
+                    Debug.LogError("Failed invoking finish because of " + e.Message);
+                }
+            }
         }
     }
 }

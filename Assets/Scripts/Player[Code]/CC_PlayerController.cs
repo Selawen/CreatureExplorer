@@ -130,7 +130,7 @@ public class CC_PlayerController : MonoBehaviour
         //Debug
         //UnlockBasket();
 
-        StaticQuestHandler.OnQuestInputDisabled += () =>
+        StaticQuestHandler.OnShrineCompleted += () =>
         {
             playerInput.SwitchCurrentActionMap("Await");
             currentState = CharacterState.Awaiting;

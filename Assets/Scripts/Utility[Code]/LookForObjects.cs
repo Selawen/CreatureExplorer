@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class LookForObjects<T>
 {
-    public static List<T> CheckForObjects(T objectToCheckFor, Vector3 checkFromPosition, float checkingRange)
+    public static List<T> CheckForObjects(Vector3 checkFromPosition, float checkingRange)
     {
         List<T> result = new List<T>();
         float distance = checkingRange;
@@ -12,7 +12,7 @@ public static class LookForObjects<T>
 
         foreach (Collider c in Physics.OverlapSphere(checkFromPosition, checkingRange))
         {
-            if (c.gameObject.TryGetComponent(out objectToCheckFor) && (c.transform.position - checkFromPosition).magnitude < distance)
+            if (c.gameObject.TryGetComponent(out T objectToCheckFor) && (c.transform.position - checkFromPosition).magnitude < distance)
             {
                 result.Add(objectToCheckFor); 
                 distance = (c.transform.position - checkFromPosition).sqrMagnitude;

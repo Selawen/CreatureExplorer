@@ -6,11 +6,12 @@ public class StatusEffect : MonoBehaviour
 {
     [SerializeField] protected string StatusEffectName;
     [SerializeField] protected bool oneShot;
+    [SerializeField] protected bool destroyAfterTrigger = true;
     [SerializeField] protected float effectDuration = 0;
 
     [SerializeField] private CreatureState statusEffect;
 
-    private Creature affectedCreature;
+    //private Creature affectedCreature;
 
     private void OnValidate()
     {
@@ -20,35 +21,42 @@ public class StatusEffect : MonoBehaviour
         }
     }
 
-    protected void TriggerStatusEffect(Creature toAffect)
+    protected virtual void TriggerStatusEffect(Creature toAffect)
     {
-        affectedCreature = toAffect;
-
         if (oneShot)
         {
-            affectedCreature.UpdateValues(statusEffect);
-            if (gameObject.activeInHierarchy)
+            toAffect.UpdateValues(statusEffect);
+            if (destroyAfterTrigger && gameObject.activeInHierarchy)
                 DestroyImmediate(this.gameObject);
         }
         else
-            StartCoroutine(TriggerEffect());
+            StartCoroutine(TriggerEffect(toAffect));
     }
 
     public void TriggerStatusEffect(Creature toAffect, float duration = -1, bool instantanious = false)
     {
         effectDuration = duration < 0? effectDuration: duration;
-        affectedCreature = toAffect;
 
         if (oneShot || instantanious)
         {
-            affectedCreature.UpdateValues(statusEffect);
-            DestroyImmediate(this);
+            toAffect.UpdateValues(statusEffect);
+
+            if (destroyAfterTrigger)
+                DestroyImmediate(this.gameObject);
         }
         else
-            StartCoroutine(TriggerEffect());
+            StartCoroutine(TriggerEffect(toAffect));
     }
 
-    private IEnumerator TriggerEffect()
+    protected virtual void TriggerStatusEffect(List<Creature> toAffect)
+    {
+        foreach (Creature c in toAffect)
+        {
+            TriggerStatusEffect(c);
+        }
+    }
+
+    private IEnumerator TriggerEffect(Creature affectedCreature)
     {
         float timer = 0;
 
@@ -60,6 +68,7 @@ public class StatusEffect : MonoBehaviour
             yield return new WaitForFixedUpdate();
         } while (timer < effectDuration);
 
-        DestroyImmediate(this);
+        if (destroyAfterTrigger)
+            DestroyImmediate(this.gameObject);
     }
 }

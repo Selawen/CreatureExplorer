@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(Rigidbody), typeof(PhysicsStepper))]
+//[RequireComponent(typeof(Rigidbody), typeof(PhysicsStepper))]
 public class CrouchingState : State
 {
     [SerializeField] private float sneakSpeed = 3f;
@@ -19,7 +19,7 @@ public class CrouchingState : State
 
     private Vector2 moveInput;
 
-    private new Rigidbody rigidbody;
+    [SerializeField] private Rigidbody rb;
     private PhysicsStepper stepper;
 
     private CapsuleCollider capsuleCollider;
@@ -27,7 +27,7 @@ public class CrouchingState : State
 
     private void Awake()
     {
-        rigidbody = GetComponent<Rigidbody>();
+        //rigidbody = GetComponent<Rigidbody>();
         stepper = GetComponent<PhysicsStepper>();
 
         capsuleCollider = GetComponent<CapsuleCollider>();
@@ -39,14 +39,20 @@ public class CrouchingState : State
 
     private void Start()
     {
-        //if (!VRChecker.IsVR)
-            //defaultEyeHeight = firstPersonCamera.GetComponent<FollowTarget>().TrueOffset.y;
+        if (!VRChecker.IsVR) 
+        {
+            if (firstPersonCamera.TryGetComponent(out FollowTarget target))
+                defaultEyeHeight = target.TrueOffset.y;
+            else
+                defaultEyeHeight = firstPersonCamera.GetComponentInParent<FollowTarget>().TrueOffset.y;
+
+        }
     }
 
     public override void OnStateEnter()
     {
         capsuleCollider.height = crouchHeight;
-        capsuleCollider.center = Vector3.up * (crouchHeight * 0.5f);
+        capsuleCollider.center = Vector3.up * Mathf.Max((crouchHeight * 0.5f),capsuleCollider.radius);
 
         if (firstPersonCamera.TryGetComponent(out FollowTarget target))
             target.ChangeOffset(new Vector3(0, crouchEyeHeight, 0));
@@ -64,8 +70,11 @@ public class CrouchingState : State
         capsuleCollider.height = standardColliderHeight;
         capsuleCollider.center = Vector3.up * (standardColliderHeight * 0.5f);
 
-        if (!VRChecker.IsVR)
-            firstPersonCamera.GetComponent<FollowTarget>().ChangeOffset(new Vector3(0, defaultEyeHeight, 0));
+
+        if (firstPersonCamera.TryGetComponent(out FollowTarget target))
+            target.ChangeOffset(new Vector3(0, defaultEyeHeight, 0));
+        else
+            firstPersonCamera.GetComponentInParent<FollowTarget>().ChangeOffset(new Vector3(0, defaultEyeHeight, 0));
     }
 
     public void GetMoveInput(InputAction.CallbackContext callbackContext)
@@ -101,26 +110,26 @@ public class CrouchingState : State
         {
             PlayerController.SetLoudness(sneakLoudness);
 
-            float targetAngle = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg + rigidbody.transform.eulerAngles.y;
+            float targetAngle = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg + rb.transform.eulerAngles.y;
             Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
 
-            stepper.HandleStep(ref rigidbody, moveDirection);
+            stepper.HandleStep(ref rb, moveDirection);
 
-            float verticalVelocity = rigidbody.velocity.y;
+            float verticalVelocity = rb.velocity.y;
 
             Vector3 newVelocity = moveDirection.normalized * sneakSpeed;
 
             newVelocity.y = verticalVelocity;
 
-            rigidbody.velocity = newVelocity;
+            rb.velocity = newVelocity;
 
             return;
         }
         else
         {
-            PlayerController.SetLoudness(0);
+            PlayerController.SetLoudness(1);
         }
-        rigidbody.velocity = rigidbody.velocity.y * Vector3.up;
+        rb.velocity = rb.velocity.y * Vector3.up;
     }
 
 }

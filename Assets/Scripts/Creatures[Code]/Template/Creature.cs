@@ -44,6 +44,15 @@ public class Creature : MonoBehaviour
             Physics.IgnoreCollision(GetComponent<Collider>(), col);
         }
 
+        if (data.SkinVariants.Length > 0)
+        {
+            Material randomMat = data.SkinVariants[UnityEngine.Random.Range(0, data.SkinVariants.Length)];
+            foreach (SkinnedMeshRenderer renderer in GetComponentsInChildren<SkinnedMeshRenderer>())
+            {
+                renderer.material = randomMat;
+            }
+        }
+
         if (!showThoughts)
         {
             goalText.transform.parent.gameObject.SetActive(false);
@@ -60,29 +69,14 @@ public class Creature : MonoBehaviour
 
         GenerateNewGoal();
 
+        PlayerEventCaster.ListenForSounds(HearPlayer);
         surroundCheck = new CheckSurroundings(CheckForFood);
         StartCoroutines();
     }
-
+    
     protected virtual void FixedUpdate()
     {
         UpdateValues();
-
-
-        if (CurrentAction != null)
-        {
-            // if an action has failed try and generate a new goal
-            if (CurrentAction.failed)
-            {
-                DebugMessage("Action failed! " + CurrentAction.Name);
-
-                GenerateNewGoal();
-            }
-            else if (CurrentAction.finished)
-            {
-                FinishAction();
-            }
-        } 
     }
 
     private void StartCoroutines()
@@ -105,7 +99,6 @@ public class Creature : MonoBehaviour
             CurrentAction.enabled = true;
     }
 
-
     #region GOAP
     protected virtual void StartAction()
     {
@@ -122,22 +115,42 @@ public class Creature : MonoBehaviour
         } 
     }
 
-    private void FinishAction()
+    public void FinishAction()
     {
-        // Update creatureState with effects of finished action
-        UpdateValues(CurrentAction.GoalEffects);
-
-        // check if goal has been reached
-        if (currentPlan.Count <= 1)
+        if (CurrentAction != null)
         {
-            GenerateNewGoal();
-            return;
-        }
+            if (CurrentAction.finished)
+            {
+                // Update creatureState with effects of finished action
+                UpdateValues(CurrentAction.GoalEffects);
         
-        // remove the action that has now finished from the plan
-        currentPlan.RemoveAt(0);
+                // check if goal has been reached
+                if (currentPlan.Count <= 1)
+                {
+                    GenerateNewGoal();
+                    return;
+                }
+                
+                // remove the action that has now finished from the plan
+                currentPlan.RemoveAt(0);
+        
+                StartAction();
+            }
+        }
+    }
 
-        StartAction();
+    public void FailAction()
+    {
+        if (CurrentAction != null)
+        {
+            // if an action has failed try and generate a new goal
+            if (CurrentAction.failed)
+            {
+                DebugMessage("Action failed! " + CurrentAction.Name);
+
+                GenerateNewGoal();
+            }
+        }
     }
 
     private void GenerateNewGoal()
@@ -173,8 +186,14 @@ public class Creature : MonoBehaviour
     {
         // TODO: get rid of magic number
         // Make creature tire faster when it's bedtime
-        if (DistantLands.Cozy.CozyWeather.instance.currentTime.IsBetweenTimes(data.Bedtime, data.WakeTime))
-            currentCreatureState.AddValue(2f * Time.deltaTime, StateType.Tiredness);
+        try
+        {
+            if (DistantLands.Cozy.CozyWeather.instance.currentTime.IsBetweenTimes(data.Bedtime, data.WakeTime))
+                currentCreatureState.AddValue(2f * Time.deltaTime, StateType.Tiredness);
+        } catch
+        {
+            DebugMessage("Cozyweather is not active");
+        }
 
         foreach (MoodState change in data.ChangesEverySecond.CreatureStates)
         {
@@ -215,11 +234,7 @@ public class Creature : MonoBehaviour
             else if (change.Operator == StateOperant.Subtract)
                 currentCreatureState.AddValue(-change.StateValue, change.MoodType);
 
-
-            if (LogDebugs)
-            {
-                Debug.Log("updated worldstate of " + change.MoodType.ToString());
-            }
+            DebugMessage("updated worldstate of " + change.MoodType.ToString());
         }
 
         UpdateCreatureState();
@@ -231,8 +246,14 @@ public class Creature : MonoBehaviour
     protected virtual void UpdateCreatureState()
     {
         CheckForInterruptions(StateType.Tiredness, GetComponentInChildren<Sleep>(), "Fell asleep");
-
-        worldState = DistantLands.Cozy.CozyWeather.instance.currentTime.IsBetweenTimes(data.Bedtime, data.WakeTime) ? SetConditionTrue(worldState, Condition.ShouldBeSleeping) : SetConditionFalse(worldState, Condition.ShouldBeSleeping);
+        try
+        {
+            worldState = DistantLands.Cozy.CozyWeather.instance.currentTime.IsBetweenTimes(data.Bedtime, data.WakeTime) ? SetConditionTrue(worldState, Condition.ShouldBeSleeping) : SetConditionFalse(worldState, Condition.ShouldBeSleeping);
+        }
+        catch
+        {
+            DebugMessage("Cozyweather is not active");
+        }
 
         worldState = (currentCreatureState.Find(StateType.Hunger).StateValue > 50) ? SetConditionTrue(worldState, Condition.IsHungry) : SetConditionFalse(worldState, Condition.IsHungry);
         worldState = (currentCreatureState.Find(StateType.Tiredness).StateValue > 50) ? SetConditionTrue(worldState, Condition.IsSleepy) : SetConditionFalse(worldState, Condition.IsSleepy);
@@ -392,8 +413,7 @@ public class Creature : MonoBehaviour
     /// </summary>
     public virtual void CheckForFood()
     {
-        Food f = null;
-        int foodcount = LookForObjects<Food>.CheckForObjects(f, transform.position, data.HearingSensitivity).Count;
+        int foodcount = LookForObjects<Food>.CheckForObjects(transform.position, data.HearingSensitivity).Count;
 
         currentCreatureState.AddValue(foodcount, StateType.Hunger);
 

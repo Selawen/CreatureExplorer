@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
-[RequireComponent(typeof(Rigidbody))]
+//[RequireComponent(typeof(Rigidbody))]
 public class HurtState : State
 {
     [SerializeField] private float hurtTime = 5f;
@@ -19,13 +19,13 @@ public class HurtState : State
 
     private Vector2 moveInput;
 
-    private new Rigidbody rigidbody;
+    [SerializeField] private Rigidbody rb;
     private PhysicsStepper stepper;
 
 
     private void Awake()
     {
-        rigidbody = GetComponent<Rigidbody>();
+        //rigidbody = GetComponent<Rigidbody>();
         stepper = GetComponent<PhysicsStepper>();
     }
 
@@ -75,19 +75,19 @@ public class HurtState : State
     {
         if (moveInput.sqrMagnitude >= 0.1f)
         {
-            float targetAngle = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg + rigidbody.transform.eulerAngles.y;
+            float targetAngle = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg + rb.transform.eulerAngles.y;
 
             Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
 
-            stepper.HandleStep(ref rigidbody, moveDirection);
+            stepper.HandleStep(ref rb, moveDirection);
 
-            float verticalVelocity = rigidbody.velocity.y;
+            float verticalVelocity = rb.velocity.y;
 
             Vector3 newVelocity = moveDirection.normalized * hurtMoveSpeed;
 
             newVelocity.y = verticalVelocity;
 
-            rigidbody.velocity = newVelocity;
+            rb.velocity = newVelocity;
 
             return;
         }

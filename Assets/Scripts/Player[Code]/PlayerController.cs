@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.XR;
 
-[RequireComponent(typeof(Rigidbody))]
+//[RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
     public static float Loudness { get; private set; } = 5;
@@ -63,12 +63,13 @@ public class PlayerController : MonoBehaviour
 
     private bool died;
     private float verticalRotation;
+    private float horizontalRotation;
 
     private Vector2 rotationInput;
     private float rotationSpeed = 1f;
     private bool berryPouchIsOpen;
 
-    private Rigidbody rb;
+    [SerializeField] private Rigidbody rb;
     private FiniteStateMachine stateMachine;
 
     private Camera firstPersonCamera;
@@ -86,10 +87,11 @@ public class PlayerController : MonoBehaviour
             throw new System.Exception("No Input Module assigned, this will break the interface handling and should not be skipped!");
         }
 
-        rb = GetComponent<Rigidbody>();
+        //rb = GetComponent<Rigidbody>();
         stateMachine = new FiniteStateMachine(typeof(WalkingState), GetComponents<IState>());
         firstPersonCamera = Camera.main;
         verticalRotation = firstPersonCamera.transform.eulerAngles.x;
+        horizontalRotation = firstPersonCamera.transform.eulerAngles.y;
 
         respawnFadeRenderer = Instantiate(respawnOccluder, firstPersonCamera.transform).GetComponent<MeshRenderer>();
         deathScreen = Instantiate(deathScreen);
@@ -101,8 +103,8 @@ public class PlayerController : MonoBehaviour
 
         GrandTemple.OnRingExtended += UnlockPouch;
 
-
-        StaticQuestHandler.OnQuestInputDisabled += () =>
+        /*
+        StaticQuestHandler.OnShrineCompleted += () =>
         {
             playerInput.SwitchCurrentActionMap("Await");
             //module
@@ -110,7 +112,7 @@ public class PlayerController : MonoBehaviour
             //    playerInput.SwitchCurrentActionMap("Overworld");
             //rb.isKinematic = true;
         };
-
+        */
         StaticQuestHandler.OnQuestOpened += () =>
         {
             LinkModuleToScrapbook();
@@ -120,8 +122,10 @@ public class PlayerController : MonoBehaviour
         StaticQuestHandler.OnQuestClosed += () =>
         {
             if (playerInput.currentActionMap.name != "Dialogue")
+            {
                 playerInput.SwitchCurrentActionMap("Overworld");
-            LinkModuleToOverworld();
+                LinkModuleToOverworld();
+            }
             // rb.isKinematic = false;
             Cursor.lockState = CursorLockMode.Locked;
             stateMachine.SwitchState(typeof(WalkingState));
@@ -168,9 +172,10 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         stateMachine.OnFixedUpdate();
-
+        /*
         if (!VRChecker.IsVR)
-            firstPersonCamera.transform.rotation = Quaternion.Euler(new Vector3(verticalRotation, transform.eulerAngles.y, 0));
+            firstPersonCamera.transform.rotation = Quaternion.Euler(new Vector3(verticalRotation, horizontalRotation, 0));
+        */
         //pictureCamera.transform.rotation = Quaternion.Euler(new Vector3(verticalRotation, transform.eulerAngles.y, 0));
     }
 
@@ -255,8 +260,8 @@ public class PlayerController : MonoBehaviour
         if (callbackContext.started)
         {
             playerInput.SwitchCurrentActionMap("Overworld");
-            onScrapbookClosed?.Invoke();
             Cursor.lockState = CursorLockMode.Locked;
+            onScrapbookClosed?.Invoke();
         }
     }
     public void GetOpenScrapbookInput(InputAction.CallbackContext callbackContext)
@@ -265,8 +270,8 @@ public class PlayerController : MonoBehaviour
         {
             LinkModuleToScrapbook();
             playerInput.SwitchCurrentActionMap("Scrapbook");
-            onScrapbookOpened?.Invoke();
             Cursor.lockState = CursorLockMode.None;
+            onScrapbookOpened?.Invoke();
         }
     }
 
@@ -310,7 +315,7 @@ public class PlayerController : MonoBehaviour
 
     public void ToggleBerryPouch(bool newState)
     {
-        if (!pouchUnlocked) return;
+        if (!pouchUnlocked || berryPouchIsOpen == newState) return;
 
         berryPouchIsOpen = newState;
         if (berryPouchIsOpen)
@@ -333,7 +338,13 @@ public class PlayerController : MonoBehaviour
         module.leftClick = InputActionReference.Create(playerInput.actions.FindActionMap("Scrapbook").FindAction("Click"));
         module.point = InputActionReference.Create(playerInput.actions.FindActionMap("Scrapbook").FindAction("Point"));
         module.move = InputActionReference.Create(playerInput.actions.FindActionMap("Scrapbook").FindAction("Move"));
-
+    }
+    
+    public void LinkModuleToDialogue()
+    {
+        module.leftClick = InputActionReference.Create(playerInput.actions.FindActionMap("Dialogue").FindAction("Click"));
+        module.point = InputActionReference.Create(playerInput.actions.FindActionMap("Dialogue").FindAction("Point"));
+        module.move = InputActionReference.Create(playerInput.actions.FindActionMap("Dialogue").FindAction("Move"));
     }
 
     public void LinkModuleToPauseMenu()
@@ -362,14 +373,13 @@ public class PlayerController : MonoBehaviour
         {
             Vector3 lookingForward = firstPersonCamera.transform.forward;
             lookingForward.y = 0;
-            lookingForward = lookingForward.normalized;
 
-            transform.forward = lookingForward;
+            transform.forward = lookingForward.normalized;
         }
         else
         {
             verticalRotation = Mathf.Clamp(verticalRotation - (lookInput.y * gameSettings.LookSensitivity * rotationSpeed), -maximumViewAngle, maximumViewAngle);
-            transform.Rotate(new Vector3(0, lookInput.x * gameSettings.LookSensitivity * rotationSpeed, 0));
+            rb.transform.Rotate(new Vector3(0, lookInput.x * gameSettings.LookSensitivity * rotationSpeed, 0));
         }
     }
     private void HandleInteract()

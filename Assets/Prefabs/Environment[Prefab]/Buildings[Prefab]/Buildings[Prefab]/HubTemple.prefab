@@ -16,7 +16,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &7720971219626315537
 Transform:
@@ -69,7 +69,7 @@ MonoBehaviour:
   - "But now\u2026 I\u2019m a shell of my former self"
   - "I lost it all\u2026 When humanity disappeared, most of my wisdom went with them."
   - 'I would like to make a request of you:'
-  - Feed my crows wisdom and help me to regain my powers!
+  - Feed your journal wisdom and help me to regain my powers!
   showOnce: 1
   hideOnExit: 0
   gizmoColour: {r: 0, g: 1, b: 1, a: 0.8}
@@ -92,7 +92,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &6916869395471469155
 Transform:
@@ -110,6 +110,7 @@ Transform:
   - {fileID: 8472691125188246443}
   - {fileID: 7530325964152388312}
   - {fileID: 9129435830303544874}
+  - {fileID: 8840867850168584685}
   m_Father: {fileID: 3563383934561398794}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -205,12 +206,13 @@ GameObject:
   m_Component:
   - component: {fileID: 7723424399552213849}
   - component: {fileID: 7095034734244095726}
+  - component: {fileID: 5816692300800045166}
   m_Layer: 0
   m_Name: HubTemple
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &7723424399552213849
 Transform:
@@ -249,14 +251,33 @@ MonoBehaviour:
   - "You don\u2019t know how grateful I am, if I can get my strength back I can finally
     start looking for my siblings. "
   - "I hope they are still around\u2026 nevertheless"
-  - "I believe you need to start looking higher up now. I\u2019m giving you these
+  - "I believe you need to start looking higher up now. I\u2019ll give you these
     gloves, they should help protect your hands."
   thirdStageDialogue:
   - You are almost there, there is only one thing left to do.
   - 'You need to tell me the stories of the past. '
-  firstStageRequirement: 3
-  secondStageRequirement: 6
-  thirdStageRequirement: 10
+  rewardAvailableDialogue:
+  - Well Done!
+  - I have something for you, please return to me to revieve it
+  firstStageRequirement: 1
+  secondStageRequirement: 2
+  thirdStageRequirement: 3
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 64
+--- !u!135 &5816692300800045166
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3268485759426825245}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 17
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3333991280944243126
 GameObject:
   m_ObjectHideFlags: 0
@@ -275,7 +296,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &5775895920718928761
 Transform:
@@ -291,9 +312,10 @@ Transform:
   m_Children:
   - {fileID: 1272386263155481172}
   - {fileID: 7720971219626315537}
-  - {fileID: 3272492002585541196}
   - {fileID: 4906586877893963721}
   - {fileID: 4780400929950105867}
+  - {fileID: 3272492002585541196}
+  - {fileID: 5477422512133408930}
   m_Father: {fileID: 3563383934561398794}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -396,7 +418,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &3563383934561398794
 Transform:
@@ -431,7 +453,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 82ffbd14cc8eadd489ebabca3db3b2d3, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -456,7 +478,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1101452212757165036
 Transform:
@@ -551,7 +573,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &3272492002585541196
 Transform:
@@ -566,7 +588,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5775895920718928761}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6989892238918237459
 GameObject:
@@ -586,7 +608,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &8442738140395890154
 Transform:
@@ -606,6 +628,7 @@ Transform:
   - {fileID: 6506464320197192886}
   - {fileID: 8446232720942225454}
   - {fileID: 8920630661505531144}
+  - {fileID: 5657798185201573163}
   m_Father: {fileID: 3563383934561398794}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -707,7 +730,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &6166563333041998074
 Transform:
@@ -804,7 +827,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1272386263155481172
 Transform:
@@ -888,10 +911,25 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: 5d458024fe41f064ebb4eff7ca3b3388, type: 2}
+    - target: {fileID: 2551350446518609874, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 5657093277598853193, guid: 160da9564367dd24499d3039da0e3dbf,
         type: 3}
       propertyPath: m_Name
       value: TitanStatue_East
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657093277598853193, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657093277598853193, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5657093277598853194, guid: 160da9564367dd24499d3039da0e3dbf,
         type: 3}
@@ -902,7 +940,7 @@ PrefabInstance:
     - target: {fileID: 5657093277598853195, guid: 160da9564367dd24499d3039da0e3dbf,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5657093277598853195, guid: 160da9564367dd24499d3039da0e3dbf,
         type: 3}
@@ -999,10 +1037,25 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: 5d458024fe41f064ebb4eff7ca3b3388, type: 2}
+    - target: {fileID: 2551350446518609874, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 5657093277598853193, guid: 160da9564367dd24499d3039da0e3dbf,
         type: 3}
       propertyPath: m_Name
       value: TitanStatue_West
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657093277598853193, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657093277598853193, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5657093277598853194, guid: 160da9564367dd24499d3039da0e3dbf,
         type: 3}
@@ -1013,7 +1066,7 @@ PrefabInstance:
     - target: {fileID: 5657093277598853195, guid: 160da9564367dd24499d3039da0e3dbf,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5657093277598853195, guid: 160da9564367dd24499d3039da0e3dbf,
         type: 3}
@@ -1110,10 +1163,25 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: 72f5d7238c2533b4aba0999017c061da, type: 2}
+    - target: {fileID: 2551350446518609874, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 5657093277598853193, guid: 160da9564367dd24499d3039da0e3dbf,
         type: 3}
       propertyPath: m_Name
       value: TitanStatue_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657093277598853193, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657093277598853193, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5657093277598853194, guid: 160da9564367dd24499d3039da0e3dbf,
         type: 3}
@@ -1124,7 +1192,7 @@ PrefabInstance:
         type: 3}
       propertyPath: <TitanQuest>k__BackingField
       value: 
-      objectReference: {fileID: 11400000, guid: 98ef8f337e0e8d348a92f73b3372424e,
+      objectReference: {fileID: 11400000, guid: 2f246aa408f5b2140bca07e02c9f6e89,
         type: 2}
     - target: {fileID: 5657093277598853195, guid: 160da9564367dd24499d3039da0e3dbf,
         type: 3}
@@ -1226,10 +1294,25 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: 72f5d7238c2533b4aba0999017c061da, type: 2}
+    - target: {fileID: 2551350446518609874, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 5657093277598853193, guid: 160da9564367dd24499d3039da0e3dbf,
         type: 3}
       propertyPath: m_Name
       value: TitanStatue_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657093277598853193, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657093277598853193, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5657093277598853194, guid: 160da9564367dd24499d3039da0e3dbf,
         type: 3}
@@ -1240,7 +1323,7 @@ PrefabInstance:
         type: 3}
       propertyPath: <TitanQuest>k__BackingField
       value: 
-      objectReference: {fileID: 11400000, guid: 3335e6eac12e07b4fbe44780bf2e25c7,
+      objectReference: {fileID: 11400000, guid: 98ef8f337e0e8d348a92f73b3372424e,
         type: 2}
     - target: {fileID: 5657093277598853195, guid: 160da9564367dd24499d3039da0e3dbf,
         type: 3}
@@ -1342,10 +1425,25 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: 72f5d7238c2533b4aba0999017c061da, type: 2}
+    - target: {fileID: 2551350446518609874, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 5657093277598853193, guid: 160da9564367dd24499d3039da0e3dbf,
         type: 3}
       propertyPath: m_Name
       value: TitanStatue_South
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657093277598853193, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657093277598853193, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5657093277598853194, guid: 160da9564367dd24499d3039da0e3dbf,
         type: 3}
@@ -1356,7 +1454,7 @@ PrefabInstance:
         type: 3}
       propertyPath: <TitanQuest>k__BackingField
       value: 
-      objectReference: {fileID: 11400000, guid: a80d9292956ee80418394be68c668640,
+      objectReference: {fileID: 11400000, guid: 12d881cf7c0db8845bd1288836fb58ea,
         type: 2}
     - target: {fileID: 5657093277598853195, guid: 160da9564367dd24499d3039da0e3dbf,
         type: 3}
@@ -1458,10 +1556,25 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: 72f5d7238c2533b4aba0999017c061da, type: 2}
+    - target: {fileID: 2551350446518609874, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 5657093277598853193, guid: 160da9564367dd24499d3039da0e3dbf,
         type: 3}
       propertyPath: m_Name
       value: TitanStatue_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657093277598853193, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657093277598853193, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5657093277598853194, guid: 160da9564367dd24499d3039da0e3dbf,
         type: 3}
@@ -1574,10 +1687,25 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: 72f5d7238c2533b4aba0999017c061da, type: 2}
+    - target: {fileID: 2551350446518609874, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 5657093277598853193, guid: 160da9564367dd24499d3039da0e3dbf,
         type: 3}
       propertyPath: m_Name
       value: TitanStatue_North
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657093277598853193, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657093277598853193, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5657093277598853194, guid: 160da9564367dd24499d3039da0e3dbf,
         type: 3}
@@ -1690,10 +1818,25 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: 72f5d7238c2533b4aba0999017c061da, type: 2}
+    - target: {fileID: 2551350446518609874, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 5657093277598853193, guid: 160da9564367dd24499d3039da0e3dbf,
         type: 3}
       propertyPath: m_Name
       value: TitanStatue_West
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657093277598853193, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657093277598853193, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5657093277598853194, guid: 160da9564367dd24499d3039da0e3dbf,
         type: 3}
@@ -1704,7 +1847,7 @@ PrefabInstance:
         type: 3}
       propertyPath: <TitanQuest>k__BackingField
       value: 
-      objectReference: {fileID: 11400000, guid: 2f246aa408f5b2140bca07e02c9f6e89,
+      objectReference: {fileID: 11400000, guid: f6b02ec31e0632e4db5a64673f923f11,
         type: 2}
     - target: {fileID: 5657093277598853195, guid: 160da9564367dd24499d3039da0e3dbf,
         type: 3}
@@ -1806,10 +1949,25 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: 72f5d7238c2533b4aba0999017c061da, type: 2}
+    - target: {fileID: 2551350446518609874, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 5657093277598853193, guid: 160da9564367dd24499d3039da0e3dbf,
         type: 3}
       propertyPath: m_Name
       value: TitanStatue_05
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657093277598853193, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657093277598853193, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5657093277598853194, guid: 160da9564367dd24499d3039da0e3dbf,
         type: 3}
@@ -1922,10 +2080,25 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: 72f5d7238c2533b4aba0999017c061da, type: 2}
+    - target: {fileID: 2551350446518609874, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 5657093277598853193, guid: 160da9564367dd24499d3039da0e3dbf,
         type: 3}
       propertyPath: m_Name
       value: TitanStatue_East
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657093277598853193, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657093277598853193, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5657093277598853194, guid: 160da9564367dd24499d3039da0e3dbf,
         type: 3}
@@ -1936,7 +2109,7 @@ PrefabInstance:
         type: 3}
       propertyPath: <TitanQuest>k__BackingField
       value: 
-      objectReference: {fileID: 11400000, guid: 63049a398f4fbf848b4220c0853eb761,
+      objectReference: {fileID: 11400000, guid: c075bbd7668a32d40aff625a8ceb1bb5,
         type: 2}
     - target: {fileID: 5657093277598853195, guid: 160da9564367dd24499d3039da0e3dbf,
         type: 3}
@@ -2038,10 +2211,25 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: 72f5d7238c2533b4aba0999017c061da, type: 2}
+    - target: {fileID: 2551350446518609874, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 5657093277598853193, guid: 160da9564367dd24499d3039da0e3dbf,
         type: 3}
       propertyPath: m_Name
       value: TitanStatue_04
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657093277598853193, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657093277598853193, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5657093277598853194, guid: 160da9564367dd24499d3039da0e3dbf,
         type: 3}
@@ -2052,7 +2240,7 @@ PrefabInstance:
         type: 3}
       propertyPath: <TitanQuest>k__BackingField
       value: 
-      objectReference: {fileID: 11400000, guid: 8676882bdd5dd214381fa25712a45dd5,
+      objectReference: {fileID: 11400000, guid: a80d9292956ee80418394be68c668640,
         type: 2}
     - target: {fileID: 5657093277598853195, guid: 160da9564367dd24499d3039da0e3dbf,
         type: 3}
@@ -2137,6 +2325,243 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4302349098545934437}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &5869133624185247363
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 5775895920718928761}
+    m_Modifications:
+    - target: {fileID: 2121458407363599905, guid: fbb3deb0d2342a64c956245b0cabff86,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2121458407363599905, guid: fbb3deb0d2342a64c956245b0cabff86,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2121458407363599905, guid: fbb3deb0d2342a64c956245b0cabff86,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.97
+      objectReference: {fileID: 0}
+    - target: {fileID: 2121458407363599905, guid: fbb3deb0d2342a64c956245b0cabff86,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2121458407363599905, guid: fbb3deb0d2342a64c956245b0cabff86,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2121458407363599905, guid: fbb3deb0d2342a64c956245b0cabff86,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2121458407363599905, guid: fbb3deb0d2342a64c956245b0cabff86,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2121458407363599905, guid: fbb3deb0d2342a64c956245b0cabff86,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2121458407363599905, guid: fbb3deb0d2342a64c956245b0cabff86,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2121458407363599905, guid: fbb3deb0d2342a64c956245b0cabff86,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2121458407363599905, guid: fbb3deb0d2342a64c956245b0cabff86,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7474868435384685034, guid: fbb3deb0d2342a64c956245b0cabff86,
+        type: 3}
+      propertyPath: m_Name
+      value: Altar
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fbb3deb0d2342a64c956245b0cabff86, type: 3}
+--- !u!4 &5477422512133408930 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2121458407363599905, guid: fbb3deb0d2342a64c956245b0cabff86,
+    type: 3}
+  m_PrefabInstance: {fileID: 5869133624185247363}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &6049572725048361738
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 8442738140395890154}
+    m_Modifications:
+    - target: {fileID: 1754830608829007857, guid: fbb3deb0d2342a64c956245b0cabff86,
+        type: 3}
+      propertyPath: <AltarQuest>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: 4a217f872fb06844a8bbf838f5c692f7,
+        type: 2}
+    - target: {fileID: 2121458407363599905, guid: fbb3deb0d2342a64c956245b0cabff86,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2121458407363599905, guid: fbb3deb0d2342a64c956245b0cabff86,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -6.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2121458407363599905, guid: fbb3deb0d2342a64c956245b0cabff86,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.52
+      objectReference: {fileID: 0}
+    - target: {fileID: 2121458407363599905, guid: fbb3deb0d2342a64c956245b0cabff86,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.014004516
+      objectReference: {fileID: 0}
+    - target: {fileID: 2121458407363599905, guid: fbb3deb0d2342a64c956245b0cabff86,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2121458407363599905, guid: fbb3deb0d2342a64c956245b0cabff86,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2121458407363599905, guid: fbb3deb0d2342a64c956245b0cabff86,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2121458407363599905, guid: fbb3deb0d2342a64c956245b0cabff86,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2121458407363599905, guid: fbb3deb0d2342a64c956245b0cabff86,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2121458407363599905, guid: fbb3deb0d2342a64c956245b0cabff86,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2121458407363599905, guid: fbb3deb0d2342a64c956245b0cabff86,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7474868435384685034, guid: fbb3deb0d2342a64c956245b0cabff86,
+        type: 3}
+      propertyPath: m_Name
+      value: Altar (2)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fbb3deb0d2342a64c956245b0cabff86, type: 3}
+--- !u!4 &5657798185201573163 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2121458407363599905, guid: fbb3deb0d2342a64c956245b0cabff86,
+    type: 3}
+  m_PrefabInstance: {fileID: 6049572725048361738}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &7476535404298246092
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 6916869395471469155}
+    m_Modifications:
+    - target: {fileID: 1754830608829007857, guid: fbb3deb0d2342a64c956245b0cabff86,
+        type: 3}
+      propertyPath: <AltarQuest>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: 1f05f85897dab2540b057e33cb150451,
+        type: 2}
+    - target: {fileID: 2121458407363599905, guid: fbb3deb0d2342a64c956245b0cabff86,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2121458407363599905, guid: fbb3deb0d2342a64c956245b0cabff86,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5.166
+      objectReference: {fileID: 0}
+    - target: {fileID: 2121458407363599905, guid: fbb3deb0d2342a64c956245b0cabff86,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.724
+      objectReference: {fileID: 0}
+    - target: {fileID: 2121458407363599905, guid: fbb3deb0d2342a64c956245b0cabff86,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.014
+      objectReference: {fileID: 0}
+    - target: {fileID: 2121458407363599905, guid: fbb3deb0d2342a64c956245b0cabff86,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2121458407363599905, guid: fbb3deb0d2342a64c956245b0cabff86,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2121458407363599905, guid: fbb3deb0d2342a64c956245b0cabff86,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2121458407363599905, guid: fbb3deb0d2342a64c956245b0cabff86,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2121458407363599905, guid: fbb3deb0d2342a64c956245b0cabff86,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2121458407363599905, guid: fbb3deb0d2342a64c956245b0cabff86,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2121458407363599905, guid: fbb3deb0d2342a64c956245b0cabff86,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7474868435384685034, guid: fbb3deb0d2342a64c956245b0cabff86,
+        type: 3}
+      propertyPath: m_Name
+      value: Altar (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fbb3deb0d2342a64c956245b0cabff86, type: 3}
+--- !u!4 &8840867850168584685 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2121458407363599905, guid: fbb3deb0d2342a64c956245b0cabff86,
+    type: 3}
+  m_PrefabInstance: {fileID: 7476535404298246092}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7738052570946863426
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2154,10 +2579,25 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: 72f5d7238c2533b4aba0999017c061da, type: 2}
+    - target: {fileID: 2551350446518609874, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 5657093277598853193, guid: 160da9564367dd24499d3039da0e3dbf,
         type: 3}
       propertyPath: m_Name
       value: TitanStatue
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657093277598853193, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657093277598853193, guid: 160da9564367dd24499d3039da0e3dbf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5657093277598853194, guid: 160da9564367dd24499d3039da0e3dbf,
         type: 3}
@@ -2168,7 +2608,7 @@ PrefabInstance:
         type: 3}
       propertyPath: <TitanQuest>k__BackingField
       value: 
-      objectReference: {fileID: 11400000, guid: bc4d958324d7aca4c9bbdd48e2dff2bf,
+      objectReference: {fileID: 11400000, guid: 63049a398f4fbf848b4220c0853eb761,
         type: 2}
     - target: {fileID: 5657093277598853195, guid: 160da9564367dd24499d3039da0e3dbf,
         type: 3}

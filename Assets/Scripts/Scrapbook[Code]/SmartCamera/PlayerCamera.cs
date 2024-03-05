@@ -68,8 +68,8 @@ public class PlayerCamera : MonoBehaviour
 
         effectiveScanDistance = maximumFieldOfView / pictureCamera.fieldOfView * defaultMaxScanDistance;
         
-        // TODO: don't make this happed every time a quest is completed;
-        StaticQuestHandler.OnQuestInputDisabled += () => storage.AddStorageCapacity();
+        // TODO: don't make this happed every time a quest is completed?;
+        StaticQuestHandler.OnShrineCompleted += () => storage.AddStorageCapacity();
 
         input = GetComponent<PlayerInput>();
         if (Application.isEditor)
@@ -155,7 +155,7 @@ public class PlayerCamera : MonoBehaviour
             File.WriteAllBytes(savingPath, byteArray);
             pictureInfo.PicturePath = savingPath;
 
-            // To do: After implementing saving, make sure to not remove the pictures that are still used by the player.
+            // TODO: After implementing saving, make sure to not remove the pictures that are still used by the player.
             Application.quitting += () => RemovePicturesFromSystem(savingPath);
 
             Texture2D png = LoadTexture(savingPath);

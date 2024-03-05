@@ -11,7 +11,6 @@ public class FollowTarget : MonoBehaviour
 
     [SerializeField] private Transform target;
 
-
     // Start is called before the first frame update
     void Awake()
     {
@@ -34,5 +33,10 @@ public class FollowTarget : MonoBehaviour
     public void ChangeOffset(Vector3 newOffset)
     {
         TrueOffset = newOffset;
+    }
+
+    public void UpdateOffset()
+    {
+        TrueOffset = transform.position - target.position;
     }
 }

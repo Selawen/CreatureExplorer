@@ -10,11 +10,11 @@ public class ClimbingState : State
     [SerializeField] private LayerMask playerLayer;
 
     private Vector2 moveInput;
-    private Rigidbody rb;
+    [SerializeField] private Rigidbody rb;
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody>();
+        //rb = GetComponent<Rigidbody>();
     }
     public override void OnStateEnter()
     {

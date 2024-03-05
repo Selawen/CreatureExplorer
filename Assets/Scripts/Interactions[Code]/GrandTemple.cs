@@ -6,16 +6,21 @@ public class GrandTemple : MonoBehaviour
 {
     public static GrandTemple Instance { get; private set; }
     
-    public static System.Action OnStatueCleared;
+    public static System.Action OnAltarCleared;
     public static System.Action OnRingExtended;
 
     [SerializeField] private Animator templeAnimator;
 
     [SerializeField] private string[] firstStageDialogue, secondStageDialogue, thirdStageDialogue;
 
-    [SerializeField] private int firstStageRequirement = 2, secondStageRequirement = 5, thirdStageRequirement = 9;
+    [SerializeField] private string[] rewardAvailableDialogue;
 
-    private int statuesCleared;
+    [SerializeField] private int firstStageRequirement = 2, secondStageRequirement = 5, thirdStageRequirement = 9;
+    [SerializeField] private LayerMask playerLayer;
+
+    private bool giveReward = false;
+
+    private int AltarsCleared;
 
     private void Awake()
     {
@@ -23,32 +28,60 @@ public class GrandTemple : MonoBehaviour
         if (templeAnimator == null)
             templeAnimator = GetComponentInChildren<Animator>();
 
-        OnStatueCleared += EvaluateStatue;
+        OnAltarCleared += EvaluateExtention;
     }
 
-    public void EvaluateStatue()
+    public void EvaluateExtention()
     {
-        statuesCleared++;
-        if(statuesCleared == firstStageRequirement)
-        {
-            OnRingExtended?.Invoke();
-            templeAnimator.SetTrigger("1stLayer");
+        AltarsCleared++;
 
-            DialogueUI.ShowText(firstStageDialogue);
+
+        if ((AltarsCleared == firstStageRequirement) || (AltarsCleared == secondStageRequirement) || (AltarsCleared == thirdStageRequirement))
+        {
+            if (Physics.OverlapSphere(transform.position, GetComponent<SphereCollider>().radius, playerLayer).Length > 0)
+            {
+                TriggerExtention();
+            }
+            else
+            {
+                giveReward = true;
+                DialogueUI.ShowText(rewardAvailableDialogue);
+            }
         }
-        if(statuesCleared == secondStageRequirement)
-        {
-            OnRingExtended?.Invoke();
-            templeAnimator.SetTrigger("2ndLayer");
+    }
 
-            DialogueUI.ShowText(secondStageDialogue);
-        }
-        if (statuesCleared == thirdStageRequirement)
-        {
-            OnRingExtended?.Invoke();
-            templeAnimator.SetTrigger("FullyComplete");
+    // TODO: have altar give the reward?
+    private void TriggerExtention()
+    {
+            giveReward = false;
+            if (AltarsCleared == thirdStageRequirement)
+            {
+                OnRingExtended?.Invoke();
+                templeAnimator.SetTrigger("FullyComplete");
 
-            DialogueUI.ShowText(thirdStageDialogue);
+                DialogueUI.ShowText(thirdStageDialogue);
+            }
+            else if (AltarsCleared >= secondStageRequirement)
+            {
+                OnRingExtended?.Invoke();
+                templeAnimator.SetTrigger("2ndLayer");
+
+                DialogueUI.ShowText(secondStageDialogue);
+            }
+            else if (AltarsCleared >= firstStageRequirement)
+            {
+                OnRingExtended?.Invoke();
+                templeAnimator.SetTrigger("1stLayer");
+
+                DialogueUI.ShowText(firstStageDialogue);
+            }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (giveReward && other.TryGetComponent(out PlayerCamera player))
+        {
+            TriggerExtention();
         }
     }
 }

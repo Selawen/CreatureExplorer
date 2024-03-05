@@ -17,6 +17,8 @@ public class DialogueUI : MonoBehaviour
 
     private static PlayerInput playerInput;
 
+    private static string previousActionMap;
+
     private void Awake()
     {
         Instance = this;
@@ -34,6 +36,7 @@ public class DialogueUI : MonoBehaviour
 
     public static void ShowText(string shownText)
     {
+        SwitchInputs();
         textField.text = shownText;
         UIObject.SetActive(true);
     }
@@ -42,9 +45,7 @@ public class DialogueUI : MonoBehaviour
     {
         if (shownTexts.Length > 0)
         {
-            playerInput.SwitchCurrentActionMap("Dialogue");
-            Cursor.lockState = CursorLockMode.None;
-
+            SwitchInputs();
             dialogueIndex = 0;
             dialogueStrings = shownTexts;
             textField.text = shownTexts[0];
@@ -56,19 +57,47 @@ public class DialogueUI : MonoBehaviour
         UIObject.SetActive(true);
     }
 
+    private static void SwitchInputs()
+    {
+        previousActionMap = playerInput.currentActionMap.name;
+        // TODO: remove gameobject.find
+        GameObject.FindObjectOfType<PlayerController>().LinkModuleToDialogue();
+        playerInput.SwitchCurrentActionMap("Dialogue");
+        Cursor.lockState = CursorLockMode.None;
+    }
+
     public static void HideText()
     {
         textField.text = "Dialogue box should be disabled";
         UIObject.SetActive(false);
 
-        playerInput.SwitchCurrentActionMap("Overworld");
-        Cursor.lockState = CursorLockMode.Locked;
+        switch (previousActionMap)
+        {
+            case "Scrapbook":
+                {
+                    // TODO: remove gameobject.find
+                    GameObject.FindObjectOfType<PlayerController>().LinkModuleToScrapbook();
+                    playerInput.SwitchCurrentActionMap("Scrapbook");
+                    Cursor.lockState = CursorLockMode.None;
+                    break;
+                }
+            default:
+                {
+                    // TODO: remove gameobject.find
+                    GameObject.FindObjectOfType<PlayerController>().LinkModuleToOverworld();
+                    playerInput.SwitchCurrentActionMap("Overworld");
+                    Cursor.lockState = CursorLockMode.Locked;
+                    break;
+                }
+        }
     }
 
     public void GetContinueInput(InputAction.CallbackContext context)
     {
         if (dialogueStrings.Length< 1)
         {
+            HideText();
+            UIObject.SetActive(false);
             return;
         }
 
@@ -80,6 +109,7 @@ public class DialogueUI : MonoBehaviour
         else
         {
             HideText();
+            UIObject.SetActive(false);
         }
     }
 }
