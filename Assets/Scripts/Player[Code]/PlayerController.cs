@@ -139,6 +139,9 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         onCameraClosed?.Invoke();
+
+        Scrapbook.OnBeginType += StartTyping;
+        Scrapbook.OnEndType += StopTyping;
     }
 
     // Update is called once per frame
@@ -195,6 +198,16 @@ public class PlayerController : MonoBehaviour
             playerInput.SwitchCurrentActionMap("Overworld");
             onCameraClosed?.Invoke();
         }
+    }
+
+    public void StartTyping()
+    {
+        playerInput.actions.FindAction("QuickCloseBook").Disable();
+    }
+
+    public void StopTyping()
+    {
+        playerInput.actions.FindAction("QuickCloseBook").Enable();
     }
 
     public void GetInteractionInput(InputAction.CallbackContext callbackContext)

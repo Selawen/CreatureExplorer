@@ -150,6 +150,7 @@ public class Scrapbook : MonoBehaviour
     {
         PageText newText = Instantiate(textEntryPrefab, CurrentPage.transform.position, Quaternion.identity);
         CurrentPage.AddComponentToPage(newText);
+        newText.transform.localScale = Vector3.one;
         newText.TextField.onSelect.AddListener((string s) => OnBeginType?.Invoke());
         newText.TextField.onDeselect.AddListener((string s) => OnEndType?.Invoke());
     }
