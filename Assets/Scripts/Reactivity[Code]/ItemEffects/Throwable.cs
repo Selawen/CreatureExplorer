@@ -14,6 +14,7 @@ public class Throwable : StatusEffect, IInteractable
     private Rigidbody rb;
     private Collider throwCollider;
 
+    // TODO: implement throwing in VR
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
