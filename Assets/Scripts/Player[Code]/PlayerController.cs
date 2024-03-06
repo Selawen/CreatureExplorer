@@ -70,6 +70,7 @@ public class PlayerController : MonoBehaviour
     private bool berryPouchIsOpen;
 
     [SerializeField] private Rigidbody rb;
+    private CapsuleCollider capsuleCollider;
     private FiniteStateMachine stateMachine;
 
     private Camera firstPersonCamera;
@@ -88,6 +89,7 @@ public class PlayerController : MonoBehaviour
         }
 
         //rb = GetComponent<Rigidbody>();
+        capsuleCollider = GetComponentInParent<CapsuleCollider>();
         stateMachine = new FiniteStateMachine(typeof(WalkingState), GetComponents<IState>());
         firstPersonCamera = Camera.main;
         verticalRotation = firstPersonCamera.transform.eulerAngles.x;
@@ -388,6 +390,12 @@ public class PlayerController : MonoBehaviour
             lookingForward.y = 0;
 
             transform.forward = lookingForward.normalized;
+
+            float heightDiff = Mathf.Abs(transform.position.y - rb.transform.position.y);
+            capsuleCollider.height = heightDiff;
+            capsuleCollider.center = Vector3.up * (heightDiff * 0.5f);
+
+            GetComponent<CrouchingState>().ToggleCrouch(heightDiff);
         }
         else
         {

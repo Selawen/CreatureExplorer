@@ -58,6 +58,8 @@ public class VR_PlayerController : MonoBehaviour
     private bool berryPouchIsOpen;
 
     [SerializeField] private Rigidbody rb;
+    private CapsuleCollider capsuleCollider;
+
     private FiniteStateMachine stateMachine;
 
     private Camera firstPersonCamera;
@@ -77,6 +79,8 @@ public class VR_PlayerController : MonoBehaviour
 
         stateMachine = new FiniteStateMachine(typeof(WalkingState), GetComponents<IState>());
         firstPersonCamera = Camera.main;
+
+        capsuleCollider = GetComponentInParent<CapsuleCollider>();
 
         respawnFadeRenderer = Instantiate(respawnOccluder, firstPersonCamera.transform).GetComponent<MeshRenderer>();
         deathScreen = Instantiate(deathScreen);
@@ -127,7 +131,7 @@ public class VR_PlayerController : MonoBehaviour
         if (died) return;
 
         stateMachine.OnUpdate();
-        HandleRotation();
+        HandleHeadsetMovement();
         HandleInteract();
 
         if (Physics.CheckSphere(transform.position + Vector3.up * drowningHeight, 0.2f, waterLayer))
@@ -343,7 +347,7 @@ public class VR_PlayerController : MonoBehaviour
         heldThrowable.Interact();
     }
 
-    private void HandleRotation()
+    private void HandleHeadsetMovement()
     {
         if (berryPouchIsOpen) return;
 
@@ -351,6 +355,12 @@ public class VR_PlayerController : MonoBehaviour
         lookingForward.y = 0;
 
         transform.forward = lookingForward.normalized;
+
+        float heightDiff = Mathf.Abs(firstPersonCamera.transform.position.y - rb.transform.position.y);
+        capsuleCollider.height = heightDiff;
+        capsuleCollider.center = new Vector3(firstPersonCamera.transform.localPosition.x, heightDiff * 0.5f, firstPersonCamera.transform.localPosition.z);
+
+        GetComponent<CrouchingState>().ToggleCrouch(heightDiff);
     }
 
     private void HandleInteract()

@@ -77,7 +77,7 @@ public class WalkingState : State
                 speed = Mathf.Abs(inputAngle) <= maxSprintAngle ? sprintSpeed : strafeSprintSpeed;
             }
 
-            Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+            Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * (VRChecker.IsVR? transform.forward : Vector3.forward);
 
             stepper.HandleStep(ref rb, moveDirection);
 

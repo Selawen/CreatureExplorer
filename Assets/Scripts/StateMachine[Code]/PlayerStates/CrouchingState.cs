@@ -30,27 +30,42 @@ public class CrouchingState : State
         //rigidbody = GetComponent<Rigidbody>();
         stepper = GetComponent<PhysicsStepper>();
 
-        capsuleCollider = GetComponent<CapsuleCollider>();
+        if (!VRChecker.IsVR)
+        {
+            capsuleCollider = GetComponent<CapsuleCollider>();
 
-        standardColliderHeight = capsuleCollider.height;
-
-        firstPersonCamera = Camera.main;
+            standardColliderHeight = capsuleCollider.height;
+        
+            firstPersonCamera = Camera.main;
+        }
     }
 
     private void Start()
     {
         if (!VRChecker.IsVR) 
         {
-            if (firstPersonCamera.TryGetComponent(out FollowTarget target))
-                defaultEyeHeight = target.TrueOffset.y;
-            else
-                defaultEyeHeight = firstPersonCamera.GetComponentInParent<FollowTarget>().TrueOffset.y;
+            try
+            {
+                if (firstPersonCamera.TryGetComponent(out FollowTarget target))
+                    defaultEyeHeight = target.TrueOffset.y;
+                else
+                    defaultEyeHeight = firstPersonCamera.GetComponentInParent<FollowTarget>().TrueOffset.y;
+            }
+            catch (System.NullReferenceException e)
+            {
+#if UNITY_EDITOR
+                Debug.LogError("Crouchingstate: No followtarget found");
+#endif
+            }
 
         }
     }
 
     public override void OnStateEnter()
     {
+        if (VRChecker.IsVR)
+            return;
+
         capsuleCollider.height = crouchHeight;
         capsuleCollider.center = Vector3.up * Mathf.Max((crouchHeight * 0.5f),capsuleCollider.radius);
 
@@ -67,6 +82,9 @@ public class CrouchingState : State
 
     public override void OnStateExit()
     {
+        if (VRChecker.IsVR)
+            return;
+
         capsuleCollider.height = standardColliderHeight;
         capsuleCollider.center = Vector3.up * (standardColliderHeight * 0.5f);
 
@@ -82,6 +100,7 @@ public class CrouchingState : State
         moveInput = callbackContext.ReadValue<Vector2>().normalized;
     }
 
+    // TODO: remove
     public void GetCrouchInput(InputAction.CallbackContext callbackContext)
     {
         if (callbackContext.started)
@@ -97,6 +116,7 @@ public class CrouchingState : State
             }
         }
     }
+
     public void GetJumpInput(InputAction.CallbackContext callbackContext)
     {
         if (callbackContext.started && Physics.CheckSphere(transform.position, 0.25f, ~playerLayer, QueryTriggerInteraction.Ignore) && Owner.CurrentState.GetType() == GetType())
@@ -104,6 +124,20 @@ public class CrouchingState : State
             Owner.SwitchState(typeof(JumpingState));
         }
     }
+
+    public void ToggleCrouch(float eyeHeight)
+    {
+        if (Owner.CurrentState.GetType() == typeof(WalkingState) && eyeHeight <= crouchEyeHeight)
+        {
+            Owner.SwitchState(GetType());
+            return;
+        }
+        if (Owner.CurrentState.GetType() == GetType() && eyeHeight > crouchEyeHeight)
+        {
+            Owner.SwitchState(typeof(WalkingState));
+        }
+    }
+
     private void Move()
     {
         if (moveInput.sqrMagnitude >= 0.1f)
@@ -111,7 +145,7 @@ public class CrouchingState : State
             PlayerController.SetLoudness(sneakLoudness);
 
             float targetAngle = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg + rb.transform.eulerAngles.y;
-            Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+            Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * (VRChecker.IsVR ? transform.forward : Vector3.forward);
 
             stepper.HandleStep(ref rb, moveDirection);
 
