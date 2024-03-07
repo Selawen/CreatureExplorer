@@ -43,12 +43,11 @@ public class VR_PlayerController : MonoBehaviour
     [SerializeField] private GameObject deathScreen;
     [SerializeField] private GameObject respawnOccluder;
 
-# if UNITY_EDITOR
+
     [Tooltip("Serialized for testing purposes")]
     [SerializeField] private bool climbingUnlocked;
-    [Tooltip("Only present for testing purposes")]
+    [Tooltip("Only Serialized for testing purposes")]
     [SerializeField] private bool pouchUnlocked;
-#endif
 
     [SerializeField] private InputSystemUIInputModule module;
 
@@ -231,20 +230,32 @@ public class VR_PlayerController : MonoBehaviour
     {
         if (callbackContext.started)
         {
+            CloseScrapbook();
+        }
+    }
+
+    public void CloseScrapbook()
+    {
             playerInput.SwitchCurrentActionMap("Overworld");
             Cursor.lockState = CursorLockMode.Locked;
             onScrapbookClosed?.Invoke();
-        }
+
     }
+
     public void GetOpenScrapbookInput(InputAction.CallbackContext callbackContext)
     {
         if (callbackContext.started)
         {
-            LinkModule("Scrapbook");
-            playerInput.SwitchCurrentActionMap("Scrapbook");
-            Cursor.lockState = CursorLockMode.None;
-            onScrapbookOpened?.Invoke();
+            OpenScrapbook();
         }
+    }
+
+    public void OpenScrapbook()
+    {
+        LinkModule("Scrapbook");
+        playerInput.SwitchCurrentActionMap("Scrapbook");
+        Cursor.lockState = CursorLockMode.None;
+        onScrapbookOpened?.Invoke();
     }
 
     public static void SetLoudness(float newLoudness) => Loudness = newLoudness;

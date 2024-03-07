@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4027920194558583443}
   - component: {fileID: 1534665498836261391}
   - component: {fileID: 7219222843467595521}
+  - component: {fileID: 146597742627518909}
   m_Layer: 6
   m_Name: RightHand
   m_TagString: Untagged
@@ -102,6 +103,48 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1503432930725665888}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &146597742627518909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1503432930725665888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f6aaeb8d90d2ea4b90134ffebbf51e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onLookAtPalm:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6150367404358822588}
+        m_TargetAssemblyTypeName: VR_PlayerController, Assembly-CSharp
+        m_MethodName: OpenScrapbook
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onLookFromPalm:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6150367404358822588}
+        m_TargetAssemblyTypeName: VR_PlayerController, Assembly-CSharp
+        m_MethodName: CloseScrapbook
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1616667484655791799
 GameObject:
   m_ObjectHideFlags: 0
@@ -861,8 +904,8 @@ MonoBehaviour:
     m_ActionName: Overworld/Sprint[/Keyboard/shift]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+      - m_Target: {fileID: 6150367404358822588}
+        m_TargetAssemblyTypeName: VR_PlayerController, Assembly-CSharp
         m_MethodName: GetOpenScrapbookInput
         m_Mode: 0
         m_Arguments:
@@ -873,10 +916,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+      - m_Target: {fileID: 6150367404358822588}
+        m_TargetAssemblyTypeName: VR_PlayerController, Assembly-CSharp
         m_MethodName: ToggleBerryPouch
-        m_Mode: 6
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -901,8 +944,8 @@ MonoBehaviour:
     m_ActionName: Scrapbook/Turn[/Mouse/rightButton]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+      - m_Target: {fileID: 6150367404358822588}
+        m_TargetAssemblyTypeName: VR_PlayerController, Assembly-CSharp
         m_MethodName: GetCloseScrapbookInput
         m_Mode: 0
         m_Arguments:
@@ -913,16 +956,16 @@ MonoBehaviour:
           m_StringArgument: Overworld
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: LinkModuleToOverworld
-        m_Mode: 1
+      - m_Target: {fileID: 6150367404358822588}
+        m_TargetAssemblyTypeName: VR_PlayerController, Assembly-CSharp
+        m_MethodName: LinkModule
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Overworld
           m_BoolArgument: 1
         m_CallState: 2
     m_ActionId: ab7f8bfa-d246-4093-9d5c-9afd402d0ea2
@@ -957,8 +1000,8 @@ MonoBehaviour:
     m_ActionName: Overworld/Jump[/Keyboard/space]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+      - m_Target: {fileID: 6150367404358822588}
+        m_TargetAssemblyTypeName: VR_PlayerController, Assembly-CSharp
         m_MethodName: GetInteractionInput
         m_Mode: 0
         m_Arguments:
@@ -977,8 +1020,8 @@ MonoBehaviour:
     m_ActionName: Overworld/Look[/Mouse/delta]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+      - m_Target: {fileID: 6150367404358822588}
+        m_TargetAssemblyTypeName: VR_PlayerController, Assembly-CSharp
         m_MethodName: SwapToCamera
         m_Mode: 0
         m_Arguments:
@@ -1013,8 +1056,8 @@ MonoBehaviour:
     m_ActionName: Camera/Snap[/Mouse/leftButton]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+      - m_Target: {fileID: 6150367404358822588}
+        m_TargetAssemblyTypeName: VR_PlayerController, Assembly-CSharp
         m_MethodName: SwapFromCamera
         m_Mode: 0
         m_Arguments:
@@ -1146,8 +1189,8 @@ MonoBehaviour:
     m_ActionName: Overworld/Throw[/Mouse/rightButton]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+      - m_Target: {fileID: 6150367404358822588}
+        m_TargetAssemblyTypeName: VR_PlayerController, Assembly-CSharp
         m_MethodName: ToggleBerryPouch
         m_Mode: 0
         m_Arguments:
@@ -1206,16 +1249,16 @@ MonoBehaviour:
     m_ActionName: Overworld/Pause[/Keyboard/escape,/DualSenseGamepadHID/start]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: LinkModuleToOverworld
-        m_Mode: 1
+      - m_Target: {fileID: 6150367404358822588}
+        m_TargetAssemblyTypeName: VR_PlayerController, Assembly-CSharp
+        m_MethodName: LinkModule
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Overworld
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 3884570976347919297}
@@ -1314,8 +1357,8 @@ MonoBehaviour:
     m_ActionName: Scrapbook/CloseQuest[/Keyboard/e,/Keyboard/escape]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+      - m_Target: {fileID: 6150367404358822588}
+        m_TargetAssemblyTypeName: VR_PlayerController, Assembly-CSharp
         m_MethodName: GoDie
         m_Mode: 1
         m_Arguments:
@@ -1593,19 +1636,7 @@ MonoBehaviour:
   maximumFieldOfView: 60
   onZoomLevelChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: SetRotationSpeed
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   camZoomSlider: {fileID: 3001260523223831351}
   picturePrefab: {fileID: 1099497629079080459, guid: 62a69665ffa767549a3ee2178569ccc7,
     type: 3}

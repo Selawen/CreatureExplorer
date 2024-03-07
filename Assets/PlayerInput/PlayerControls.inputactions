@@ -205,7 +205,7 @@
                     "path": "*/{Primary2DAxis}",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "XR",
                     "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -256,6 +256,17 @@
                 },
                 {
                     "name": "",
+                    "id": "da6ebc45-c9fb-4b97-95ba-fdf961179f49",
+                    "path": "<OculusTouchController>{RightHand}/gripPressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "XR",
+                    "action": "Sprint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "d84ea603-e5c1-4c8a-ae3e-e55b58f21992",
                     "path": "<Keyboard>/tab",
                     "interactions": "",
@@ -290,7 +301,7 @@
                 {
                     "name": "",
                     "id": "eef559b9-3870-4f73-ba3b-d5cb8a120aff",
-                    "path": "<XRController>{RightHand}/secondaryButton",
+                    "path": "*/{SecondaryButton}",
                     "interactions": "",
                     "processors": "",
                     "groups": "XR",
@@ -316,17 +327,6 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "NintendoSwitch",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "c8f04782-2937-44bc-8117-3da419e16dc4",
-                    "path": "<XRController>{RightHand}/joystickClicked",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "XR",
                     "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -466,7 +466,7 @@
                 {
                     "name": "",
                     "id": "3bb07a27-7f90-462b-8e58-bced771df5c1",
-                    "path": "<XRController>{LeftHand}/secondaryButton",
+                    "path": "*/{PrimaryButton}",
                     "interactions": "",
                     "processors": "",
                     "groups": "XR",

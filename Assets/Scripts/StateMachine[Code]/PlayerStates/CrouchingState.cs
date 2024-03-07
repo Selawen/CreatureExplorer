@@ -29,15 +29,6 @@ public class CrouchingState : State
     {
         //rigidbody = GetComponent<Rigidbody>();
         stepper = GetComponent<PhysicsStepper>();
-
-        if (!VRChecker.IsVR)
-        {
-            capsuleCollider = GetComponent<CapsuleCollider>();
-
-            standardColliderHeight = capsuleCollider.height;
-        
-            firstPersonCamera = Camera.main;
-        }
     }
 
     private void Start()
@@ -46,6 +37,10 @@ public class CrouchingState : State
         {
             try
             {
+                standardColliderHeight = capsuleCollider.height;
+        
+                firstPersonCamera = Camera.main;
+
                 if (firstPersonCamera.TryGetComponent(out FollowTarget target))
                     defaultEyeHeight = target.TrueOffset.y;
                 else
