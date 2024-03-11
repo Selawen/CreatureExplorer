@@ -95,14 +95,12 @@ public class VR_PlayerController : MonoBehaviour
         StaticQuestHandler.OnQuestOpened += () =>
         {
             LinkModule("Scrapbook");
-            playerInput.SwitchCurrentActionMap("Scrapbook");
             onInteractableOutOfRange?.Invoke();
         };
         StaticQuestHandler.OnQuestClosed += () =>
         {
             if (playerInput.currentActionMap.name != "Dialogue")
             {
-                playerInput.SwitchCurrentActionMap("Overworld");
                 LinkModule("Overworld");
             }
             Cursor.lockState = CursorLockMode.Locked;
@@ -253,7 +251,6 @@ public class VR_PlayerController : MonoBehaviour
     public void OpenScrapbook()
     {
         LinkModule("Scrapbook");
-        playerInput.SwitchCurrentActionMap("Scrapbook");
         Cursor.lockState = CursorLockMode.None;
         onScrapbookOpened?.Invoke();
     }
@@ -313,6 +310,7 @@ public class VR_PlayerController : MonoBehaviour
 
     public void LinkModule(string linkTo)
     {
+        playerInput.SwitchCurrentActionMap(linkTo);
         module.leftClick = InputActionReference.Create(playerInput.actions.FindActionMap(linkTo).FindAction("Click"));
         module.point = InputActionReference.Create(playerInput.actions.FindActionMap(linkTo).FindAction("Point"));
         module.move = InputActionReference.Create(playerInput.actions.FindActionMap(linkTo).FindAction("Move"));
