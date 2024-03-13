@@ -22,7 +22,7 @@ public class CrouchingState : State
     [SerializeField] private Rigidbody rb;
     private PhysicsStepper stepper;
 
-    private CapsuleCollider capsuleCollider;
+    [SerializeField] private CapsuleCollider capsuleCollider;
 
 
     private void Awake()
