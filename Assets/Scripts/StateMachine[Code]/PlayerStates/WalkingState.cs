@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 public class WalkingState : State
 {
     [SerializeField] private float speedMultiplier = 5f;
+    [SerializeField] private AnimationCurve speedCurve;
     [SerializeField] private float sprintSpeed = 10f;
     [SerializeField] private float strafeSprintSpeed = 8f;
     [SerializeField] private float maxSprintAngle = 15f;
@@ -65,6 +66,8 @@ public class WalkingState : State
     private void Move()
     {
         float inputMagnitute = moveInput.magnitude;
+        inputMagnitute = speedCurve.Evaluate(inputMagnitute);
+
         if (moveInput.sqrMagnitude >= 0.1f)
         {
             isSprinting = inputMagnitute * speedMultiplier >= sprintSpeed;
