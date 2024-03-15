@@ -282,7 +282,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1503432930725665888}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0f6aaeb8d90d2ea4b90134ffebbf51e9, type: 3}
   m_Name: 
@@ -979,7 +979,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6309500712002347045}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0f6aaeb8d90d2ea4b90134ffebbf51e9, type: 3}
   m_Name: 
@@ -2055,7 +2055,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 474a8fb2e002a824a94656d69c4caff2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedMultiplier: 10
+  speedMultiplier: 7
   speedCurve:
     serializedVersion: 2
     m_Curve:
@@ -2069,6 +2069,15 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
+      time: 0.80329084
+      value: 0.40875506
+      inSlope: 1.2363079
+      outSlope: 1.2363079
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
       time: 1
       value: 1
       inSlope: 2
@@ -2080,8 +2089,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  sprintSpeed: 10
-  strafeSprintSpeed: 7
+  sprintSpeed: 7
+  strafeSprintSpeed: 5
   maxSprintAngle: 15
   minWalkLoudness: 5
   maxWalkLoudness: 15
