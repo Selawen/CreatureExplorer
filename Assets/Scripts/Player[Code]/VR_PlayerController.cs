@@ -45,6 +45,8 @@ public class VR_PlayerController : MonoBehaviour
 
 
     [Tooltip("Serialized for testing purposes")]
+    [SerializeField] private bool scrapbookUnlocked;
+    [Tooltip("Serialized for testing purposes")]
     [SerializeField] private bool climbingUnlocked;
     [Tooltip("Only Serialized for testing purposes")]
     [SerializeField] private bool pouchUnlocked;
@@ -91,6 +93,7 @@ public class VR_PlayerController : MonoBehaviour
 
         // TODO: Change how upgrades are given
         GrandTemple.OnRingExtended += UnlockPouch;
+        DialogueTrigger.OnDialogueTriggered += UnlockNotebook;
 
         StaticQuestHandler.OnQuestOpened += () =>
         {
@@ -250,9 +253,12 @@ public class VR_PlayerController : MonoBehaviour
 
     public void OpenScrapbook()
     {
-        LinkModule("Scrapbook");
-        Cursor.lockState = CursorLockMode.None;
-        onScrapbookOpened?.Invoke();
+        if (scrapbookUnlocked)
+        {
+            LinkModule("Scrapbook");
+            Cursor.lockState = CursorLockMode.None;
+            onScrapbookOpened?.Invoke();
+        }
     }
 
     public static void SetLoudness(float newLoudness) => Loudness = newLoudness;
@@ -442,6 +448,12 @@ public class VR_PlayerController : MonoBehaviour
             return;
         }
         onInteractableOutOfRange?.Invoke();
+    }
+
+    private void UnlockNotebook()
+    {
+        scrapbookUnlocked = true;
+        DialogueTrigger.OnDialogueTriggered -= UnlockNotebook;
     }
 
     private void UnlockClimb()
