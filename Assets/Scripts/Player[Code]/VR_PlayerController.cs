@@ -29,6 +29,7 @@ public class VR_PlayerController : MonoBehaviour
     [SerializeField] private UnityEvent onCameraClosed;
     [SerializeField] private UnityEvent<string, Vector3> onInteractableFound;
     [SerializeField] private UnityEvent onInteractableOutOfRange;
+    [SerializeField] private UnityEvent onScrapbookUnlocked;
     [SerializeField] private UnityEvent onPouchUnlocked;
     [SerializeField] private UnityEvent onClimbingUnlocked;
     [SerializeField] private UnityEvent onHurt;
@@ -39,6 +40,7 @@ public class VR_PlayerController : MonoBehaviour
     [Header("Death and Respawn")]
     [SerializeField] private float respawnDuration = 0.5f;
     [SerializeField] private float drowningHeight = 1.2f;
+    [SerializeField] private GameObject uiCanvas;
     [SerializeField] private Transform respawnTransform;
     [SerializeField] private GameObject deathScreen;
     [SerializeField] private GameObject respawnOccluder;
@@ -111,6 +113,8 @@ public class VR_PlayerController : MonoBehaviour
         };
 
 #if UNITY_EDITOR
+        if (scrapbookUnlocked) UnlockNotebook();
+
         if (pouchUnlocked) UnlockPouch();
 
         if (climbingUnlocked) UnlockClimb();
@@ -253,12 +257,9 @@ public class VR_PlayerController : MonoBehaviour
 
     public void OpenScrapbook()
     {
-        if (scrapbookUnlocked)
-        {
-            LinkModule("Scrapbook");
-            Cursor.lockState = CursorLockMode.None;
-            onScrapbookOpened?.Invoke();
-        }
+        LinkModule("Scrapbook");
+        Cursor.lockState = CursorLockMode.None;
+        onScrapbookOpened?.Invoke();
     }
 
     public static void SetLoudness(float newLoudness) => Loudness = newLoudness;
@@ -453,6 +454,7 @@ public class VR_PlayerController : MonoBehaviour
     private void UnlockNotebook()
     {
         scrapbookUnlocked = true;
+        onScrapbookUnlocked.Invoke();
         DialogueTrigger.OnDialogueTriggered -= UnlockNotebook;
     }
 
@@ -479,8 +481,8 @@ public class VR_PlayerController : MonoBehaviour
         died = true;
         rb.velocity = Vector3.zero;
 
-        GameObject canvas = GetComponentInChildren<Canvas>().gameObject;
-        canvas.SetActive(false);
+        //GameObject canvas = transform.root.GetComponentInChildren<Canvas>().gameObject;
+        uiCanvas.SetActive(false);
 
         StartCoroutine(deathScreen.GetComponent<RandomMessage>().FadeIn(respawnDuration * 0.1f));
         deathScreen.SetActive(true);
@@ -501,7 +503,7 @@ public class VR_PlayerController : MonoBehaviour
             yield return null;
         }
 
-        transform.position = respawnTransform.position;
+        rb.transform.position = respawnTransform.position;
 
         onCameraClosed?.Invoke();
         onScrapbookClosed?.Invoke();
@@ -519,7 +521,7 @@ public class VR_PlayerController : MonoBehaviour
 
         deathScreen.SetActive(false);
 
-        canvas.SetActive(true);
+        uiCanvas.SetActive(true);
         died = false;
     }
 

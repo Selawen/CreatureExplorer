@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class VRHandController : MonoBehaviour
 {
@@ -12,18 +14,30 @@ public class VRHandController : MonoBehaviour
     [SerializeField] private UnityEvent onLookFromPalm;
     [SerializeField] private UnityEvent onPalmsParallel;
     [SerializeField] private UnityEvent onPalmsUnaligned;
+    [SerializeField] private UnityEvent onFaint;
 
     [Header("Settings")]
     [SerializeField] private VRHandController otherHand;
     [SerializeField] private LayerMask PointingInteractionLayers;
+    [Header("Fainting")]
+    [SerializeField] private float faintingPalmAngle = 170;
+    [SerializeField] private float sqrDistanceHandToForehead = 0.05f;
+    [SerializeField] private float secondsToFaint = 5;
+    [SerializeField] private Volume volume;
+    [Header("Looking at palm")]
     [SerializeField] private float lookAtPalmAngle = 45;
     [SerializeField] private float lookFromPalmAngle = 60;
+    [Header("Palms up and facing each other")]
     [SerializeField] private float palmAlignmentAccuracy = 0.8f;
     [SerializeField] private float handUpAccuracy = 0.7f;
+    [SerializeField] private float sqrMaxHandDistance = 0.3f;
 
     private Transform cameraTransform;
     private bool lookingAtPalm = false;
     private bool palmsParallel = false;
+
+    private float faintingTimer = 0;
+
     private LineRenderer line;
 
     // Start is called before the first frame update
@@ -45,17 +59,48 @@ public class VRHandController : MonoBehaviour
     void CheckHandOrientation()
     {
         float handRotationAngle = Vector3.Angle(transform.up, transform.position - cameraTransform.position);
-        //Debug.Log(Vector3.Angle(transform.up, transform.position - Camera.main.transform.position));
+
+        // check for fainting posture
+        if (handRotationAngle > faintingPalmAngle && (transform.position - cameraTransform.position).sqrMagnitude < sqrDistanceHandToForehead)
+        {
+            faintingTimer += Time.deltaTime;
+
+            if (volume.profile.TryGet(out Vignette vignette))
+            {
+                vignette.intensity.value = faintingTimer/secondsToFaint;
+            }
+
+            if (faintingTimer > secondsToFaint)
+            {
+                faintingTimer = 0;
+                if (vignette != null)
+                {
+                    vignette.intensity.value = 0;
+                }
+                onFaint.Invoke();
+            }
+        }
+        else if (faintingTimer != 0)
+        {
+            faintingTimer = 0;
+            if (volume.profile.TryGet(out Vignette vignette))
+            {
+                vignette.intensity.value = 0;
+            }
+        }
+
         if (!lookingAtPalm && !palmsParallel)
         {
+            // check for looking at palm posture
             if (handRotationAngle < lookAtPalmAngle)
             {
                 lookingAtPalm = true;
                 onLookAtPalm?.Invoke();
             }
+            // if there is an event to be called when palms are parallel, check whether palms are parallel
             else if (onPalmsParallel.GetPersistentEventCount()>0)
             {
-                if (Vector3.Dot(transform.up, otherHand.transform.up) > palmAlignmentAccuracy && Vector3.Dot(transform.forward, cameraTransform.up) > handUpAccuracy && Vector3.Dot(otherHand.transform.forward, cameraTransform.up) > handUpAccuracy)
+                if (HandsAlignedAndUp() && (transform.position - otherHand.transform.position).sqrMagnitude < sqrMaxHandDistance)
                 {
                     onPalmsParallel?.Invoke();
                     palmsParallel = true;
@@ -72,7 +117,7 @@ public class VRHandController : MonoBehaviour
         }
         else if (palmsParallel)
         {
-            if (Vector3.Dot(transform.up, otherHand.transform.up) < palmAlignmentAccuracy * 0.9f || Vector3.Dot(transform.forward, cameraTransform.up) < handUpAccuracy * 0.9f || Vector3.Dot(otherHand.transform.forward, cameraTransform.up) < handUpAccuracy * 0.9f)
+            if (!HandsAlignedAndUp(0.9f) || (transform.position - otherHand.transform.position).sqrMagnitude > sqrMaxHandDistance)
             {
                 palmsParallel = false;
                 onPalmsUnaligned?.Invoke();
@@ -89,9 +134,13 @@ public class VRHandController : MonoBehaviour
                 //Debug.Log($"pointing at: {hit.collider.gameObject.name}");
                 if (hit.collider.TryGetComponent(out Selectable uiElement))
                 {
+                    line.SetPosition(1, new Vector3(0, 0, hit.distance));
                     uiElement.Select();
+                    return;
                 }
             }
+
+            line.SetPosition(1, new Vector3(0, 0, 10));
         }
     }
 
@@ -106,7 +155,14 @@ public class VRHandController : MonoBehaviour
             if (hit.collider.TryGetComponent(out Button button))
             {
                 button.onClick.Invoke();
-            }
+            }            
         }
     }    
+
+    private bool HandsAlignedAndUp(float angleMultiplier = 1)
+    {
+        return (Vector3.Dot(transform.up, otherHand.transform.up) > palmAlignmentAccuracy * angleMultiplier && 
+            Vector3.Dot(transform.forward, cameraTransform.up) > handUpAccuracy * angleMultiplier && 
+            Vector3.Dot(otherHand.transform.forward, cameraTransform.up) > handUpAccuracy * angleMultiplier);
+    }
 }

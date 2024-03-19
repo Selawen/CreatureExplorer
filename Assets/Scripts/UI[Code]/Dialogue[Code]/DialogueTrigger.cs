@@ -20,7 +20,7 @@ public class DialogueTrigger : MonoBehaviour, IDialogue
 
     private void OnTriggerEnter(Collider other)
     {
-        if ((!showOnce || (showOnce && !hasBeenShown))&& other.TryGetComponent(out PlayerCamera player))
+        if ((!showOnce || (showOnce && !hasBeenShown)) && (other.TryGetComponent(out PlayerCamera player) || other.GetComponentInChildren<PlayerCamera>() !=  null))
         {
             if (triggerEvent)
             {

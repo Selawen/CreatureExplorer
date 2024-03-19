@@ -26,6 +26,7 @@ public class Scrapbook : MonoBehaviour
     [SerializeField] private GameObject extrasGroup;
     [SerializeField] private GameObject progressTrackerTab;
     [SerializeField] private GameObject questTrackerTab;
+    [SerializeField] private GameObject penButton;
 
     [SerializeField] private RectTransform pagesParent;
 
@@ -54,6 +55,8 @@ public class Scrapbook : MonoBehaviour
 
         StaticQuestHandler.OnAltarActivated += CheckAllMainQuestProgress;
 
+        DialogueTrigger.OnDialogueTriggered += UnlockBook;
+
         SetupScrapbook();
 
         previousPageButton.SetActive(false);
@@ -77,6 +80,12 @@ public class Scrapbook : MonoBehaviour
             newPage.gameObject.SetActive(i == 0);
             allPages[i] = newPage;
         }
+    }
+
+    public void UnlockBook()
+    {
+        book.gameObject.SetActive(true);
+        penButton.SetActive(true);
     }
 
     public void ClosePages()
