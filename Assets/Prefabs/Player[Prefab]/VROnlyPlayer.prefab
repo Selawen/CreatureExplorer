@@ -2828,17 +2828,17 @@ PrefabInstance:
     - target: {fileID: 1807263154119540719, guid: 0d2f87619a5029e4fb22c409a092efc3,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1807263154119540719, guid: 0d2f87619a5029e4fb22c409a092efc3,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1807263154119540719, guid: 0d2f87619a5029e4fb22c409a092efc3,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1851989233140721314, guid: 0d2f87619a5029e4fb22c409a092efc3,
         type: 3}
@@ -3043,7 +3043,7 @@ PrefabInstance:
     - target: {fileID: 4833206982714648395, guid: 0d2f87619a5029e4fb22c409a092efc3,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4833206982714648396, guid: 0d2f87619a5029e4fb22c409a092efc3,
         type: 3}
@@ -4935,6 +4935,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1616667484964944795}
     m_Modifications:
+    - target: {fileID: 12358789153356575, guid: e7b9b0becb864e64cbeac7ab74c16b4d,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 12358789153356575, guid: e7b9b0becb864e64cbeac7ab74c16b4d,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 12358789153356575, guid: e7b9b0becb864e64cbeac7ab74c16b4d,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 134500544464069819, guid: e7b9b0becb864e64cbeac7ab74c16b4d,
         type: 3}
       propertyPath: camStorageText
@@ -5092,6 +5107,16 @@ PrefabInstance:
       objectReference: {fileID: 8450039751899159313}
     - target: {fileID: 2869128934342824823, guid: e7b9b0becb864e64cbeac7ab74c16b4d,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2869128934342824823, guid: e7b9b0becb864e64cbeac7ab74c16b4d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6150367404358822588}
+    - target: {fileID: 2869128934342824823, guid: e7b9b0becb864e64cbeac7ab74c16b4d,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 8805676606094892191}
@@ -5100,6 +5125,16 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
       objectReference: {fileID: 8450039751899159313}
+    - target: {fileID: 2869128934342824823, guid: e7b9b0becb864e64cbeac7ab74c16b4d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: CloseScrapbook
+      objectReference: {fileID: 0}
+    - target: {fileID: 2869128934342824823, guid: e7b9b0becb864e64cbeac7ab74c16b4d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: VR_PlayerController, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 3942258731658614367, guid: e7b9b0becb864e64cbeac7ab74c16b4d,
         type: 3}
       propertyPath: soundPlayer
@@ -5114,6 +5149,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: VRCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 5593124298970429469, guid: e7b9b0becb864e64cbeac7ab74c16b4d,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0.49803922
+      objectReference: {fileID: 0}
+    - target: {fileID: 5593124298970429469, guid: e7b9b0becb864e64cbeac7ab74c16b4d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6306595763439331795, guid: e7b9b0becb864e64cbeac7ab74c16b4d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6497665287100326843, guid: e7b9b0becb864e64cbeac7ab74c16b4d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6912417775541572396, guid: e7b9b0becb864e64cbeac7ab74c16b4d,
         type: 3}
