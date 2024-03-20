@@ -38,6 +38,7 @@ public class VRHandController : MonoBehaviour
     private Transform cameraTransform;
     private bool lookingAtPalm = false;
     private bool palmsParallel = false;
+    private bool holding = false;
     private bool grabbing = false;
 
     private IGrabbable grabbedObj;
@@ -170,8 +171,11 @@ public class VRHandController : MonoBehaviour
 
     public void PressGrip(InputAction.CallbackContext callbackContext)
     {
-        if (callbackContext.started)
+        Debug.Log(callbackContext.action.ReadValue<float>());
+        if (!grabbing && callbackContext.action.WasPerformedThisFrame())
         {
+            grabbing = true;
+            Debug.Log("grabbing");
             Collider[] collidersInReach = Physics.OverlapSphere(transform.position + grabOffset, grabRadius);
             foreach (Collider col in collidersInReach)
             {
@@ -180,14 +184,16 @@ public class VRHandController : MonoBehaviour
                     grabbedObj = grabbable;
 
                     grabbedObj.Grab(transform);
-                    grabbing = true;
+                    holding = true;
                 }
             }  
-        } else if (callbackContext.canceled)
+        } else if (callbackContext.action.ReadValue<float>() == 0)
         {
+            grabbing = false;
+            Debug.Log("releasing");
             if (grabbedObj != null)
                 grabbedObj.Release();
-            grabbing = false;
+            holding = false;
         }
     }
 

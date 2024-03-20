@@ -11,7 +11,7 @@ public class Throwable : StatusEffect, IInteractable, IThrowable
     [SerializeField] private Sprite inventoryGraphic;
     [SerializeField] private Sprite hoverGraphic;
 
-    [ShowOnly] private bool IsGrabbed;
+    [ShowOnly] private bool isGrabbed;
 
     private Vector3[] previousPositions;
     private int posCounter = 0;
@@ -41,7 +41,7 @@ public class Throwable : StatusEffect, IInteractable, IThrowable
 
     private void FixedUpdate()
     {
-        if (IsGrabbed)
+        if (isGrabbed)
         {
             posCounter++;
             posCounter %= 10;
@@ -52,22 +52,35 @@ public class Throwable : StatusEffect, IInteractable, IThrowable
 
     public void Grab(Transform handTransform)
     {
+        Interact();
+
+        Debug.Log("grabbed");
         transform.SetParent(handTransform, true);
 
-        IsGrabbed = true;
+        isGrabbed = true;
     }
 
     public void Release()
     {
-        IsGrabbed = false;
+        Debug.Log("released");
+
+        isGrabbed = false;
+
+        Vector3 throwVelocity = ThrowVelocity();
+        Throw(previousPositions[0] - previousPositions[1]);
+
         previousPositions = new Vector3[10];
         posCounter = 0;
     }
 
-    public void Throw(Vector3 direction, float force)
+    public void Throw(Vector3 direction, float force =1)
     {
+        Debug.Log(direction);
         throwCollider.enabled = true;
-        rb.AddForce(direction * force);
+        if (force == 1)
+            rb.velocity = direction;
+        else
+            rb.AddForce(direction * force);
         if (TryGetComponent(out Food food))
         {
             food.ActivatePhysics();
@@ -89,6 +102,18 @@ public class Throwable : StatusEffect, IInteractable, IThrowable
         {
             food.StopAllCoroutines();
         }
+    }
 
+    private Vector3 ThrowVelocity()
+    {
+        Vector3 averageVelocity = previousPositions[0] - previousPositions[1];
+
+        for (int x = 1; x < previousPositions.Length-1; x++)
+        {
+            averageVelocity += previousPositions[x] - previousPositions[x + 1];
+        }
+        averageVelocity /= 9;
+
+        return averageVelocity;
     }
 }

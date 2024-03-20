@@ -130,6 +130,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Grab",
+                    "type": "Value",
+                    "id": "dbed7f46-0c04-4cff-89db-230febfaaf4f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -360,17 +369,6 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "NintendoSwitch",
-                    "action": "Interact",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "4a742917-b218-407b-a92b-3c22c06cdfbf",
-                    "path": "<XRController>{RightHand}/gripPressed",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
                     "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -636,6 +634,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Faint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d1943e98-353d-49fe-b44e-19553d752ece",
+                    "path": "*/{GripButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "XR",
+                    "action": "Grab",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
