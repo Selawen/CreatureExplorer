@@ -31,10 +31,16 @@ public class VRHandController : MonoBehaviour
     [SerializeField] private float palmAlignmentAccuracy = 0.8f;
     [SerializeField] private float handUpAccuracy = 0.7f;
     [SerializeField] private float sqrMaxHandDistance = 0.3f;
+    [Header("Grabbing things")]
+    [SerializeField] private Vector3 grabOffset;
+    [SerializeField] private float grabRadius;
 
     private Transform cameraTransform;
     private bool lookingAtPalm = false;
     private bool palmsParallel = false;
+    private bool grabbing = false;
+
+    private IGrabbable grabbedObj;
 
     private float faintingTimer = 0;
 
@@ -149,15 +155,41 @@ public class VRHandController : MonoBehaviour
         if (line == null || !line.enabled)
             return;
 
-        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 100, PointingInteractionLayers))
+        if (callbackContext.started)
         {
-            //Debug.Log($"hit {hit.collider.gameObject.name}");
-            if (hit.collider.TryGetComponent(out Button button))
+            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 100, PointingInteractionLayers))
             {
-                button.onClick.Invoke();
-            }            
+                //Debug.Log($"hit {hit.collider.gameObject.name}");
+                if (hit.collider.TryGetComponent(out Button button))
+                {
+                    button.onClick.Invoke();
+                }
+            }
         }
     }    
+
+    public void PressGrip(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.started)
+        {
+            Collider[] collidersInReach = Physics.OverlapSphere(transform.position + grabOffset, grabRadius);
+            foreach (Collider col in collidersInReach)
+            {
+                if (col.TryGetComponent(out IGrabbable grabbable))
+                {
+                    grabbedObj = grabbable;
+
+                    grabbedObj.Grab(transform);
+                    grabbing = true;
+                }
+            }  
+        } else if (callbackContext.canceled)
+        {
+            if (grabbedObj != null)
+                grabbedObj.Release();
+            grabbing = false;
+        }
+    }
 
     private bool HandsAlignedAndUp(float angleMultiplier = 1)
     {
@@ -165,4 +197,11 @@ public class VRHandController : MonoBehaviour
             Vector3.Dot(transform.forward, cameraTransform.up) > handUpAccuracy * angleMultiplier && 
             Vector3.Dot(otherHand.transform.forward, cameraTransform.up) > handUpAccuracy * angleMultiplier);
     }
+
+#if UNITY_EDITOR
+    private void OnDrawGizmosSelected()
+    {
+        GizmoDrawer.DrawPrimitive(transform.position + grabOffset, Vector3.one * grabRadius, GizmoType.WireSphere, Color.blue);
+    }
+#endif
 }
