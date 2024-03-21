@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.Events;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.EventSystems;
 
 public class VRHandController : MonoBehaviour
 {
@@ -31,7 +32,7 @@ public class VRHandController : MonoBehaviour
     [SerializeField] private float lookFromPalmAngle = 60;
     [Header("Palms up and facing each other")]
     [SerializeField] private float palmAlignmentAccuracy = 0.8f;
-    [SerializeField] private float handUpAccuracy = 0.7f;
+    [SerializeField] private float handUpAccuracy = 0.9f;
     [SerializeField] private float sqrMaxHandDistance = 0.3f;
     [Header("Grabbing things")]
     [SerializeField] private Vector3 grabOffset;
@@ -125,7 +126,7 @@ public class VRHandController : MonoBehaviour
             // if there is an event to be called when palms are parallel, check whether palms are parallel
             else if (onPalmsParallel.GetPersistentEventCount()>0)
             {
-                if (HandsAlignedAndUp() && (transform.position - otherHand.transform.position).sqrMagnitude < sqrMaxHandDistance)
+                if (HandsAligned() && Vector3.Dot(transform.forward, Vector3.up) > palmAlignmentAccuracy && (transform.position - otherHand.transform.position).sqrMagnitude < sqrMaxHandDistance)
                 {
                     onPalmsParallel?.Invoke();
                     palmsParallel = true;
@@ -142,7 +143,7 @@ public class VRHandController : MonoBehaviour
         }
         else if (palmsParallel)
         {
-            if (!HandsAlignedAndUp(0.9f) || (transform.position - otherHand.transform.position).sqrMagnitude > sqrMaxHandDistance)
+            if (!HandsAligned(0.7f) || (transform.position - otherHand.transform.position).sqrMagnitude > sqrMaxHandDistance)
             {
                 palmsParallel = false;
                 onPalmsUnaligned?.Invoke();
@@ -156,7 +157,7 @@ public class VRHandController : MonoBehaviour
         {
             if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 100, PointingInteractionLayers))
             {
-                //Debug.Log($"pointing at: {hit.collider.gameObject.name}");
+                Debug.Log($"pointing at: {hit.collider.gameObject.name}");
                 if (hit.collider.TryGetComponent(out Selectable uiElement))
                 {
                     line.SetPosition(1, new Vector3(0, 0, hit.distance));
@@ -174,15 +175,15 @@ public class VRHandController : MonoBehaviour
         if (line == null || !line.enabled)
             return;
 
-        if (callbackContext.started)
+        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 100, PointingInteractionLayers))
         {
-            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 100, PointingInteractionLayers))
+            Debug.Log($"hit {hit.collider.gameObject.name}");
+            if (hit.collider.TryGetComponent(out Button button))
             {
-                //Debug.Log($"hit {hit.collider.gameObject.name}");
-                if (hit.collider.TryGetComponent(out Button button))
-                {
-                    button.onClick.Invoke();
-                }
+                button.onClick.Invoke();
+            } else if (hit.collider.TryGetComponent(out PageComponent component))
+            {
+                component.OnBeginDrag();
             }
         }
     }
@@ -234,7 +235,7 @@ public class VRHandController : MonoBehaviour
         }
     }
 
-    private bool HandsAlignedAndUp(float angleMultiplier = 1)
+    private bool HandsAligned(float angleMultiplier = 1)
     {
         return (Vector3.Dot(transform.up, otherHand.transform.up) > palmAlignmentAccuracy * angleMultiplier && 
             Vector3.Dot(transform.forward, cameraTransform.up) > handUpAccuracy * angleMultiplier && 

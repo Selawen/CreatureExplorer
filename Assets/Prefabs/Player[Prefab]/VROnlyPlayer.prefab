@@ -436,14 +436,14 @@ MonoBehaviour:
   PointingInteractionLayers:
     serializedVersion: 2
     m_Bits: 32
-  faintingPalmAngle: 170
-  sqrDistanceHandToForehead: 0.05
+  faintingPalmAngle: 120
+  sqrDistanceHandToForehead: 0.08
   secondsToFaint: 5
   volume: {fileID: 0}
   lookAtPalmAngle: 45
   lookFromPalmAngle: 60
   palmAlignmentAccuracy: 0.8
-  handUpAccuracy: 0.7
+  handUpAccuracy: 0.95
   sqrMaxHandDistance: 0.4
   grabOffset: {x: 0, y: -0.1, z: 0}
   grabRadius: 0.15
@@ -1125,8 +1125,8 @@ MonoBehaviour:
   PointingInteractionLayers:
     serializedVersion: 2
     m_Bits: 32
-  faintingPalmAngle: 170
-  sqrDistanceHandToForehead: 0.05
+  faintingPalmAngle: 120
+  sqrDistanceHandToForehead: 0.08
   secondsToFaint: 5
   volume: {fileID: 0}
   lookAtPalmAngle: 45
@@ -5113,6 +5113,16 @@ PrefabInstance:
       propertyPath: storageBackgroundImage
       value: 
       objectReference: {fileID: 3647692088239015806}
+    - target: {fileID: 1554552748067434537, guid: e7b9b0becb864e64cbeac7ab74c16b4d,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1554552748067434537, guid: e7b9b0becb864e64cbeac7ab74c16b4d,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1651778758869578669, guid: e7b9b0becb864e64cbeac7ab74c16b4d,
         type: 3}
       propertyPath: m_PresetInfoIsWorld
@@ -5308,6 +5318,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5679556862133984482, guid: e7b9b0becb864e64cbeac7ab74c16b4d,
+        type: 3}
+      propertyPath: VRRaycaster
+      value: 
+      objectReference: {fileID: 9069668914483958109}
     - target: {fileID: 6306595763439331795, guid: e7b9b0becb864e64cbeac7ab74c16b4d,
         type: 3}
       propertyPath: m_IsActive
