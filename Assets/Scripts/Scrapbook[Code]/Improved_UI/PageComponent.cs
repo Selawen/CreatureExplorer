@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.UI;
 
 public abstract class PageComponent : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
@@ -33,7 +34,7 @@ public abstract class PageComponent : MonoBehaviour, IBeginDragHandler, IDragHan
         previousParent = transform.parent;
     }
 
-    public virtual void OnDrag(PointerEventData eventData)
+    public virtual void OnDrag(PointerEventData eventData = null)
     {
         if (!VRChecker.IsVR)
         {
@@ -48,30 +49,38 @@ public abstract class PageComponent : MonoBehaviour, IBeginDragHandler, IDragHan
         }
     }
 
-    public virtual void OnEndDrag(PointerEventData eventData)
+    public virtual void OnEndDrag(PointerEventData eventData = null)
     {
-        List<RaycastResult> results = new();
-        Scrapbook.Instance.Raycaster.Raycast(eventData, results);
-        foreach(RaycastResult rayResult in results)
+            List<RaycastResult> results = new();
+        if (!VRChecker.IsVR)
         {
-            if(rayResult.gameObject.TryGetComponent(out PageComponentInteractor pageComponentInteractor))
+            Scrapbook.Instance.Raycaster.Raycast(eventData, results);
+        }
+        else
+        {
+            Scrapbook.Instance.VRRaycaster.Raycast(eventData as ExtendedPointerEventData, results);
+        }
+
+            foreach (RaycastResult rayResult in results)
             {
-                if (pageComponentInteractor.OnComponentDroppedOn(this))
+                if (rayResult.gameObject.TryGetComponent(out PageComponentInteractor pageComponentInteractor))
                 {
-                    if(currentInteractor != pageComponentInteractor)
+                    if (pageComponentInteractor.OnComponentDroppedOn(this))
                     {
-                        SetInteractor(pageComponentInteractor);
+                        if (currentInteractor != pageComponentInteractor)
+                        {
+                            SetInteractor(pageComponentInteractor);
+                        }
+                        return;
                     }
-                    return;
                 }
             }
-        }
-        // This should never be null if the player can drag the component
-        if(previousParent != null)
-        {
-            transform.SetParent(previousParent);
-        }
-        _rectTransform.position = startPosition;
+            // This should never be null if the player can drag the component
+            if (previousParent != null)
+            {
+                transform.SetParent(previousParent);
+            }
+            _rectTransform.position = startPosition;
     }
 
     private void Move(Vector2 position)

@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.Events;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.EventSystems;
 
 public class VRHandController : MonoBehaviour
 {
@@ -180,6 +181,9 @@ public class VRHandController : MonoBehaviour
             if (hit.collider.TryGetComponent(out Button button))
             {
                 button.onClick.Invoke();
+            } else if (hit.collider.TryGetComponent(out PageComponent component))
+            {
+                component.OnBeginDrag();
             }
         }
     }
