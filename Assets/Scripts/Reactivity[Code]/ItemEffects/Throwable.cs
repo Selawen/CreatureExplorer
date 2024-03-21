@@ -11,15 +11,15 @@ public class Throwable : StatusEffect, IInteractable, IThrowable
     [SerializeField] private Sprite inventoryGraphic;
     [SerializeField] private Sprite hoverGraphic;
 
+    [SerializeField] private float maxVelocity = 20;
+
     [ShowOnly] private bool isGrabbed;
 
     private Vector3[] previousPositions;
-    private int posCounter = 0;
 
     private Rigidbody rb;
     private Collider throwCollider;
 
-    // TODO: implement throwing in VR
     private void Awake()
     {
         previousPositions = new Vector3[10];
@@ -43,10 +43,12 @@ public class Throwable : StatusEffect, IInteractable, IThrowable
     {
         if (isGrabbed)
         {
-            posCounter++;
-            posCounter %= 10;
+            for (int x = 9; x > 0; x--)
+            {
+                previousPositions[x] = previousPositions[x - 1];
+            }
 
-            previousPositions[posCounter] = transform.position;
+            previousPositions[0] = transform.position;
         }
     }
 
@@ -54,7 +56,7 @@ public class Throwable : StatusEffect, IInteractable, IThrowable
     {
         Interact();
 
-        Debug.Log("grabbed");
+        //Debug.Log("grabbed");
         transform.SetParent(handTransform, true);
 
         isGrabbed = true;
@@ -62,25 +64,26 @@ public class Throwable : StatusEffect, IInteractable, IThrowable
 
     public void Release()
     {
-        Debug.Log("released");
-
+        //Debug.Log("released");
         isGrabbed = false;
 
         Vector3 throwVelocity = ThrowVelocity();
-        Throw(previousPositions[0] - previousPositions[1]);
+
+        Vector3.ClampMagnitude(throwVelocity, maxVelocity);
+        Throw(throwVelocity);
 
         previousPositions = new Vector3[10];
-        posCounter = 0;
     }
 
     public void Throw(Vector3 direction, float force =1)
     {
-        Debug.Log(direction);
         throwCollider.enabled = true;
+
         if (force == 1)
             rb.velocity = direction;
         else
             rb.AddForce(direction * force);
+
         if (TryGetComponent(out Food food))
         {
             food.ActivatePhysics();
@@ -96,6 +99,7 @@ public class Throwable : StatusEffect, IInteractable, IThrowable
     public void Interact()
     {
         rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
         throwCollider.enabled = false;
         rb.useGravity = false;
         if(TryGetComponent(out Food food))
@@ -106,13 +110,15 @@ public class Throwable : StatusEffect, IInteractable, IThrowable
 
     private Vector3 ThrowVelocity()
     {
-        Vector3 averageVelocity = previousPositions[0] - previousPositions[1];
+        float timeMultiplier = 1 / Time.fixedDeltaTime;
+        Vector3 averageVelocity = Vector3.zero;// (previousPositions[0] - previousPositions[1]) * timeMultiplier;
 
         for (int x = 1; x < previousPositions.Length-1; x++)
         {
-            averageVelocity += previousPositions[x] - previousPositions[x + 1];
+            averageVelocity += (previousPositions[x] - previousPositions[x + 1]) * timeMultiplier;
         }
-        averageVelocity /= 9;
+
+        averageVelocity /= 8;
 
         return averageVelocity;
     }

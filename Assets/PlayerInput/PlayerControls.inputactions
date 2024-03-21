@@ -132,9 +132,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Grab",
+                    "name": "GrabRight",
                     "type": "Value",
                     "id": "dbed7f46-0c04-4cff-89db-230febfaaf4f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "GrabLeft",
+                    "type": "Value",
+                    "id": "19e613fc-e9c4-4014-a072-a4ff3390af46",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -640,11 +649,22 @@
                 {
                     "name": "",
                     "id": "d1943e98-353d-49fe-b44e-19553d752ece",
-                    "path": "*/{GripButton}",
+                    "path": "<XRController>{RightHand}/gripPressed",
                     "interactions": "",
                     "processors": "",
                     "groups": "XR",
-                    "action": "Grab",
+                    "action": "GrabRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a6fd5173-d8d5-4fec-82dc-62f32405361d",
+                    "path": "<XRController>{LeftHand}/gripPressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "XR",
+                    "action": "GrabLeft",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

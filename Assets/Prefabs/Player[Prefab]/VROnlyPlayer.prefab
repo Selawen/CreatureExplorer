@@ -273,7 +273,7 @@ MonoBehaviour:
   m_PoseSource: 5
   m_PoseProviderComponent: {fileID: 0}
   m_TrackingType: 0
-  m_UpdateType: 0
+  m_UpdateType: 1
   m_UseRelativeTransform: 0
 --- !u!114 &146597742627518909
 MonoBehaviour:
@@ -395,6 +395,38 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onGrab:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8450039751899159313}
+        m_TargetAssemblyTypeName: SoundPlayer, Assembly-CSharp
+        m_MethodName: PlayOnClick
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: 1f333b83e9161084094b0f9efcd63c34,
+            type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onRelease:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8450039751899159313}
+        m_TargetAssemblyTypeName: SoundPlayer, Assembly-CSharp
+        m_MethodName: PlayOnClick
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: c1fb1ee8f5f9d7b458d7e0a3252488fd,
+            type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -627,7 +659,7 @@ CapsuleCollider:
   m_Material: {fileID: 13400000, guid: 6853618decedc0a4b89288715408633c, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.6
+  m_Radius: 0.3
   m_Height: 1.75
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
@@ -992,7 +1024,7 @@ MonoBehaviour:
   m_PoseSource: 4
   m_PoseProviderComponent: {fileID: 0}
   m_TrackingType: 0
-  m_UpdateType: 0
+  m_UpdateType: 1
   m_UseRelativeTransform: 0
 --- !u!114 &5005570596392204449
 MonoBehaviour:
@@ -1052,6 +1084,38 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onGrab:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8450039751899159313}
+        m_TargetAssemblyTypeName: SoundPlayer, Assembly-CSharp
+        m_MethodName: PlayOnClick
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: 1f333b83e9161084094b0f9efcd63c34,
+            type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onRelease:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8450039751899159313}
+        m_TargetAssemblyTypeName: SoundPlayer, Assembly-CSharp
+        m_MethodName: PlayOnClick
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: c1fb1ee8f5f9d7b458d7e0a3252488fd,
+            type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1325,6 +1389,30 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 146597742627518909}
+        m_TargetAssemblyTypeName: VRHandController, Assembly-CSharp
+        m_MethodName: ReleaseGrip
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5005570596392204449}
+        m_TargetAssemblyTypeName: VRHandController, Assembly-CSharp
+        m_MethodName: ReleaseGrip
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 5f9f94be-ffd7-4f30-8b74-2e69d830c35c
     m_ActionName: Overworld/OpenBook[/Keyboard/space]
   - m_PersistentCalls:
@@ -1433,6 +1521,30 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: VR_PlayerController, Assembly-CSharp
         m_MethodName: SwapToCamera
         m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 146597742627518909}
+        m_TargetAssemblyTypeName: VRHandController, Assembly-CSharp
+        m_MethodName: ReleaseGrip
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5005570596392204449}
+        m_TargetAssemblyTypeName: VRHandController, Assembly-CSharp
+        m_MethodName: ReleaseGrip
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1798,9 +1910,9 @@ MonoBehaviour:
     m_ActionName: Overworld/Grab
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 146597742627518909}
+      - m_Target: {fileID: 5005570596392204449}
         m_TargetAssemblyTypeName: VRHandController, Assembly-CSharp
-        m_MethodName: ReleaseGrip
+        m_MethodName: PressGrip
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1810,8 +1922,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 5b8b2828-6959-4a05-aebe-6ccc56555e71
-    m_ActionName: Overworld/Release
+    m_ActionId: 19e613fc-e9c4-4014-a072-a4ff3390af46
+    m_ActionName: Overworld/GrabLeft
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Overworld
@@ -2474,7 +2586,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7568655017611327500
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3079,7 +3191,7 @@ PrefabInstance:
     - target: {fileID: 4833206982714648395, guid: 0d2f87619a5029e4fb22c409a092efc3,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4833206982714648396, guid: 0d2f87619a5029e4fb22c409a092efc3,
         type: 3}

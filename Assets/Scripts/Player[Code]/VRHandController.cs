@@ -15,6 +15,8 @@ public class VRHandController : MonoBehaviour
     [SerializeField] private UnityEvent onPalmsParallel;
     [SerializeField] private UnityEvent onPalmsUnaligned;
     [SerializeField] private UnityEvent onFaint;
+    [SerializeField] private UnityEvent onGrab;
+    [SerializeField] private UnityEvent onRelease;
 
     [Header("Settings")]
     [SerializeField] private VRHandController otherHand;
@@ -41,7 +43,9 @@ public class VRHandController : MonoBehaviour
     private bool holding = false;
     private bool grabbing = false;
 
-    private IGrabbable grabbedObj;
+    private bool recievedGripInput;
+
+    public IGrabbable grabbedObj { get; private set; }
 
     private float faintingTimer = 0;
 
@@ -58,13 +62,27 @@ public class VRHandController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+
         CheckHandOrientation();
         if (line != null)
             Point();
+
+    }
+
+    private void LateUpdate()
+    {
+        if (grabbing && !recievedGripInput)
+        {
+            ReleaseGrip();
+        }
+        recievedGripInput = false;
     }
 
     void CheckHandOrientation()
     {
+        if (holding)
+            return;
+
         float handRotationAngle = Vector3.Angle(transform.up, transform.position - cameraTransform.position);
 
         // check for fainting posture
@@ -167,30 +185,49 @@ public class VRHandController : MonoBehaviour
                 }
             }
         }
-    }    
+    }
 
     public void PressGrip(InputAction.CallbackContext callbackContext)
     {
-        Debug.Log(callbackContext.action.ReadValue<float>());
-        if (!grabbing && callbackContext.action.WasPerformedThisFrame())
+        recievedGripInput = true;
+ 
+        if (!grabbing)
         {
             grabbing = true;
-            Debug.Log("grabbing");
+            //Debug.Log("grabbing");
             Collider[] collidersInReach = Physics.OverlapSphere(transform.position + grabOffset, grabRadius);
             foreach (Collider col in collidersInReach)
             {
                 if (col.TryGetComponent(out IGrabbable grabbable))
                 {
+                    if (otherHand.grabbedObj == grabbable)
+                    {
+                        otherHand.ReleaseGrip();
+                    }
+
+                    if (grabbedObj != null)
+                        grabbedObj.Release();
+
+                    onGrab.Invoke();
+
                     grabbedObj = grabbable;
 
                     grabbedObj.Grab(transform);
                     holding = true;
                 }
             }  
-        } else if (callbackContext.action.ReadValue<float>() == 0)
+        } 
+    }
+
+    public void ReleaseGrip()
+    {
+        if (grabbing)
         {
             grabbing = false;
-            Debug.Log("releasing");
+            //Debug.Log("releasing");
+
+            onRelease.Invoke();
+
             if (grabbedObj != null)
                 grabbedObj.Release();
             holding = false;
