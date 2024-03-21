@@ -27,7 +27,7 @@ public abstract class PageComponent : MonoBehaviour, IBeginDragHandler, IDragHan
         currentInteractor = interactor;
     }
 
-    public virtual void OnBeginDrag(PointerEventData eventData)
+    public virtual void OnBeginDrag(PointerEventData eventData = null)
     {
         startPosition = _rectTransform.position;
         previousParent = transform.parent;
@@ -35,13 +35,16 @@ public abstract class PageComponent : MonoBehaviour, IBeginDragHandler, IDragHan
 
     public virtual void OnDrag(PointerEventData eventData)
     {
-        if(eventData.button == PointerEventData.InputButton.Left)
+        if (!VRChecker.IsVR)
         {
-            Move(eventData.position);
-        }
-        if(eventData.button == PointerEventData.InputButton.Right)
-        {
-            TurnAndScale(eventData.delta);
+            if (eventData.button == PointerEventData.InputButton.Left)
+            {
+                Move(eventData.position);
+            }
+            if (eventData.button == PointerEventData.InputButton.Right)
+            {
+                TurnAndScale(eventData.delta);
+            }
         }
     }
 
