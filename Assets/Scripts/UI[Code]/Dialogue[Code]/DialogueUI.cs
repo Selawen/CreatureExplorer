@@ -15,6 +15,7 @@ public class DialogueUI : MonoBehaviour
     private static string[] dialogueStrings;
     private static int dialogueIndex = 0;
 
+    [SerializeField] private PlayerInput input;
     private static PlayerInput playerInput;
 
     private static string previousActionMap;
@@ -23,7 +24,8 @@ public class DialogueUI : MonoBehaviour
     {
         Instance = this;
 
-        playerInput = GetComponentInParent<PlayerInput>();
+        //playerInput = GetComponentInParent<PlayerInput>();
+        playerInput = input == null ? GetComponentInParent<PlayerInput>() : input;
 
         textField = GetComponentInChildren<TextMeshProUGUI>();
         if (UIObject == null)

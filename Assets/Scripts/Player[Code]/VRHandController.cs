@@ -196,27 +196,24 @@ public class VRHandController : MonoBehaviour
         {
             grabbing = true;
             //Debug.Log("grabbing");
-            Collider[] collidersInReach = Physics.OverlapSphere(transform.position + grabOffset, grabRadius);
-            foreach (Collider col in collidersInReach)
+            if (LookForObjects<IGrabbable>.TryGetClosestObject(transform.position + grabOffset, grabRadius, out IGrabbable grabbable))
             {
-                if (col.TryGetComponent(out IGrabbable grabbable))
+                if (otherHand.grabbedObj == grabbable)
                 {
-                    if (otherHand.grabbedObj == grabbable)
-                    {
-                        otherHand.ReleaseGrip();
-                    }
-
-                    if (grabbedObj != null)
-                        grabbedObj.Release();
-
-                    onGrab.Invoke();
-
-                    grabbedObj = grabbable;
-
-                    grabbedObj.Grab(transform);
-                    holding = true;
+                    otherHand.ReleaseGrip();
                 }
-            }  
+
+                if (grabbedObj != null)
+                    grabbedObj.Release();
+
+                onGrab.Invoke();
+
+                grabbedObj = grabbable;
+
+                grabbedObj.Grab(transform);
+                holding = true;
+                return;
+            }
         } 
     }
 

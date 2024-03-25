@@ -745,6 +745,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "GrabRight",
+                    "type": "Value",
+                    "id": "bf2c2ce2-bca4-4c5e-b91c-2dc98134c1ab",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "GrabLeft",
+                    "type": "Value",
+                    "id": "ce7bdd7d-43e4-4f5d-9366-9c4519f3f92f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -965,6 +983,28 @@
                     "processors": "",
                     "groups": "XR",
                     "action": "QuickCloseBook",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5978e6ec-175a-471f-9f1a-816aa83b911a",
+                    "path": "<XRController>{RightHand}/gripPressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "XR",
+                    "action": "GrabRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "abc694e9-ba34-4dcb-bd62-b83a1922a012",
+                    "path": "<XRController>{LeftHand}/gripPressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "XR",
+                    "action": "GrabLeft",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

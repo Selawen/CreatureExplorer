@@ -4,9 +4,10 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.UI;
 
-public abstract class PageComponent : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public abstract class PageComponent : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IGrabbable
 {
     //public System.Action OnComponentRemoved;
+    [SerializeField] private LayerMask uiLayer;
 
     protected RectTransform _rectTransform;
     protected Transform previousParent;
@@ -26,6 +27,42 @@ public abstract class PageComponent : MonoBehaviour, IBeginDragHandler, IDragHan
             currentInteractor.RemoveFromInteractor(this);
         }
         currentInteractor = interactor;
+    }
+
+    public virtual void Grab(Transform handTransform)
+    {
+        OnBeginDrag();
+
+        _rectTransform.SetParent(handTransform, true);
+    }
+
+    public virtual void Release()
+    {
+        RaycastHit[] results = Physics.RaycastAll(_rectTransform.position, _rectTransform.forward, 10, uiLayer);
+
+        foreach (RaycastHit rayResult in results)
+        {
+            if (rayResult.collider.TryGetComponent(out PageComponentInteractor pageComponentInteractor))
+            {
+                _rectTransform.position = rayResult.point;
+
+                if (pageComponentInteractor.OnComponentDroppedOn(this))
+                {
+                    if (currentInteractor != pageComponentInteractor)
+                    {
+                        SetInteractor(pageComponentInteractor);
+                    }
+                    return;
+                }
+            }
+        }
+
+        // This should never be null if the player can drag the component
+        if (previousParent != null)
+        {
+            _rectTransform.SetParent(previousParent);
+        }
+        _rectTransform.position = startPosition;
     }
 
     public virtual void OnBeginDrag(PointerEventData eventData = null)
@@ -94,5 +131,4 @@ public abstract class PageComponent : MonoBehaviour, IBeginDragHandler, IDragHan
         float scale = Mathf.Clamp(_rectTransform.localScale.x + delta.y * Time.fixedDeltaTime, 0.5f, 1.5f);
         _rectTransform.localScale = Vector3.one * scale;
     }
-
 }
