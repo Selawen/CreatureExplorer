@@ -9,6 +9,8 @@ public abstract class PageComponent : MonoBehaviour, IBeginDragHandler, IDragHan
     //public System.Action OnComponentRemoved;
     [SerializeField] private LayerMask uiLayer;
 
+    public Vector3 Pos { get => _rectTransform.position; }
+
     protected RectTransform _rectTransform;
     protected Transform previousParent;
 
@@ -44,7 +46,10 @@ public abstract class PageComponent : MonoBehaviour, IBeginDragHandler, IDragHan
         {
             if (rayResult.collider.TryGetComponent(out PageComponentInteractor pageComponentInteractor))
             {
+                //_rectTransform.position = rayResult.point;
+                _rectTransform.eulerAngles = new Vector3(rayResult.transform.rotation.x, rayResult.transform.rotation.y, _rectTransform.eulerAngles.z);
                 _rectTransform.position = rayResult.point;
+                //_rectTransform.SetPositionAndRotation(rayResult.point, rayResult.transform.rotation);
 
                 if (pageComponentInteractor.OnComponentDroppedOn(this))
                 {
@@ -62,13 +67,16 @@ public abstract class PageComponent : MonoBehaviour, IBeginDragHandler, IDragHan
         {
             _rectTransform.SetParent(previousParent);
         }
-        _rectTransform.position = startPosition;
+
+        _rectTransform.localEulerAngles = new Vector3(0, 0, _rectTransform.localEulerAngles.z);
+        _rectTransform.localPosition = startPosition;
+        //_rectTransform.SetLocalPositionAndRotation(startPosition, Quaternion.identity);
     }
 
     public virtual void OnBeginDrag(PointerEventData eventData = null)
     {
-        startPosition = _rectTransform.position;
-        previousParent = transform.parent;
+        startPosition = _rectTransform.localPosition;
+        previousParent = _rectTransform.parent;
     }
 
     public virtual void OnDrag(PointerEventData eventData = null)
@@ -117,7 +125,7 @@ public abstract class PageComponent : MonoBehaviour, IBeginDragHandler, IDragHan
             {
                 transform.SetParent(previousParent);
             }
-            _rectTransform.position = startPosition;
+            _rectTransform.localPosition = startPosition;
     }
 
     private void Move(Vector2 position)

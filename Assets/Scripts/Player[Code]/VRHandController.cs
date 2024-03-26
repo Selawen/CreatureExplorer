@@ -45,6 +45,9 @@ public class VRHandController : MonoBehaviour
     private bool grabbing = false;
 
     private bool recievedGripInput;
+    private bool recievedTriggerInput;
+    private bool holdingTriggerInput;
+    private bool wasPointing;
 
     public IGrabbable grabbedObj { get; private set; }
 
@@ -63,7 +66,6 @@ public class VRHandController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-
         CheckHandOrientation();
         if (line != null)
             Point();
@@ -72,11 +74,18 @@ public class VRHandController : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (grabbing && !recievedGripInput)
+        if ((grabbing && !recievedGripInput) || (holding && grabbedObj == null))
         {
             ReleaseGrip();
         }
+
+        if (holdingTriggerInput && !recievedTriggerInput)
+        {
+            holdingTriggerInput = false;
+        }
+
         recievedGripInput = false;
+        recievedTriggerInput = false;
     }
 
     void CheckHandOrientation()
@@ -157,10 +166,11 @@ public class VRHandController : MonoBehaviour
         {
             if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 100, PointingInteractionLayers))
             {
-                Debug.Log($"pointing at: {hit.collider.gameObject.name}");
+                line.SetPosition(1, new Vector3(0, 0, hit.distance));
+
+                //Debug.Log($"pointing at: {hit.collider.gameObject.name}");
                 if (hit.collider.TryGetComponent(out Selectable uiElement))
                 {
-                    line.SetPosition(1, new Vector3(0, 0, hit.distance));
                     uiElement.Select();
                     return;
                 }
@@ -172,18 +182,24 @@ public class VRHandController : MonoBehaviour
 
     public void PressTrigger(InputAction.CallbackContext callbackContext)
     {
-        if (line == null || !line.enabled)
-            return;
-
-        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 100, PointingInteractionLayers))
+        recievedTriggerInput = true;
+        if (!holdingTriggerInput)
         {
-            Debug.Log($"hit {hit.collider.gameObject.name}");
-            if (hit.collider.TryGetComponent(out Button button))
+            if (line == null || !line.enabled)
+                return;
+
+            holdingTriggerInput = true;
+            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 100, PointingInteractionLayers))
             {
-                button.onClick.Invoke();
-            } else if (hit.collider.TryGetComponent(out PageComponent component))
-            {
-                component.OnBeginDrag();
+                //Debug.Log($"hit {hit.collider.gameObject.name}");
+                if (hit.collider.TryGetComponent(out Button button))
+                {
+                    button.onClick.Invoke();
+                }
+                else if (hit.collider.TryGetComponent(out PageComponent component))
+                {
+                    component.OnBeginDrag();
+                }
             }
         }
     }
@@ -195,6 +211,10 @@ public class VRHandController : MonoBehaviour
         if (!grabbing)
         {
             grabbing = true;
+
+            wasPointing = line.enabled;
+            line.enabled = false;
+
             //Debug.Log("grabbing");
             if (LookForObjects<IGrabbable>.TryGetClosestObject(transform.position + grabOffset, grabRadius, out IGrabbable grabbable))
             {
@@ -222,12 +242,17 @@ public class VRHandController : MonoBehaviour
         if (grabbing)
         {
             grabbing = false;
+
+            line.enabled = wasPointing;
+
             //Debug.Log("releasing");
 
             onRelease.Invoke();
 
             if (grabbedObj != null)
                 grabbedObj.Release();
+
+            grabbedObj = null;
             holding = false;
         }
     }
