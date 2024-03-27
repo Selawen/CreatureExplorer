@@ -216,7 +216,7 @@ public class VRHandController : MonoBehaviour
             line.enabled = false;
 
             //Debug.Log("grabbing");
-            if (LookForObjects<IGrabbable>.TryGetClosestObject(transform.position + grabOffset, grabRadius, out IGrabbable grabbable))
+            if (LookForObjects<IGrabbable>.TryGetClosestObject(transform.position + grabOffset, transform.position, grabRadius, out IGrabbable grabbable))
             {
                 if (otherHand.grabbedObj == grabbable)
                 {

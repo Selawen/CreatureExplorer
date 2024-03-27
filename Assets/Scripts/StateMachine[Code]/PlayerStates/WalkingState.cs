@@ -76,7 +76,7 @@ public class WalkingState : State
 
             float speed = speedMultiplier * inputMagnitute;
             float inputAngle = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg;
-            float targetAngle = inputAngle + rb.transform.eulerAngles.y;
+            float targetAngle = inputAngle + transform.eulerAngles.y;
 
             if (isSprinting)
             {

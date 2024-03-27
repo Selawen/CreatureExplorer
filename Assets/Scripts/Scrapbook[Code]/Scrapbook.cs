@@ -87,7 +87,7 @@ public class Scrapbook : MonoBehaviour
     public void UnlockBook()
     {
         book.gameObject.SetActive(true);
-        penButton.SetActive(true);
+        //penButton.SetActive(true);
     }
 
     public void ClosePages()
@@ -159,11 +159,18 @@ public class Scrapbook : MonoBehaviour
 
     public void CreateNewTextEntry()
     {
-        PageText newText = Instantiate(textEntryPrefab, CurrentPage.transform.position, Quaternion.identity);
+        PageText newText = Instantiate(textEntryPrefab, CurrentPage.transform.position, CurrentPage.transform.rotation);
         CurrentPage.AddComponentToPage(newText);
         newText.transform.localScale = Vector3.one;
         newText.TextField.onSelect.AddListener((string s) => OnBeginType?.Invoke());
         newText.TextField.onDeselect.AddListener((string s) => OnEndType?.Invoke());
+    }
+
+    public void CreateNewPageComponent(PageComponent createdComponent)
+    {
+        PageComponent newComponent = Instantiate(createdComponent, CurrentPage.transform.position, CurrentPage.transform.rotation);
+        CurrentPage.AddComponentToPage(newComponent);
+        newComponent.transform.localScale = Vector3.one;
     }
 
     private void CheckAllMainQuestProgress(MainQuest quest)

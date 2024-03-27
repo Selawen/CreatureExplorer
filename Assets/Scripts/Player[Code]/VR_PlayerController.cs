@@ -87,6 +87,7 @@ public class VR_PlayerController : MonoBehaviour
 
         respawnFadeRenderer = Instantiate(respawnOccluder, firstPersonCamera.transform).GetComponent<MeshRenderer>();
         deathScreen = Instantiate(deathScreen);
+        deathScreen.GetComponent<Canvas>().worldCamera = firstPersonCamera;
         deathScreen.SetActive(false);
 
         playerInput = GetComponent<PlayerInput>();

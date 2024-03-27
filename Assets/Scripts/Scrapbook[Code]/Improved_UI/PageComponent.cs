@@ -15,6 +15,7 @@ public abstract class PageComponent : MonoBehaviour, IBeginDragHandler, IDragHan
     protected Transform previousParent;
 
     private Vector3 startPosition;
+    private Vector2 startSize;
     private PageComponentInteractor currentInteractor;
 
 
@@ -47,12 +48,15 @@ public abstract class PageComponent : MonoBehaviour, IBeginDragHandler, IDragHan
             if (rayResult.collider.TryGetComponent(out PageComponentInteractor pageComponentInteractor))
             {
                 //_rectTransform.position = rayResult.point;
-                _rectTransform.eulerAngles = new Vector3(rayResult.transform.rotation.x, rayResult.transform.rotation.y, _rectTransform.eulerAngles.z);
-                _rectTransform.position = rayResult.point;
+                _rectTransform.position +=  _rectTransform.forward * rayResult.distance;
                 //_rectTransform.SetPositionAndRotation(rayResult.point, rayResult.transform.rotation);
 
                 if (pageComponentInteractor.OnComponentDroppedOn(this))
                 {
+                    _rectTransform.localEulerAngles = new Vector3(0,0, _rectTransform.localEulerAngles.z);
+                    // TODO: implement scaling
+                    _rectTransform.sizeDelta = startSize;
+                    
                     if (currentInteractor != pageComponentInteractor)
                     {
                         SetInteractor(pageComponentInteractor);
@@ -69,6 +73,7 @@ public abstract class PageComponent : MonoBehaviour, IBeginDragHandler, IDragHan
         }
 
         _rectTransform.localEulerAngles = new Vector3(0, 0, _rectTransform.localEulerAngles.z);
+        _rectTransform.sizeDelta = startSize;
         _rectTransform.localPosition = startPosition;
         //_rectTransform.SetLocalPositionAndRotation(startPosition, Quaternion.identity);
     }
@@ -76,6 +81,7 @@ public abstract class PageComponent : MonoBehaviour, IBeginDragHandler, IDragHan
     public virtual void OnBeginDrag(PointerEventData eventData = null)
     {
         startPosition = _rectTransform.localPosition;
+        startSize = _rectTransform.sizeDelta;
         previousParent = _rectTransform.parent;
     }
 

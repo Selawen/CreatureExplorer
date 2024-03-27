@@ -42,6 +42,26 @@ public static class LookForObjects<T>
         return nearest!= null;
     }
 
+    public static bool TryGetClosestObject(Vector3 checkFromPosition, Vector3 nearestToPosition, float checkingRange, out T nearestObject)
+    {
+        nearestObject = default(T);
+        float distance = checkingRange;
+        Collider nearest = null;
+
+
+        foreach (Collider c in Physics.OverlapSphere(checkFromPosition, checkingRange))
+        {
+            if (c.gameObject.TryGetComponent(out T objectToCheckFor) && (c.transform.position - nearestToPosition).magnitude < distance)
+            {
+                nearestObject = objectToCheckFor;
+                distance = (c.transform.position - nearestToPosition).magnitude;
+                nearest = c;
+            }
+        }
+
+        return nearest!= null;
+    }
+
     public static bool TryGetClosestObject(T objectToCheckFor, Vector3 checkFromPosition, float checkingRange, out T nearestObject)
     {
         nearestObject = objectToCheckFor;
