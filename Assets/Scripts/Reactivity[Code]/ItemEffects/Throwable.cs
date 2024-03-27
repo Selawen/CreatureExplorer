@@ -13,6 +13,8 @@ public class Throwable : StatusEffect, IInteractable, IThrowable
 
     [SerializeField] private float maxVelocity = 20;
 
+    [SerializeField] private AudioClip throwSound;
+
     [ShowOnly] private bool isGrabbed;
 
     private Vector3[] previousPositions;
@@ -77,6 +79,11 @@ public class Throwable : StatusEffect, IInteractable, IThrowable
 
     public void Throw(Vector3 direction, float force =1)
     {
+        if (TryGetComponent(out SoundPlayer player))
+        {
+            player.PlaySound(throwSound, true);
+        }
+
         throwCollider.enabled = true;
 
         if (force == 1)

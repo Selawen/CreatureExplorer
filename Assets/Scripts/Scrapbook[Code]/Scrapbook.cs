@@ -28,7 +28,7 @@ public class Scrapbook : MonoBehaviour
     [SerializeField] private GameObject extrasGroup;
     [SerializeField] private GameObject progressTrackerTab;
     [SerializeField] private GameObject questTrackerTab;
-    [SerializeField] private GameObject penButton;
+    [SerializeField] private GameObject stickerGroup;
 
     [SerializeField] private RectTransform pagesParent;
 
@@ -87,7 +87,7 @@ public class Scrapbook : MonoBehaviour
     public void UnlockBook()
     {
         book.gameObject.SetActive(true);
-        //penButton.SetActive(true);
+        stickerGroup.SetActive(true);
     }
 
     public void ClosePages()

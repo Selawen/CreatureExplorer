@@ -39,6 +39,7 @@ public class VR_PlayerController : MonoBehaviour
 
     [Header("Death and Respawn")]
     [SerializeField] private float respawnDuration = 0.5f;
+    [SerializeField] private AnimationCurve respawnFade;
     [SerializeField] private float drowningHeight = 1.2f;
     [SerializeField] private GameObject uiCanvas;
     [SerializeField] private Transform respawnTransform;
@@ -88,6 +89,7 @@ public class VR_PlayerController : MonoBehaviour
         respawnFadeRenderer = Instantiate(respawnOccluder, firstPersonCamera.transform).GetComponent<MeshRenderer>();
         deathScreen = Instantiate(deathScreen);
         deathScreen.GetComponent<Canvas>().worldCamera = firstPersonCamera;
+        deathScreen.GetComponent<Canvas>().planeDistance = 0.3f;
         deathScreen.SetActive(false);
 
         playerInput = GetComponent<PlayerInput>();
@@ -498,7 +500,7 @@ public class VR_PlayerController : MonoBehaviour
         // Fade in vision obscurer, move player, then fade it out again
         while (timer < respawnDuration * 0.3f)
         {
-            fadeColor.a = Mathf.InverseLerp(0, 0.3f * respawnDuration, timer);
+            fadeColor.a = respawnFade.Evaluate(timer / respawnDuration);// Mathf.InverseLerp(0, 0.3f * respawnDuration, timer);
             fadeMaterial.color = fadeColor;
             timer += Time.deltaTime;
             yield return null;
@@ -509,11 +511,11 @@ public class VR_PlayerController : MonoBehaviour
         onCameraClosed?.Invoke();
         onScrapbookClosed?.Invoke();
 
-        StartCoroutine(deathScreen.GetComponent<RandomMessage>().FadeOut(respawnDuration * 0.1f, respawnDuration * 0.6f));
+        StartCoroutine(deathScreen.GetComponent<RandomMessage>().FadeOut(respawnDuration * 0.1f, respawnDuration * 0.5f));
 
         while (timer < respawnDuration)
         {
-            fadeColor.a = Mathf.InverseLerp(respawnDuration, 0.6f * respawnDuration, timer);
+            fadeColor.a = respawnFade.Evaluate(timer / respawnDuration);//  Mathf.InverseLerp(respawnDuration, 0.6f * respawnDuration, timer);
             fadeMaterial.color = fadeColor;
 
             timer += Time.deltaTime;

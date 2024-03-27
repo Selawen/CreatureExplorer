@@ -175,20 +175,23 @@ public class VRHandController : MonoBehaviour
                     return;
                 }
             }
-
-            line.SetPosition(1, new Vector3(0, 0, 10));
+            else
+            {
+                line.SetPosition(1, new Vector3(0, 0, 10));
+            }
         }
     }
 
     public void PressTrigger(InputAction.CallbackContext callbackContext)
     {
         recievedTriggerInput = true;
+
         if (!holdingTriggerInput)
         {
+            holdingTriggerInput = true;
             if (line == null || !line.enabled)
                 return;
 
-            holdingTriggerInput = true;
             if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 100, PointingInteractionLayers))
             {
                 //Debug.Log($"hit {hit.collider.gameObject.name}");
