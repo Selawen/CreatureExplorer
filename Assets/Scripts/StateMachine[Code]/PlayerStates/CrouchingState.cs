@@ -127,7 +127,7 @@ public class CrouchingState : State
             Owner.SwitchState(GetType());
             return;
         }
-        if (Owner.CurrentState.GetType() == GetType() && eyeHeight > crouchEyeHeight)
+        if (Owner.CurrentState.GetType() == typeof(CrouchingState) && eyeHeight > crouchEyeHeight)
         {
             Owner.SwitchState(typeof(WalkingState));
         }
