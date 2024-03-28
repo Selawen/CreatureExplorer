@@ -492,6 +492,7 @@ public class VR_PlayerController : MonoBehaviour
 
         GetComponent<PlayerCamera>().DeleteCameraRoll();
 
+        respawnFadeRenderer.gameObject.SetActive(true);
         Material fadeMaterial = respawnFadeRenderer.material;
         Color fadeColor = fadeMaterial.color;
 
@@ -523,6 +524,7 @@ public class VR_PlayerController : MonoBehaviour
         }
 
         deathScreen.SetActive(false);
+        respawnFadeRenderer.gameObject.SetActive(false);
 
         uiCanvas.SetActive(true);
         died = false;
